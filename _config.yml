@@ -1,0 +1,3 @@
+kramdown:
+  # apici dritti richiesti da MathJax per f' f'' ecc. dentro $...$
+  smart_quotes: ["apos", "apos", "quot", "quot"]
