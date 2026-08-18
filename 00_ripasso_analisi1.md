@@ -195,7 +195,7 @@ $$(1+x)^\alpha = 1 + \alpha x + \binom{\alpha}{2} x^2 + \cdots \qquad \arctan x 
 
 $$f''(x_0) > 0 \Rightarrow \text{minimo locale}, \qquad f''(x_0) < 0 \Rightarrow \text{massimo locale}$$
 
-(se $f''(x_0)=0$ il test è inconcludente).
+(se $f'' (x_0)=0$ il test è inconcludente).
 
 **Convessità.** $f$ è convessa $\iff f'' \ge 0$; concava $\iff f'' \le 0$. Un punto dove la concavità cambia è un **flesso**.
 
