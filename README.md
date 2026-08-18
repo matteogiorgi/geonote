@@ -1,3 +1,5 @@
 # Personal notes
 
-- [ripasso analisi 1](00_ripasso_analisi1.md)
+- [Ripasso Analisi 1](ripasso_analisi1.md)
+- [Fondamenti R](fondamenti_r.md)
+- [Fondamenti Go](fondamenti_go.md)
