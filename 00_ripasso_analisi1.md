@@ -127,7 +127,7 @@ $$f'(x_0) = \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h}$$
 
 Interpretazione: coefficiente angolare della retta tangente. La retta tangente è $y = f(x_0) + f'(x_0)(x-x_0)$.
 
-**Derivabilità $\Rightarrow$ continuità** (non viceversa: es. $|x|$ in $0$).
+**Derivabilità $\Rightarrow$ continuità** (non viceversa: es. $\|x\|$ in $0$).
 
 **Regole di derivazione.**
 
