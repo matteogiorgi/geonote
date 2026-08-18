@@ -320,6 +320,6 @@ dove $\varphi$ è la sezione aurea.
 
 
 
-## Doc
+## 12. Documentazione
 
 Documentazione ufficiale: [https://golang.org/doc/](https://golang.org/doc/)

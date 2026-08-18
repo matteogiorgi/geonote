@@ -324,6 +324,6 @@ readRDS("oggetto.rds")       # formato binario nativo
 
 
 
-## Doc
+## 11. Documentazione
 
 Documentazione ufficiale: [https://www.r-project.org/](https://www.r-project.org/)
