@@ -35,12 +35,6 @@
         {% seo %}
         <link rel="stylesheet" href="https://geoteo.net/static/style.css">
         <script src="https://geoteo.net/static/mathjax-config.js"></script>
-        <script>
-            // kramdown converte i blocchi $$...$$ in \[...\]: il config condiviso
-            // riconosce solo $/$$, quindi qui aggiungiamo anche \( \) e \[ \].
-            window.MathJax.tex.inlineMath.push(["\\(", "\\)"]);
-            window.MathJax.tex.displayMath.push(["\\[", "\\]"]);
-        </script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script type="module" src="https://geoteo.net/static/mermaid-render.js"></script>
     </head>

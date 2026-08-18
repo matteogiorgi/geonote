@@ -97,7 +97,7 @@ $$\sum_{n=1}^{\infty} \frac{1}{n^\alpha} \quad \text{converge} \iff \alpha > 1 \
 
 **Serie a segni alterni — Leibniz.** Se $b_n \ge 0$ è decrescente e $b_n \to 0$, allora $\sum (-1)^n b_n$ converge.
 
-**Convergenza assoluta.** Se $\sum |a_n|$ converge, allora $\sum a_n$ converge (non viceversa).
+**Convergenza assoluta.** Se $\sum \|a_n\|$ converge, allora $\sum a_n$ converge (non viceversa).
 
 > **Serve per:** è letteralmente il primo blocco del tuo programma. In più le serie di potenze e Fourier che incontrerai poggiano su questi criteri.
 
