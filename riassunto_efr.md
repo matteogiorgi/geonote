@@ -141,11 +141,11 @@ $$\max_{q,M}\; u(q) + u(M) \qquad \text{s.t.}\quad pq + M = Y^D, \qquad (u' > 0,
 
 **Lagrangiano** e **condizioni del prim'ordine** (necessarie e sufficienti):
 $$\mathcal{L} = u(q) + u(M) + \lambda(Y^D - pq - M)$$
-$$u'(q^*) = p\,u'(M^*), \qquad M^* = Y^D - p q^*$$
+$$u'(q^\ast) = p\,u'(M^\ast), \qquad M^\ast = Y^D - p q^\ast$$
 
-- $\lambda^*$ = **utilità marginale del reddito disponibile**.
-- $C^* = p q^*$ (consumo del bene).
-- **Statica comparata**: $\dfrac{dq^*}{dY^D} > 0$ (bene normale) e se $p\uparrow$ allora $q^* \downarrow$.
+- $\lambda^\ast$ = **utilità marginale del reddito disponibile**.
+- $C^\ast = p q^\ast$ (consumo del bene).
+- **Statica comparata**: $\dfrac{dq^\ast}{dY^D} > 0$ (bene normale) e se $p\uparrow$ allora $q^\ast \downarrow$.
 
 
 ### Metodo per gli esercizi (utilità additive)
@@ -155,9 +155,9 @@ $$u'(q^*) = p\,u'(M^*), \qquad M^* = Y^D - p q^*$$
 3. Combina le prime due $\Rightarrow$ relazione $M = f(q)$; sostituisci nel vincolo.
 
 > **Esempi risolti**
-> - $U=\sqrt q + \sqrt M$, $p=2$, $Y^D=100$: da $\frac{1}{2\sqrt q}=2\cdot\frac{1}{2\sqrt M}$ segue $M=4q$; $2q+4q=100 \Rightarrow q^*=16.67,\; M^*=66.67$.
-> - $U=\ln q + \ln M$, $p=1$, $Y^D=20$: $M=q \Rightarrow q^*=M^*=10$.
-> - $U=\sqrt q + 2\sqrt M$, $p=3$, $Y^D=100$: $M=36q$; $39q=100 \Rightarrow q^*\approx2.56$. Se $Y^D\to120$, $q^*\approx3.08$: q è un **bene normale**.
+> - $U=\sqrt q + \sqrt M$, $p=2$, $Y^D=100$: da $\frac{1}{2\sqrt q}=2\cdot\frac{1}{2\sqrt M}$ segue $M=4q$; $2q+4q=100 \Rightarrow q^\ast=16.67,\; M^\ast=66.67$.
+> - $U=\ln q + \ln M$, $p=1$, $Y^D=20$: $M=q \Rightarrow q^\ast=M^\ast=10$.
+> - $U=\sqrt q + 2\sqrt M$, $p=3$, $Y^D=100$: $M=36q$; $39q=100 \Rightarrow q^\ast\approx2.56$. Se $Y^D\to120$, $q^\ast\approx3.08$: q è un **bene normale**.
 
 
 
@@ -196,15 +196,15 @@ $$C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r} \qquad\Longleftrightarrow\qquad 
 **Utilità** additiva e separabile: $\;U(C_0,C_1) = u(C_0) + \beta\, u(C_1)$, con $\beta \in (0,1]$ fattore di sconto soggettivo. Ipotesi: $u'>0$, $u''<0$, $u'''>0$ (**prudenza**).
 
 **Condizione di Eulero** (ottimalità):
-$$\boxed{\,u'(C_0^*) = (1+r)\,\beta\, u'(C_1^*)\,}$$
+$$\boxed{\,u'(C_0^\ast) = (1+r)\,\beta\, u'(C_1^\ast)\,}$$
 
 **Relazione tra $r$ e $\beta$:**
 
 | Condizione | Risultato |
 |---|---|
-| $(1+r)\beta = 1$ | $C_0^* = C_1^* = \dfrac{Y_0(1+r)+Y_1}{2+r}$, $\;S_0^*=\dfrac{Y_0-Y_1}{2+r}$ |
-| $(1+r)\beta > 1$ | $u'(C_0^*)>u'(C_1^*) \Rightarrow C_0^* < C_1^*$ |
-| $(1+r)\beta < 1$ | $u'(C_0^*)<u'(C_1^*) \Rightarrow C_0^* > C_1^*$ |
+| $(1+r)\beta = 1$ | $C_0^\ast = C_1^\ast = \dfrac{Y_0(1+r)+Y_1}{2+r}$, $\;S_0^\ast=\dfrac{Y_0-Y_1}{2+r}$ |
+| $(1+r)\beta > 1$ | $u'(C_0^\ast)>u'(C_1^\ast) \Rightarrow C_0^\ast < C_1^\ast$ |
+| $(1+r)\beta < 1$ | $u'(C_0^\ast)<u'(C_1^\ast) \Rightarrow C_0^\ast > C_1^\ast$ |
 
 **Statica comparata** (segni):
 - $Y_0 \uparrow$: $C_0\uparrow$, $C_1\uparrow$, $S_0\uparrow$.
@@ -220,18 +220,18 @@ $$\boxed{\,u'(C_0^*) = (1+r)\,\beta\, u'(C_1^*)\,}$$
 | Debitore | $<0$ | $<0$ | **$<0$** (riduce $C_0$) |
 
 **Reddito futuro incerto / risparmio precauzionale**: se $\tilde Y_1$ ha varianza $\sigma_Y^2$, allora $\text{Var}[\tilde C_1] = \sigma_Y^2$. Con $u''' > 0$ (prudenza), un aumento di $\sigma_Y^2$ induce a **consumare meno oggi e risparmiare di più** (risparmio precauzionale). Approssimazione di Taylor della condizione di Eulero:
-$$u'(C_0^*) \approx \beta(1+r)\Big[u'(\mathbb E[\tilde C_1^*]) + \tfrac{1}{2}u'''(\mathbb E[\tilde C_1^*])\,\sigma_Y^2\Big]$$
+$$u'(C_0^\ast) \approx \beta(1+r)\Big[u'(\mathbb E[\tilde C_1^\ast]) + \tfrac{1}{2}u'''(\mathbb E[\tilde C_1^\ast])\,\sigma_Y^2\Big]$$
 
 
 ### Metodo esercizi (caso log e caso radice)
 
 1. **Eulero** $\Rightarrow$ relazione $C_1 = \phi\, C_0$ (con $\phi = (1+r)\beta$ per utilità **log**; per $U=\sqrt{C_0}+\beta\sqrt{C_1}$ si ottiene $\sqrt{C_1} = (1+r)\beta\sqrt{C_0}$, cioè $C_1 = [(1+r)\beta]^2 C_0$).
 2. Calcola il VA del reddito $= Y_0 + \frac{Y_1}{1+r}$.
-3. Sostituisci $C_1$ nel vincolo $C_0 + \frac{C_1}{1+r} = \text{VA}$ e risolvi per $C_0^*$, poi $C_1^*$.
-4. $S_0^* = Y_0 - C_0^*$.
+3. Sostituisci $C_1$ nel vincolo $C_0 + \frac{C_1}{1+r} = \text{VA}$ e risolvi per $C_0^\ast$, poi $C_1^\ast$.
+4. $S_0^\ast = Y_0 - C_0^\ast$.
 
-> **Esempio (log):** $Y_0=100$, $Y_1=120$, $r=0.2$, $\beta=1$. Eulero: $C_1 = 1.2\,C_0$. VA $=200$. $C_0 + C_0 = 200 \Rightarrow C_0^*=100$, $C_1^*=120$, $S_0^*=0$.
-> **Esempio (radice):** $Y_0=90$, $Y_1=90$, $r=0.5$, $\beta=1$. $\sqrt{C_1}=1.5\sqrt{C_0}\Rightarrow C_1=2.25C_0$. VA $=150$. $2.5C_0=150\Rightarrow C_0^*=60$, $C_1^*=135$, $S_0^*=30$. Con $r=1$: $C_1=4C_0$, $C_0^*=45$, $S_0^*=45$ (più $r$ ⟹ più risparmio, si posticipa il consumo).
+> **Esempio (log):** $Y_0=100$, $Y_1=120$, $r=0.2$, $\beta=1$. Eulero: $C_1 = 1.2\,C_0$. VA $=200$. $C_0 + C_0 = 200 \Rightarrow C_0^\ast=100$, $C_1^\ast=120$, $S_0^\ast=0$.
+> **Esempio (radice):** $Y_0=90$, $Y_1=90$, $r=0.5$, $\beta=1$. $\sqrt{C_1}=1.5\sqrt{C_0}\Rightarrow C_1=2.25C_0$. VA $=150$. $2.5C_0=150\Rightarrow C_0^\ast=60$, $C_1^\ast=135$, $S_0^\ast=30$. Con $r=1$: $C_1=4C_0$, $C_0^\ast=45$, $S_0^\ast=45$ (più $r$ ⟹ più risparmio, si posticipa il consumo).
 
 
 
@@ -360,8 +360,8 @@ $$U(r_p, \sigma_p^2) = r_p - \frac{\gamma}{2}\sigma_p^2 = x^T r - \frac{\gamma}{
 $$\max_x\; x^T r - \frac{\gamma}{2}x^T\Sigma x \quad \text{s.t.}\quad x^T\iota = 1$$
 $$\mathcal{L} = x^T r - \frac{\gamma}{2}x^T\Sigma x + \lambda(1 - x^T\iota)$$
 
-FOC: $\;r - \gamma\Sigma x^* - \lambda^*\iota = 0$. Soluzione:
-$$\lambda^* = \frac{B-\gamma}{C}, \qquad x^* = \Sigma^{-1}\!\left(\frac{1}{\gamma}r + \frac{\gamma - B}{\gamma C}\iota\right)$$
+FOC: $\;r - \gamma\Sigma x^\ast - \lambda^\ast\iota = 0$. Soluzione:
+$$\lambda^\ast = \frac{B-\gamma}{C}, \qquad x^\ast = \Sigma^{-1}\!\left(\frac{1}{\gamma}r + \frac{\gamma - B}{\gamma C}\iota\right)$$
 
 
 ### Formulazione 2 — minimizzazione della varianza con rendimento target $k$
@@ -370,7 +370,7 @@ $$\min_x\; \frac{1}{2}x^T\Sigma x \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota
 $$\mathcal{L} = \frac{1}{2}x^T\Sigma x + \lambda_1(k - x^T r) + \lambda_2(1 - x^T\iota)$$
 
 Soluzione:
-$$\lambda_1^* = \frac{Ck - B}{AC - B^2}, \qquad \lambda_2^* = \frac{A - Bk}{AC - B^2}, \qquad x^* = \Sigma^{-1}\!\left(\frac{Ck-B}{AC-B^2}r + \frac{A-Bk}{AC-B^2}\iota\right)$$
+$$\lambda_1^\ast = \frac{Ck - B}{AC - B^2}, \qquad \lambda_2^\ast = \frac{A - Bk}{AC - B^2}, \qquad x^\ast = \Sigma^{-1}\!\left(\frac{Ck-B}{AC-B^2}r + \frac{A-Bk}{AC-B^2}\iota\right)$$
 
 
 ### Equivalenza tra le due formulazioni
@@ -416,11 +416,11 @@ Note per i quiz:
 ### Metodo esercizio (leva e costi)
 
 1. **Leva**: $\|x\|_1 = \sum_i |x_i|$; verifica $\|x\|_1 \le \ell_{\max}$.
-2. $\Delta x = x^* - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i|\Delta x_i|$.
+2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i|\Delta x_i|$.
 3. (Se richiesto) $r_p = x^T r$ e $\sigma_p^2 = x^T\Sigma x$.
 
-> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^*=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
-> $\|x^*\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
+> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^\ast=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
+> $\|x^\ast\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
 
 
 
@@ -560,11 +560,11 @@ $$Y_t = A_{t-1}r + W_t, \quad Y_t^D = Y_t - T_t, \quad S_t = Y_t^D - C_t, \quad 
 $$Y_t = C_t + I_t + G_t + (X_t - M_t), \quad S_t = S_t^{Pr} + (T_t - G_t) = I_t + (X_t - M_t)$$
 $$D_t = D_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T_t}{Y_{t-1}(1+g)}$$
 
-**Equilibrio del consumatore:** $\;u'(q^*) = p\,u'(M^*)$, $\;C^* = pq^*$.
+**Equilibrio del consumatore:** $\;u'(q^\ast) = p\,u'(M^\ast)$, $\;C^\ast = pq^\ast$.
 
 **Keynes:** $\;C_t = \bar C + c\,Y_t^D$, $\;S_t = -\bar C + (1-c)Y_t^D$.
 
-**Fisher:** $\;C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r}$, $\;$ Eulero: $\;u'(C_0^*) = (1+r)\beta u'(C_1^*)$, $\;S_0 = Y_0 - C_0$.
+**Fisher:** $\;C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r}$, $\;$ Eulero: $\;u'(C_0^\ast) = (1+r)\beta u'(C_1^\ast)$, $\;S_0 = Y_0 - C_0$.
 
 **Modigliani:** $\;C_t = \frac{L\,Y^D}{E}$.
 
