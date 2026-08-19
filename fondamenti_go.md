@@ -320,6 +320,16 @@ dove $\varphi$ è la sezione aurea.
 
 
 
-## 12. Documentazione
+## 12. Documentazione e risorse
 
-Documentazione ufficiale: [https://golang.org/doc/](https://golang.org/doc/)
+- **Documentazione ufficiale**: <https://go.dev/doc/>
+- **Sito ufficiale**: <https://go.dev/>
+- **Tour interattivo di Go**: <https://go.dev/tour/>
+- **Effective Go**: <https://go.dev/doc/effective_go>
+- **Specifica del linguaggio**: <https://go.dev/ref/spec>
+- **Riferimento dei pacchetti**: <https://pkg.go.dev/>
+- Il libro *The Go Programming Language* di Alan A. A. Donovan e Brian W. Kernighan
+    è un approfondimento completo del linguaggio e della libreria standard.
+
+> **Nota sulla versione**: gli esempi fanno riferimento alla serie corrente di Go. Verifica sempre
+> la versione installata con `go version` e consulta la documentazione corrispondente.

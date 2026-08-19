@@ -324,6 +324,16 @@ readRDS("oggetto.rds")       # formato binario nativo
 
 
 
-## 11. Documentazione
+## 11. Documentazione e risorse
 
-Documentazione ufficiale: [https://www.r-project.org/](https://www.r-project.org/)
+- **Documentazione ufficiale**: <https://www.r-project.org/other-docs.html>
+- **Sito ufficiale**: <https://www.r-project.org/>
+- **Manuali di riferimento**: <https://cran.r-project.org/manuals.html>
+- **CRAN** (pacchetti e documentazione): <https://cran.r-project.org/>
+- **R for Data Science**: <https://r4ds.hadley.nz/>
+- **Documentazione tidyverse**: <https://www.tidyverse.org/learn/>
+- Il libro *Advanced R* di Hadley Wickham è un approfondimento utile per comprendere
+  gli aspetti avanzati del linguaggio e della programmazione funzionale in R.
+
+> **Nota sulla versione**: gli esempi fanno riferimento alla serie corrente di R. Verifica sempre
+> la versione installata con `R.version.string` e consulta la documentazione dei pacchetti utilizzati.
