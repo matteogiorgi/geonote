@@ -594,17 +594,3 @@ $$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}
 | Ripartizione | $i=g$; TS $=a(1+g)$ | $a=\frac{k}{1+g}$; TS $=k$ |
 
 **Previdenza complementare:** $\;P = \frac{B\,\nu_L}{\nu_E}$, con $\nu_L, \nu_E$ definiti sopra.
-
-
-
-
-## 5.1 Checklist finale prima dell'esame
-
-- [ ] So ricostruire la **tabella multi-periodo** micro (ordine: $Y, T, Y^D, C, S, A$).
-- [ ] So calcolare **saldo primario, risparmio privato/nazionale, debito e rapporto debito/PIL** e dire se cresce.
-- [ ] So impostare **Lagrangiano + FOC** per equilibrio del consumatore e per Markowitz.
-- [ ] Conosco la **condizione di Eulero** e la statica comparata di Fisher (segni di $Y_0, Y_1, \beta, r$).
-- [ ] So distinguere **Keynes / Modigliani / Friedman** (consumo, risparmio, pianificazione).
-- [ ] So calcolare **rendimento, varianza e minima varianza** di un portafoglio (2 titoli e forma matriciale).
-- [ ] Ho memorizzato la **tabella 2×2 dei sistemi pensionistici** (equilibrio, rendimento, TS).
-- [ ] So applicare le formule di **$\nu_L, \nu_E$** per versamenti e prestazioni.
