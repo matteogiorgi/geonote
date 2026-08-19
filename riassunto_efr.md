@@ -1,4 +1,4 @@
-# Economia e Finanza del Risparmio — Riassunto per l'esame
+# Economia e Finanza del Risparmio
 
 > Guida di studio basata su dispense (Pattitoni) ed eserciziario. Ogni sezione contiene: **teoria essenziale**, **formule chiave**, **metodo di svolgimento degli esercizi** e **trappole tipiche dei quiz**.
 
