@@ -6,6 +6,18 @@
 - [Ripasso Analisi 1](ripasso_analisi1.md): prerequisiti per Analisi 2 (successioni, serie, integrale di Riemann).
 - [Riassunto EFR](riassunto_efr.md): programma completo (consumo/risparmio, scelte intertemporali, Markowitz, pensioni).
 
+<style>
+	.markdown-body img[src$="mario.gif"] {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-top: 24px;
+		border: 4px solid var(--link);
+		border-radius: 12px;
+		box-sizing: border-box;
+	}
+</style>
+
 <p align="center">
 	<img src="mario.gif" alt="Mario" width="100%" height="auto">
 </p>
