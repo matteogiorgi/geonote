@@ -7,5 +7,5 @@
 - [Riassunto EFR](riassunto_efr.md): programma completo (consumo/risparmio, scelte intertemporali, Markowitz, pensioni).
 
 <p align="center">
-	<img src="https://www.gnu.org/software/guile/static/base/img/kid-flying-robots.png" alt="Bambino che vola tra i robot" width="100%" height="auto">
+	<img src="mario.gif" alt="Mario" width="100%" height="auto">
 </p>
