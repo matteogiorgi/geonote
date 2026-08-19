@@ -30,7 +30,7 @@ Prospettiva del **singolo individuo / famiglia**. Simboli fondamentali:
 ### Le quattro identità di base
 
 **Reddito totale** = reddito da capitale + reddito da lavoro:
-$$Y_t = A\_{t-1}\, r + W_t$$
+$$Y_t = A_{t-1}\, r + W_t$$
 
 **Reddito disponibile** (reddito al netto delle imposte):
 $$Y_t^D = Y_t - T_t$$
@@ -39,14 +39,14 @@ $$Y_t^D = Y_t - T_t$$
 $$S_t = Y_t^D - C_t$$
 
 **Ricchezza** (evolve accumulando il risparmio):
-$$A_t = A\_{t-1} + S_t = A\_{t-1}(1+r) + W_t - T_t - C_t \qquad\Longrightarrow\qquad A_t = A_0 + \sum\_{\tau=1}^{t} S_\tau$$
+$$A_t = A_{t-1} + S_t = A_{t-1}(1+r) + W_t - T_t - C_t \qquad\Longrightarrow\qquad A_t = A_0 + \sum_{\tau=1}^{t} S_\tau$$
 
 
 ### Relazioni logiche (utili per i quiz)
 
 - $r \uparrow \Rightarrow$ reddito da capitale $\uparrow$ e la ricchezza futura **cresce più velocemente**.
 - $T_t \uparrow$ (a parità di $Y_t, C_t$) $\Rightarrow Y_t^D \downarrow \Rightarrow S_t \downarrow$.
-- $W_t \uparrow$ (a parità di $A\_{t-1}, r$) $\Rightarrow Y_t \uparrow$.
+- $W_t \uparrow$ (a parità di $A_{t-1}, r$) $\Rightarrow Y_t \uparrow$.
 - Se $S_t = 0 \Rightarrow Y_t^D = C_t$.
 - A parità di $Y_t^D$: $C_t \uparrow \Rightarrow S_t \downarrow$.
 
@@ -55,12 +55,12 @@ $$A_t = A\_{t-1} + S_t = A\_{t-1}(1+r) + W_t - T_t - C_t \qquad\Longrightarrow\q
 
 Dati $A_0$, $W$ costante, $r$, aliquota $\tau$, funzione di consumo $C_t = b\,Y_t^D$. Per **ogni** periodo, in ordine:
 
-1. $Y_t = A\_{t-1} r + W_t$
+1. $Y_t = A_{t-1} r + W_t$
 2. $T_t = \tau\, Y_t$
 3. $Y_t^D = Y_t - T_t$
 4. $C_t = b\, Y_t^D$
 5. $S_t = Y_t^D - C_t$
-6. $A_t = A\_{t-1} + S_t$ ← diventa l'$A\_{t-1}$ del periodo successivo.
+6. $A_t = A_{t-1} + S_t$ ← diventa l'$A_{t-1}$ del periodo successivo.
 
 > **Esempio numerico** ($W=120$, $r=0.04$, $\tau=0.25$, $b=0.7$, $A_0=0$):
 > $Y_1=120$, $T_1=30$, $Y_1^D=90$, $C_1=63$, $S_1=27$, $A_1=27$.
@@ -82,7 +82,7 @@ $$Y_t = C_t + I_t + G_t + (X_t - M_t)$$
 
 ### Saldi settoriali
 
-$$\underbrace{Y_t - T_t - C_t - I_t}\_{\text{saldo settore privato}} + \underbrace{(T_t - G_t)}\_{\text{saldo primario pubblico}} = \underbrace{X_t - M_t}\_{\text{saldo commerciale}}$$
+$$\underbrace{Y_t - T_t - C_t - I_t}_{\text{saldo settore privato}} + \underbrace{(T_t - G_t)}_{\text{saldo primario pubblico}} = \underbrace{X_t - M_t}_{\text{saldo commerciale}}$$
 
 
 ### Risparmio nazionale e privato
@@ -96,16 +96,16 @@ $$\underbrace{Y_t - T_t - C_t - I_t}\_{\text{saldo settore privato}} + \underbra
 
 ### Dinamica del debito pubblico
 
-$$D_t = D\_{t-1}(1+r) + (G_t - T_t)$$
-$$Y_t = Y\_{t-1}(1+g) \qquad\qquad \frac{D_t}{Y_t} = \frac{D\_{t-1}(1+r) + G_t - T_t}{Y\_{t-1}(1+g)}$$
+$$D_t = D_{t-1}(1+r) + (G_t - T_t)$$
+$$Y_t = Y_{t-1}(1+g) \qquad\qquad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T_t}{Y_{t-1}(1+g)}$$
 
 
 ### Variazione del rapporto debito/PIL
 
-$$\frac{D_t}{Y_t} - \frac{D\_{t-1}}{Y\_{t-1}} = \frac{(G_t - T_t) + D\_{t-1}(r-g)}{Y_t}$$
+$$\frac{D_t}{Y_t} - \frac{D_{t-1}}{Y_{t-1}} = \frac{(G_t - T_t) + D_{t-1}(r-g)}{Y_t}$$
 
 **Condizione di non crescita del rapporto** ($\Delta(D/Y)\le 0$):
-$$\begin{cases} r \neq g \;\Rightarrow\; T_t - G_t \ge D\_{t-1}(r-g) \\ r = g \;\Rightarrow\; T_t - G_t \ge 0 \end{cases}$$
+$$\begin{cases} r \neq g \;\Rightarrow\; T_t - G_t \ge D_{t-1}(r-g) \\ r = g \;\Rightarrow\; T_t - G_t \ge 0 \end{cases}$$
 
 Interpretazioni per i quiz:
 - $g \uparrow$ (a parità del resto) $\Rightarrow$ rapporto debito/PIL **più basso**.
@@ -120,12 +120,12 @@ Interpretazioni per i quiz:
 2. **Risparmio privato** $= Y_t - T_t - C_t$.
 3. **Saldo commerciale** $= X_t - M_t$.
 4. **Risparmio nazionale** $= S_t^{Pr} + (T_t-G_t)$; **verifica** $= I_t + (X_t - M_t)$.
-5. **Nuovo debito** $= D\_{t-1}(1+r) + (G_t - T_t)$.
-6. **Rapporto debito/PIL** $= D_t / Y_t$; confronta con $D\_{t-1}/Y\_{t-1}$ per dire se cresce.
+5. **Nuovo debito** $= D_{t-1}(1+r) + (G_t - T_t)$.
+6. **Rapporto debito/PIL** $= D_t / Y_t$; confronta con $D_{t-1}/Y_{t-1}$ per dire se cresce.
 
 **Saldo primario per obiettivi sul rapporto debito/PIL** (da imporre $\Delta(D/Y) = \text{target}$):
-- Stabilizzare ($\Delta = 0$): $\;G_t - T_t = -D\_{t-1}(r-g)$.
-- Ridurre di una quota $\delta$ ($\Delta = -\delta$): $\;G_t - T_t = -\delta\, Y_t - D\_{t-1}(r-g)$.
+- Stabilizzare ($\Delta = 0$): $\;G_t - T_t = -D_{t-1}(r-g)$.
+- Ridurre di una quota $\delta$ ($\Delta = -\delta$): $\;G_t - T_t = -\delta\, Y_t - D_{t-1}(r-g)$.
 
 
 
@@ -137,7 +137,7 @@ Interpretazioni per i quiz:
 Scelta tra un bene generico (quantità $q$, prezzo $p$) e la spesa in tutti gli altri beni $M$. **Tutto il reddito è consumato** (no risparmio).
 
 **Problema d'ottimo:**
-$$\max\_{q,M}\; u(q) + u(M) \qquad \text{s.t.}\quad pq + M = Y^D, \qquad (u' > 0,\; u'' < 0)$$
+$$\max_{q,M}\; u(q) + u(M) \qquad \text{s.t.}\quad pq + M = Y^D, \qquad (u' > 0,\; u'' < 0)$$
 
 **Lagrangiano** e **condizioni del prim'ordine** (necessarie e sufficienti):
 $$\mathcal{L} = u(q) + u(M) + \lambda(Y^D - pq - M)$$
@@ -189,7 +189,7 @@ Note per i quiz: ridurre le imposte $\Rightarrow Y^D \uparrow \Rightarrow C \upa
 Il consumatore vive due periodi e sceglie $C_0, C_1$ massimizzando l'utilità intertemporale, dati redditi $Y_0, Y_1$ e tasso $r$.
 
 **Vincolo di bilancio intertemporale** (valori attualizzati):
-$$C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r} \qquad\Longleftrightarrow\qquad C_1 = \underbrace{Y_0(1+r)+Y_1}\_{\text{intercetta}} - \underbrace{(1+r)}\_{\text{pendenza}} C_0$$
+$$C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r} \qquad\Longleftrightarrow\qquad C_1 = \underbrace{Y_0(1+r)+Y_1}_{\text{intercetta}} - \underbrace{(1+r)}_{\text{pendenza}} C_0$$
 
 **Risparmio del primo periodo**: $\;S_0 = Y_0 - C_0$. ($S_0>0$ risparmia, $S_0<0$ si indebita.)
 
@@ -297,13 +297,13 @@ $$r_i = \mathbb E[\tilde r_i], \qquad \sigma_i^2 = \mathbb E[(\tilde r_i - r_i)^
 
 **Vettori e matrici:**
 - Vettore rendimenti $r$, vettore pesi $x$, con $\;\iota^T x = \sum_i x_i = 1$.
-- Matrice varianze-covarianze $\Sigma$, con $\sigma\_{ij} = \rho\_{ij}\,\sigma_i\,\sigma_j$.
+- Matrice varianze-covarianze $\Sigma$, con $\sigma_{ij} = \rho_{ij}\,\sigma_i\,\sigma_j$.
 - $x_i \ge 0$ = posizione **lunga**; $x_i < 0$ = posizione **corta** (short/leva).
 
-**Leva finanziaria** (norma $L^1$): $\; \|x\|\_1 = \sum_i \|x_i\| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
+**Leva finanziaria** (norma $L^1$): $\; \|x\|_1 = \sum_i \|x_i\| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
 
 **Portafoglio:**
-$$r_p = x^T r = \sum_i x_i r_i, \qquad \sigma_p^2 = x^T \Sigma x = \sum_i\sum_j x_i x_j \sigma\_{ij}, \qquad \sigma_p = \sqrt{\sigma_p^2}$$
+$$r_p = x^T r = \sum_i x_i r_i, \qquad \sigma_p^2 = x^T \Sigma x = \sum_i\sum_j x_i x_j \sigma_{ij}, \qquad \sigma_p = \sqrt{\sigma_p^2}$$
 
 **Numero di termini**: con $N$ asset, $\Sigma$ ($N\times N$) contiene $N$ varianze e $\frac{N(N-1)}{2}$ covarianze distinte (nella somma della varianza compaiono $N(N-1)$ covarianze, uguali a coppie). Es. $N=20$: 20 varianze e 380 covarianze (=190 distinte).
 
@@ -312,35 +312,35 @@ $$r_p = x^T r = \sum_i x_i r_i, \qquad \sigma_p^2 = x^T \Sigma x = \sum_i\sum_j 
 
 ## 3.2 Portafoglio di 2 titoli
 
-$$r_p = x_1 r_1 + x_2 r_2, \qquad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2 x_1 x_2 \sigma_1\sigma_2\rho\_{12}$$
+$$r_p = x_1 r_1 + x_2 r_2, \qquad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2 x_1 x_2 \sigma_1\sigma_2\rho_{12}$$
 
 Casi speciali (long-only, $\sigma_1 < \sigma_2$):
 
-**$\rho\_{12} = 1$** (correlazione positiva perfetta):
+**$\rho_{12} = 1$** (correlazione positiva perfetta):
 $$\sigma_p = x_1\sigma_1 + x_2\sigma_2 \quad(\text{media ponderata delle volatilità})$$
 Minimo rischio: tutto nel titolo meno rischioso, $x_1^m = 1$, $\sigma_p^m = \sigma_1$. **Non si può azzerare** la varianza.
 
-**$\rho\_{12} = -1$** (correlazione negativa perfetta):
+**$\rho_{12} = -1$** (correlazione negativa perfetta):
 $$\sigma_p = |x_1\sigma_1 - x_2\sigma_2|$$
 Si può **azzerare** la varianza scegliendo:
 $$x_1^m = \frac{\sigma_2}{\sigma_1+\sigma_2}, \qquad x_2^m = \frac{\sigma_1}{\sigma_1+\sigma_2} \quad\Longrightarrow\quad \sigma_p^m = 0$$
 
-**$-1 < \rho\_{12} < 1$** (caso generale): i pesi di minima varianza sono
-$$x_1^m = \frac{\sigma_2^2 - \sigma\_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma\_{12}}, \qquad x_2^m = 1 - x_1^m \qquad (\sigma\_{12}=\rho\_{12}\sigma_1\sigma_2)$$
+**$-1 < \rho_{12} < 1$** (caso generale): i pesi di minima varianza sono
+$$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}}, \qquad x_2^m = 1 - x_1^m \qquad (\sigma_{12}=\rho_{12}\sigma_1\sigma_2)$$
 
 **Principio di diversificazione** (chiave per i quiz):
-- A parità di pesi e varianze, se $\rho\_{12} \downarrow$ allora $\sigma_p \downarrow$ (e viceversa se $\rho\_{12}\uparrow$ allora $\sigma_p\uparrow$).
-- La varianza del portafoglio è **minima** quando $\rho\_{12} = -1$.
-- Con $\rho\_{12} < 1$, il portafoglio può avere $\sigma_P < \sigma_A$ (rischio minore di entrambi); con $\rho\_{12} = 1$ risulta sempre $\sigma_A \le \sigma_P \le \sigma_B$.
+- A parità di pesi e varianze, se $\rho_{12} \downarrow$ allora $\sigma_p \downarrow$ (e viceversa se $\rho_{12}\uparrow$ allora $\sigma_p\uparrow$).
+- La varianza del portafoglio è **minima** quando $\rho_{12} = -1$.
+- Con $\rho_{12} < 1$, il portafoglio può avere $\sigma_P < \sigma_A$ (rischio minore di entrambi); con $\rho_{12} = 1$ risulta sempre $\sigma_A \le \sigma_P \le \sigma_B$.
 
 
 ### Metodo esercizi (2 titoli)
 
 1. $r_p = x_1 r_1 + x_2 r_2$.
-2. $\sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2x_1x_2\rho\_{12}\sigma_1\sigma_2$, poi $\sigma_p = \sqrt{\sigma_p^2}$.
+2. $\sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2x_1x_2\rho_{12}\sigma_1\sigma_2$, poi $\sigma_p = \sqrt{\sigma_p^2}$.
 3. Minima varianza: usa la formula di $x_1^m$ (o, se $\rho=-1$, $x_1^m = \frac{\sigma_2}{\sigma_1+\sigma_2}$).
 
-> **Esempio:** $\sigma_1=0.1$, $\sigma_2=0.15$, $\rho\_{12}=0.4$, $r_1=0.07$, $r_2=0.11$.
+> **Esempio:** $\sigma_1=0.1$, $\sigma_2=0.15$, $\rho_{12}=0.4$, $r_1=0.07$, $r_2=0.11$.
 > Equally weighted: $r_p = 0.09$, $\sigma_p^2 = 0.0111 \Rightarrow \sigma_p = 0.1055$.
 > Minima varianza: $x_1^m = 0.8049$, $x_2^m = 0.1951$, $\sigma_p^m = 0.0960$.
 
@@ -395,7 +395,7 @@ Interpretazioni:
 ## 3.4 Costi di transazione e vincoli aggiuntivi
 
 **Con costi di transazione** proporzionali alle variazioni dei pesi:
-$$\min_x\; \frac{1}{2}x^T\Sigma x + \theta\|\Delta x\|\_1 \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
+$$\min_x\; \frac{1}{2}x^T\Sigma x + \theta\|\Delta x\|_1 \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
 dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\theta$ è il costo unitario.
 - $\theta = 0 \Rightarrow$ si torna al problema classico di **Markowitz**.
 - $\theta \uparrow \Rightarrow$ **riduce** le variazioni nei pesi (penalizza il turnover).
@@ -403,9 +403,9 @@ dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\th
 **Vincoli aggiuntivi tipici:**
 - Non negatività (long-only): $\;x_i \ge 0$.
 - Boundary per singolo asset: $\;l_i \le x_i \le u_i$ (limita la quota di ciascun titolo).
-- Settore: $\;\sum\_{i\in S_j} x_i \le U_j$ (limita l'esposizione a un settore).
-- Leva massima: $\;\|w\|\_1 \le \ell\_{\max}$.
-- Tracking error (deviazione dal benchmark): $\;TE = \sqrt{x^T\Sigma x - 2x^T\Sigma x_b + x_b^T\Sigma x_b} \le TE\_{\max}$.
+- Settore: $\;\sum_{i\in S_j} x_i \le U_j$ (limita l'esposizione a un settore).
+- Leva massima: $\;\|w\|_1 \le \ell_{\max}$.
+- Tracking error (deviazione dal benchmark): $\;TE = \sqrt{x^T\Sigma x - 2x^T\Sigma x_b + x_b^T\Sigma x_b} \le TE_{\max}$.
 
 Note per i quiz:
 - Con vincoli complessi **spesso non esiste** soluzione analitica $\Rightarrow$ **metodi numerici**. Senza costi né vincoli il problema ha **soluzione chiusa**.
@@ -415,12 +415,12 @@ Note per i quiz:
 
 ### Metodo esercizio (leva e costi)
 
-1. **Leva**: $\|x\|\_1 = \sum_i \|x_i\|$; verifica $\|x\|\_1 \le \ell\_{\max}$.
-2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|\_1 = \theta\sum_i\|\Delta x_i\|$.
+1. **Leva**: $\|x\|_1 = \sum_i \|x_i\|$; verifica $\|x\|_1 \le \ell_{\max}$.
+2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i\|\Delta x_i\|$.
 3. (Se richiesto) $r_p = x^T r$ e $\sigma_p^2 = x^T\Sigma x$.
 
-> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^\ast=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell\_{\max}=1.5$.
-> $\|x^\ast\|\_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|\_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
+> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^\ast=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
+> $\|x^\ast\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
 
 
 
@@ -496,7 +496,7 @@ Note per i quiz:
 ### Modello multiperiodale (contribuzione definita)
 
 Individuo che lavora $L$ periodi e resta in pensione $E$ periodi (prima pensione in $t=0$). Si eguaglia il **montante contributivo** $M$ al **valore attuale delle prestazioni** $V$:
-$$M = \sum\_{\tau=1}^{L} aW\_{-\tau}(1+i)^{\tau}, \qquad V = P\sum\_{t=0}^{E-1}(1+i)^{-t} = P\cdot v, \qquad P = \frac{M}{v}$$
+$$M = \sum_{\tau=1}^{L} aW_{-\tau}(1+i)^{\tau}, \qquad V = P\sum_{t=0}^{E-1}(1+i)^{-t} = P\cdot v, \qquad P = \frac{M}{v}$$
 
 **Prestazione definita**: $\;P = k W_p = \beta L W_p$, dove $W_p$ è la retribuzione pensionabile (ultima retribuzione, o media rivalutata delle ultime $T$ / di tutte le retribuzioni).
 
@@ -554,11 +554,11 @@ I **piani di investimento non istituzionalizzati** funzionano in modo **analogo 
 # 5. Formulario riassuntivo
 
 **Concetti e misure (micro):**
-$$Y_t = A\_{t-1}r + W_t, \quad Y_t^D = Y_t - T_t, \quad S_t = Y_t^D - C_t, \quad A_t = A\_{t-1} + S_t$$
+$$Y_t = A_{t-1}r + W_t, \quad Y_t^D = Y_t - T_t, \quad S_t = Y_t^D - C_t, \quad A_t = A_{t-1} + S_t$$
 
 **Macro:**
 $$Y_t = C_t + I_t + G_t + (X_t - M_t), \quad S_t = S_t^{Pr} + (T_t - G_t) = I_t + (X_t - M_t)$$
-$$D_t = D\_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D\_{t-1}(1+r) + G_t - T_t}{Y\_{t-1}(1+g)}$$
+$$D_t = D_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T_t}{Y_{t-1}(1+g)}$$
 
 **Equilibrio del consumatore:** $\;u'(q^\ast) = p\,u'(M^\ast)$, $\;C^\ast = pq^\ast$.
 
@@ -571,8 +571,8 @@ $$D_t = D\_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D\_{t-1}(1+r)
 **Friedman:** $\;C_t = b\,\bar Y^D$, $\;Y_t^D = \bar Y^D + \tilde y_t^D$.
 
 **Markowitz (2 titoli):**
-$$r_p = x_1r_1 + x_2r_2, \quad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2x_1x_2\rho\_{12}\sigma_1\sigma_2$$
-$$x_1^m = \frac{\sigma_2^2 - \sigma\_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma\_{12}} \quad(\rho=-1:\; x_1^m = \tfrac{\sigma_2}{\sigma_1+\sigma_2},\; \sigma_p^m=0)$$
+$$r_p = x_1r_1 + x_2r_2, \quad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2x_1x_2\rho_{12}\sigma_1\sigma_2$$
+$$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}} \quad(\rho=-1:\; x_1^m = \tfrac{\sigma_2}{\sigma_1+\sigma_2},\; \sigma_p^m=0)$$
 
 **Markowitz (scelta ottimale):** $\;U = r_p - \frac{\gamma}{2}\sigma_p^2$; $\;A=r^T\Sigma^{-1}r$, $B=r^T\Sigma^{-1}\iota$, $C=\iota^T\Sigma^{-1}\iota$; $\;k = \frac{AC-B^2}{C\gamma}+\frac{B}{C}$.
 
