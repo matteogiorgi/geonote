@@ -16,7 +16,7 @@
 
 
 
-<div style="height: 2em;"></div>
+<div style="height: 4em;"></div>
 
 # 1. Consumo e risparmio: concetti e misure
 
@@ -132,7 +132,7 @@ Interpretazioni per i quiz:
 
 
 
-<div style="height: 2em;"></div>
+<div style="height: 4em;"></div>
 
 # 2. Scelte intertemporali di consumo
 
@@ -290,7 +290,7 @@ $$C_t = b\, \bar Y^D \qquad\qquad S_t = Y_t^D - C_t = (1-b)\bar Y^D + \tilde y_t
 
 
 
-<div style="height: 2em;"></div>
+<div style="height: 4em;"></div>
 
 # 3. Markowitz e le scelte di portafoglio
 
@@ -431,7 +431,7 @@ Note per i quiz:
 
 
 
-<div style="height: 2em;"></div>
+<div style="height: 4em;"></div>
 
 # 4. Sistemi pensionistici
 
@@ -559,7 +559,7 @@ I **piani di investimento non istituzionalizzati** funzionano in modo **analogo 
 
 
 
-<div style="height: 2em;"></div>
+<div style="height: 4em;"></div>
 
 # 5. Formulario riassuntivo
 
