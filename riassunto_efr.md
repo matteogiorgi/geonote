@@ -415,12 +415,12 @@ Note per i quiz:
 
 ### Metodo esercizio (leva e costi)
 
-1. **Leva**: $\|x\|_1 = \sum_i |x_i|$; verifica $\|x\|_1 \le \ell_{\max}$.
-2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i|\Delta x_i|$.
+1. **Leva**: $\|x\|_1 = \sum_i \|x_i\|$; verifica $\|x\|_1 \le \ell_{\max}$.
+2. $\Delta x = x^* - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i|\Delta x_i|$.
 3. (Se richiesto) $r_p = x^T r$ e $\sigma_p^2 = x^T\Sigma x$.
 
-> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^\ast=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
-> $\|x^\ast\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
+> **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^*=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
+> $\|x^*\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
 
 
 
