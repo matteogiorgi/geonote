@@ -596,7 +596,9 @@ $$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}
 **Previdenza complementare:** $\;P = \frac{B\,\nu_L}{\nu_E}$, con $\nu_L, \nu_E$ definiti sopra.
 
 
-### Checklist finale prima dell'esame
+
+
+## 5.1 Checklist finale prima dell'esame
 
 - [ ] So ricostruire la **tabella multi-periodo** micro (ordine: $Y, T, Y^D, C, S, A$).
 - [ ] So calcolare **saldo primario, risparmio privato/nazionale, debito e rapporto debito/PIL** e dire se cresce.
