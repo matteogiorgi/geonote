@@ -1,4 +1,4 @@
-# R language
+# R — fondamenti del linguaggio
 
 R è un linguaggio e ambiente per il calcolo statistico e la produzione di grafici, sviluppato per l'analisi dei dati. È interpretato, orientato ai vettori e dispone di un vastissimo ecosistema di pacchetti (CRAN, Bioconductor).
 

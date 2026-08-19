@@ -1,4 +1,4 @@
-# Go language
+# Go — fondamenti del linguaggio
 
 **Go** (o *Golang*) è un linguaggio di programmazione open source sviluppato da Google nel 2007 e rilasciato pubblicamente nel 2009. È compilato, staticamente tipizzato, con garbage collection e un modello di concorrenza integrato. È progettato per essere semplice, efficiente e adatto allo sviluppo di sistemi su larga scala.
 

@@ -1,6 +1,6 @@
-# GNU Guile — Riassunto del linguaggio
+# GNU Guile — fondamenti del linguaggio
 
-## Cos'è Guile
+## 1. Cos'è Guile
 
 **GNU Guile** (*GNU Ubiquitous Intelligent Language for Extensions*) è il linguaggio di
 estensione ufficiale del Progetto GNU. È un'implementazione del linguaggio **Scheme**, a sua
@@ -11,13 +11,13 @@ Guile nasce con un duplice scopo:
 
 1. **Linguaggio autonomo** — può funzionare in modo interattivo (REPL), come interprete di
    script e come compilatore Scheme verso bytecode eseguito da una macchina virtuale.
-2. **Libreria embeddabile** — può essere incorporato in programmi C/C++ per fornire un motore
-   Scheme completo, usato come linguaggio di scripting, di configurazione o di estensione.
+2. **Libreria incorporabile** — può essere integrato in programmi C/C++ per fornire un motore
+  Scheme completo, usato come linguaggio di scripting, configurazione o estensione.
 
 Conformità agli standard: Guile implementa **R5RS**, gran parte di **R6RS** e **R7RS**, oltre a
 numerosi **SRFI** (*Scheme Requests for Implementation*). Include accesso completo alle chiamate
-di sistema POSIX, networking, thread multipli, linking dinamico, una FFI (interfaccia verso C) e
-persino un client/server HTTP.
+di sistema POSIX, networking, thread multipli, collegamento dinamico, una FFI (interfaccia verso C)
+e persino client e server HTTP.
 
 Programmi noti che usano Guile come motore di estensione o linguaggio interno: **GNU Guix**
 (gestore di pacchetti), **GnuCash**, **GDB**, **LilyPond**, **GNU TeXmacs**, **Lepton EDA**.
@@ -25,7 +25,7 @@ Programmi noti che usano Guile come motore di estensione o linguaggio interno: *
 
 
 
-## La sintassi: le S-espressioni
+## 2. La sintassi: le S-espressioni
 
 Come ogni Lisp, Guile scrive il codice come **S-espressioni** (liste racchiuse tra parentesi) in
 **notazione prefissa**: l'operatore precede sempre gli operandi.
@@ -47,7 +47,7 @@ Il fatto che **codice e dati abbiano la stessa forma** (una lista) è la proprie
 
 
 
-## Tipi di dato principali
+## 3. Tipi di dato principali
 
 ```scheme
 42                  ; intero (bignum: precisione arbitraria)
@@ -76,10 +76,10 @@ $$\frac{1}{3} + \frac{1}{6} = \frac{2}{6} + \frac{1}{6} = \frac{3}{6} = \frac{1}
 
 
 
-## Definizioni e funzioni
+## 4. Definizioni e funzioni
 
 Si usa `define` per legare un nome a un valore o a una funzione. Le funzioni anonime si creano
-con `lambda`, l'equivalente diretto della notazione del **lambda calcolo** $\lambda x.\, e$.
+con `lambda`, l'equivalente diretto della notazione del **calcolo lambda** $\lambda x.\, e$.
 
 ```scheme
 (define pi 3.14159)
@@ -107,7 +107,7 @@ L'area di un cerchio, $A = \pi r^2$, si traduce direttamente:
 
 
 
-## Ricorsione
+## 5. Ricorsione
 
 Scheme non ha bisogno di cicli tradizionali: la **ricorsione** è il costrutto naturale.
 
@@ -148,7 +148,7 @@ $$F_0 = 0, \quad F_1 = 1, \quad F_n = F_{n-1} + F_{n-2} \ \ (n \ge 2)$$
 
 
 
-## Ricorsione di coda e iterazione
+## 6. Ricorsione di coda e iterazione
 
 La versione ingenua di Fibonacci ha complessità esponenziale $O(\varphi^n)$, dove
 $\varphi = \frac{1 + \sqrt{5}}{2}$ è la sezione aurea. Riscrivendola in **ricorsione di coda**
@@ -172,20 +172,23 @@ consuma stack aggiuntivo.
 
 
 
-## Funzioni di ordine superiore
+## 7. Funzioni di ordine superiore
 
 Le funzioni sono valori di prima classe: si passano come argomenti e si restituiscono come
-risultati. Le tre operazioni fondamentali sono `map`, `filter` e `fold`.
+risultati. Le operazioni fondamentali dell'esempio sono `map`, `filter` e `fold`,
+disponibili tramite SRFI-1.
 
 ```scheme
+(use-modules (srfi srfi-1))
+
 ;; map: applica una funzione a ogni elemento
 (map quadrato '(1 2 3 4))          ; => (1 4 9 16)
 
 ;; filter: seleziona gli elementi che soddisfano un predicato
 (filter even? '(1 2 3 4 5 6))      ; => (2 4 6)
 
-;; fold-left: riduce una lista a un singolo valore
-(fold-left + 0 '(1 2 3 4 5))       ; => 15
+;; fold: riduce una lista a un singolo valore
+(fold + 0 '(1 2 3 4 5))            ; => 15
 ```
 
 L'ultima riga calcola la somma:
@@ -198,7 +201,7 @@ $$\sum_{\substack{k=1 \\ k \text{ pari}}}^{n} k^2$$
 
 ```scheme
 (define (somma-quadrati-pari n)
-  (fold-left +
+  (fold +
              0
              (map quadrato
                   (filter even?
@@ -210,24 +213,24 @@ $$\sum_{\substack{k=1 \\ k \text{ pari}}}^{n} k^2$$
 
 
 
-## Macro: estendere il linguaggio
+## 8. Macro: estendere il linguaggio
 
 Grazie all'omoiconicità, Guile permette di creare nuovi costrutti sintattici con le **macro
 igieniche**. `syntax-rules` è il meccanismo più semplice.
 
 ```scheme
-;; Definiamo un costrutto "finché" (while) che Scheme non ha nativamente
-(define-syntax finché
+;; Definiamo un costrutto `while` tramite una macro igienica
+(define-syntax while
   (syntax-rules ()
-    ((_ condizione corpo ...)
-     (let ciclo ()
-       (when condizione
-         corpo ...
-         (ciclo))))))
+    ((_ condition body ...)
+     (let loop ()
+       (when condition
+         body ...
+         (loop))))))
 
 ;; Uso
 (define i 0)
-(finché (< i 3)
+(while (< i 3)
   (display i)
   (newline)
   (set! i (+ i 1)))
@@ -240,7 +243,7 @@ accidentalmente i nomi di variabili del contesto in cui vengono espanse.
 
 
 
-## Il sistema dei moduli
+## 9. Il sistema dei moduli
 
 Guile organizza il codice in **moduli**, che controllano quali definizioni sono visibili
 all'esterno.
@@ -248,17 +251,21 @@ all'esterno.
 ```scheme
 ;; File: matematica.scm
 (define-module (mio matematica)
+  #:use-module (srfi srfi-1)
   #:export (media varianza))
 
+(define (quadrato x)
+  (* x x))
+
 (define (media lst)
-  (/ (fold-left + 0 lst)
+  (/ (fold + 0 lst)
      (length lst)))
 
 ;; Varianza:  σ² = (1/n) Σ (xᵢ - μ)²
 (define (varianza lst)
   (let ((mu (media lst))
         (n  (length lst)))
-    (/ (fold-left + 0
+    (/ (fold + 0
                   (map (lambda (x) (quadrato (- x mu))) lst))
        n)))
 ```
@@ -277,7 +284,7 @@ Per usare il modulo altrove:
 
 
 
-## Continuazioni
+## 10. Continuazioni
 
 Una caratteristica potente di Scheme è `call-with-current-continuation` (abbreviato `call/cc`),
 che cattura lo "stato di esecuzione futuro" come un valore riutilizzabile. Serve per implementare
@@ -300,7 +307,7 @@ eccezioni, generatori, backtracking e coroutine.
 
 
 
-## Metodo di Newton (esempio numerico)
+## 11. Metodo di Newton (esempio numerico)
 
 Un esempio classico di Scheme è il calcolo della radice quadrata con il **metodo di Newton**.
 Per approssimare $\sqrt{x}$ si itera:
@@ -327,7 +334,7 @@ fino a quando $|y_n^2 - x|$ è sufficientemente piccolo.
 
 
 
-## Programmazione a oggetti: GOOPS
+## 12. Programmazione a oggetti: GOOPS
 
 Guile include **GOOPS** (*Guile Object-Oriented Programming System*), un sistema a oggetti
 ispirato al CLOS di Common Lisp, con classi, ereditarietà multipla e metodi generici.
@@ -355,7 +362,7 @@ $$d = \sqrt{x^2 + y^2} = \sqrt{3^2 + 4^2} = \sqrt{25} = 5$$
 
 
 
-## Integrazione con C (embedding ed estensione)
+## 13. Integrazione con C (incorporazione ed estensione)
 
 Il tratto distintivo di Guile è la facilità con cui si integra nel codice C. Un programma C può
 incorporare l'interprete Scheme:
@@ -370,7 +377,7 @@ static void* inner_main(void* data) {
 }
 
 int main(int argc, char** argv) {
-    scm_with_guile(&inner_main, NULL);
+  scm_boot_guile(argc, argv, &inner_main, NULL);
     return 0;
 }
 ```
@@ -387,10 +394,10 @@ alcun wrapper in C.
 
 
 
-## Concorrenza
+## 14. Concorrenza
 
-Guile offre thread POSIX nativi e, tramite la libreria **Fibers**, un modello di concorrenza
-leggera basato su messaggi (in stile Concurrent ML / goroutine).
+Guile offre thread nativi e, tramite la libreria **Fibers**, un modello di concorrenza cooperativa
+leggera basato su canali e messaggi (in stile Concurrent ML / goroutine).
 
 ```scheme
 ;; Thread nativo
@@ -406,7 +413,7 @@ leggera basato su messaggi (in stile Concurrent ML / goroutine).
 
 
 
-## Esecuzione: REPL, script e compilazione
+## 15. Esecuzione: REPL, script e compilazione
 
 ```bash
 # REPL interattivo
@@ -430,7 +437,7 @@ Uno script eseguibile può iniziare con uno "shebang" ibrido:
 
 
 
-## Riepilogo dei punti di forza
+## 16. Riepilogo dei punti di forza
 
 | Caratteristica | Descrizione |
 |---|---|
@@ -440,14 +447,14 @@ Uno script eseguibile può iniziare con uno "shebang" ibrido:
 | **Macro** | Igieniche (`syntax-rules`, `syntax-case`) |
 | **Continuazioni** | `call/cc`, continuazioni delimitate |
 | **Oggetti** | GOOPS (stile CLOS) |
-| **Integrazione C** | Embedding bidirezionale + FFI |
+| **Integrazione C** | Incorporazione bidirezionale + FFI |
 | **Concorrenza** | Thread POSIX, Fibers |
 | **Ruolo** | Linguaggio di estensione ufficiale di GNU |
 
 
 
 
-## Risorse per approfondire
+## 17. Documentazione e risorse
 
 - **Manuale di riferimento ufficiale**: <https://www.gnu.org/software/guile/manual/>
 - **Sito ufficiale**: <https://www.gnu.org/software/guile/>
@@ -455,6 +462,5 @@ Uno script eseguibile può iniziare con uno "shebang" ibrido:
 - Il libro *Structure and Interpretation of Computer Programs* (SICP) usa un dialetto Scheme
   molto vicino a Guile ed è un'ottima introduzione ai concetti.
 
-> **Nota sulla versione**: i contenuti fanno riferimento alla serie stabile **Guile 3.0.x**
-> (ultima release 3.0.11, dicembre 2025). Verifica sempre il manuale della tua versione installata
-> con `guile --version`.
+> **Nota sulla versione**: gli esempi fanno riferimento alla serie **Guile 3.0.x**. Verifica sempre
+> il manuale della versione installata con `guile --version`.
