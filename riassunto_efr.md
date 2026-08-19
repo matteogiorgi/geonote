@@ -300,7 +300,7 @@ $$r_i = \mathbb E[\tilde r_i], \qquad \sigma_i^2 = \mathbb E[(\tilde r_i - r_i)^
 - Matrice varianze-covarianze $\Sigma$, con $\sigma_{ij} = \rho_{ij}\,\sigma_i\,\sigma_j$.
 - $x_i \ge 0$ = posizione **lunga**; $x_i < 0$ = posizione **corta** (short/leva).
 
-**Leva finanziaria** (norma $L^1$): $\;\|x\|_1 = \sum_i |x_i| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
+**Leva finanziaria** (norma $L^1$): $\; \|x\|_1 = \sum_i \|x_i\| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
 
 **Portafoglio:**
 $$r_p = x^T r = \sum_i x_i r_i, \qquad \sigma_p^2 = x^T \Sigma x = \sum_i\sum_j x_i x_j \sigma_{ij}, \qquad \sigma_p = \sqrt{\sigma_p^2}$$
