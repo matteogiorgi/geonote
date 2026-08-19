@@ -1,4 +1,4 @@
-# Personal notes
+# Geonote
 
 - [Fondamenti Go](fondamenti_go.md): sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
 - [Fondamenti Guile](fondamenti_guile.md): sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
