@@ -11,7 +11,7 @@
 		display: block;
 		width: 100%;
 		height: auto;
-		margin-top: 24px;
+		margin-top: 48px;
 		border: 4px solid var(--link);
 		border-radius: 12px;
 		box-sizing: border-box;
