@@ -1,6 +1,6 @@
 # Ereditare lo stile da `geoteo.net`
 
-Questo repository non definisce un proprio tema: GitHub Page generata da *Jekyll* richiama stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
+Questo repository non definisce un proprio tema: la GitHub-Page generata da *Jekyll* richiama stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
 
 
 
@@ -166,10 +166,10 @@ Non è necessario per ereditare lo stile grafico, ma evita che *Kramdown* conver
 
 ### 2.3 Nessun Gemfile o plugin da installare
 
-Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già incluso di default nella gem `github-pages` con cui GitHub Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
+Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già incluso di default nella gem `github-pages` con cui GitHub-Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
 
 
-### 2.4 Abilitare GitHub Pages
+### 2.4 Abilitare GitHub-Pages
 
 Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al passo [2.1](#21-copiare-il-layout).
 
@@ -178,13 +178,13 @@ Nelle impostazioni del repository: **Settings → Pages → Build and deployment
 
 ## 3. Cosa è condiviso con `geoteo.net` e cosa resta locale
 
-Tutto ciò che riguarda il tema (colori, favicon, toggle) è condiviso; tutto ciò che riguarda il rendering di una pagina markdown vive solo nei repository con GitHub Pages, perché `geoteo.net` non ne ha bisogno.
+Tutto ciò che riguarda il tema (colori, favicon, toggle) è condiviso; tutto ciò che riguarda il rendering di una pagina markdown vive solo nei repository con GitHub-Pages, perché `geoteo.net` non ne ha bisogno.
 
 **Condiviso con `geoteo.net`** (fa parte del layout/tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
 
 - tema chiaro/scuro, font, colori;
 - switch chiaro/scuro, incluso il fix per bfcache/reload visto al passo [2.1](#21-copiare-il-layout);
-- `.badge-link` sui repository con GitHub Pages — nativo di `geoteo.net`.
+- `.badge-link` sui repository con GitHub-Pages — nativo di `geoteo.net`.
 
 **Non presente su `geoteo.net`** (funzionalità legate al *rendering del contenuto Markdown*):
 
