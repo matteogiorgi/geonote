@@ -32,15 +32,19 @@ Prospettiva del **singolo individuo / famiglia**. Simboli fondamentali:
 ### Le quattro identità di base
 
 **Reddito totale** = reddito da capitale + reddito da lavoro:
+
 $$Y_t = A_{t-1}\, r + W_t$$
 
 **Reddito disponibile** (reddito al netto delle imposte):
+
 $$Y_t^D = Y_t - T_t$$
 
 **Risparmio** (parte del reddito disponibile non consumata):
+
 $$S_t = Y_t^D - C_t$$
 
 **Ricchezza** (evolve accumulando il risparmio):
+
 $$A_t = A_{t-1} + S_t = A_{t-1}(1+r) + W_t - T_t - C_t \qquad\Longrightarrow\qquad A_t = A_0 + \sum_{\tau=1}^{t} S_\tau$$
 
 
