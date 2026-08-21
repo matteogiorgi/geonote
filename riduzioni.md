@@ -101,13 +101,23 @@ Non serve mai ridurre *da tutti* i problemi di NP: basta ridurre da **uno solo**
 
 La riduzione trasforma ogni clausola $C$ di SAT in un insieme equisoddisfacibile di clausole a 3 letterali, introducendo variabili ausiliarie:
 
-- Clausola con 1 letterale $(\ell_1)$ → si duplica: $(\ell_1 \vee z_1 \vee z_2) \wedge (\ell_1 \vee \overline{z_1} \vee z_2) \wedge (\ell_1 \vee z_1 \vee \overline{z_2}) \wedge (\ell_1 \vee \overline{z_1} \vee \overline{z_2})$.
-- Clausola con 2 letterali $(\ell_1 \vee \ell_2)$ → $(\ell_1 \vee \ell_2 \vee z) \wedge (\ell_1 \vee \ell_2 \vee \overline{z})$.
+- Clausola con 1 letterale $(\ell_1)$ → si duplica:
+
+$$
+(\ell_1 \vee z_1 \vee z_2) \wedge (\ell_1 \vee \overline{z_1} \vee z_2) \wedge (\ell_1 \vee z_1 \vee \overline{z_2}) \wedge (\ell_1 \vee \overline{z_1} \vee \overline{z_2}).
+$$
+
+- Clausola con 2 letterali:
+
+$$
+(\ell_1 \vee \ell_2) \rightarrow (\ell_1 \vee \ell_2 \vee z) \wedge (\ell_1 \vee \ell_2 \vee \overline{z}).
+$$
+
 - Clausola con 3 letterali → resta invariata.
 - Clausola con $k > 3$ letterali $(\ell_1 \vee \ell_2 \vee \cdots \vee \ell_k)$ → si introducono $k-3$ variabili ausiliarie $z_1, \dots, z_{k-3}$ per "spezzarla" in catena:
 
 $$
-(\ell_1 \vee \ell_2 \vee z_1) \wedge (\overline{z_1} \vee \ell_3 \vee z_2) \wedge (\overline{z_2} \vee \ell_4 \vee z_3) \wedge \cdots \wedge (\overline{z_{k-3}} \vee \ell_{k-1} \vee \ell_k)
+(\ell_1 \vee \ell_2 \vee z_1) \wedge (\overline{z_1} \vee \ell_3 \vee z_2) \wedge (\overline{z_2} \vee \ell_4 \vee z_3) \wedge \cdots \wedge (\overline{z_{k-3}} \vee \ell_{k-1} \vee \ell_k).
 $$
 
 L'idea: se la clausola originale è vera grazie a $\ell_i$, si possono scegliere i valori delle $z_j$ in modo da "far passare" la verità lungo la catena.
@@ -196,7 +206,7 @@ $$
 G \text{ ha una cricca di dimensione } k \iff \overline{G} \text{ ha un vertex cover di dimensione } |V| - k
 $$
 
-**Perché funziona**: $S$ è una cricca in $G$ (ogni coppia di nodi di $S$ è collegata in $G$) se e solo se **nessun arco di $\overline{G}$ ha entrambi gli estremi in $S$** — per costruzione del complemento, due nodi collegati in $G$ non lo sono in $\overline{G}$. Questo equivale a dire che **ogni arco di $\overline{G}$ ha almeno un estremo in $V \setminus S$**, cioè che $V \setminus S$ è un vertex cover di $\overline{G}$ di dimensione $|V| - k$.
+**Perché funziona**: $S$ è una cricca in $G$ (ogni coppia di nodi di $S$ è collegata in $G$) se e solo se **nessun arco di $\overline{G}$ ha entrambi gli estremi in $S$** — per costruzione del complemento, due nodi collegati in $G$ non lo sono in $\overline{G}$. Questo equivale a dire che **ogni arco di $\overline{G}$ ha almeno un estremo in $V \setminus S$**, cioè che $V \setminus S$ è un vertex cover di $\overline{G}$ di dimensione $\|V\| - k$.
 
 ```r
 clique_a_vertex_cover <- function(grafo, k) {
