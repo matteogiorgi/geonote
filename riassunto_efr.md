@@ -103,6 +103,7 @@ $$\underbrace{Y_t - T_t - C_t - I_t}_{\text{saldo settore privato}} + \underbrac
 ### Dinamica del debito pubblico
 
 $$D_t = D_{t-1}(1+r) + (G_t - T_t)$$
+
 $$Y_t = Y_{t-1}(1+g) \qquad\qquad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T_t}{Y_{t-1}(1+g)}$$
 
 
@@ -111,6 +112,7 @@ $$Y_t = Y_{t-1}(1+g) \qquad\qquad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T
 $$\frac{D_t}{Y_t} - \frac{D_{t-1}}{Y_{t-1}} = \frac{(G_t - T_t) + D_{t-1}(r-g)}{Y_t}$$
 
 **Condizione di non crescita del rapporto** ($\Delta(D/Y)\le 0$):
+
 $$\begin{cases} r \neq g \;\Rightarrow\; T_t - G_t \ge D_{t-1}(r-g) \\ r = g \;\Rightarrow\; T_t - G_t \ge 0 \end{cases}$$
 
 Interpretazioni per i quiz:
@@ -145,10 +147,13 @@ Interpretazioni per i quiz:
 Scelta tra un bene generico (quantità $q$, prezzo $p$) e la spesa in tutti gli altri beni $M$. **Tutto il reddito è consumato** (no risparmio).
 
 **Problema d'ottimo:**
+
 $$\max_{q,M}\; u(q) + u(M) \qquad \text{s.t.}\quad pq + M = Y^D, \qquad (u' > 0,\; u'' < 0)$$
 
 **Lagrangiano** e **condizioni del prim'ordine** (necessarie e sufficienti):
+
 $$\mathcal{L} = u(q) + u(M) + \lambda(Y^D - pq - M)$$
+
 $$u'(q^\ast) = p\,u'(M^\ast), \qquad M^\ast = Y^D - p q^\ast$$
 
 - $\lambda^\ast$ = **utilità marginale del reddito disponibile**.
@@ -175,6 +180,7 @@ $$u'(q^\ast) = p\,u'(M^\ast), \qquad M^\ast = Y^D - p q^\ast$$
 Consumo e risparmio dipendono dal **reddito disponibile corrente**.
 
 **Funzione del consumo** e **del risparmio**:
+
 $$C_t = \bar C + c\, Y_t^D \qquad\qquad S_t = Y_t^D - C_t = -\bar C + (1-c) Y_t^D$$
 
 - $\bar C$ = consumo autonomo (consumo per reddito nullo).
@@ -197,6 +203,7 @@ Note per i quiz: ridurre le imposte $\Rightarrow Y^D \uparrow \Rightarrow C \upa
 Il consumatore vive due periodi e sceglie $C_0, C_1$ massimizzando l'utilità intertemporale, dati redditi $Y_0, Y_1$ e tasso $r$.
 
 **Vincolo di bilancio intertemporale** (valori attualizzati):
+
 $$C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r} \qquad\Longleftrightarrow\qquad C_1 = \underbrace{Y_0(1+r)+Y_1}_{\text{intercetta}} - \underbrace{(1+r)}_{\text{pendenza}} C_0$$
 
 **Risparmio del primo periodo**: $\;S_0 = Y_0 - C_0$. ($S_0>0$ risparmia, $S_0<0$ si indebita.)
@@ -204,6 +211,7 @@ $$C_0 + \frac{C_1}{1+r} = Y_0 + \frac{Y_1}{1+r} \qquad\Longleftrightarrow\qquad 
 **Utilità** additiva e separabile: $\;U(C_0,C_1) = u(C_0) + \beta\, u(C_1)$, con $\beta \in (0,1]$ fattore di sconto soggettivo. Ipotesi: $u'>0$, $u''<0$, $u'''>0$ (**prudenza**).
 
 **Condizione di Eulero** (ottimalità):
+
 $$\boxed{\,u'(C_0^\ast) = (1+r)\,\beta\, u'(C_1^\ast)\,}$$
 
 **Relazione tra $r$ e $\beta$:**
@@ -228,6 +236,7 @@ $$\boxed{\,u'(C_0^\ast) = (1+r)\,\beta\, u'(C_1^\ast)\,}$$
 | Debitore | $<0$ | $<0$ | **$<0$** (riduce $C_0$) |
 
 **Reddito futuro incerto / risparmio precauzionale**: se $\tilde Y_1$ ha varianza $\sigma_Y^2$, allora $\text{Var}[\tilde C_1] = \sigma_Y^2$. Con $u''' > 0$ (prudenza), un aumento di $\sigma_Y^2$ induce a **consumare meno oggi e risparmiare di più** (risparmio precauzionale). Approssimazione di Taylor della condizione di Eulero:
+
 $$u'(C_0^\ast) \approx \beta(1+r)\Big[u'(\mathbb E[\tilde C_1^\ast]) + \tfrac{1}{2}u'''(\mathbb E[\tilde C_1^\ast])\,\sigma_Y^2\Big]$$
 
 
@@ -251,6 +260,7 @@ Gli individui **livellano il consumo** lungo la vita: risparmiano durante gli an
 Modello semplificato: vita residua $E$ periodi, di cui $L$ di lavoro (reddito $Y^D$ costante) e $E-L$ di pensione (reddito nullo); tasso $r = 0$.
 
 **Consumo annuo** e **risparmio**:
+
 $$C_t = \frac{L\, Y^D}{E} \qquad\qquad S_t = Y_t^D - C_t, \quad\text{con } Y_t^D \in \{0,\, Y^D\}$$
 
 - Durante il **lavoro**: $S_t = Y^D - C_t > 0$ (accumula).
@@ -269,9 +279,11 @@ Quiz: $E\uparrow$ (a parità di $L, Y^D$) $\Rightarrow C_t \downarrow$; $E\downa
 Il consumo dipende dal **reddito permanente** (aspettative di lungo periodo), non dal reddito corrente.
 
 Il reddito disponibile si scompone in permanente + transitorio:
+
 $$Y_t^D = \bar Y^D + \tilde y_t^D, \qquad \mathbb E[\tilde y_t^D] = 0$$
 
 **Consumo** e **risparmio**:
+
 $$C_t = b\, \bar Y^D \qquad\qquad S_t = Y_t^D - C_t = (1-b)\bar Y^D + \tilde y_t^D$$
 
 - $b$ = PMC rispetto al **reddito permanente**. Il consumo **è costante** (dipende solo da $\bar Y^D$).
@@ -303,6 +315,7 @@ $$C_t = b\, \bar Y^D \qquad\qquad S_t = Y_t^D - C_t = (1-b)\bar Y^D + \tilde y_t
 Obiettivo: allocare la ricchezza tra $N$ asset per **massimizzare il rendimento atteso dato il rischio** (o minimizzare il rischio dato il rendimento).
 
 **Singolo titolo** $i$:
+
 $$r_i = \mathbb E[\tilde r_i], \qquad \sigma_i^2 = \mathbb E[(\tilde r_i - r_i)^2], \qquad \sigma_i = \sqrt{\sigma_i^2}$$
 
 **Vettori e matrici:**
@@ -313,6 +326,7 @@ $$r_i = \mathbb E[\tilde r_i], \qquad \sigma_i^2 = \mathbb E[(\tilde r_i - r_i)^
 **Leva finanziaria** (norma $L^1$): $\; \|x\|_1 = \sum_i \|x_i\| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
 
 **Portafoglio:**
+
 $$r_p = x^T r = \sum_i x_i r_i, \qquad \sigma_p^2 = x^T \Sigma x = \sum_i\sum_j x_i x_j \sigma_{ij}, \qquad \sigma_p = \sqrt{\sigma_p^2}$$
 
 **Numero di termini**: con $N$ asset, $\Sigma$ ($N\times N$) contiene $N$ varianze e $\frac{N(N-1)}{2}$ covarianze distinte (nella somma della varianza compaiono $N(N-1)$ covarianze, uguali a coppie). Es. $N=20$: 20 varianze e 380 covarianze (=190 distinte).
@@ -327,15 +341,21 @@ $$r_p = x_1 r_1 + x_2 r_2, \qquad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2
 Casi speciali (long-only, $\sigma_1 < \sigma_2$):
 
 **$\rho_{12} = 1$** (correlazione positiva perfetta):
+
 $$\sigma_p = x_1\sigma_1 + x_2\sigma_2 \quad(\text{media ponderata delle volatilità})$$
+
 Minimo rischio: tutto nel titolo meno rischioso, $x_1^m = 1$, $\sigma_p^m = \sigma_1$. **Non si può azzerare** la varianza.
 
 **$\rho_{12} = -1$** (correlazione negativa perfetta):
+
 $$\sigma_p = |x_1\sigma_1 - x_2\sigma_2|$$
+
 Si può **azzerare** la varianza scegliendo:
+
 $$x_1^m = \frac{\sigma_2}{\sigma_1+\sigma_2}, \qquad x_2^m = \frac{\sigma_1}{\sigma_1+\sigma_2} \quad\Longrightarrow\quad \sigma_p^m = 0$$
 
 **$-1 < \rho_{12} < 1$** (caso generale): i pesi di minima varianza sono
+
 $$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}}, \qquad x_2^m = 1 - x_1^m \qquad (\sigma_{12}=\rho_{12}\sigma_1\sigma_2)$$
 
 **Principio di diversificazione** (chiave per i quiz):
@@ -360,6 +380,7 @@ $$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}
 ## 3.3 La scelta ottimale di portafoglio
 
 **Funzione di utilità media-varianza:**
+
 $$U(r_p, \sigma_p^2) = r_p - \frac{\gamma}{2}\sigma_p^2 = x^T r - \frac{\gamma}{2}x^T\Sigma x, \qquad \gamma > 0 \text{ (avversione al rischio)}$$
 
 **Costanti notevoli:** $\;A = r^T\Sigma^{-1}r$, $\;B = r^T\Sigma^{-1}\iota = \iota^T\Sigma^{-1}r$, $\;C = \iota^T\Sigma^{-1}\iota$.
@@ -368,18 +389,22 @@ $$U(r_p, \sigma_p^2) = r_p - \frac{\gamma}{2}\sigma_p^2 = x^T r - \frac{\gamma}{
 ### Formulazione 1 — massimizzazione dell'utilità
 
 $$\max_x\; x^T r - \frac{\gamma}{2}x^T\Sigma x \quad \text{s.t.}\quad x^T\iota = 1$$
+
 $$\mathcal{L} = x^T r - \frac{\gamma}{2}x^T\Sigma x + \lambda(1 - x^T\iota)$$
 
 FOC: $\;r - \gamma\Sigma x^\ast - \lambda^\ast\iota = 0$. Soluzione:
+
 $$\lambda^\ast = \frac{B-\gamma}{C}, \qquad x^\ast = \Sigma^{-1}\!\left(\frac{1}{\gamma}r + \frac{\gamma - B}{\gamma C}\iota\right)$$
 
 
 ### Formulazione 2 — minimizzazione della varianza con rendimento target $k$
 
 $$\min_x\; \frac{1}{2}x^T\Sigma x \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
+
 $$\mathcal{L} = \frac{1}{2}x^T\Sigma x + \lambda_1(k - x^T r) + \lambda_2(1 - x^T\iota)$$
 
 Soluzione:
+
 $$\lambda_1^\ast = \frac{Ck - B}{AC - B^2}, \qquad \lambda_2^\ast = \frac{A - Bk}{AC - B^2}, \qquad x^\ast = \Sigma^{-1}\!\left(\frac{Ck-B}{AC-B^2}r + \frac{A-Bk}{AC-B^2}\iota\right)$$
 
 
@@ -405,7 +430,9 @@ Interpretazioni:
 ## 3.4 Costi di transazione e vincoli aggiuntivi
 
 **Con costi di transazione** proporzionali alle variazioni dei pesi:
+
 $$\min_x\; \frac{1}{2}x^T\Sigma x + \theta\|\Delta x\|_1 \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
+
 dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\theta$ è il costo unitario.
 - $\theta = 0 \Rightarrow$ si torna al problema classico di **Markowitz**.
 - $\theta \uparrow \Rightarrow$ **riduce** le variazioni nei pesi (penalizza il turnover).
@@ -508,6 +535,7 @@ Note per i quiz:
 ### Modello multiperiodale (contribuzione definita)
 
 Individuo che lavora $L$ periodi e resta in pensione $E$ periodi (prima pensione in $t=0$). Si eguaglia il **montante contributivo** $M$ al **valore attuale delle prestazioni** $V$:
+
 $$M = \sum_{\tau=1}^{L} aW_{-\tau}(1+i)^{\tau}, \qquad V = P\sum_{t=0}^{E-1}(1+i)^{-t} = P\cdot v, \qquad P = \frac{M}{v}$$
 
 **Prestazione definita**: $\;P = k W_p = \beta L W_p$, dove $W_p$ è la retribuzione pensionabile (ultima retribuzione, o media rivalutata delle ultime $T$ / di tutte le retribuzioni).
@@ -545,7 +573,9 @@ Rappresenta **secondo e terzo pilastro**. Serve a integrare il gap dovuto all'in
 ### Calcolo della prestazione periodica
 
 Si versa $B$ per $L$ periodi (da $t=0$) e si riceve $P$ per $E$ periodi (da $t=L$). Si eguaglia il VA dei versamenti al VA delle prestazioni:
+
 $$\nu_L = \left(1+\frac{1}{r}\right)\!\left[1 - \frac{1}{(1+r)^{L-1}}\right], \qquad \nu_E = \left(1+\frac{1}{r}\right)\!\left[1 - \frac{1}{(1+r)^{E-1}}\right]\frac{1}{(1+r)^{L}}$$
+
 $$V_L = B\,\nu_L, \qquad V_E = P\,\nu_E, \qquad \boxed{P = \frac{B\,\nu_L}{\nu_E}} \quad\text{oppure}\quad \boxed{B = \frac{P\,\nu_E}{\nu_L}}$$
 
 > **Esempio:** $B=1200$, $L=40$, $r=0.10$, $E=20$. $V_L = 12908.35$; $V_E = 0.2069\,P$; $P = 12908.35 / 0.2069 = 62384.11$.
@@ -568,10 +598,13 @@ I **piani di investimento non istituzionalizzati** funzionano in modo **analogo 
 # 5. Formulario riassuntivo
 
 **Concetti e misure (micro):**
+
 $$Y_t = A_{t-1}r + W_t, \quad Y_t^D = Y_t - T_t, \quad S_t = Y_t^D - C_t, \quad A_t = A_{t-1} + S_t$$
 
 **Macro:**
+
 $$Y_t = C_t + I_t + G_t + (X_t - M_t), \quad S_t = S_t^{Pr} + (T_t - G_t) = I_t + (X_t - M_t)$$
+
 $$D_t = D_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) + G_t - T_t}{Y_{t-1}(1+g)}$$
 
 **Equilibrio del consumatore:** $\;u'(q^\ast) = p\,u'(M^\ast)$, $\;C^\ast = pq^\ast$.
@@ -585,7 +618,9 @@ $$D_t = D_{t-1}(1+r) + (G_t - T_t), \quad \frac{D_t}{Y_t} = \frac{D_{t-1}(1+r) +
 **Friedman:** $\;C_t = b\,\bar Y^D$, $\;Y_t^D = \bar Y^D + \tilde y_t^D$.
 
 **Markowitz (2 titoli):**
+
 $$r_p = x_1r_1 + x_2r_2, \quad \sigma_p^2 = (x_1\sigma_1)^2 + (x_2\sigma_2)^2 + 2x_1x_2\rho_{12}\sigma_1\sigma_2$$
+
 $$x_1^m = \frac{\sigma_2^2 - \sigma_{12}}{\sigma_1^2 + \sigma_2^2 - 2\sigma_{12}} \quad(\rho=-1:\; x_1^m = \tfrac{\sigma_2}{\sigma_1+\sigma_2},\; \sigma_p^m=0)$$
 
 **Markowitz (scelta ottimale):** $\;U = r_p - \frac{\gamma}{2}\sigma_p^2$; $\;A=r^T\Sigma^{-1}r$, $B=r^T\Sigma^{-1}\iota$, $C=\iota^T\Sigma^{-1}\iota$; $\;k = \frac{AC-B^2}{C\gamma}+\frac{B}{C}$.

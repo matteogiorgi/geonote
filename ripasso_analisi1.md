@@ -29,9 +29,7 @@ $\mathbb{R}$ è un **campo ordinato completo**. La completezza è ciò che disti
 
 **Estremo superiore.** $s = \sup A$ è il più piccolo dei maggioranti. Caratterizzazione operativa:
 
-$$
-s = \sup A \iff \begin{cases} x \le s & \forall x \in A \\ \forall \varepsilon > 0 \ \exists x \in A : x > s - \varepsilon \end{cases}
-$$
+$$s = \sup A \iff \begin{cases} x \le s & \forall x \in A \\ \forall \varepsilon > 0 \ \exists x \in A : x > s - \varepsilon \end{cases}$$
 
 Analogamente $\inf A$ è il più grande dei minoranti.
 
