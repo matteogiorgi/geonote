@@ -1,6 +1,6 @@
 # Ereditare lo stile da `geoteo.net`
 
-Questo repository non definisce un proprio tema: la pagina GitHub Pages generata da Jekyll richiama foglio di stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
+Questo repository non definisce un proprio tema: GitHub Page generata da *Jekyll* richiama stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
 
 
 
@@ -178,7 +178,7 @@ Nelle impostazioni del repository: **Settings → Pages → Build and deployment
 
 ## 3. Cosa è condiviso con `geoteo.net` e cosa resta locale
 
-Tutto ciò che riguarda **il tema** (colori, favicon, toggle) è condiviso; tutto ciò che riguarda **il rendering di una pagina markdown** vive solo nei repository con GitHub Pages, perché `geoteo.net` non ne ha bisogno.
+Tutto ciò che riguarda il tema (colori, favicon, toggle) è condiviso; tutto ciò che riguarda il rendering di una pagina markdown vive solo nei repository con GitHub Pages, perché `geoteo.net` non ne ha bisogno.
 
 **Condiviso con `geoteo.net`** (fa parte del layout/tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
 
