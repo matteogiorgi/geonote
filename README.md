@@ -7,7 +7,10 @@
 - **[Riduzioni](riduzioni.md)**: riduzioni many-one e di Turing, SAT → 3-SAT → Clique → Vertex Cover, teorema di Cook-Levin.
 - **[Ripasso Analisi 1](ripasso_analisi1.md)**: prerequisiti per Analisi 2 (successioni, serie, integrale di Riemann).
 - **[Riassunto EFR](riassunto_efr.md)**: programma completo (consumo/risparmio, scelte intertemporali, Markowitz, pensioni).
+- **[Tema Geoteo](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 
-<p align="center">
-	<img src="mario.gif" alt="Mario" width="100%" height="auto">
-</p>
+<br><br>
+
+<marquee behavior="scroll" direction="left" scrollamount="8">
+	<img src="sheep.gif" alt="Sheep" width="12%" height="auto">
+</marquee>

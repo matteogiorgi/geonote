@@ -1,3 +1,29 @@
+# Ereditare lo stile da `geoteo.net`
+
+Questo repository non definisce un proprio tema: la pagina GitHub Pages generata da Jekyll richiama foglio di stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
+
+
+
+
+## 1. Cosa fa il tema
+
+- **CSS condiviso**: `https://geoteo.net/static/style.css`, incluse le variabili per la modalità chiara/scura.
+- **Toggle tema**: un pulsante in pagina alterna `data-theme="light"`/`"dark"` su `<html>` e salva la scelta in `localStorage`.
+- **Favicon dinamica**: al cambio di tema viene ricaricata un'icona diversa (`favicon.svg` / `favicon-dark.svg`) da `geoteo.net`, con query string dedicata per forzare il refresh della cache del browser.
+- **Matematica**: `mathjax-config.js` da `geoteo.net` + libreria *MathJax* da *CDN*.
+- **Diagrammi**: `mermaid-render.js` da `geoteo.net` per il rendering dei blocchi *Mermaid*.
+- **Ancore automatiche** sui titoli tramite `anchor-js`.
+
+
+
+
+## 2. Passi per replicarlo in un altro repository
+
+### 2.1 Copiare il layout
+
+Crea `_layouts/default.html` nella directory di root con il seguente contenuto, effettuerà tutti i richiami a `geoteo.net` (non serve altro codice di stile):
+
+```html
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
     <head>
@@ -78,3 +104,27 @@
         </script>
     </body>
 </html>
+```
+
+
+### 2.2 (Opzionale) `_config.yml`
+
+Se il repo contiene formule matematiche con apici (es. `f'`, `f''`), aggiungi il file `_config.yml` nella directory di root con il seguente contenuto:
+
+```yaml
+kramdown:
+    # straight quotes required by MathJax for f' f'' etc. inside $...$
+    smart_quotes: ["apos", "apos", "quot", "quot"]
+```
+
+Non è necessario per ereditare lo stile grafico, ma evita che *Kramdown* converta gli apici dritti in apici tipografici dentro `$...$`.
+
+
+### 2.3 Nessun Gemfile o plugin da installare
+
+Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già incluso di default nella gem `github-pages` con cui GitHub Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
+
+
+### 2.4 Abilitare GitHub Pages
+
+Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [passo 2.1](#21-copiare-il-layout).
