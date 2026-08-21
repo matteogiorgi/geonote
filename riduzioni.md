@@ -45,18 +45,20 @@ $$
 
 (la composizione di due funzioni polinomiali è polinomiale). Questo è ciò che permette di costruire **catene** di riduzioni: una volta dimostrato che SAT è NP-completo, basta ridurre SAT a un nuovo problema $X$ per concludere che anche $X$ è NP-difficile.
 
-```python
-def riduzione_esempio(istanza_A):
-    """Schema generale di una riduzione many-one:
-    trasforma un'istanza di A in un'istanza di B in tempo polinomiale,
-    preservando la risposta sì/no."""
-    istanza_B = trasforma(istanza_A)   # deve girare in tempo poly(|istanza_A|)
-    return istanza_B
+```r
+riduzione_esempio <- function(istanza_A) {
+    # Schema generale di una riduzione many-one:
+    # trasforma un'istanza di A in un'istanza di B in tempo polinomiale,
+    # preservando la risposta sì/no.
+    istanza_B <- trasforma(istanza_A)   # deve girare in tempo poly(length(istanza_A))
+    istanza_B
+}
 
 # Se avessimo un risolutore per B, risolveremmo A così:
-def risolvi_A_tramite_B(istanza_A, risolvi_B):
-    istanza_B = riduzione_esempio(istanza_A)
-    return risolvi_B(istanza_B)   # stessa risposta di "istanza_A in A?"
+risolvi_A_tramite_B <- function(istanza_A, risolvi_B) {
+    istanza_B <- riduzione_esempio(istanza_A)
+    risolvi_B(istanza_B)   # stessa risposta di "istanza_A in A?"
+}
 ```
 
 
@@ -110,20 +112,21 @@ $$
 
 L'idea: se la clausola originale è vera grazie a $\ell_i$, si possono scegliere i valori delle $z_j$ in modo da "far passare" la verità lungo la catena.
 
-```python
-def spezza_clausola(letterali):
-    """Trasforma una clausola di k letterali in clausole equivalenti di 3 letterali.
-    Caso k <= 3 gestito a parte; qui il caso k > 3 (la catena di ausiliarie)."""
-    k = len(letterali)
-    if k <= 3:
-        return [letterali]  # eventualmente da riempire per k=1,2 come sopra
+```r
+spezza_clausola <- function(letterali) {
+    # Trasforma una clausola di k letterali in clausole equivalenti di 3 letterali.
+    # Caso k <= 3 gestito a parte; qui il caso k > 3 (la catena di ausiliarie).
+    k <- length(letterali)
+    if (k <= 3) return(list(letterali))  # eventualmente da riempire per k=1,2 come sopra
 
-    z = [f"z{i}" for i in range(k - 3)]
-    clausole = [ (letterali[0], letterali[1], z[0]) ]
-    for i in range(1, k - 3):
-        clausole.append((f"~{z[i-1]}", letterali[i + 1], z[i]))
-    clausole.append((f"~{z[-1]}", letterali[-2], letterali[-1]))
-    return clausole
+    z <- paste0("z", seq_len(k - 3))
+    clausole <- list(c(letterali[1], letterali[2], z[1]))
+    for (i in seq_len(k - 4)) {
+        clausole[[length(clausole) + 1]] <- c(paste0("~", z[i]), letterali[i + 2], z[i + 1])
+    }
+    clausole[[length(clausole) + 1]] <- c(paste0("~", z[length(z)]), letterali[k - 1], letterali[k])
+    clausole
+}
 ```
 
 La dimensione dell'istanza risultante è **lineare** nella dimensione di quella originale, quindi la riduzione è polinomiale. Poiché 3-SAT è ovviamente in NP (certificato = assegnazione), e SAT è NP-completo per Cook-Levin, questa riduzione dimostra che **3-SAT è NP-completo**.
@@ -145,26 +148,37 @@ Data una formula 3-CNF con $m$ clausole $C_1, \dots, C_m$ (ciascuna con 3 letter
 
 **Intuizione**: una cricca di dimensione $m$ corrisponde a una scelta di un letterale vero per ciascuna clausola, tale che le scelte siano **coerenti** (mai $x$ e $\overline{x}$ entrambi scelti) — esattamente un'assegnazione soddisfacente.
 
-```python
-def sat3_a_clique(clausole):
-    """clausole: lista di liste di 3 letterali (stringhe, es. 'x1', '~x1').
-    Ritorna (grafo, k) tale che la formula è soddisfacibile
-    sse il grafo ha una cricca di dimensione k."""
-    nodi = [(i, j) for i, c in enumerate(clausole) for j in range(len(c))]
-    archi = set()
+```r
+sat3_a_clique <- function(clausole) {
+    # clausole: lista di vettori di 3 letterali (stringhe, es. "x1", "~x1").
+    # Ritorna list(grafo, k) tale che la formula è soddisfacibile
+    # sse il grafo ha una cricca di dimensione k.
+    negazione <- function(lit) {
+        if (startsWith(lit, "~")) substring(lit, 2) else paste0("~", lit)
+    }
 
-    def negazione(lit):
-        return lit[1:] if lit.startswith("~") else "~" + lit
+    nodi <- list()
+    for (i in seq_along(clausole)) {
+        for (j in seq_along(clausole[[i]])) {
+            nodi[[length(nodi) + 1]] <- c(i, j)
+        }
+    }
 
-    for (i1, j1) in nodi:
-        for (i2, j2) in nodi:
-            if i1 == i2:
-                continue  # stesso gruppo/clausola: mai collegati
-            l1, l2 = clausole[i1][j1], clausole[i2][j2]
-            if l2 != negazione(l1):
-                archi.add(frozenset({(i1, j1), (i2, j2)}))
+    archi <- list()
+    for (a in nodi) {
+        for (b in nodi) {
+            if (a[1] == b[1]) next   # stesso gruppo/clausola: mai collegati
+            l1 <- clausole[[a[1]]][a[2]]
+            l2 <- clausole[[b[1]]][b[2]]
+            if (l2 != negazione(l1)) {
+                chiave <- paste(sort(c(paste(a, collapse = "_"), paste(b, collapse = "_"))), collapse = "-")
+                archi[[chiave]] <- TRUE
+            }
+        }
+    }
 
-    return {"nodi": nodi, "archi": archi}, len(clausole)
+    list(grafo = list(nodi = nodi, archi = names(archi)), k = length(clausole))
+}
 ```
 
 Anche qui la costruzione è polinomiale ($O(m^2)$ archi al più), quindi **Clique è NP-completo** (appartenenza a NP già mostrata in [classi_complessita.md § 4](classi_complessita.md)).
@@ -182,21 +196,29 @@ $$
 G \text{ ha una cricca di dimensione } k \iff \overline{G} \text{ ha un vertex cover di dimensione } |V| - k
 $$
 
-**Perché**: se $S$ è una cricca in $G$, ogni coppia di nodi *fuori* da $S$ o *tra dentro/fuori* $S$ che non è arco interno alla cricca, in $\overline{G}$ diventa un arco coperto da $V \setminus S$; si dimostra che $V \setminus S$ copre esattamente tutti gli archi di $\overline{G}$.
+**Perché funziona**: $S$ è una cricca in $G$ (ogni coppia di nodi di $S$ è collegata in $G$) se e solo se **nessun arco di $\overline{G}$ ha entrambi gli estremi in $S$** — per costruzione del complemento, due nodi collegati in $G$ non lo sono in $\overline{G}$. Questo equivale a dire che **ogni arco di $\overline{G}$ ha almeno un estremo in $V \setminus S$**, cioè che $V \setminus S$ è un vertex cover di $\overline{G}$ di dimensione $|V| - k$.
 
-```python
-def clique_a_vertex_cover(grafo, k):
-    nodi = grafo["nodi"]
-    archi = grafo["archi"]
-    tutti_gli_archi_possibili = {
-        frozenset({u, v}) for i, u in enumerate(nodi) for v in nodi[i+1:]
+```r
+clique_a_vertex_cover <- function(grafo, k) {
+    nodi <- grafo$nodi
+    id <- function(n) paste(n, collapse = "_")
+
+    tutte_le_coppie <- character(0)
+    for (i in seq_along(nodi)) {
+        if (i == length(nodi)) break
+        for (j in (i + 1):length(nodi)) {
+            chiave <- paste(sort(c(id(nodi[[i]]), id(nodi[[j]]))), collapse = "-")
+            tutte_le_coppie <- c(tutte_le_coppie, chiave)
+        }
     }
-    archi_complemento = tutti_gli_archi_possibili - archi
-    k_cover = len(nodi) - k
-    return {"nodi": nodi, "archi": archi_complemento}, k_cover
+
+    archi_complemento <- setdiff(tutte_le_coppie, grafo$archi)
+    k_cover <- length(nodi) - k
+    list(grafo = list(nodi = nodi, archi = archi_complemento), k = k_cover)
+}
 ```
 
-Questo chiude una catena tipica di dimostrazioni: $\text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover}$, e per transitività ($\S$2) tutti e quattro sono NP-completi.
+Questo chiude una catena tipica di dimostrazioni: $\text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover}$, e per transitività (§2) tutti e quattro sono NP-completi.
 
 
 
@@ -216,12 +238,13 @@ Questo è ciò che rende SAT il "capostipite" da cui si dimostrano NP-completi t
 
 Le riduzioni non servono solo a dimostrare difficoltà: sono anche lo strumento standard per **riusare algoritmi già noti**. Esempio classico: *2-SAT* (clausole con esattamente 2 letterali) è in **P**, non NP-completo come 3-SAT — si riduce in tempo polinomiale al problema di trovare le componenti fortemente connesse in un grafo di implicazioni, risolvibile in $O(n+m)$.
 
-```python
-def letterale_implica(lit):
-    """In 2-SAT, (a ∨ b) equivale a (¬a ⟹ b) ∧ (¬b ⟹ a):
-    si costruisce un grafo di implicazioni e si verifica che nessuna
-    variabile e la sua negazione stiano nella stessa componente fortemente connessa."""
-    pass  # riduzione a "raggiungibilità in un grafo", problema in P
+```r
+letterale_implica <- function(lit) {
+    # In 2-SAT, (a ∨ b) equivale a (¬a ⟹ b) ∧ (¬b ⟹ a):
+    # si costruisce un grafo di implicazioni e si verifica che nessuna
+    # variabile e la sua negazione stiano nella stessa componente fortemente connessa.
+    NULL  # riduzione a "raggiungibilità in un grafo", problema in P
+}
 ```
 
 Questo è un buon promemoria: **la difficoltà di un problema non dipende dalla sua forma superficiale** (3-SAT vs 2-SAT sembrano quasi identici) ma dalla struttura che la riduzione riesce a sfruttare.
@@ -246,5 +269,7 @@ $$
 $$
 \text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover} \le_p \text{Hamiltonian Cycle} \le_p \text{TSP}
 $$
+
+> I primi tre passaggi sono costruiti passo-passo nei §5–§7; gli ultimi due (non trattati qui) seguono lo stesso schema generale.
 
 > Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi **[classi_complessita.md](classi_complessita.md)**.
