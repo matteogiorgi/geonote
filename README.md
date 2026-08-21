@@ -9,7 +9,7 @@
 - **[Riassunto EFR](riassunto_efr.md)**: programma completo (consumo/risparmio, scelte intertemporali, Markowitz, pensioni).
 - **[Tema Geoteo](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 
-<br><br>
+<br>
 
 <marquee behavior="scroll" direction="left" scrollamount="8">
 	<img src="sheep.gif" alt="Sheep" width="12%" height="auto">

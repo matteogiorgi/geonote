@@ -23,6 +23,7 @@ Questo repository non definisce un proprio tema: la pagina GitHub Pages generata
 
 Crea `_layouts/default.html` nella directory di root con il seguente contenuto, effettuerà tutti i richiami a `geoteo.net` (non serve altro codice di stile):
 
+{% raw %}
 ```html
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
@@ -105,6 +106,7 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
     </body>
 </html>
 ```
+{% endraw %}
 
 
 ### 2.2 (Opzionale) `_config.yml`
