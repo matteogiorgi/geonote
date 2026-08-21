@@ -441,7 +441,7 @@ dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\th
 - Non negatività (long-only): $\;x_i \ge 0$.
 - Boundary per singolo asset: $\;l_i \le x_i \le u_i$ (limita la quota di ciascun titolo).
 - Settore: $\;\sum_{i\in S_j} x_i \le U_j$ (limita l'esposizione a un settore).
-- Leva massima: $\;\|w\|_1 \le \ell_{\max}$.
+- Leva massima: $\; \|w\|_1 \le \ell_{\max}$.
 - Tracking error (deviazione dal benchmark): $\;TE = \sqrt{x^T\Sigma x - 2x^T\Sigma x_b + x_b^T\Sigma x_b} \le TE_{\max}$.
 
 Note per i quiz:
@@ -452,7 +452,7 @@ Note per i quiz:
 
 ### Metodo esercizio (leva e costi)
 
-1. **Leva**: $\|x\|_1 = \sum_i \|x_i\|$; verifica $\|x\|_1 \le \ell_{\max}$.
+1. **Leva**: $ \|x\|_1 = \sum_i \|x_i\|$; verifica $ \|x\|_1 \le \ell_{\max}$.
 2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i\|\Delta x_i\|$.
 3. (Se richiesto) $r_p = x^T r$ e $\sigma_p^2 = x^T\Sigma x$.
 
