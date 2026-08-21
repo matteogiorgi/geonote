@@ -97,6 +97,10 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
                 document.querySelectorAll('.markdown-body pre').forEach(function (pre) {
                     var code = pre.querySelector('code');
                     if (!code) return;
+                    var wrap = document.createElement('div');
+                    wrap.className = 'code-block-wrap';
+                    pre.parentNode.insertBefore(wrap, pre);
+                    wrap.appendChild(pre);
                     var toolbar = document.createElement('div');
                     toolbar.className = 'code-toolbar';
                     var langWrapper = pre.closest('[class*="language-"]');
@@ -130,7 +134,7 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
                         }).catch(function () {});
                     });
                     toolbar.appendChild(btn);
-                    pre.appendChild(toolbar);
+                    wrap.appendChild(toolbar);
                 });
             })();
         </script>
