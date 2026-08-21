@@ -66,7 +66,7 @@ $$\left(1 + \frac{1}{n}\right)^n \to e, \qquad \sqrt[n]{n} \to 1, \qquad \sqrt[n
 
 **Sottosuccessioni e Bolzano–Weierstrass.** Ogni successione limitata ammette una sottosuccessione convergente.
 
-**Criterio di Cauchy.** $(a_n)$ converge $\iff$ è di Cauchy: $\forall \varepsilon>0\ \exists N: n,m>N \Rightarrow |a_n - a_m| < \varepsilon$.
+**Criterio di Cauchy.** $(a_n)$ converge $\iff$ è di Cauchy: $\forall \varepsilon>0\ \exists N: n,m>N \Rightarrow \|a_n - a_m\| < \varepsilon$.
 
 > **Serve per:** le serie sono per definizione limiti di successioni (le somme parziali). Tutto ciò che segue poggia qui.
 
