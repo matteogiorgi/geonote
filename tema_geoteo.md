@@ -94,6 +94,48 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
         <script>anchors.add();</script>
         <script>
             (function () {
+                document.querySelectorAll('.markdown-body pre').forEach(function (pre) {
+                    var code = pre.querySelector('code');
+                    if (!code) return;
+                    var toolbar = document.createElement('div');
+                    toolbar.className = 'code-toolbar';
+                    var langWrapper = pre.closest('[class*="language-"]');
+                    var langMatch = langWrapper && langWrapper.className.match(/language-(\S+)/);
+                    if (langMatch && langMatch[1] !== 'plaintext') {
+                        var label = document.createElement('span');
+                        label.className = 'code-lang';
+                        label.textContent = langMatch[1];
+                        toolbar.appendChild(label);
+                    }
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'copy-btn';
+                    btn.setAttribute('aria-label', 'Copy code');
+                    btn.innerHTML =
+                        '<svg class="icon-copy" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' +
+                        '<path fill="currentColor" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/>' +
+                        '<path fill="currentColor" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/>' +
+                        '</svg>' +
+                        '<svg class="icon-check" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' +
+                        '<path fill="currentColor" d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/>' +
+                        '</svg>';
+                    btn.addEventListener('click', function () {
+                        navigator.clipboard.writeText(code.textContent).then(function () {
+                            btn.classList.add('copied');
+                            btn.setAttribute('aria-label', 'Copied!');
+                            setTimeout(function () {
+                                btn.classList.remove('copied');
+                                btn.setAttribute('aria-label', 'Copy code');
+                            }, 1500);
+                        }).catch(function () {});
+                    });
+                    toolbar.appendChild(btn);
+                    pre.appendChild(toolbar);
+                });
+            })();
+        </script>
+        <script>
+            (function () {
                 var btn = document.getElementById('theme-toggle');
                 btn.addEventListener('click', function () {
                     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -130,3 +172,23 @@ Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già inclus
 ### 2.4 Abilitare GitHub Pages
 
 Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al passo [2.1](#21-copiare-il-layout).
+
+
+
+
+## 3. Cosa è condiviso con `geoteo.net` e cosa resta locale
+
+Tutto ciò che riguarda **il tema** (colori, favicon, toggle) è condiviso; tutto ciò che riguarda **il rendering di una pagina markdown** vive solo nei repository con GitHub Pages, perché `geoteo.net` non ne ha bisogno.
+
+**Condiviso con `geoteo.net`** (fa parte del layout/tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
+
+- tema chiaro/scuro, font, colori;
+- switch chiaro/scuro, incluso il fix per bfcache/reload visto al passo [2.1](#21-copiare-il-layout);
+- `.badge-link` sui repository con GitHub Pages — nativo di `geoteo.net`.
+
+**Non presente su `geoteo.net`** (funzionalità legate al *rendering del contenuto Markdown*):
+
+- bottone "powered by Geoteo" / link al repo in fondo pagina (`.gh-footer`);
+- bottone di copia ed etichetta del linguaggio nei blocchi di codice — `geoteo.net` non ha blocchi di codice nel suo contenuto;
+- tabelle responsive, blockquote, liste ristilizzate, overflow delle formule *MathJax* — tutto scoped su `.markdown-body`, classe non presente nella home page;
+- *MathJax*/*Mermaid* stessi non sono caricati su `geoteo.net` (gli script vengono aggiunti solo nei layout *Jekyll* dei repository).
