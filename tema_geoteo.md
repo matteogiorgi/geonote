@@ -26,7 +26,7 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
 {% raw %}
 ```html
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en-US' }}">
     <head>
         <meta charset="UTF-8">
         <script>
@@ -37,7 +37,7 @@ Crea `_layouts/default.html` nella directory di root con il seguente contenuto, 
                     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
                     // The query string is load-bearing: browsers cache the tab
                     // favicon per page URL and often won't re-fetch it on reload
-                    // just because the <link> href changed, so each theme needs
+                    // just because the icon link's href changed, so each theme needs
                     // a genuinely distinct URL to force a fresh icon.
                     var src = dark
                         ? 'https://geoteo.net/static/favicon-dark.svg?theme=dark'
