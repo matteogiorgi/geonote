@@ -40,24 +40,7 @@ $$
 O(1) \subset O(\log n) \subset O(n) \subset O(n \log n) \subset O(n^2) \subset O(n^k) \subset O(2^n) \subset O(n!)
 $$
 
-```r
-# Confronto empirico di crescita: quanti "passi" servono per n = 10, 100, 1000
-confronta <- function(n) {
-    list(
-        "log n"   = log2(n),
-        "n"       = n,
-        "n log n" = n * log2(n),
-        "n^2"     = n^2,
-        "2^n"     = if (n <= 30) 2^n else Inf   # esplode subito
-    )
-}
-
-for (n in c(10, 100, 1000)) {
-    print(confronta(n))
-}
-```
-
-L'ultima riga (`2^n`) mostra perché un algoritmo esponenziale diventa inutilizzabile molto prima di uno polinomiale, anche se per $n$ piccoli può sembrare competitivo.
+Ad esempio, un algoritmo $O(2^n)$ diventa inutilizzabile molto prima di uno $O(n^k)$ al crescere di $n$, anche se per $n$ piccoli può sembrare competitivo.
 
 
 

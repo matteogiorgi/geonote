@@ -90,9 +90,9 @@ lst <- list(nome = "Anna", eta = 30, voti = c(28, 30, 25))
 lst$voti            # accesso per nome
 
 df <- data.frame(
-  nome = c("Anna", "Bruno"),
-  eta  = c(30, 25),
-  stringsAsFactors = FALSE
+    nome = c("Anna", "Bruno"),
+    eta  = c(30, 25),
+    stringsAsFactors = FALSE
 )
 df$eta              # colonna
 df[df$eta > 26, ]   # filtro per riga
@@ -107,9 +107,9 @@ str(df)             # struttura
 ```r
 # Condizioni
 if (x > 0) {
-  print("positivo")
+    print("positivo")
 } else {
-  print("non positivo")
+    print("non positivo")
 }
 
 # Cicli
@@ -119,7 +119,7 @@ while (x > 0) x <- x - 1
 
 # Definizione di funzione
 media_geom <- function(x) {
-  exp(mean(log(x)))
+    exp(mean(log(x)))
 }
 media_geom(c(1, 4, 16))   # 4
 ```
@@ -261,10 +261,10 @@ boxplot(mpg ~ cyl, data = mtcars)
 # ggplot2
 library(ggplot2)
 ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 2) +
-  geom_smooth(method = "lm", se = TRUE) +
-  labs(title = "Consumo vs Peso", color = "Cilindri") +
-  theme_minimal()
+    geom_point(size = 2) +
+    geom_smooth(method = "lm", se = TRUE) +
+    labs(title = "Consumo vs Peso", color = "Cilindri") +
+    theme_minimal()
 ```
 
 
@@ -278,13 +278,13 @@ Il `tidyverse` è una raccolta di pacchetti per la manipolazione moderna dei dat
 library(dplyr)
 
 mtcars |>
-  filter(cyl == 6) |>
-  group_by(gear) |>
-  summarise(
-    consumo_medio = mean(mpg),
-    n = n()
-  ) |>
-  arrange(desc(consumo_medio))
+    filter(cyl == 6) |>
+    group_by(gear) |>
+    summarise(
+        consumo_medio = mean(mpg),
+        n = n()
+    ) |>
+    arrange(desc(consumo_medio))
 ```
 
 Verbi principali di `dplyr`: `filter()` (righe), `select()` (colonne), `mutate()` (nuove colonne), `group_by()` + `summarise()` (aggregazione), `arrange()` (ordinamento), `join` (unione tabelle).
