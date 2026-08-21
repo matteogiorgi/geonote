@@ -129,4 +129,4 @@ Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già inclus
 
 ### 2.4 Abilitare GitHub Pages
 
-Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [passo 2.1](#21-copiare-il-layout).
+Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al passo [2.1](#21-copiare-il-layout).
