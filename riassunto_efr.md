@@ -323,7 +323,7 @@ $$r_i = \mathbb E[\tilde r_i], \qquad \sigma_i^2 = \mathbb E[(\tilde r_i - r_i)^
 - Matrice varianze-covarianze $\Sigma$, con $\sigma_{ij} = \rho_{ij}\,\sigma_i\,\sigma_j$.
 - $x_i \ge 0$ = posizione **lunga**; $x_i < 0$ = posizione **corta** (short/leva).
 
-**Leva finanziaria** (norma $L^1$): $\; \|x\|_1 = \sum_i \|x_i\| = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
+**Leva finanziaria** (norma $L^1$): $\; \lVert x \rVert_1 = \sum_i \lVert x_i \rVert = \ell$. Se $\ell = 1$ portafoglio **long-only**; se $\ell > 1$ ci sono posizioni corte.
 
 **Portafoglio:**
 
@@ -431,7 +431,7 @@ Interpretazioni:
 
 **Con costi di transazione** proporzionali alle variazioni dei pesi:
 
-$$\min_x\; \frac{1}{2}x^T\Sigma x + \theta\|\Delta x\|_1 \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
+$$\min_x\; \frac{1}{2}x^T\Sigma x + \theta\lVert \Delta x \rVert_1 \quad \text{s.t.}\quad x^T r = k,\;\; x^T\iota = 1$$
 
 dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\theta$ è il costo unitario.
 - $\theta = 0 \Rightarrow$ si torna al problema classico di **Markowitz**.
@@ -441,7 +441,7 @@ dove $\Delta x = x - x_0$ (variazione rispetto al portafoglio precedente) e $\th
 - Non negatività (long-only): $\;x_i \ge 0$.
 - Boundary per singolo asset: $\;l_i \le x_i \le u_i$ (limita la quota di ciascun titolo).
 - Settore: $\;\sum_{i\in S_j} x_i \le U_j$ (limita l'esposizione a un settore).
-- Leva massima: $\; \|w\|_1 \le \ell_{\max}$.
+- Leva massima: $\;\lVert w \rVert_1 \le \ell_{\max}$.
 - Tracking error (deviazione dal benchmark): $\;TE = \sqrt{x^T\Sigma x - 2x^T\Sigma x_b + x_b^T\Sigma x_b} \le TE_{\max}$.
 
 Note per i quiz:
@@ -452,12 +452,12 @@ Note per i quiz:
 
 ### Metodo esercizio (leva e costi)
 
-1. **Leva**: $ \|x\|_1 = \sum_i \|x_i\|$; verifica $ \|x\|_1 \le \ell_{\max}$.
-2. $\Delta x = x^\ast - x_0$; costo $= \theta\|\Delta x\|_1 = \theta\sum_i\|\Delta x_i\|$.
+1. **Leva**: $\lVert x \rVert_1 = \sum_i \lVert x_i \rVert$; verifica $\lVert x \rVert_1 \le \ell_{\max}$.
+2. $\Delta x = x^\ast - x_0$; costo $= \theta\lVert \Delta x \rVert_1 = \theta\sum_i\lVert \Delta x_i \rVert$.
 3. (Se richiesto) $r_p = x^T r$ e $\sigma_p^2 = x^T\Sigma x$.
 
 > **Esempio:** $x_0=(0.3,0.3,0.2,0.1,0.1)$, $x^\ast=(0.4,0.4,0.1,0.05,0.05)$, $\theta=0.02$, $\ell_{\max}=1.5$.
-> $\|x^\ast\|_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\|\Delta x\|_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
+> $\lVert x^\ast \rVert_1 = 1.0 < 1.5$ ✓. $\Delta x=(0.1,0.1,-0.1,-0.05,-0.05)$, $\lVert \Delta x \rVert_1 = 0.4$, costo $= 0.02\cdot0.4 = 0.008$.
 
 
 
