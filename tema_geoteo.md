@@ -170,7 +170,7 @@ Non è necessario per ereditare lo stile grafico, ma evita che *Kramdown* conver
 
 ### 2.3 Nessun Gemfile o plugin da installare
 
-Il tag `{% seo %}` usato nel layout richiede `jekyll-seo-tag`, ma è già incluso di default nella gem `github-pages` con cui GitHub-Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
+Il tag `{% raw %}{% seo %}{% endraw %}` usato nel layout richiede `jekyll-seo-tag` è già incluso di default nella gem `github-pages` con cui GitHub-Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
 
 
 ### 2.4 Abilitare GitHub-Pages
