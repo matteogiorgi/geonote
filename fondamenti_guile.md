@@ -202,10 +202,10 @@ $$\sum_{\substack{k=1 \\ k \text{ pari}}}^{n} k^2$$
 ```scheme
 (define (somma-quadrati-pari n)
   (fold +
-             0
-             (map quadrato
-                  (filter even?
-                          (iota n 1)))))   ; iota genera 1..n
+        0
+        (map quadrato
+             (filter even?
+                     (iota n 1)))))   ; iota genera 1..n
 
 (somma-quadrati-pari 6)   ; => 4 + 16 + 36 = 56
 ```
@@ -266,7 +266,7 @@ all'esterno.
   (let ((mu (media lst))
         (n  (length lst)))
     (/ (fold + 0
-                  (map (lambda (x) (quadrato (- x mu))) lst))
+             (map (lambda (x) (quadrato (- x mu))) lst))
        n)))
 ```
 
@@ -377,7 +377,7 @@ static void* inner_main(void* data) {
 }
 
 int main(int argc, char** argv) {
-  scm_boot_guile(argc, argv, &inner_main, NULL);
+    scm_boot_guile(argc, argv, &inner_main, NULL);
     return 0;
 }
 ```

@@ -27,7 +27,7 @@ package main
 import "fmt"
 
 func main() {
-    fmt.Println("Ciao, mondo!")
+	fmt.Println("Ciao, mondo!")
 }
 ```
 
@@ -37,13 +37,13 @@ func main() {
 ## 3. Variabili, costanti e tipi
 
 ```go
-var x int = 10          // dichiarazione esplicita
-y := 3.14               // dichiarazione breve con inferenza
-const Pi = 3.14159      // costante
+var x int = 10     // dichiarazione esplicita
+y := 3.14          // dichiarazione breve con inferenza
+const Pi = 3.14159 // costante
 
 var (
-    nome   string = "Go"
-    attivo bool   = true
+	nome   string = "Go"
+	attivo bool   = true
 )
 ```
 
@@ -71,28 +71,28 @@ Go ha un solo costrutto di ciclo: `for`.
 ```go
 // ciclo classico
 for i := 0; i < 5; i++ {
-    fmt.Println(i)
+	fmt.Println(i)
 }
 
 // come while
 n := 0
 for n < 3 {
-    n++
+	n++
 }
 
 // condizionale
 if v := calcola(); v > 0 {
-    fmt.Println("positivo")
+	fmt.Println("positivo")
 } else {
-    fmt.Println("non positivo")
+	fmt.Println("non positivo")
 }
 
 // switch (senza break implicito)
 switch giorno {
 case "sab", "dom":
-    fmt.Println("weekend")
+	fmt.Println("weekend")
 default:
-    fmt.Println("feriale")
+	fmt.Println("feriale")
 }
 ```
 
@@ -105,10 +105,10 @@ Le funzioni possono restituire più valori, caratteristica molto usata per la ge
 
 ```go
 func dividi(a, b float64) (float64, error) {
-    if b == 0 {
-        return 0, fmt.Errorf("divisione per zero")
-    }
-    return a / b, nil
+	if b == 0 {
+		return 0, fmt.Errorf("divisione per zero")
+	}
+	return a / b, nil
 }
 ```
 
@@ -116,11 +116,11 @@ Una funzione può essere una *closure* che cattura variabili dal proprio ambient
 
 ```go
 func contatore() func() int {
-    c := 0
-    return func() int {
-        c++
-        return c
-    }
+	c := 0
+	return func() int {
+		c++
+		return c
+	}
 }
 ```
 
@@ -130,13 +130,13 @@ func contatore() func() int {
 ## 6. Slice, array e mappe
 
 ```go
-arr := [3]int{1, 2, 3}          // array a lunghezza fissa
-s := []int{1, 2, 3}            // slice (dimensione dinamica)
+arr := [3]int{1, 2, 3} // array a lunghezza fissa
+s := []int{1, 2, 3}    // slice (dimensione dinamica)
 s = append(s, 4)
 
-m := map[string]int{"a": 1}    // mappa
+m := map[string]int{"a": 1} // mappa
 m["b"] = 2
-valore, ok := m["a"]          // ok è false se la chiave manca
+valore, ok := m["a"] // ok è false se la chiave manca
 ```
 
 Uno *slice* è composto da tre elementi: un puntatore ai dati, la lunghezza $\ell$ e la capacità $c$, con il vincolo:
@@ -158,17 +158,17 @@ $$
 
 ```go
 type Punto struct {
-    X, Y float64
+	X, Y float64
 }
 
 // metodo con receiver
 func (p Punto) Distanza() float64 {
-    return math.Sqrt(p.X*p.X + p.Y*p.Y)
+	return math.Sqrt(p.X*p.X + p.Y*p.Y)
 }
 
 // interfaccia: soddisfatta implicitamente
 type Forma interface {
-    Area() float64
+	Area() float64
 }
 ```
 
@@ -196,7 +196,7 @@ Go non usa eccezioni: gli errori sono valori restituiti esplicitamente.
 ```go
 risultato, err := dividi(10, 0)
 if err != nil {
-    log.Fatal(err)
+	log.Fatal(err)
 }
 fmt.Println(risultato)
 ```
@@ -205,12 +205,12 @@ Per situazioni irreversibili esistono `panic` e `recover`:
 
 ```go
 func sicura() {
-    defer func() {
-        if r := recover(); r != nil {
-            fmt.Println("recuperato:", r)
-        }
-    }()
-    panic("qualcosa è andato storto")
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("recuperato:", r)
+		}
+	}()
+	panic("qualcosa è andato storto")
 }
 ```
 
@@ -222,7 +222,7 @@ func sicura() {
 Una **goroutine** è un thread leggero gestito dal runtime di Go.
 
 ```go
-go faiQualcosa()   // avvia una goroutine
+go faiQualcosa() // avvia una goroutine
 ```
 
 I **canali** permettono la comunicazione sincronizzata tra goroutine.
@@ -231,10 +231,10 @@ I **canali** permettono la comunicazione sincronizzata tra goroutine.
 ch := make(chan int)
 
 go func() {
-    ch <- 42          // invia
+	ch <- 42 // invia
 }()
 
-v := <-ch             // riceve
+v := <-ch // riceve
 fmt.Println(v)
 ```
 
@@ -243,11 +243,11 @@ Esempio con `sync.WaitGroup` per attendere più goroutine:
 ```go
 var wg sync.WaitGroup
 for i := 0; i < 3; i++ {
-    wg.Add(1)
-    go func(n int) {
-        defer wg.Done()
-        fmt.Println("lavoro", n)
-    }(i)
+	wg.Add(1)
+	go func(n int) {
+		defer wg.Done()
+		fmt.Println("lavoro", n)
+	}(i)
 }
 wg.Wait()
 ```
@@ -280,17 +280,17 @@ package main
 import "fmt"
 
 func fibonacci(n int) int {
-    a, b := 0, 1
-    for i := 0; i < n; i++ {
-        a, b = b, a+b
-    }
-    return a
+	a, b := 0, 1
+	for i := 0; i < n; i++ {
+		a, b = b, a+b
+	}
+	return a
 }
 
 func main() {
-    for i := 0; i <= 10; i++ {
-        fmt.Printf("F(%d) = %d\n", i, fibonacci(i))
-    }
+	for i := 0; i <= 10; i++ {
+		fmt.Printf("F(%d) = %d\n", i, fibonacci(i))
+	}
 }
 ```
 
