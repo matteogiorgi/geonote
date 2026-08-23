@@ -45,19 +45,21 @@ $$
 
 (la composizione di due funzioni polinomiali è polinomiale). Questo è ciò che permette di costruire **catene** di riduzioni: una volta dimostrato che SAT è NP-completo, basta ridurre SAT a un nuovo problema $X$ per concludere che anche $X$ è NP-difficile.
 
-```r
-riduzione_esempio <- function(istanza_A) {
-    # Schema generale di una riduzione many-one:
-    # trasforma un'istanza di A in un'istanza di B in tempo polinomiale,
-    # preservando la risposta sì/no.
-    istanza_B <- trasforma(istanza_A)   # deve girare in tempo poly(length(istanza_A))
-    istanza_B
+```go
+type Istanza any
+
+func riduzioneEsempio(istanzaA Istanza) Istanza {
+	// Schema generale di una riduzione many-one:
+	// trasforma un'istanza di A in un'istanza di B in tempo polinomiale,
+	// preservando la risposta sì/no.
+	istanzaB := trasforma(istanzaA) // deve girare in tempo poly(len(istanzaA))
+	return istanzaB
 }
 
-# Se avessimo un risolutore per B, risolveremmo A così:
-risolvi_A_tramite_B <- function(istanza_A, risolvi_B) {
-    istanza_B <- riduzione_esempio(istanza_A)
-    risolvi_B(istanza_B)   # stessa risposta di "istanza_A in A?"
+// Se avessimo un risolutore per B, risolveremmo A così:
+func risolviATramiteB(istanzaA Istanza, risolviB func(Istanza) bool) bool {
+	istanzaB := riduzioneEsempio(istanzaA)
+	return risolviB(istanzaB) // stessa risposta di "istanzaA in A?"
 }
 ```
 
@@ -122,20 +124,28 @@ $$
 
 L'idea: se la clausola originale è vera grazie a $\ell_i$, si possono scegliere i valori delle $z_j$ in modo da "far passare" la verità lungo la catena.
 
-```r
-spezza_clausola <- function(letterali) {
-    # Trasforma una clausola di k letterali in clausole equivalenti di 3 letterali.
-    # Caso k <= 3 gestito a parte; qui il caso k > 3 (la catena di ausiliarie).
-    k <- length(letterali)
-    if (k <= 3) return(list(letterali))  # eventualmente da riempire per k=1,2 come sopra
+```go
+import "fmt"
 
-    z <- paste0("z", seq_len(k - 3))
-    clausole <- list(c(letterali[1], letterali[2], z[1]))
-    for (i in seq_len(k - 4)) {
-        clausole[[length(clausole) + 1]] <- c(paste0("~", z[i]), letterali[i + 2], z[i + 1])
-    }
-    clausole[[length(clausole) + 1]] <- c(paste0("~", z[length(z)]), letterali[k - 1], letterali[k])
-    clausole
+func spezzaClausola(letterali []string) [][]string {
+	// Trasforma una clausola di k letterali in clausole equivalenti di 3 letterali.
+	// Caso k <= 3 gestito a parte; qui il caso k > 3 (la catena di ausiliarie).
+	k := len(letterali)
+	if k <= 3 {
+		return [][]string{letterali} // eventualmente da riempire per k=1,2 come sopra
+	}
+
+	z := make([]string, k-3)
+	for i := range z {
+		z[i] = fmt.Sprintf("z%d", i+1)
+	}
+
+	clausole := [][]string{{letterali[0], letterali[1], z[0]}}
+	for i := 0; i < k-4; i++ {
+		clausole = append(clausole, []string{"~" + z[i], letterali[i+2], z[i+1]})
+	}
+	clausole = append(clausole, []string{"~" + z[len(z)-1], letterali[k-2], letterali[k-1]})
+	return clausole
 }
 ```
 
@@ -158,36 +168,65 @@ Data una formula 3-CNF con $m$ clausole $C_1, \dots, C_m$ (ciascuna con 3 letter
 
 **Intuizione**: una cricca di dimensione $m$ corrisponde a una scelta di un letterale vero per ciascuna clausola, tale che le scelte siano **coerenti** (mai $x$ e $\overline{x}$ entrambi scelti) — esattamente un'assegnazione soddisfacente.
 
-```r
-sat3_a_clique <- function(clausole) {
-    # clausole: lista di vettori di 3 letterali (stringhe, es. "x1", "~x1").
-    # Ritorna list(grafo, k) tale che la formula è soddisfacibile
-    # sse il grafo ha una cricca di dimensione k.
-    negazione <- function(lit) {
-        if (startsWith(lit, "~")) substring(lit, 2) else paste0("~", lit)
-    }
+```go
+import (
+	"fmt"
+	"sort"
+	"strings"
+)
 
-    nodi <- list()
-    for (i in seq_along(clausole)) {
-        for (j in seq_along(clausole[[i]])) {
-            nodi[[length(nodi) + 1]] <- c(i, j)
-        }
-    }
+type nodo struct {
+	i, j int
+}
 
-    archi <- list()
-    for (a in nodi) {
-        for (b in nodi) {
-            if (a[1] == b[1]) next   # stesso gruppo/clausola: mai collegati
-            l1 <- clausole[[a[1]]][a[2]]
-            l2 <- clausole[[b[1]]][b[2]]
-            if (l2 != negazione(l1)) {
-                chiave <- paste(sort(c(paste(a, collapse = "_"), paste(b, collapse = "_"))), collapse = "-")
-                archi[[chiave]] <- TRUE
-            }
-        }
-    }
+type grafoClique struct {
+	nodi  []nodo
+	archi []string
+}
 
-    list(grafo = list(nodi = nodi, archi = names(archi)), k = length(clausole))
+func negazione(lit string) string {
+	if strings.HasPrefix(lit, "~") {
+		return lit[1:]
+	}
+	return "~" + lit
+}
+
+func sat3AClique(clausole [][]string) (grafoClique, int) {
+	// clausole: lista di vettori di 3 letterali (stringhe, es. "x1", "~x1").
+	// Ritorna (grafo, k) tale che la formula è soddisfacibile
+	// sse il grafo ha una cricca di dimensione k.
+	var nodi []nodo
+	for i, clausola := range clausole {
+		for j := range clausola {
+			nodi = append(nodi, nodo{i, j})
+		}
+	}
+
+	archiSet := make(map[string]bool)
+	for _, a := range nodi {
+		for _, b := range nodi {
+			if a.i == b.i {
+				continue // stesso gruppo/clausola: mai collegati
+			}
+			l1 := clausole[a.i][a.j]
+			l2 := clausole[b.i][b.j]
+			if l2 != negazione(l1) {
+				coppia := []string{
+					fmt.Sprintf("%d_%d", a.i, a.j),
+					fmt.Sprintf("%d_%d", b.i, b.j),
+				}
+				sort.Strings(coppia)
+				archiSet[strings.Join(coppia, "-")] = true
+			}
+		}
+	}
+
+	var archi []string
+	for chiave := range archiSet {
+		archi = append(archi, chiave)
+	}
+
+	return grafoClique{nodi: nodi, archi: archi}, len(clausole)
 }
 ```
 
@@ -208,23 +247,36 @@ $$
 
 **Perché funziona**: $S$ è una cricca in $G$ (ogni coppia di nodi di $S$ è collegata in $G$) se e solo se **nessun arco di $\overline{G}$ ha entrambi gli estremi in $S$** — per costruzione del complemento, due nodi collegati in $G$ non lo sono in $\overline{G}$. Questo equivale a dire che **ogni arco di $\overline{G}$ ha almeno un estremo in $V \setminus S$**, cioè che $V \setminus S$ è un vertex cover di $\overline{G}$ di dimensione $\|V\| - k$.
 
-```r
-clique_a_vertex_cover <- function(grafo, k) {
-    nodi <- grafo$nodi
-    id <- function(n) paste(n, collapse = "_")
+```go
+func cliqueAVertexCover(grafo grafoClique, k int) (grafoClique, int) {
+	nodi := grafo.nodi
+	id := func(n nodo) string {
+		return fmt.Sprintf("%d_%d", n.i, n.j)
+	}
 
-    tutte_le_coppie <- character(0)
-    for (i in seq_along(nodi)) {
-        if (i == length(nodi)) break
-        for (j in (i + 1):length(nodi)) {
-            chiave <- paste(sort(c(id(nodi[[i]]), id(nodi[[j]]))), collapse = "-")
-            tutte_le_coppie <- c(tutte_le_coppie, chiave)
-        }
-    }
+	var tutteLeCoppie []string
+	for i := 0; i < len(nodi); i++ {
+		for j := i + 1; j < len(nodi); j++ {
+			coppia := []string{id(nodi[i]), id(nodi[j])}
+			sort.Strings(coppia)
+			tutteLeCoppie = append(tutteLeCoppie, strings.Join(coppia, "-"))
+		}
+	}
 
-    archi_complemento <- setdiff(tutte_le_coppie, grafo$archi)
-    k_cover <- length(nodi) - k
-    list(grafo = list(nodi = nodi, archi = archi_complemento), k = k_cover)
+	archiOriginali := make(map[string]bool)
+	for _, a := range grafo.archi {
+		archiOriginali[a] = true
+	}
+
+	var archiComplemento []string
+	for _, chiave := range tutteLeCoppie {
+		if !archiOriginali[chiave] {
+			archiComplemento = append(archiComplemento, chiave)
+		}
+	}
+
+	kCover := len(nodi) - k
+	return grafoClique{nodi: nodi, archi: archiComplemento}, kCover
 }
 ```
 
@@ -248,12 +300,12 @@ Questo è ciò che rende SAT il "capostipite" da cui si dimostrano NP-completi t
 
 Le riduzioni non servono solo a dimostrare difficoltà: sono anche lo strumento standard per **riusare algoritmi già noti**. Esempio classico: *2-SAT* (clausole con esattamente 2 letterali) è in **P**, non NP-completo come 3-SAT — si riduce in tempo polinomiale al problema di trovare le componenti fortemente connesse in un grafo di implicazioni, risolvibile in $O(n+m)$.
 
-```r
-letterale_implica <- function(lit) {
-    # In 2-SAT, (a ∨ b) equivale a (¬a ⟹ b) ∧ (¬b ⟹ a):
-    # si costruisce un grafo di implicazioni e si verifica che nessuna
-    # variabile e la sua negazione stiano nella stessa componente fortemente connessa.
-    NULL  # riduzione a "raggiungibilità in un grafo", problema in P
+```go
+func letteraleImplica(lit string) any {
+	// In 2-SAT, (a ∨ b) equivale a (¬a ⟹ b) ∧ (¬b ⟹ a):
+	// si costruisce un grafo di implicazioni e si verifica che nessuna
+	// variabile e la sua negazione stiano nella stessa componente fortemente connessa.
+	return nil // riduzione a "raggiungibilità in un grafo", problema in P
 }
 ```
 

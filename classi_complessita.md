@@ -80,29 +80,46 @@ $$
 - Test di primalità (algoritmo AKS, polinomiale — anche se in pratica si usano test probabilistici più veloci).
 - Programmazione lineare (algoritmo dell'ellissoide / punti interni).
 
-```r
-dijkstra_esiste_cammino <- function(grafo, sorgente, destinazione) {
-    # Verifica raggiungibilità con costo minimo: versione base O(V^2), quindi comunque in P.
-    dist <- setNames(rep(Inf, length(grafo)), names(grafo))
-    dist[sorgente] <- 0
-    visitati <- character(0)
+```go
+import "math"
 
-    repeat {
-        candidati <- setdiff(names(dist)[is.finite(dist)], visitati)
-        if (length(candidati) == 0) break
-        u <- candidati[which.min(dist[candidati])]
-        if (u == destinazione) return(TRUE)
-        visitati <- c(visitati, u)
+func dijkstraEsisteCammino(grafo map[string]map[string]float64, sorgente, destinazione string) bool {
+	// Verifica raggiungibilità con costo minimo: versione base O(V^2), quindi comunque in P.
+	dist := make(map[string]float64)
+	for nodo := range grafo {
+		dist[nodo] = math.Inf(1)
+	}
+	dist[sorgente] = 0
+	visitati := make(map[string]bool)
 
-        for (v in names(grafo[[u]])) {
-            nd <- dist[u] + grafo[[u]][v]
-            if (nd < dist[v]) dist[v] <- nd
-        }
-    }
-    unname(is.finite(dist[destinazione]))
+	for {
+		u := ""
+		migliore := math.Inf(1)
+		for nodo, d := range dist {
+			if !visitati[nodo] && d < migliore {
+				migliore = d
+				u = nodo
+			}
+		}
+		if u == "" {
+			break
+		}
+		if u == destinazione {
+			return true
+		}
+		visitati[u] = true
+
+		for v, peso := range grafo[u] {
+			nd := dist[u] + peso
+			if nd < dist[v] {
+				dist[v] = nd
+			}
+		}
+	}
+	return !math.IsInf(dist[destinazione], 1)
 }
 
-# Esempio: grafo <- list(A = c(B = 1, C = 4), B = c(C = 1), C = c())
+// Esempio: grafo := map[string]map[string]float64{"A": {"B": 1, "C": 4}, "B": {"C": 1}, "C": {}}
 ```
 
 
@@ -129,22 +146,32 @@ In parole: NP raccoglie i problemi per cui, **se qualcuno ti suggerisce la soluz
 - **Clique**: esiste in un grafo una cricca (sottografo completo) di almeno $k$ nodi? (Certificato: l'insieme di $k$ nodi.)
 - **Commesso viaggiatore, TSP (versione decisionale)**: esiste un percorso che tocca tutte le città con costo $\le k$? (Certificato: il percorso.)
 
-```r
-verifica_clique <- function(grafo, sottoinsieme) {
-    # Verificatore in O(k^2): dato un candidato, controlla che sia una cricca.
-    # Trovare il sottoinsieme da zero è invece il problema NP-difficile.
-    nodi <- sottoinsieme
-    for (i in seq_along(nodi)) {
-        if (i == length(nodi)) break
-        for (j in (i + 1):length(nodi)) {
-            if (!(nodi[j] %in% grafo[[nodi[i]]])) return(FALSE)
-        }
-    }
-    TRUE
+```go
+func verificaClique(grafo map[string][]string, sottoinsieme []string) bool {
+	// Verificatore in O(k^2): dato un candidato, controlla che sia una cricca.
+	// Trovare il sottoinsieme da zero è invece il problema NP-difficile.
+	nodi := sottoinsieme
+	for i := 0; i < len(nodi); i++ {
+		for j := i + 1; j < len(nodi); j++ {
+			if !contiene(grafo[nodi[i]], nodi[j]) {
+				return false
+			}
+		}
+	}
+	return true
 }
 
-# Esempio: grafo <- list(A = c("B", "C"), B = c("A", "C"), C = c("A", "B"))
-# verifica_clique(grafo, c("A", "B", "C"))  # TRUE
+func contiene(lista []string, elemento string) bool {
+	for _, v := range lista {
+		if v == elemento {
+			return true
+		}
+	}
+	return false
+}
+
+// Esempio: grafo := map[string][]string{"A": {"B", "C"}, "B": {"A", "C"}, "C": {"A", "B"}}
+// verificaClique(grafo, []string{"A", "B", "C"})  // true
 ```
 
 Nota bene: $\mathrm{P} \subseteq \mathrm{NP}$ sempre (ogni problema risolvibile in fretta è anche verificabile in fretta, ignorando il certificato). La domanda **$\mathrm{P} \stackrel{?}{=} \mathrm{NP}$** è il problema aperto più famoso dell'informatica teorica (uno dei [Millennium Prize Problems](https://www.claymath.org/millennium-problems)).
