@@ -42,6 +42,8 @@ $$
 
 Ad esempio, un algoritmo $O(2^n)$ diventa inutilizzabile molto prima di uno $O(n^k)$ al crescere di $n$, anche se per $n$ piccoli può sembrare competitivo.
 
+Questa notazione descrive *quanto* cresce un costo, ma non dice *rispetto a cosa* lo si sta misurando: lo stesso algoritmo ha in genere un costo diverso nel caso pessimo, ottimo o medio, e le strutture dati con operazioni di costo variabile si analizzano con il costo ammortizzato. Questi quattro modi di misurare il costo sono trattati in dettaglio, con esempi, in **[costo_algoritmi.md](costo_algoritmi.md)**.
+
 
 
 
