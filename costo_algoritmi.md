@@ -17,7 +17,7 @@ Quando si dice che un algoritmo "costa" $O(n^2)$ ci si sta in realtà riferendo 
 
 ## 1. Perché un solo numero non basta
 
-Fissiamo la notazione: un algoritmo riceve un'istanza $I$ (un input concreto) di dimensione $n = |I|$, e $T(I)$ è il numero di passi elementari eseguiti su quella specifica istanza. Il problema è che, per una dimensione $n$ fissata, esistono **molte** istanze diverse, e $T(I)$ può variare parecchio tra loro.
+Fissiamo la notazione: un algoritmo riceve un'istanza $I$ (un input concreto) di dimensione $n = \|I\|$, e $T(I)$ è il numero di passi elementari eseguiti su quella specifica istanza. Il problema è che, per una dimensione $n$ fissata, esistono **molte** istanze diverse, e $T(I)$ può variare parecchio tra loro.
 
 Sia $I_n = \{\, I \mid \|I\| = n \,\}$ l'insieme di tutte le istanze di dimensione $n$. Le quattro nozioni di costo sono quattro modi diversi di trasformare l'insieme di valori $\{T(I) : I \in I_n\}$ in un unico numero $T(n)$:
 
@@ -115,7 +115,7 @@ $$
 T_{\text{medio}}(n) = \sum_{I \in I_n} \Pr[I] \cdot T(I) = \mathbb{E}_{I \sim D}\big[T(I)\big]
 $$
 
-A differenza dei primi due, il caso medio **non è definito univocamente dal problema**: bisogna prima scegliere (o assumere) una distribuzione $D$ sugli input di dimensione $n$. La scelta più comune, quando non c'è altra informazione, è la distribuzione **uniforme**: $\Pr[I] = 1/|I_n|$ per ogni $I$. È il costo più informativo per capire il comportamento "tipico" di un algoritmo, ma è anche il più delicato da calcolare — e i risultati valgono solo per la distribuzione assunta (un input patologico, anche raro, resta possibile: il caso medio non sostituisce il caso pessimo).
+A differenza dei primi due, il caso medio **non è definito univocamente dal problema**: bisogna prima scegliere (o assumere) una distribuzione $D$ sugli input di dimensione $n$. La scelta più comune, quando non c'è altra informazione, è la distribuzione **uniforme**: $\Pr[I] = 1/\|I_n\|$ per ogni $I$. È il costo più informativo per capire il comportamento "tipico" di un algoritmo, ma è anche il più delicato da calcolare — e i risultati valgono solo per la distribuzione assunta (un input patologico, anche raro, resta possibile: il caso medio non sostituisce il caso pessimo).
 
 **Esempio (facile) — ricerca lineare:** assumiamo che `x` sia presente nell'array e che la sua posizione sia **uniforme** tra le $n$ posizioni possibili (probabilità $1/n$ ciascuna). Se `x` è in posizione $k$ (da $1$ a $n$), il costo è $k$ confronti.
 
@@ -194,7 +194,7 @@ $$
 \hat{c} = \frac{T(m)}{m}
 $$
 
-**Esempio (medio) — vettore dinamico che raddoppia la capacità.** È la struttura dietro `ArrayList`/`std::vector`/l'`append` di Go: quando l'array interno è pieno, se ne alloca uno **doppio** e si copiano gli elementi esistenti.
+**Esempio (medio) — vettore dinamico che raddoppia la capacità.** È la struttura dietro `ArrayList` di *Java*, `std::vector` di *C++* o `append` di *Go*: quando l'array interno è pieno, se ne alloca uno **doppio** e si copiano gli elementi esistenti.
 
 ```go
 type VettoreDinamico struct {
