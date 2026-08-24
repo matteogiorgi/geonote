@@ -15,4 +15,5 @@
 
 <hr style="width: 20%; margin: 2rem auto;">
 
+- **[Numero alberi binari di ricerca](problema_bst.md)**: ricorsione, DP, forma chiusa e numeri di Catalan.
 - **[Fibonacci](problema_fibonacci.md)**: ricorsione diretta, programmazione dinamica *top-down* (memoization) e *bottom-up*.

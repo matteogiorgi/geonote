@@ -36,7 +36,7 @@ Il codice è corretto ma lento, perché ricalcola più volte gli stessi sottopro
 
 ```go
 func fibonacciTraced(n, profondita int) int {
-	fmt.Printf("%sfibonacci(%d) chiamata\n", strings.Repeat("  ", profondita), n)
+	fmt.Printf("%sfibonacci(%d) chiamata\n", strings.Repeat("    ", profondita), n)
 	if n <= 2 {
 		return 1
 	}
@@ -48,20 +48,20 @@ A differenza di Python, Go non permette di leggere la profondità dello stack a 
 
 ```
 fibonacci(6) chiamata
-  fibonacci(5) chiamata
+    fibonacci(5) chiamata
+        fibonacci(4) chiamata
+            fibonacci(3) chiamata
+                fibonacci(2) chiamata
+                fibonacci(1) chiamata
+            fibonacci(2) chiamata
+        fibonacci(3) chiamata
+            fibonacci(2) chiamata
+            fibonacci(1) chiamata
     fibonacci(4) chiamata
-      fibonacci(3) chiamata
+        fibonacci(3) chiamata
+            fibonacci(2) chiamata
+            fibonacci(1) chiamata
         fibonacci(2) chiamata
-        fibonacci(1) chiamata
-      fibonacci(2) chiamata
-    fibonacci(3) chiamata
-      fibonacci(2) chiamata
-      fibonacci(1) chiamata
-  fibonacci(4) chiamata
-    fibonacci(3) chiamata
-      fibonacci(2) chiamata
-      fibonacci(1) chiamata
-    fibonacci(2) chiamata
 ```
 
 Sono 15 chiamate solo per calcolare $F(6)$. Il grafo delle chiamate rende evidente il perché: `fibonacci(4)` viene chiamata 2 volte, `fibonacci(3)` 3 volte, `fibonacci(2)` 5 volte e `fibonacci(1)` 3 volte.
