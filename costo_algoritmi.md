@@ -7,9 +7,9 @@ Quando si dice che un algoritmo "costa" $O(n^2)$ ci si sta in realtà riferendo 
 
 ## Mappa: cosa serve per cosa
 
-- **Caso pessimo (worst-case)** → la garanzia più forte e la più usata: un limite che vale *sempre*, qualunque sia l'input.
-- **Caso ottimo (best-case)** → utile soprattutto come termine di paragone o per algoritmi "adattivi" che sfruttano input già favorevoli.
-- **Caso medio (average-case)** → richiede di fissare una **distribuzione di probabilità** sugli input; risponde alla domanda "cosa mi aspetto, in pratica?".
+- **Caso pessimo** → la garanzia più forte e la più usata: un limite che vale *sempre*, qualunque sia l'input.
+- **Caso ottimo** → utile soprattutto come termine di paragone o per algoritmi "adattivi" che sfruttano input già favorevoli.
+- **Caso medio** → richiede di fissare una **distribuzione di probabilità** sugli input; risponde alla domanda "cosa mi aspetto, in pratica?".
 - **Costo ammortizzato** → non riguarda una singola chiamata né una distribuzione casuale, ma il costo medio **su una sequenza di operazioni**, garantito nel caso peggiore su quella sequenza. Si dimostra con tre tecniche equivalenti: metodo **aggregato**, metodo **a scala (accounting)**, metodo del **potenziale**.
 
 

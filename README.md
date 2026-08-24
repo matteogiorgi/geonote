@@ -1,9 +1,5 @@
 # Geonote
 
-<p align="center">
-	<img src="mario.gif" alt="Mario" style="display:block;width:100%;height:auto;margin-top:48px;border:5px solid var(--link);border-radius:12px;box-sizing:border-box;">
-</p>
-
 - **[Riduzioni](riduzioni.md)**: riduzioni many-one e di Turing, SAT → 3-SAT → Clique → Vertex Cover, teorema di Cook-Levin.
 - **[Classi di complessità](classi_complessita.md)**: notazione asintotica, MdT, P, NP, co-NP, NP-completezza, PSPACE, EXPTIME.
 - **[Costo di un algoritmo](costo_algoritmi.md)**: caso pessimo, ottimo, medio e ammortizzato (aggregato, a scala, potenziale).
@@ -13,3 +9,6 @@
 - **[Fondamenti _R_](fondamenti_r.md)**: elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
 - **[Geoteo _CSS_](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 
+<p align="center">
+	<img src="mario.gif" alt="Mario" style="display:block;width:100%;height:auto;margin-top:48px;border:5px solid var(--link);border-radius:12px;box-sizing:border-box;">
+</p>
