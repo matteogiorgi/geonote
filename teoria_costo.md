@@ -1,6 +1,6 @@
 # Costo di un algoritmo
 
-Quando si dice che un algoritmo "costa" $O(n^2)$ ci si sta in realtà riferendo a **una specifica convenzione** su come misurare il costo, perché lo stesso algoritmo può comportarsi in modo molto diverso a seconda dell'input. La **teoria della complessità computazionale** (vedi [classi_complessita.md](classi_complessita.md) per la notazione asintotica $O$, $\Omega$, $\Theta$ usata qui) dice *quanto* cresce un costo; questo documento tratta *rispetto a cosa* lo si misura: il caso peggiore, il caso migliore, il caso medio, oppure il costo medio su una sequenza di operazioni (ammortizzato).
+Quando si dice che un algoritmo "costa" $O(n^2)$ ci si sta in realtà riferendo a **una specifica convenzione** su come misurare il costo, perché lo stesso algoritmo può comportarsi in modo molto diverso a seconda dell'input. La **teoria della complessità computazionale** (vedi [teoria_complessita.md](teoria_complessita.md) per la notazione asintotica $O$, $\Omega$, $\Theta$ usata qui) dice *quanto* cresce un costo; questo documento tratta *rispetto a cosa* lo si misura: il caso peggiore, il caso migliore, il caso medio, oppure il costo medio su una sequenza di operazioni (ammortizzato).
 
 
 

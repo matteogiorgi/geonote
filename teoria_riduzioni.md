@@ -1,6 +1,6 @@
 # Riduzioni tra problemi
 
-Le **riduzioni** sono lo strumento con cui si confronta la difficoltà di due problemi diversi, e sono il meccanismo alla base delle dimostrazioni di **NP-completezza** introdotte in [classi_complessita.md](classi_complessita.md). Intuitivamente: *ridurre $A$ a $B$* significa mostrare che, avendo a disposizione un modo per risolvere $B$, si può risolvere anche $A$ senza troppo sforzo aggiuntivo.
+Le **riduzioni** sono lo strumento con cui si confronta la difficoltà di due problemi diversi, e sono il meccanismo alla base delle dimostrazioni di **NP-completezza** introdotte in [teoria_complessita.md](teoria_complessita.md). Intuitivamente: *ridurre $A$ a $B$* significa mostrare che, avendo a disposizione un modo per risolvere $B$, si può risolvere anche $A$ senza troppo sforzo aggiuntivo.
 
 
 
@@ -89,7 +89,7 @@ Ogni riduzione many-one è anche una riduzione di Turing (basta chiamare l'oraco
 
 Schema standard, sempre in due passi:
 
-1. **Appartenenza a NP**: si esibisce un certificato $y$ e un verificatore polinomiale $V(x, y)$ (vedi [classi_complessita.md § 4](classi_complessita.md)).
+1. **Appartenenza a NP**: si esibisce un certificato $y$ e un verificatore polinomiale $V(x, y)$ (vedi [teoria_complessita.md § 4](teoria_complessita.md)).
 2. **NP-difficoltà**: si sceglie un problema **già noto** NP-completo (es. SAT) e si costruisce una riduzione polinomiale da esso al problema target.
 
 Non serve mai ridurre *da tutti* i problemi di NP: basta ridurre da **uno solo** già dimostrato NP-completo, grazie alla transitività di $\le_p$.
@@ -230,7 +230,7 @@ func sat3AClique(clausole [][]string) (grafoClique, int) {
 }
 ```
 
-Anche qui la costruzione è polinomiale ($O(m^2)$ archi al più), quindi **Clique è NP-completo** (appartenenza a NP già mostrata in [classi_complessita.md § 4](classi_complessita.md)).
+Anche qui la costruzione è polinomiale ($O(m^2)$ archi al più), quindi **Clique è NP-completo** (appartenenza a NP già mostrata in [teoria_complessita.md § 4](teoria_complessita.md)).
 
 
 
@@ -334,4 +334,4 @@ $$
 
 > I primi tre passaggi sono costruiti passo-passo nei §5–§7; gli ultimi due (non trattati qui) seguono lo stesso schema generale.
 
-> Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi **[classi_complessita.md](classi_complessita.md)**.
+> Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi **[teoria_complessita.md](teoria_complessita.md)**.

@@ -10,7 +10,7 @@ La **teoria della complessità computazionale** classifica i problemi in base al
 - **Notazione asintotica** ($O$, $\Omega$, $\Theta$) → per parlare di crescita del tempo/spazio ignorando le costanti.
 - **Macchina di Turing (deterministica e non deterministica)** → il modello formale su cui si definiscono le classi.
 - **P, NP, co-NP** → le classi centrali per i problemi "trattabili" e "verificabili in fretta".
-- **NP-completezza** → i problemi più difficili di NP; per dimostrarla servono le **riduzioni**, trattate in dettaglio in [riduzioni.md](riduzioni.md).
+- **NP-completezza** → i problemi più difficili di NP; per dimostrarla servono le **riduzioni**, trattate in dettaglio in [teoria_riduzioni.md](teoria_riduzioni.md).
 - **PSPACE, EXPTIME** → classi più ampie, per problemi che richiedono più spazio o tempo esponenziale.
 
 
@@ -42,7 +42,7 @@ $$
 
 Ad esempio, un algoritmo $O(2^n)$ diventa inutilizzabile molto prima di uno $O(n^k)$ al crescere di $n$, anche se per $n$ piccoli può sembrare competitivo.
 
-Questa notazione descrive *quanto* cresce un costo, ma non dice *rispetto a cosa* lo si sta misurando: lo stesso algoritmo ha in genere un costo diverso nel caso pessimo, ottimo o medio, e le strutture dati con operazioni di costo variabile si analizzano con il costo ammortizzato. Questi quattro modi di misurare il costo sono trattati in dettaglio, con esempi, in **[costo_algoritmi.md](costo_algoritmi.md)**.
+Questa notazione descrive *quanto* cresce un costo, ma non dice *rispetto a cosa* lo si sta misurando: lo stesso algoritmo ha in genere un costo diverso nel caso pessimo, ottimo o medio, e le strutture dati con operazioni di costo variabile si analizzano con il costo ammortizzato. Questi quattro modi di misurare il costo sono trattati in dettaglio, con esempi, in **[teoria_costo.md](teoria_costo.md)**.
 
 
 
@@ -190,7 +190,7 @@ I problemi NP-completi sono, informalmente, i "più difficili" di NP: se se ne t
 
 Il **teorema di Cook-Levin** (1971) dimostra che **SAT è NP-completo** — è stato il primo problema per cui si è dimostrata questa proprietà, ed è la base da cui si dimostrano NP-completi tutti gli altri (tramite riduzioni a catena).
 
-> La costruzione delle riduzioni, con esempi passo-passo (SAT → 3-SAT → Clique → Vertex Cover → ...), è approfondita in **[riduzioni.md](riduzioni.md)**.
+> La costruzione delle riduzioni, con esempi passo-passo (SAT → 3-SAT → Clique → Vertex Cover → ...), è approfondita in **[teoria_riduzioni.md](teoria_riduzioni.md)**.
 
 **Esempi di problemi NP-completi:** SAT, 3-SAT, Clique, Vertex Cover, Hamiltonian Cycle, commesso viaggiatore (decisionale), Subset Sum, coloring di grafi ($k \ge 3$).
 
@@ -265,4 +265,4 @@ $$
 L \text{ NP-completo} \iff L \in \mathrm{NP} \ \wedge \ \forall L' \in \mathrm{NP},\ L' \le_p L
 $$
 
-> Il simbolo $\le_p$ (riduzione polinomiale) è definito e usato estesamente in **[riduzioni.md](riduzioni.md)**.
+> Il simbolo $\le_p$ (riduzione polinomiale) è definito e usato estesamente in **[teoria_riduzioni.md](teoria_riduzioni.md)**.
