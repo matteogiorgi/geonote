@@ -146,7 +146,7 @@ La dichiarazione `var fib func(int) int` seguita dall'assegnazione è necessaria
 
 ### Un `Memoize` generico e riutilizzabile
 
-Il problema della versione 2.2 è che lo schema (cache + wrapper) va riscritto per ogni funzione da memoizzare. Con i *generics* (da Go 1.18) si scrive una volta sola:
+Il problema della versione con [cache incapsulata in una chiusura](#cache-incapsulata-in-una-chiusura) è che lo schema (cache + wrapper) va riscritto per ogni funzione da memoizzare. Con i *generics* (da Go 1.18) si scrive una volta sola:
 
 ```go
 func Memoize[K comparable, V any](f func(K) V) func(K) V {
