@@ -4,6 +4,7 @@
 	<img src="mario.gif" alt="Mario" style="display:block;width:100%;height:auto;margin-bottom:48px;border:5px solid var(--link);border-radius:12px;box-sizing:border-box;">
 </p>
 
+- **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
 - **[Riduzioni](teoria_riduzioni.md)**: many-one e di Turing, SAT → 3-SAT → Clique → Vertex Cover, teorema di Cook-Levin.
 - **[Classi di complessità](teoria_complessita.md)**: notazione asintotica, MdT, P, NP, co-NP, NP-completezza, PSPACE, EXPTIME.
 - **[Costo di un algoritmo](teoria_costo.md)**: caso pessimo, ottimo, medio e ammortizzato (aggregato, a scala, potenziale).
