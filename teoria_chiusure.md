@@ -86,11 +86,15 @@ $$
 
 dove `code` è un puntatore al codice compilato della funzione e $\rho$ (*rho*, notazione classica per un ambiente) è un **record d'ambiente**: una struttura dati che associa ogni variabile libera al proprio valore (o, più spesso, a una *cella* che lo contiene — vedi [§6](#6-binding-vs-cella)).
 
+<div markdown="1" align="center">
+
 ```mermaid
 flowchart LR
     cl["closure"] --> code["code — puntatore alla funzione compilata"]
     cl --> env["ρ — record d'ambiente: { c ↦ 0 }"]
 ```
+
+</div>
 
 La trasformazione che rende esplicita questa coppia si chiama **closure conversion** (o *lambda lifting* nella sua forma più aggressiva, che elimina del tutto le funzioni annidate riscrivendole come funzioni top-level con un parametro d'ambiente esplicito in più). È un passo standard nella compilazione dei linguaggi funzionali, ed è precisamente ciò che si fa **a mano** quando si emula una chiusura in un linguaggio che non la offre nativamente: si veda la sezione su [C](#13-c--lassenza-che-rivela-limplementazione), dove la struct `contesto` e il puntatore a funzione *sono* `code` e $\rho$ resi espliciti, e quella su [Java pre-8](#14-java--reificazione-dellambiente-in-un-oggetto), dove $\rho$ diventa i campi di un oggetto.
 
