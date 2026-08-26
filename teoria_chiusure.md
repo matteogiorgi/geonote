@@ -89,6 +89,7 @@ dove `code` è un puntatore al codice compilato della funzione e $\rho$ (*rho*, 
 <div markdown="1" align="center">
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 500}}}%%
 flowchart LR
     cl["closure"] --> code["code — puntatore alla funzione compilata"]
     cl --> env["ρ — record d'ambiente: { c ↦ 0 }"]
