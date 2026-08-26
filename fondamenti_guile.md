@@ -41,7 +41,7 @@ L'espressione `(* (+ 1 2) (- 5 1))` corrisponde all'espressione matematica:
 
 $$(1 + 2) \times (5 - 1) = 3 \times 4 = 12$$
 
-Il fatto che **codice e dati abbiano la stessa forma** (una lista) è la proprietà di
+Il fatto che codice e dati abbiano la stessa forma (una lista) è la proprietà di
 *omoiconicità*, che rende le macro estremamente potenti.
 
 
@@ -237,7 +237,7 @@ igieniche**. `syntax-rules` è il meccanismo più semplice.
 ;; Stampa 0, 1, 2
 ```
 
-Le macro operano a **tempo di compilazione** e sono *igieniche*: non catturano
+Le macro operano a tempo di compilazione e sono igieniche: non catturano
 accidentalmente i nomi di variabili del contesto in cui vengono espanse.
 
 

@@ -140,7 +140,7 @@ C'è una caratterizzazione **equivalente e più intuitiva**, basata sulla verifi
 > $L \in \mathrm{NP}$ se e solo se esiste un **certificato** (o "prova") $y$, di lunghezza polinomiale in $n$, e un **verificatore deterministico polinomiale** $V$ tale che:
 > $$x \in L \iff \exists\, y,\ |y| = O(n^k),\ V(x, y) = 1$$
 
-In parole: NP raccoglie i problemi per cui, **se qualcuno ti suggerisce la soluzione**, puoi verificarla velocemente — anche se trovarla da zero può essere molto costoso.
+In parole: NP raccoglie i problemi per cui, se qualcuno ti suggerisce la soluzione, puoi verificarla velocemente — anche se trovarla da zero può essere molto costoso.
 
 **Esempi di problemi in NP:**
 

@@ -184,7 +184,7 @@ $$
 d(P_1, P_2) = \sqrt{(x_2 - x_1)^{2} + (y_2 - y_1)^{2}}
 $$
 
-Le interfacce in Go sono **implicite**: un tipo le implementa semplicemente definendo i metodi richiesti, senza dichiarazione esplicita.
+Le interfacce in Go sono *implicite*: un tipo le implementa semplicemente definendo i metodi richiesti, senza dichiarazione esplicita.
 
 
 
@@ -254,7 +254,7 @@ wg.Wait()
 
 Il modello di concorrenza si ispira alla teoria dei **Communicating Sequential Processes (CSP)**. Il motto idiomatico è:
 
-> *"Non comunicare condividendo la memoria; condividi la memoria comunicando."*
+> "Non comunicare condividendo la memoria; condividi la memoria comunicando."
 
 
 

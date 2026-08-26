@@ -50,7 +50,7 @@ Le due viste non sono in conflitto: la prima dice *cosa* un tipo denota, la seco
 
 Un sistema di tipi non è un ostacolo burocratico prima di poter eseguire un programma: è uno strumento che paga in almeno quattro modi diversi.
 
-**Sicurezza.** Cattura una classe intera di errori prima che si manifestino — l'affermazione di Robin Milner, "*well-typed programs don't go wrong*" (1978), diventerà precisa nel [§6](#6-giudizi-di-tipo-e-soundness): "andare storto" ha un significato tecnico (eseguire un'operazione su un valore che non sa gestirla, tipo il classico "chiamare un metodo che non esiste"), non "il programma si ferma o lancia un'eccezione gestita" in generale.
+**Sicurezza.** Cattura una classe intera di errori prima che si manifestino — l'affermazione di Robin Milner, "well-typed programs don't go wrong" (1978), diventerà precisa nel [§6](#6-giudizi-di-tipo-e-soundness): "andare storto" ha un significato tecnico (eseguire un'operazione su un valore che non sa gestirla, tipo il classico "chiamare un metodo che non esiste"), non "il programma si ferma o lancia un'eccezione gestita" in generale.
 
 **Documentazione eseguibile.** La firma `parseInt : string -> int option` dice, senza bisogno di leggere l'implementazione, che la funzione può fallire (torna un `option`) e che si aspetta una stringa. A differenza di un commento, una firma di tipo non può mentire: se il compilatore l'accetta, è vera per costruzione — un contratto verificato, non solo dichiarato.
 
@@ -65,11 +65,11 @@ Un sistema di tipi non è un ostacolo burocratico prima di poter eseguire un pro
 
 Due domande, spesso confuse tra loro, danno origine a due assi indipendenti.
 
-**Statico vs dinamico** risponde a *quando* avviene il controllo dei tipi: a compile-time, prima di eseguire una singola istruzione (statico), oppure a runtime, sul valore concreto che una variabile assume in quel momento (dinamico). È strettamente legato alla distinzione tra *manifest typing* (il tipo è dichiarato o inferito nel testo del programma, come in OCaml o Java) e *latent typing* (il tipo esiste solo nel valore a runtime, come in Guile o R): un linguaggio dinamico è quasi sempre anche latently typed, perché non c'è altro posto dove il tipo potrebbe vivere.
+**Statico vs dinamico** risponde a *quando* avviene il controllo dei tipi: a compile-time, prima di eseguire una singola istruzione (statico), oppure a runtime, sul valore concreto che una variabile assume in quel momento (dinamico). È strettamente legato alla distinzione tra *manifest typing* (il tipo è dichiarato o inferito nel testo del programma, come in OCaml o Java) e *latent typing* (il tipo esiste solo nel valore a runtime, come in Guile o R): un linguaggio dinamico è quasi sempre anche *latently typed*, perché non c'è altro posto dove il tipo potrebbe vivere.
 
 **Forte vs debole** risponde a *quanto* il linguaggio permette coercizioni implicite tra tipi diversi — sommare una stringa e un numero senza dirlo esplicitamente, reinterpretare i bit di un valore come se fossero un altro tipo. È un termine volutamente sfumato e contestato in letteratura (non esiste una definizione operativa universalmente accettata, a differenza di statico/dinamico); qui lo si usa nel senso pratico e diffuso di "quante conversioni implicite e silenziose il linguaggio compie al posto tuo".
 
-Il punto pedagogico centrale è che questi due assi sono **ortogonali**: sapere che un linguaggio è statico non dice nulla sul fatto che sia forte o debole, e viceversa.
+Il punto pedagogico centrale è che questi due assi sono *ortogonali*: sapere che un linguaggio è statico non dice nulla sul fatto che sia forte o debole, e viceversa.
 
 | | **Forte** | **Debole** |
 |---|---|---|
@@ -83,7 +83,7 @@ C è statico (il compilatore controlla i tipi prima di eseguire) eppure debole (
 
 ## 4. L'algebra dei tipi
 
-I costruttori di tipo più comuni hanno una struttura **algebrica** precisa, che vale la pena rendere esplicita prima di incontrare gli ADT ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)): se si conta *quanti valori distinti* abita un tipo (la sua cardinalità $\|T\|$), i costruttori si comportano esattamente come le operazioni aritmetiche da cui prendono il nome.
+I costruttori di tipo più comuni hanno una struttura algebrica precisa, che vale la pena rendere esplicita prima di incontrare gli ADT ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)): se si conta *quanti valori distinti* abita un tipo (la sua cardinalità $\|T\|$), i costruttori si comportano esattamente come le operazioni aritmetiche da cui prendono il nome.
 
 | Costruttore | Notazione | Cardinalità | Esempio |
 |---|---|---|---|
@@ -138,12 +138,12 @@ cioè: se $e_1$ ha tipo funzione da $\tau_1$ a $\tau_2$, e $e_2$ ha tipo $\tau_1
 
 Vale la pena distinguere tre compiti spesso confusi: il **type checking** verifica che un termine *già annotato* rispetti le regole; il **type inference** ricostruisce i tipi mancanti a partire dal contesto (l'algoritmo Hindley-Milner del [§9](#9-inferenza-di-tipo) ne è l'esempio principe); la **type reconstruction** è il caso generale in cui annotazioni e inferenza coesistono parzialmente.
 
-La proprietà che rende un sistema di tipi degno di fiducia è la **soundness** ("*type soundness*"), che si dimostra tipicamente in due parti:
+La proprietà che rende un sistema di tipi degno di fiducia è la **soundness**, che si dimostra tipicamente in due parti:
 
 - **Progress**: un termine chiuso e ben tipato o è già un valore, oppure può fare un passo di valutazione (non resta mai "bloccato").
 - **Preservation** (o *subject reduction*): se $\Gamma \vdash e : \tau$ e $e$ fa un passo di valutazione fino a $e'$, allora $\Gamma \vdash e' : \tau$ — il tipo non cambia mai durante l'esecuzione.
 
-Insieme, le due proprietà garantiscono esattamente ciò che il [§2](#2-a-cosa-serve-un-sistema-di-tipi) aveva anticipato in modo informale: un programma ben tipato non raggiunge mai uno stato "*stuck*" — un'operazione applicata a un valore che non sa gestire. È la versione precisa di "*well-typed programs don't go wrong*". Non tutti i linguaggi mantengono questa promessa fino in fondo: il [§14](#14-soundness-e-sicurezza-in-pratica) mostra un caso reale (Java) in cui viene deliberatamente rotta.
+Insieme, le due proprietà garantiscono esattamente ciò che il [§2](#2-a-cosa-serve-un-sistema-di-tipi) aveva anticipato in modo informale: un programma ben tipato non raggiunge mai uno stato "stuck" — un'operazione applicata a un valore che non sa gestire. È la versione precisa di "well-typed programs don't go wrong". Non tutti i linguaggi mantengono questa promessa fino in fondo: il [§14](#14-soundness-e-sicurezza-in-pratica) mostra un caso reale (Java) in cui viene deliberatamente rotta.
 
 
 
@@ -209,7 +209,7 @@ Il vantaggio è l'accesso a basso livello imprescindibile per la programmazione 
 
 ## 9. Inferenza di tipo
 
-**Inferenza completa — OCaml e Haskell.** Il perché nasce con Robin Milner stesso: dare a ML (1978) la sicurezza di un linguaggio statico senza il fardello di annotare ogni singolo tipo come nei linguaggi statici precedenti. Il come è l'algoritmo di **Hindley-Milner** (spesso implementato come *algoritmo W*): il compilatore genera una variabile di tipo per ogni sotto-espressione, raccoglie le equazioni implicate dalla struttura del programma, e le risolve per **unificazione**.
+**Inferenza completa — OCaml e Haskell.** Il perché nasce con Robin Milner stesso: dare a ML (1978) la sicurezza di un linguaggio statico senza il fardello di annotare ogni singolo tipo come nei linguaggi statici precedenti. Il come è l'algoritmo di **Hindley-Milner** (spesso implementato come *algoritmo W*): il compilatore genera una variabile di tipo per ogni sotto-espressione, raccoglie le equazioni implicate dalla struttura del programma, e le risolve per *unificazione*.
 
 ```ocaml
 let somma x y = x + y
@@ -276,7 +276,7 @@ int *p = NULL;
 printf("%d\n", *p);  /* UB — può segfaultare, o (peggio) "funzionare" per caso */
 ```
 
-**Java — `null` come membro di ogni tipo riferimento.** È la scelta che Tony Hoare, che introdusse i riferimenti nulli in ALGOL W nel 1965, ha in seguito definito pubblicamente il suo "*billion-dollar mistake*": ogni tipo riferimento (`String`, `List`, una classe qualunque) include silenziosamente `null` fra i suoi valori possibili, e il type-checker non ha modo di escluderlo.
+**Java — `null` come membro di ogni tipo riferimento.** È la scelta che Tony Hoare, che introdusse i riferimenti nulli in ALGOL W nel 1965, ha in seguito definito pubblicamente il suo "billion-dollar mistake": ogni tipo riferimento (`String`, `List`, una classe qualunque) include silenziosamente `null` fra i suoi valori possibili, e il type-checker non ha modo di escluderlo.
 
 ```java
 String s = trovaUtente(id);   // può restituire null, la firma non lo dice
@@ -369,7 +369,7 @@ Applicando la tassonomia del [§5](#5-polimorfismo-una-tassonomia):
 
 **Parametrico.** OCaml e Haskell lo hanno nativo e senza costi concettuali (`let id x = x` è già polimorfa, nessuna sintassi speciale). Java lo ha con **type erasure**: `List<String>` e `List<Integer>` condividono a runtime esattamente la stessa classe `List`, perché i parametri di tipo esistono solo a compile-time e vengono cancellati dopo il type-checking — dimostrabile chiedendo `lista.getClass()`, identica per qualunque `T`. Go lo ha dal 1.18 (2022) con **monomorfizzazione**: il compilatore genera una versione specializzata della funzione generica per ogni combinazione di tipi effettivamente usata, pagando in dimensione del binario ciò che Java risparmia cancellando l'informazione. C non ha polimorfismo parametrico affatto: si simula con macro testuali (nessun controllo di tipo) o con `void *` (nessuna informazione di tipo a runtime, cast manuali ovunque).
 
-**Ad-hoc — overloading.** Java risolve `println(int)` vs `println(String)` **staticamente**, in base al tipo apparente degli argomenti al punto di chiamata — due metodi diversi, scelti dal compilatore, non un solo metodo che decide a runtime.
+**Ad-hoc — overloading.** Java risolve `println(int)` vs `println(String)` *staticamente*, in base al tipo apparente degli argomenti al punto di chiamata — due metodi diversi, scelti dal compilatore, non un solo metodo che decide *a runtime*.
 
 **Ad-hoc — type class.** La forma canonica è Haskell, dove il concetto è nato nella sua forma più pulita:
 
@@ -383,7 +383,7 @@ instance Eq Bool where
     _     == _     = False
 ```
 
-Il come implementativo, degno di nota: il compilatore risolve `(==)` scegliendo l'istanza giusta e la passa **implicitamente** come un parametro extra alla funzione generica (*dictionary passing*) — un meccanismo affine, nello spirito, alla risoluzione degli overload di Java, ma guidato dall'inferenza invece che dalla sola sintassi del punto di chiamata.
+Il come implementativo, degno di nota: il compilatore risolve `(==)` scegliendo l'istanza giusta e la passa *implicitamente* come un parametro extra alla funzione generica (*dictionary passing*) — un meccanismo affine, nello spirito, alla risoluzione degli overload di Java, ma guidato dall'inferenza invece che dalla sola sintassi del punto di chiamata.
 
 **Sottotipo.** Java in stile OOP classico: `Animal a = new Dog();` — un `Dog` è utilizzabile ovunque serva un `Animal`, l'inclusione insiemistica del [§1](#1-cosè-un-tipo) resa operativa a runtime tramite dispatch dinamico sui metodi.
 
@@ -470,7 +470,7 @@ Combinato con l'essere un linguaggio dinamico e debole (§7–§8), questo rende
 
 Bash non è un linguaggio in più da confrontare voce per voce con gli altri otto: è un caso limite che vale la pena isolare, perché illustra al meglio una distinzione che quasi tutti confondono — dinamicamente tipato non è lo stesso di non tipato.
 
-In Guile, R o JavaScript i *valori* portano con sé un tipo a runtime: `3` sa di essere un numero, `[1, 2]` sa di essere una lista, e le operazioni controllano quel tag prima di procedere ([§7](#7-statico-vs-dinamico-applicato)). Bash è invece sostanzialmente **unityped**, o "*stringly-typed*": ogni valore è una stringa, senza eccezioni, e non porta con sé alcun tag.
+In Guile, R o JavaScript i *valori* portano con sé un tipo a runtime: `3` sa di essere un numero, `[1, 2]` sa di essere una lista, e le operazioni controllano quel tag prima di procedere ([§7](#7-statico-vs-dinamico-applicato)). Bash è invece sostanzialmente **unityped**, o "stringly-typed": ogni valore è una stringa, senza eccezioni, e non porta con sé alcun tag.
 
 ```bash
 x=5
