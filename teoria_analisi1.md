@@ -177,7 +177,7 @@ $$\ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots \qquad \frac{1}{1-x} = \
 
 $$(1+x)^\alpha = 1 + \alpha x + \binom{\alpha}{2} x^2 + \cdots \qquad \arctan x = x - \frac{x^3}{3} + \frac{x^5}{5} - \cdots$$
 
-> **Serve per:** la formula di Taylor in più variabili usa gradiente e **matrice hessiana**; è lo strumento che classifica i punti critici ([sezione 7](#7-estremi-e-convessità-precursore-diretto-dellottimizzazione) in versione multivariabile).
+> **Serve per:** la formula di Taylor in più variabili usa gradiente e **matrice hessiana**; è lo strumento che classifica i punti critici ([§7](#7-estremi-e-convessità-precursore-diretto-dellottimizzazione) in versione multivariabile).
 
 
 
@@ -261,7 +261,7 @@ Il tuo programma chiude con equazioni separabili e lineari del 2° ordine: ecco 
 
 $$\int \frac{dy}{g(y)} = \int f(x)\, dx$$
 
-Ecco perché la [sezione 9](#9-tecniche-di-integrazione-calcolo-delle-primitive) è indispensabile: risolvere un'EDO separabile *è* calcolare due primitive.
+Ecco perché il [§9](#9-tecniche-di-integrazione-calcolo-delle-primitive) è indispensabile: risolvere un'EDO separabile *è* calcolare due primitive.
 
 **EDO lineari 2° ordine a coefficienti costanti (omogenee):** $a y'' + b y' + c y = 0$. Si cerca $y = e^{\lambda x}$ e si arriva all'**equazione caratteristica**
 

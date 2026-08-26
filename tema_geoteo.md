@@ -175,7 +175,7 @@ Il tag `{% raw %}{% seo %}{% endraw %}`, usato nel layout, richiede `jekyll-seo-
 
 ### 2.4 Abilitare GitHub-Pages
 
-Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [passo 2.1](#21-copiare-il-layout).
+Nelle impostazioni del repository: **Settings → Pages → Build and deployment → Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [§2.1](#21-copiare-il-layout).
 
 
 
@@ -187,7 +187,7 @@ Tutto ciò che riguarda il tema (colori, favicon, toggle) è condiviso; tutto ci
 **Condiviso con `geoteo.net`** (fa parte del layout/tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
 
 - tema chiaro/scuro, font, colori;
-- switch chiaro/scuro, incluso il fix per bfcache/reload visto al [passo 2.1](#21-copiare-il-layout);
+- switch chiaro/scuro, incluso il fix per bfcache/reload visto al [§2.1](#21-copiare-il-layout);
 - `.badge-link` sui repository con GitHub-Pages — nativo di `geoteo.net`.
 
 **Non presente su `geoteo.net`** (funzionalità legate al *rendering del contenuto Markdown*):

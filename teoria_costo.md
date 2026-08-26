@@ -323,7 +323,7 @@ Il costo ammortizzato per incremento è **costante**, indipendentemente da $k$: 
 | **Caso medio** | istanze di dimensione $n$, pesate da $D$ | Sì (bisogna sceglierla) | Vale "in media", non per ogni singolo input | Quicksort con pivot casuale $\Theta(n \log n)$ |
 | **Ammortizzato** | operazioni in una sequenza di lunghezza $m$ | No | Vale per ogni sequenza, nel caso peggiore | Push su vettore dinamico $O(1)$ |
 
-Un punto spesso frainteso: il costo ammortizzato **non è** un caso medio "nel tempo" nel senso probabilistico — è una garanzia deterministica sul caso peggiore di una sequenza, tanto quanto lo è il caso pessimo su una singola operazione. Il quicksort randomizzato della [Sezione 4](#4-caso-medio-average-case), al contrario, usa davvero la probabilità (nella scelta del pivot), quindi il suo $O(n \log n)$ è un'aspettativa, non una garanzia assoluta (il caso pessimo resta $\Theta(n^2)$).
+Un punto spesso frainteso: il costo ammortizzato **non è** un caso medio "nel tempo" nel senso probabilistico — è una garanzia deterministica sul caso peggiore di una sequenza, tanto quanto lo è il caso pessimo su una singola operazione. Il quicksort randomizzato del [§4](#4-caso-medio-average-case), al contrario, usa davvero la probabilità (nella scelta del pivot), quindi il suo $O(n \log n)$ è un'aspettativa, non una garanzia assoluta (il caso pessimo resta $\Theta(n^2)$).
 
 
 

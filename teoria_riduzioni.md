@@ -89,7 +89,7 @@ Ogni riduzione many-one è anche una riduzione di Turing (basta chiamare l'oraco
 
 Schema standard, sempre in due passi:
 
-1. **Appartenenza a NP**: si esibisce un certificato $y$ e un verificatore polinomiale $V(x, y)$ (vedi [teoria_complessita.md § 4](teoria_complessita.md)).
+1. **Appartenenza a NP**: si esibisce un certificato $y$ e un verificatore polinomiale $V(x, y)$ (vedi [teoria_complessita.md §4](teoria_complessita.md#4-classe-np)).
 2. **NP-difficoltà**: si sceglie un problema **già noto** NP-completo (es. SAT) e si costruisce una riduzione polinomiale da esso al problema target.
 
 Non serve mai ridurre *da tutti* i problemi di NP: basta ridurre da **uno solo** già dimostrato NP-completo, grazie alla transitività di $\le_p$.
@@ -230,7 +230,7 @@ func sat3AClique(clausole [][]string) (grafoClique, int) {
 }
 ```
 
-Anche qui la costruzione è polinomiale ($O(m^2)$ archi al più), quindi **Clique è NP-completo** (appartenenza a NP già mostrata in [teoria_complessita.md § 4](teoria_complessita.md)).
+Anche qui la costruzione è polinomiale ($O(m^2)$ archi al più), quindi **Clique è NP-completo** (appartenenza a NP già mostrata in [teoria_complessita.md §4](teoria_complessita.md#4-classe-np)).
 
 
 
@@ -280,7 +280,7 @@ func cliqueAVertexCover(grafo grafoClique, k int) (grafoClique, int) {
 }
 ```
 
-Questo chiude una catena tipica di dimostrazioni: $\text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover}$, e per transitività (§2) tutti e quattro sono NP-completi.
+Questo chiude una catena tipica di dimostrazioni: $\text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover}$, e per transitività ([§2](#2-riduzione-many-one-riduzione-di-karp)) tutti e quattro sono NP-completi.
 
 
 
@@ -332,6 +332,6 @@ $$
 \text{SAT} \le_p \text{3-SAT} \le_p \text{Clique} \le_p \text{Vertex Cover} \le_p \text{Hamiltonian Cycle} \le_p \text{TSP}
 $$
 
-> I primi tre passaggi sono costruiti passo-passo nei §5–§7; gli ultimi due (non trattati qui) seguono lo stesso schema generale.
+> I primi tre passaggi sono costruiti passo-passo nei [§5](#5-esempio-1--sat-le_p-3-sat)–[§7](#7-esempio-3--clique-le_p-vertex-cover); gli ultimi due (non trattati qui) seguono lo stesso schema generale.
 
 > Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi **[teoria_complessita.md](teoria_complessita.md)**.

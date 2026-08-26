@@ -29,7 +29,7 @@ Un'osservazione importante: il numero di alberi dipende solo da *quanti* element
 
 
 
-## Soluzione 1: ricorsione diretta — $\Theta(3^n)$
+## 1. Ricorsione diretta — $\Theta(3^n)$ (soluzione 1)
 
 L'osservazione che genera la ricorsione è la definizione stessa di BST: c'è *esattamente un* elemento alla radice, tutti gli elementi minori di esso finiscono nel sottoalbero sinistro, tutti quelli maggiori nel sottoalbero destro. Fissata la radice, il numero di alberi possibili è il prodotto tra il numero di sottoalberi sinistri possibili e il numero di sottoalberi destri possibili — e ciascuno dei due è a sua volta lo stesso identico problema, su un numero minore di elementi:
 
@@ -92,12 +92,12 @@ $$
 T(n) = 3\,T(n-1), \qquad n \ge 3, \qquad T(2) = 5
 $$
 
-quindi $T(n) = \Theta(3^n)$ (vedi [teoria_complessita.md](teoria_complessita.md#1-notazione-asintotica) per la notazione $\Theta$): molto peggio della crescita del risultato stesso, che è "solo" $\Theta(4^n / n^{1.5})$ — i numeri di Catalan, discussi più sotto.
+quindi $T(n) = \Theta(3^n)$ (vedi [teoria_complessita.md §1](teoria_complessita.md#1-notazione-asintotica) per la notazione $\Theta$): molto peggio della crescita del risultato stesso, che è "solo" $\Theta(4^n / n^{1.5})$ — i numeri di Catalan, discussi più sotto.
 
 
 
 
-## Soluzione 2: programmazione dinamica *top-down* (memoization)
+## 2. Programmazione dinamica *top-down* (soluzione 2 — memoization)
 
 L'osservazione chiave è la stessa vista per Fibonacci: il risultato per un dato $n$ va calcolato una sola volta. Riusando lo stesso combinatore generico visto in [problema_fibonacci.md § Un Memoize generico e riutilizzabile](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile):
 
@@ -120,7 +120,7 @@ Ogni valore `countBSTMemo(k)` viene calcolato una sola volta, ma il suo calcolo 
 
 
 
-## Soluzione 3: programmazione dinamica *bottom-up*
+## 3. Programmazione dinamica *bottom-up* (soluzione 3)
 
 L'alternativa, come per Fibonacci, è costruire i risultati dal basso: si calcola `conteggio[k]` per $k$ crescente da $0$ a $n$, usando solo valori già calcolati:
 
@@ -142,7 +142,7 @@ Stessa complessità della versione memoizzata — $O(n^2)$ in tempo — ma senza
 
 
 
-## Approfondimento: i numeri di Catalan
+## 4. I numeri di Catalan (approfondimento)
 
 I numeri generati da questo problema sono un oggetto combinatorio molto studiato, con una ricorrenza identica a quella usata sopra per `countBST`:
 
@@ -172,7 +172,7 @@ func countBSTClosedForm(n int) int {
 
 Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato intermedio `binom(2n, n)` sta in un `int`. Su una piattaforma a 64 bit `int` di Go arriva fino a $2^{63}-1 \approx 9.22 \times 10^{18}$: `binom(2n, n)` lo supera già a $n = 34$, mentre $C_{34}$ da solo ci starebbe ancora comodamente — si esaurisce lo spazio due passi prima del necessario, perché la divisione per $n+1$ avviene solo alla fine.
 
-> **Approfondimento in _Guile_:** gli interi di Guile sono a precisione arbitraria per costruzione, come il fattoriale di 30 già visto in [fondamenti_guile.md § 5](fondamenti_guile.md#5-ricorsione): lo stesso calcolo, riscritto in Scheme, non ha bisogno di alcuna attenzione particolare all'overflow.
+> **Approfondimento in _Guile_:** gli interi di Guile sono a precisione arbitraria per costruzione, come il fattoriale di 30 già visto in [fondamenti_guile.md §5](fondamenti_guile.md#5-ricorsione): lo stesso calcolo, riscritto in Scheme, non ha bisogno di alcuna attenzione particolare all'overflow.
 > ```scheme
 > (define (binom n k)
 >   (let loop ((i 0) (r 1))
@@ -190,7 +190,7 @@ Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato 
 > # [1]     1     1     2     5    14    42   132   429  1430  4862 16796
 > ```
 
-> **Approfondimento in _C_:** a differenza di Go, che ha il garbage collector (vedi [fondamenti_go.md § 1](fondamenti_go.md#1-caratteristiche-principali)), in C la tabella della soluzione bottom-up va allocata e liberata esplicitamente.
+> **Approfondimento in _C_:** a differenza di Go, che ha il garbage collector (vedi [fondamenti_go.md §1](fondamenti_go.md#1-caratteristiche-principali)), in C la tabella della soluzione bottom-up va allocata e liberata esplicitamente.
 > ```c
 > long long count_bst(int n) {
 >     long long *conteggio = malloc((n + 1) * sizeof(long long));
@@ -210,13 +210,13 @@ Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato 
 
 
 
-## Confronto
+## 5. Confronto
 
 | Soluzione | Tempo | Spazio | Note |
 |---|---|---|---|
-| [Ricorsione diretta](#soluzione-1-ricorsione-diretta--theta3n) | $\Theta(3^n)$ | $O(n)$ (stack) | Ricalcola gli stessi sottoproblemi; impraticabile oltre $n \approx 20$ |
-| [DP top-down (memoization)](#soluzione-2-programmazione-dinamica-top-down-memoization) | $O(n^2)$ | $O(n)$ | Ogni sottoproblema calcolato una volta, ma il calcolo stesso costa $O(n)$ |
-| [DP bottom-up](#soluzione-3-programmazione-dinamica-bottom-up) | $O(n^2)$ | $O(n)$ | Stessa complessità della memoization, senza stack di ricorsione |
-| [Forma chiusa](#approfondimento-i-numeri-di-catalan) | $O(n)$ | $O(1)$ | La più veloce, ma soggetta a overflow per $n$ grandi in aritmetica a precisione fissa |
+| [Ricorsione diretta](#1-ricorsione-diretta--theta3n-soluzione-1) | $\Theta(3^n)$ | $O(n)$ (stack) | Ricalcola gli stessi sottoproblemi; impraticabile oltre $n \approx 20$ |
+| [DP top-down (memoization)](#2-programmazione-dinamica-top-down-soluzione-2--memoization) | $O(n^2)$ | $O(n)$ | Ogni sottoproblema calcolato una volta, ma il calcolo stesso costa $O(n)$ |
+| [DP bottom-up](#3-programmazione-dinamica-bottom-up-soluzione-3) | $O(n^2)$ | $O(n)$ | Stessa complessità della memoization, senza stack di ricorsione |
+| [Forma chiusa](#4-i-numeri-di-catalan-approfondimento) | $O(n)$ | $O(1)$ | La più veloce, ma soggetta a overflow per $n$ grandi in aritmetica a precisione fissa |
 
-Le tre tecniche seguono esattamente lo stesso schema di [problema_fibonacci.md](problema_fibonacci.md#confronto): la ricorsione diretta è la più immediata da scrivere ma esponenziale, la memoization la rende praticabile riusando il lavoro già fatto, e la versione bottom-up arriva alla stessa complessità senza stack di ricorsione. La forma chiusa è un'aggiunta possibile solo perché questo problema, a differenza di Fibonacci, ha anche un'elegante interpretazione combinatoria — ma è utilizzabile solo finché il risultato intermedio sta nel tipo intero scelto.
+Le tre tecniche seguono esattamente lo stesso schema di [problema_fibonacci.md §4](problema_fibonacci.md#4-confronto): la ricorsione diretta è la più immediata da scrivere ma esponenziale, la memoization la rende praticabile riusando il lavoro già fatto, e la versione bottom-up arriva alla stessa complessità senza stack di ricorsione. La forma chiusa è un'aggiunta possibile solo perché questo problema, a differenza di Fibonacci, ha anche un'elegante interpretazione combinatoria — ma è utilizzabile solo finché il risultato intermedio sta nel tipo intero scelto.
