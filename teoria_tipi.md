@@ -2,7 +2,7 @@
 
 Ogni linguaggio di programmazione fa una scommessa su *quanto* e *quando* controllare che le operazioni su un dato abbiano senso — sommare due numeri, invocare un metodo, indicizzare una lista. Quella scommessa è il suo **sistema di tipi**, ed è una delle decisioni di design più profonde e più visibili di un linguaggio: attraversa la sintassi, il modo in cui si manifestano i bug, le prestazioni, perfino lo stile con cui si pensa un programma prima ancora di scriverlo.
 
-Questa nota non è organizzata linguaggio per linguaggio, ma **per assi**: statico/dinamico, forte/debole, inferenza, nominale/strutturale, gestione del "niente", tipi somma, polimorfismo, soundness. Ogni asse è per lo più **ortogonale** agli altri — il primo mito da smontare, ripreso nel [§3](#3-vocabolario-e-assi-ortogonali), è che "statico" implichi "forte" o che "dinamico" implichi "debole": non è così. Otto linguaggi ricorrono come illustrazioni lungo questi assi — **C**, **Go**, **OCaml**, **Haskell**, **Java**, **Guile** (Scheme, vedi [fondamenti_guile.md](fondamenti_guile.md)), **JavaScript** e **R** (vedi [fondamenti_r.md](fondamenti_r.md)) — scelti non per completezza ma perché ciascuno drammatizza al meglio uno o più assi; **Bash** compare come *cameo* fuori tabella nel [§17](#17-box--bash-il-pavimento), il "pavimento" dello spettro dove il concetto stesso di tipo quasi scompare.
+Questa nota non è organizzata linguaggio per linguaggio, ma per assi: statico/dinamico, forte/debole, inferenza, nominale/strutturale, gestione del "niente", tipi somma, polimorfismo, soundness. Ogni asse è per lo più ortogonale agli altri — il primo mito da smontare, ripreso nel [§3](#3-vocabolario-e-assi-ortogonali), è che "statico" implichi "forte" o che "dinamico" implichi "debole": non è così. Otto linguaggi ricorrono come illustrazioni lungo questi assi — **C**, **Go**, **OCaml**, **Haskell**, **Java**, **Guile** (Scheme, vedi [fondamenti_guile.md](fondamenti_guile.md)), **JavaScript** e **R** (vedi [fondamenti_r.md](fondamenti_r.md)) — scelti non per completezza ma perché ciascuno drammatizza al meglio uno o più assi; **Bash** compare come *cameo* fuori tabella nel [§17](#17-box--bash-il-pavimento), il "pavimento" dello spettro dove il concetto stesso di tipo quasi scompare.
 
 La prima parte ([§1](#1-cosè-un-tipo)–[§6](#6-giudizi-di-tipo-e-soundness)) tratta la teoria senza legarla a un linguaggio specifico; la seconda ([§7](#7-statico-vs-dinamico-applicato)–[§17](#17-box--bash-il-pavimento)) applica ogni asse ai linguaggi scelti, con lo stesso schema per ciascuna scelta di design: perché è stata adottata, come è implementata, quali vantaggi e svantaggi comporta, come si usa al meglio.
 
@@ -15,7 +15,10 @@ Un tipo si può guardare da due prospettive complementari, ognuna utile per ragi
 
 **Tipo come insieme di valori** (vista *semantica*, denotazionale). `bool` è l'insieme $\{\texttt{true}, \texttt{false}\}$; un byte con segno è l'insieme dei 256 interi rappresentabili in 8 bit; una funzione `int -> bool` è, semanticamente, l'insieme di tutte le funzioni totali che accettano un intero e restituiscono un booleano. Il sottotipaggio, con questa vista, è semplicemente **inclusione insiemistica**: se $S \le T$ allora ogni valore di $S$ è anche un valore di $T$ — un `Dog` è, come insieme di comportamenti/valori possibili, contenuto in `Animal`. È la vista più intuitiva, quella su cui vale la pena costruirsi un disegno mentale:
 
+<div markdown="1" align="center">
+
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 400}}}%%
 flowchart TD
     top["⊤ — Object / Any / tipo universale"]
     num["Number"]
@@ -32,6 +35,8 @@ flowchart TD
     str --> bot
 ```
 
+</div>
+
 In cima al reticolo c'è il tipo che contiene *tutti* i valori (`Object` in Java, `Any` in Scala/Kotlin, $\top$ in notazione teorica); in fondo il tipo che non contiene *nessun* valore (`Nothing` in Scala, l'assenza di un termine ben tipato in generale) — utile, ad esempio, per dare un tipo di ritorno onesto a una funzione che non ritorna mai (loop infinito, funzione che lancia sempre un'eccezione). Il reticolo torna al [§10](#10-nominale-vs-strutturale), quando si tratta di *come* un linguaggio decide se un tipo sta sotto un altro.
 
 **Tipo come proprietà dimostrata su un programma** (vista *sintattica*, alla Curry-Howard). Un tipo è un giudizio che si dimostra per induzione sulla struttura del termine — esattamente lo schema di un sistema di regole di deduzione, formalizzato nel [§6](#6-giudizi-di-tipo-e-soundness). È la vista che rende un type-checker un dimostratore di teoremi ristretto e automatico: scrivere codice che tipizza è, alla lettera, costruire una dimostrazione che il programma non farà un certo genere di errore.
@@ -47,7 +52,7 @@ Un sistema di tipi non è un ostacolo burocratico prima di poter eseguire un pro
 
 **Sicurezza.** Cattura una classe intera di errori prima che si manifestino — l'affermazione di Robin Milner, "*well-typed programs don't go wrong*" (1978), diventerà precisa nel [§6](#6-giudizi-di-tipo-e-soundness): "andare storto" ha un significato tecnico (eseguire un'operazione su un valore che non sa gestirla, tipo il classico "chiamare un metodo che non esiste"), non "il programma si ferma o lancia un'eccezione gestita" in generale.
 
-**Documentazione eseguibile.** La firma `parseInt : string -> int option` dice, senza bisogno di leggere l'implementazione, che la funzione può fallire (torna un `option`) e che si aspetta una stringa. A differenza di un commento, una firma di tipo **non può mentire**: se il compilatore l'accetta, è vera per costruzione — un contratto verificato, non solo dichiarato.
+**Documentazione eseguibile.** La firma `parseInt : string -> int option` dice, senza bisogno di leggere l'implementazione, che la funzione può fallire (torna un `option`) e che si aspetta una stringa. A differenza di un commento, una firma di tipo non può mentire: se il compilatore l'accetta, è vera per costruzione — un contratto verificato, non solo dichiarato.
 
 **Ottimizzazione.** Conoscere il tipo di un valore a compile-time dice al compilatore la sua rappresentazione a runtime — dimensione, layout in memoria, quale implementazione di un'operazione usare — permettendo di generare codice specializzato invece di fare dispatch generico a ogni chiamata. È il filo che lega la scelta di *come* implementare il polimorfismo (type erasure vs monomorfizzazione, [§13](#13-polimorfismo-nei-linguaggi)) alle prestazioni.
 
@@ -60,9 +65,9 @@ Un sistema di tipi non è un ostacolo burocratico prima di poter eseguire un pro
 
 Due domande, spesso confuse tra loro, danno origine a due assi indipendenti.
 
-**Statico vs dinamico** risponde a *quando* avviene il controllo dei tipi: a compile-time, prima di eseguire una singola istruzione (statico), oppure a runtime, sul valore concreto che una variabile assume in quel momento (dinamico). È strettamente legato alla distinzione tra **manifest typing** (il tipo è dichiarato o inferito nel testo del programma, come in OCaml o Java) e **latent typing** (il tipo esiste solo nel valore a runtime, come in Guile o R): un linguaggio dinamico è quasi sempre anche latently typed, perché non c'è altro posto dove il tipo potrebbe vivere.
+**Statico vs dinamico** risponde a *quando* avviene il controllo dei tipi: a compile-time, prima di eseguire una singola istruzione (statico), oppure a runtime, sul valore concreto che una variabile assume in quel momento (dinamico). È strettamente legato alla distinzione tra *manifest typing* (il tipo è dichiarato o inferito nel testo del programma, come in OCaml o Java) e *latent typing* (il tipo esiste solo nel valore a runtime, come in Guile o R): un linguaggio dinamico è quasi sempre anche latently typed, perché non c'è altro posto dove il tipo potrebbe vivere.
 
-**Forte vs debole** risponde a *quanto* il linguaggio permette coercizioni implicite tra tipi diversi — sommare una stringa e un numero senza dirlo esplicitamente, reinterpretare i bit di un valore come se fossero un altro tipo. È un termine **volutamente sfumato e contestato** in letteratura (non esiste una definizione operativa universalmente accettata, a differenza di statico/dinamico); qui lo si usa nel senso pratico e diffuso di "quante conversioni implicite e silenziose il linguaggio compie al posto tuo".
+**Forte vs debole** risponde a *quanto* il linguaggio permette coercizioni implicite tra tipi diversi — sommare una stringa e un numero senza dirlo esplicitamente, reinterpretare i bit di un valore come se fossero un altro tipo. È un termine volutamente sfumato e contestato in letteratura (non esiste una definizione operativa universalmente accettata, a differenza di statico/dinamico); qui lo si usa nel senso pratico e diffuso di "quante conversioni implicite e silenziose il linguaggio compie al posto tuo".
 
 Il punto pedagogico centrale è che questi due assi sono **ortogonali**: sapere che un linguaggio è statico non dice nulla sul fatto che sia forte o debole, e viceversa.
 
@@ -78,7 +83,7 @@ C è statico (il compilatore controlla i tipi prima di eseguire) eppure debole (
 
 ## 4. L'algebra dei tipi
 
-I costruttori di tipo più comuni hanno una struttura **algebrica** precisa, che vale la pena rendere esplicita prima di incontrare gli ADT ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)): se si conta *quanti valori distinti* abita un tipo (la sua cardinalità $|T|$), i costruttori si comportano esattamente come le operazioni aritmetiche da cui prendono il nome.
+I costruttori di tipo più comuni hanno una struttura **algebrica** precisa, che vale la pena rendere esplicita prima di incontrare gli ADT ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)): se si conta *quanti valori distinti* abita un tipo (la sua cardinalità $\|T\|$), i costruttori si comportano esattamente come le operazioni aritmetiche da cui prendono il nome.
 
 | Costruttore | Notazione | Cardinalità | Esempio |
 |---|---|---|---|
@@ -177,7 +182,7 @@ let () = incrementa "ciao"
 
 Il vantaggio è la tolleranza: un valore che arriva "quasi giusto" (una stringa `"3"` da un campo di un form, invece del numero `3`) spesso funziona comunque. Lo svantaggio è il rovescio della stessa medaglia — bug d'azione a distanza, difficili da individuare perché il linguaggio non si lamenta mai. L'uso migliore è disciplinare la debolezza a mano: `===` invece di `==` sempre, e in codice reale un livello statico sopra (TypeScript) che rifiuta molte di queste coercizioni prima ancora che accadano.
 
-**Guile — dinamico ma forte.** Il perché è altrettanto deliberato, ma nella direzione opposta: la tradizione Lisp/Scheme privilegia l'esplicitezza anche in un mondo dinamico — un valore ha un tipo preciso e le conversioni fra tipi devono essere richieste, mai indovinate dal linguaggio. Il come è la *numeric tower* di Scheme (interi esatti, razionali, reali, complessi, in una gerarchia di promozione **esplicita e prevedibile** solo fra numeri, mai fra numeri e stringhe) unita all'assenza totale di coercizione stringa/numero:
+**Guile — dinamico ma forte.** Il perché è altrettanto deliberato, ma nella direzione opposta: la tradizione Lisp/Scheme privilegia l'esplicitezza anche in un mondo dinamico — un valore ha un tipo preciso e le conversioni fra tipi devono essere richieste, mai indovinate dal linguaggio. Il come è la *numeric tower* di Scheme (interi esatti, razionali, reali, complessi, in una gerarchia di promozione esplicita e prevedibile solo fra numeri, mai fra numeri e stringhe) unita all'assenza totale di coercizione stringa/numero:
 
 ```scheme
 (+ "5" 3)
@@ -185,7 +190,7 @@ Il vantaggio è la tolleranza: un valore che arriva "quasi giusto" (una stringa 
 (+ (string->number "5") 3)  ; => 8, la conversione va chiesta esplicitamente
 ```
 
-Il confronto con JavaScript è il colpo pedagogico dell'intera nota: **stesso quadrante dell'asse statico/dinamico** (entrambi dinamici), **poli opposti** sull'asse forte/debole — la prova migliore che i due assi sono davvero ortogonali.
+Il confronto con JavaScript è il colpo pedagogico dell'intera nota: stesso quadrante dell'asse statico/dinamico (entrambi dinamici), poli opposti sull'asse forte/debole — la prova migliore che i due assi sono davvero ortogonali.
 
 **C — statico ma debole.** Il perché è pragmatico: C è pensato come "assembly portabile", dove il programmatore deve poter reinterpretare bit a piacimento per parlare con l'hardware, senza che il type-checker si metta in mezzo. Il come sono le *usual arithmetic conversions* dello standard (conversioni implicite fra tipi numerici) e soprattutto la `union`, che fa condividere lo stesso spazio di memoria a rappresentazioni diverse senza alcun tag a runtime che ricordi quale membro sia stato scritto per ultimo:
 
@@ -232,7 +237,7 @@ Il vantaggio è ridurre il rumore visivo (`var x = ...` invece di `TipoLunghissi
 
 ## 10. Nominale vs strutturale
 
-**Sottotipaggio strutturale — Go.** Il perché è una reazione deliberata alle gerarchie di interfacce rigide in stile Java: i progettisti di Go (2009) volevano disaccoppiare *chi implementa* un'interfaccia da *chi la dichiara*, permettendo di scrivere un'interfaccia dopo aver già scritto i tipi che la soddisfano. Il come è che un tipo soddisfa un'interfaccia **automaticamente**, se possiede tutti i metodi richiesti — nessuna dichiarazione esplicita di intento:
+**Sottotipaggio strutturale — Go.** Il perché è una reazione deliberata alle gerarchie di interfacce rigide in stile Java: i progettisti di Go (2009) volevano disaccoppiare *chi implementa* un'interfaccia da *chi la dichiara*, permettendo di scrivere un'interfaccia dopo aver già scritto i tipi che la soddisfano. Il come è che un tipo soddisfa un'interfaccia automaticamente, se possiede tutti i metodi richiesti — nessuna dichiarazione esplicita di intento:
 
 ```go
 type Stringer interface { String() string }
@@ -278,7 +283,7 @@ String s = trovaUtente(id);   // può restituire null, la firma non lo dice
 System.out.println(s.length());  // NullPointerException, scoperta solo a runtime
 ```
 
-**OCaml e Haskell — `option`/`Maybe` come tipo esplicito.** L'assenza diventa un valore di prima classe dentro un tipo somma ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)), e il compilatore **obbliga** a gestire entrambi i casi:
+**OCaml e Haskell — `option`/`Maybe` come tipo esplicito.** L'assenza diventa un valore di prima classe dentro un tipo somma ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)), e il compilatore obbliga a gestire entrambi i casi:
 
 ```ocaml
 let trova_utente : int -> utente option = fun id -> (* ... *)
@@ -299,7 +304,7 @@ if err != nil {
 fmt.Println(u.Nome)   // qui, per convenzione, u è garantito valido
 ```
 
-Non è verificato dal compilatore quanto lo `option` di OCaml (nulla obbliga davvero a controllare `err`), ma la convenzione — rinforzata da linter come `errcheck` — rende l'ignorare l'errore un'anomalia visibile nel codice, non un'operazione silenziosa. Il confronto tra le quattro strategie mostra concretamente come un type system possa **eliminare** un'intera classe di bug (OCaml/Haskell), renderla solo più visibile per convenzione (Go), o non affrontarla affatto (C, e in pratica anche Java).
+Non è verificato dal compilatore quanto lo `option` di OCaml (nulla obbliga davvero a controllare `err`), ma la convenzione — rinforzata da linter come `errcheck` — rende l'ignorare l'errore un'anomalia visibile nel codice, non un'operazione silenziosa. Il confronto tra le quattro strategie mostra concretamente come un type system possa eliminare un'intera classe di bug (OCaml/Haskell), renderla solo più visibile per convenzione (Go), o non affrontarla affatto (C, e in pratica anche Java).
 
 
 
@@ -322,7 +327,7 @@ let area = function
 
 Il vantaggio è enorme in manutenzione: aggiungere un nuovo caso a un tipo somma fa "esplodere" (con un warning, promuovibile a errore) ogni `match` nel codice che non lo gestisce ancora — il compilatore diventa una checklist automatica. Lo svantaggio è la rigidità opposta a quella dei tipi aperti: aggiungere un caso è un cambiamento *breaking* per definizione, che tocca ogni consumatore. L'uso migliore è riservare gli ADT chiusi a domini dove l'insieme dei casi è davvero stabile o dove si *vuole* essere avvisati a ogni estensione.
 
-**La stessa idea, insicura — C.** `enum` più `union` esprimono la stessa intenzione (un tag più uno spazio dati alternativo) ma **senza alcuna garanzia**: nulla lega il tag alla scelta di membro effettivamente scritta in memoria, e nulla obbliga uno `switch` a coprire tutti i casi.
+**La stessa idea, insicura — C.** `enum` più `union` esprimono la stessa intenzione (un tag più uno spazio dati alternativo) ma senza alcuna garanzia: nulla lega il tag alla scelta di membro effettivamente scritta in memoria, e nulla obbliga uno `switch` a coprire tutti i casi.
 
 ```c
 typedef struct {
@@ -398,7 +403,7 @@ function faiVersoso(animale) { animale.verso(); }
 
 **C — insicuro per progetto.** Il type system di C non promette memory safety, punto: accesso fuori dai limiti di un array, `use-after-free`, dereferenziazione di puntatori pendenti sono tutti *undefined behavior* che il compilatore non è tenuto a impedire né a segnalare. La soundness nel senso del [§6](#6-giudizi-di-tipo-e-soundness) semplicemente non è un obiettivo di design di C: il tipo controlla la *forma* delle operazioni (non sommare un `int*` e uno `struct`), non la loro *sicurezza a runtime*.
 
-**Java — memory-safe ma con un'unsoundness nota.** Java non ha puntatori grezzi né UB in questo senso, ma ha un buco di soundness deliberato e documentato: gli **array sono covarianti**.
+**Java — memory-safe ma con un'unsoundness nota.** Java non ha puntatori grezzi né UB in questo senso, ma ha un buco di soundness deliberato e documentato: gli array sono covarianti.
 
 ```java
 Object[] arr = new String[3];   // compila: String[] è considerato sottotipo di Object[]
@@ -415,7 +420,7 @@ Il perché storico: Java 1.0 (1996) non aveva ancora i generics (arrivati solo n
 
 ## 15. Il soffitto: effetti nel tipo e higher-kinded types
 
-Haskell illustra un asse che nessun altro linguaggio di questa nota tocca, ed è utile seguirne la genesi **causale**, perché è la catena che rende il risultato finale meno arbitrario di quanto sembri a prima vista: Haskell voleva la **valutazione lazy** (per poter ragionare sul codice per via puramente equazionale, senza dover fissare un ordine di valutazione) → ma la pigrizia rende gli effetti collaterali **imprevedibili** (se non si sa *quando* un'espressione viene valutata, non si sa nemmeno *quando* un `print` al suo interno avverrebbe) → quindi il linguaggio impone la **purezza** nel nucleo: nessuna funzione può avere effetti collaterali → gli effetti, quando servono, vengono **spostati nel sistema di tipi**, con un tipo speciale `IO a` che li rende visibili nella firma:
+Haskell illustra un asse che nessun altro linguaggio di questa nota tocca, ed è utile seguirne la genesi causale, perché è la catena che rende il risultato finale meno arbitrario di quanto sembri a prima vista: Haskell voleva la *valutazione lazy* (per poter ragionare sul codice per via puramente equazionale, senza dover fissare un ordine di valutazione) → ma la pigrizia rende gli effetti collaterali imprevedibili (se non si sa quando un'espressione viene valutata, non si sa nemmeno quando un `print` al suo interno avverrebbe), quindi il linguaggio impone la purezza nel nucleo: nessuna funzione può avere effetti collaterali e gli effetti, quando servono, vengono spostati nel sistema di tipi, con un tipo speciale `IO a` che li rende visibili nella firma:
 
 ```haskell
 saluta :: String -> IO ()
@@ -438,7 +443,7 @@ Il vantaggio è un riuso enorme di codice attraverso famiglie di tipi altrimenti
 
 R non illustra un asse pulito quanto gli altri, ma è un caso di studio prezioso per due ragioni indipendenti dal resto della nota (si veda anche [fondamenti_r.md](fondamenti_r.md)).
 
-La prima è che R ha **quattro** sistemi a oggetti coesistenti — S3, S4, Reference Classes (R5) e il pacchetto `R6` — invece di uno solo. S3 è informale: un oggetto è un valore qualunque con un attributo `class`, e il dispatch avviene per convenzione di nome (`print.miaclasse` viene chiamata automaticamente da `print()` su un oggetto con `class(x) == "miaclasse"`):
+La prima è che R ha quattro sistemi a oggetti coesistenti — S3, S4, Reference Classes (R5) e il pacchetto `R6` — invece di uno solo. S3 è informale: un oggetto è un valore qualunque con un attributo `class`, e il dispatch avviene per convenzione di nome (`print.miaclasse` viene chiamata automaticamente da `print()` su un oggetto con `class(x) == "miaclasse"`):
 
 ```r
 cerchio <- list(raggio = 2)
@@ -449,7 +454,7 @@ print(cerchio)  # dispatch S3: cerca print.cerchio, la trova, la chiama
 
 S4, più formale (`setClass`, `setGeneric`), aggiunge qualcosa che nessun altro linguaggio di questa nota ha nativamente: il **multiple dispatch** — un metodo può essere scelto in base alla classe di *più di un* argomento, non solo del ricevente.
 
-La seconda ragione è la sua politica di coercizione **automatica e gerarchica** tra i tipi vettoriali di base (`logical` < `integer` < `double` < `character`), unita al valore speciale `NA` che si propaga silenziosamente attraverso i calcoli invece di segnalare un errore:
+La seconda ragione è la sua politica di coercizione automatica e gerarchica tra i tipi vettoriali di base (`logical` < `integer` < `double` < `character`), unita al valore speciale `NA` che si propaga silenziosamente attraverso i calcoli invece di segnalare un errore:
 
 ```r
 c(1, TRUE, "a")   # -> tutto coercito a character: c("1", "TRUE", "a")
@@ -463,7 +468,7 @@ Combinato con l'essere un linguaggio dinamico e debole (§7–§8), questo rende
 
 ## 17. Box — Bash, il pavimento
 
-Bash non è un linguaggio in più da confrontare voce per voce con gli altri otto: è un caso limite che vale la pena isolare, perché illustra al meglio una distinzione che quasi tutti confondono — **dinamicamente tipato non è lo stesso di non tipato**.
+Bash non è un linguaggio in più da confrontare voce per voce con gli altri otto: è un caso limite che vale la pena isolare, perché illustra al meglio una distinzione che quasi tutti confondono — dinamicamente tipato non è lo stesso di non tipato.
 
 In Guile, R o JavaScript i *valori* portano con sé un tipo a runtime: `3` sa di essere un numero, `[1, 2]` sa di essere una lista, e le operazioni controllano quel tag prima di procedere ([§7](#7-statico-vs-dinamico-applicato)). Bash è invece sostanzialmente **unityped**, o "*stringly-typed*": ogni valore è una stringa, senza eccezioni, e non porta con sé alcun tag.
 
@@ -482,7 +487,7 @@ n=n+1                # -> 6: la stringa "n+1" viene ri-valutata come aritmetica
 
 È la stessa distinzione che, in teoria dei tipi, separa il lambda calcolo *tipato* dal lambda calcolo *non tipato*: qui il "tipo" emerge esclusivamente dal contesto sintattico che consuma il valore (`$(( ))` prova un'interpretazione numerica, `[[ -f ]]` una di percorso file, altrove resta testo puro), mai da un tag intrinseco al valore stesso.
 
-La lezione più utile che Bash offre è **al negativo**: cosa succede senza alcuna disciplina di tipo a proteggere. L'esempio canonico è il *word splitting* su variabili non quotate:
+La lezione più utile che Bash offre è al negativo: cosa succede senza alcuna disciplina di tipo a proteggere. L'esempio canonico è il *word splitting* su variabili non quotate:
 
 ```bash
 dir=
