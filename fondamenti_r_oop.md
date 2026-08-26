@@ -1,4 +1,4 @@
-# R: tipi in pratica e programmazione a oggetti (S3, S4, R6)
+# Tipi R e programmazione a oggetti (S3, S4, R6)
 
 Questa nota approfondisce due argomenti solo accennati in [fondamenti_r.md](fondamenti_r.md): il sistema di tipi di R visto dal lato pratico (predicati, contratti, coercizioni) e i suoi **sistemi a oggetti** — R, a differenza della maggior parte dei linguaggi, non ne ha uno solo. Tratta per esteso **S3** (informale), **S4** (formale, con *multiple dispatch*) e un cenno a **R6**/Reference Classes (mutabile, incapsulato). Chiude con una sezione di buone pratiche con esempi completi.
 
@@ -31,7 +31,7 @@ inherits(df, "data.frame") # TRUE — controlla la classe S3, non typeof()
 str(df) # struttura completa, utile per l'ispezione interattiva
 ```
 
-**Buona pratica:** per controllare "è di questo tipo logico" usare `inherits()` o gli `is.*` specifici, non confrontare `class(x) == "..."` direttamente — un oggetto può avere **più di una classe** (un vettore di stringhe: `class(df)` per un tibble è `c("tbl_df", "tbl", "data.frame")`), e il confronto con `==` ne vedrebbe solo la prima.
+**Buona pratica:** per controllare "è di questo tipo logico" usare `inherits()` o gli `is.*` specifici, non confrontare `class(x) == "..."` direttamente — un oggetto può avere più di una classe (un vettore di stringhe: `class(df)` per un tibble è `c("tbl_df", "tbl", "data.frame")`), e il confronto con `==` ne vedrebbe solo la prima.
 
 
 
@@ -47,7 +47,7 @@ dividi <- function(a, b) {
 }
 ```
 
-Per argomenti che devono essere uno tra pochi valori ammessi, `match.arg()` valida **e** fornisce un default, in un solo passo:
+Per argomenti che devono essere uno tra pochi valori ammessi, `match.arg()` valida e fornisce un default, in un solo passo:
 
 ```r
 riassumi <- function(x, metodo = c("media", "mediana", "somma")) {
@@ -96,7 +96,7 @@ typeof(NA_character_) # "character" — forma esplicita, utile in costruzioni ty
 # (es. costruire una colonna character riga per riga con rbind)
 ```
 
-**Buona pratica:** quando la coercizione automatica non è quella voluta, convertire esplicitamente con `as.numeric()`, `as.character()`, `as.integer()` **prima** di combinare i valori, invece di lasciare che `c()` decida — e verificare sempre il risultato di una conversione con `is.na()`, perché `as.numeric("abc")` non fallisce rumorosamente: restituisce `NA` con un warning facilmente ignorato in uno script non interattivo.
+**Buona pratica:** quando la coercizione automatica non è quella voluta, convertire esplicitamente con `as.numeric()`, `as.character()`, `as.integer()` *prima* di combinare i valori, invece di lasciare che `c()` decida — e verificare sempre il risultato di una conversione con `is.na()`, perché `as.numeric("abc")` non fallisce rumorosamente: restituisce `NA` con un warning facilmente ignorato in uno script non interattivo.
 
 
 
@@ -118,7 +118,7 @@ c1 <- nuovo_cerchio(2)
 area(c1) # => 12.56637
 ```
 
-`UseMethod("area")` cerca una funzione chiamata `area.<classe di x>`; se non la trova, cade su `area.default`. Aggiungere una nuova forma **non tocca il codice esistente**, basta un nuovo costruttore e un nuovo metodo:
+`UseMethod("area")` cerca una funzione chiamata `area.<classe di x>`; se non la trova, cade su `area.default`. Aggiungere una nuova forma non tocca il codice esistente, basta un nuovo costruttore e un nuovo metodo:
 
 ```r
 nuovo_rettangolo <- function(base, altezza) {
@@ -168,7 +168,7 @@ c1 <- new("Cerchio", raggio = 2)
 area(c1) # => 12.56637
 ```
 
-A differenza di S3, dove `structure(list(...), class = ...)` accetta qualunque contenuto, S4 può rifiutare un oggetto malformato già alla costruzione, tramite una funzione di **validità**:
+A differenza di S3, dove `structure(list(...), class = ...)` accetta qualunque contenuto, S4 può rifiutare un oggetto malformato già alla costruzione, tramite una funzione di validità:
 
 ```r
 setClass("Cerchio", representation(raggio = "numeric"),
@@ -183,7 +183,7 @@ new("Cerchio", raggio = -1)
 
 ### Multiple dispatch
 
-Lo stesso esempio "cosa succede quando due forme si scontrano" già visto per GOOPS ([fondamenti_guile_oop.md §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) si scrive in modo quasi identico in S4 — il metodo scelto dipende dalla classe **di entrambi** gli argomenti:
+Lo stesso esempio "cosa succede quando due forme si scontrano" già visto per GOOPS ([fondamenti_guile_oop.md §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) si scrive in modo quasi identico in S4 — il metodo scelto dipende dalla classe *di entrambi* gli argomenti:
 
 ```r
 setClass("Rettangolo", representation(base = "numeric", altezza = "numeric"))

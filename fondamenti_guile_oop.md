@@ -1,4 +1,4 @@
-# Guile: tipi in pratica e programmazione a oggetti (GOOPS)
+# Tipi Gnu Guile e programmazione a oggetti (GOOPS)
 
 Questa nota approfondisce due argomenti già accennati in [fondamenti_guile.md](fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
 
@@ -187,7 +187,7 @@ Il vantaggio rispetto a un `cond` con predicati ([§1](#1-predicati-di-tipo)) è
 
 ### Multiple dispatch: il tratto distintivo di GOOPS
 
-La vera differenza rispetto a Java, Go o Python — dove un metodo fa dispatch su un solo argomento, il ricevente — è che GOOPS può fare dispatch su **più argomenti contemporaneamente**:
+La vera differenza rispetto a Java, Go o Python — dove un metodo fa dispatch su un solo argomento, il ricevente — è che GOOPS può fare dispatch su più argomenti contemporaneamente:
 
 ```scheme
 (define-generic collide?)
@@ -261,7 +261,7 @@ Quando una sottoclasse ridefinisce un metodo generico, può comunque richiamare 
 (descrivi c)   ; => "forma: c1, colore: rosso"
 ```
 
-Questo pattern — chiamare `next-method` per **estendere** un comportamento invece di sovrascriverlo — evita di duplicare la logica della superclasse ogni volta che una sottoclasse vuole solo aggiungere qualcosa, non rimpiazzarla del tutto.
+Questo pattern — chiamare `next-method` per *estendere* un comportamento invece di sovrascriverlo — evita di duplicare la logica della superclasse ogni volta che una sottoclasse vuole solo aggiungere qualcosa, non rimpiazzarla del tutto.
 
 
 
