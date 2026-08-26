@@ -14,12 +14,12 @@ Esempio: per $n = 6$ i primi 6 numeri della successione sono $[1, 1, 2, 3, 5, 8]
 
 > **Nota:** qui $n$ parte da $1$ (convenzione tipica dei problemi da colloquio). In [fondamenti_go.md §10](fondamenti_go.md#10-esempio-completo-numeri-di-fibonacci) la stessa successione è indicizzata da $0$ ($F(0)=0$); sono la stessa sequenza traslata di un indice, non due definizioni diverse.
 
-Il problema è un buon veicolo per confrontare tre strategie che tornano utili in moltissimi altri problemi da colloquio e di programmazione competitiva: [ricorsione diretta](#1-ricorsione-diretta--o2n-soluzione-1), programmazione dinamica [*top-down*](#2-programmazione-dinamica-top-down-soluzione-2--memoization) e [*bottom-up*](#3-programmazione-dinamica-bottom-up-soluzione-3) (vedi [teoria_complessita.md §1](teoria_complessita.md#1-notazione-asintotica) per la notazione asintotica $O$ usata qui, e [teoria_costo.md §2](teoria_costo.md#2-caso-pessimo-worst-case) per il concetto di caso pessimo).
+Il problema è un buon veicolo per confrontare tre strategie che tornano utili in moltissimi altri problemi da colloquio e di programmazione competitiva: [ricorsione diretta](#1-soluzione-1-ricorsione-diretta--o2n), programmazione dinamica [*top-down*](#2-soluzione-2-programmazione-dinamica-top-down--memoization) e [*bottom-up*](#3-soluzione-3-programmazione-dinamica-bottom-up) (vedi [teoria_complessita.md §1](teoria_complessita.md#1-notazione-asintotica) per la notazione asintotica $O$ usata qui, e [teoria_costo.md §2](teoria_costo.md#2-caso-pessimo-worst-case) per il concetto di caso pessimo).
 
 
 
 
-## 1. Ricorsione diretta — $O(2^n)$ (soluzione 1)
+## 1. Soluzione 1: ricorsione diretta — $O(2^n)$
 
 La traduzione diretta della definizione è una funzione ricorsiva:
 
@@ -89,7 +89,7 @@ L'albero è alto $n$ ed è quasi completo, quindi ha $O(2^n)$ nodi: ogni nodo è
 
 
 
-## 2. Programmazione dinamica *top-down* (soluzione 2 — memoization)
+## 2. Soluzione 2: programmazione dinamica *top-down* — memoization
 
 L'osservazione chiave è che non ha senso ricalcolare $F(k)$ più volte per lo stesso $k$: basta calcolarlo una volta e mettere in cache il risultato.
 
@@ -207,7 +207,7 @@ Le chiamate totali passano da $O(2^n)$ a $O(n)$: la complessità in tempo è $O(
 
 
 
-## 3. Programmazione dinamica *bottom-up* (soluzione 3)
+## 3. Soluzione 3: programmazione dinamica *bottom-up*
 
 L'alternativa alla memoization è costruire la soluzione partendo dal basso, dai casi base, senza mai ricorrere:
 
@@ -232,8 +232,8 @@ Complessità $O(n)$ in tempo e $O(1)$ in spazio, senza overhead di chiamate a fu
 
 | Soluzione | Tempo | Spazio | Note |
 |---|---|---|---|
-| [Ricorsione diretta](#1-ricorsione-diretta--o2n-soluzione-1) | $O(2^n)$ | $O(n)$ (stack) | Semplice ma impraticabile oltre $n \approx 40$ |
-| [DP top-down (memoization)](#2-programmazione-dinamica-top-down-soluzione-2--memoization) | $O(n)$ | $O(n)$ | Parte dalla ricorsione naturale, facile da derivare da una soluzione esponenziale esistente |
-| [DP bottom-up](#3-programmazione-dinamica-bottom-up-soluzione-3) | $O(n)$ | $O(1)$ | Richiede di capire l'ordine di calcolo in anticipo, ma offre più margine di ottimizzazione dello spazio |
+| [Ricorsione diretta](#1-soluzione-1-ricorsione-diretta--o2n) | $O(2^n)$ | $O(n)$ (stack) | Semplice ma impraticabile oltre $n \approx 40$ |
+| [DP top-down (memoization)](#2-soluzione-2-programmazione-dinamica-top-down--memoization) | $O(n)$ | $O(n)$ | Parte dalla ricorsione naturale, facile da derivare da una soluzione esponenziale esistente |
+| [DP bottom-up](#3-soluzione-3-programmazione-dinamica-bottom-up) | $O(n)$ | $O(1)$ | Richiede di capire l'ordine di calcolo in anticipo, ma offre più margine di ottimizzazione dello spazio |
 
-In generale l'approccio *top-down* è più facile da scrivere partendo dalla definizione ricorsiva del problema, mentre il *bottom-up* richiede di capire prima l'ordine in cui i sottoproblemi vanno risolti — ma proprio per questo espone più chiaramente eventuali ottimizzazioni di spazio, come si è visto passando da $O(n)$ a $O(1)$ nella soluzione [*bottom-up*](#3-programmazione-dinamica-bottom-up-soluzione-3).
+In generale l'approccio *top-down* è più facile da scrivere partendo dalla definizione ricorsiva del problema, mentre il *bottom-up* richiede di capire prima l'ordine in cui i sottoproblemi vanno risolti — ma proprio per questo espone più chiaramente eventuali ottimizzazioni di spazio, come si è visto passando da $O(n)$ a $O(1)$ nella soluzione [*bottom-up*](#3-soluzione-3-programmazione-dinamica-bottom-up).
