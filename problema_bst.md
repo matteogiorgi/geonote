@@ -29,7 +29,7 @@ Un'osservazione importante: il numero di alberi dipende solo da *quanti* element
 
 
 
-## 1. Soluzione 1: ricorsione diretta — $\Theta(3^n)$
+## 1. Soluzione: ricorsione diretta — $\Theta(3^n)$
 
 L'osservazione che genera la ricorsione è la definizione stessa di BST: c'è *esattamente un* elemento alla radice, tutti gli elementi minori di esso finiscono nel sottoalbero sinistro, tutti quelli maggiori nel sottoalbero destro. Fissata la radice, il numero di alberi possibili è il prodotto tra il numero di sottoalberi sinistri possibili e il numero di sottoalberi destri possibili — e ciascuno dei due è a sua volta lo stesso identico problema, su un numero minore di elementi:
 
@@ -97,7 +97,7 @@ quindi $T(n) = \Theta(3^n)$ (vedi [teoria_complessita.md §1](teoria_complessita
 
 
 
-## 2. Soluzione 2: programmazione dinamica *top-down* — memoization
+## 2. Soluzione: programmazione dinamica *top-down* — memoization
 
 L'osservazione chiave è la stessa vista per Fibonacci: il risultato per un dato $n$ va calcolato una sola volta. Riusando lo stesso combinatore generico visto in [problema_fibonacci.md § Un Memoize generico e riutilizzabile](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile):
 
@@ -120,7 +120,7 @@ Ogni valore `countBSTMemo(k)` viene calcolato una sola volta, ma il suo calcolo 
 
 
 
-## 3. Soluzione 3: programmazione dinamica *bottom-up*
+## 3. Soluzione: programmazione dinamica *bottom-up*
 
 L'alternativa, come per Fibonacci, è costruire i risultati dal basso: si calcola `conteggio[k]` per $k$ crescente da $0$ a $n$, usando solo valori già calcolati:
 
@@ -214,9 +214,9 @@ Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato 
 
 | Soluzione | Tempo | Spazio | Note |
 |---|---|---|---|
-| [Ricorsione diretta](#1-soluzione-1-ricorsione-diretta--theta3n) | $\Theta(3^n)$ | $O(n)$ (stack) | Ricalcola gli stessi sottoproblemi; impraticabile oltre $n \approx 20$ |
-| [DP top-down (memoization)](#2-soluzione-2-programmazione-dinamica-top-down--memoization) | $O(n^2)$ | $O(n)$ | Ogni sottoproblema calcolato una volta, ma il calcolo stesso costa $O(n)$ |
-| [DP bottom-up](#3-soluzione-3-programmazione-dinamica-bottom-up) | $O(n^2)$ | $O(n)$ | Stessa complessità della memoization, senza stack di ricorsione |
+| [Ricorsione diretta](#1-soluzione-ricorsione-diretta--theta3n) | $\Theta(3^n)$ | $O(n)$ (stack) | Ricalcola gli stessi sottoproblemi; impraticabile oltre $n \approx 20$ |
+| [DP top-down (memoization)](#2-soluzione-programmazione-dinamica-top-down--memoization) | $O(n^2)$ | $O(n)$ | Ogni sottoproblema calcolato una volta, ma il calcolo stesso costa $O(n)$ |
+| [DP bottom-up](#3-soluzione-programmazione-dinamica-bottom-up) | $O(n^2)$ | $O(n)$ | Stessa complessità della memoization, senza stack di ricorsione |
 | [Forma chiusa](#4-approfondimento-i-numeri-di-catalan) | $O(n)$ | $O(1)$ | La più veloce, ma soggetta a overflow per $n$ grandi in aritmetica a precisione fissa |
 
 Le tre tecniche seguono esattamente lo stesso schema di [problema_fibonacci.md §4](problema_fibonacci.md#4-confronto): la ricorsione diretta è la più immediata da scrivere ma esponenziale, la memoization la rende praticabile riusando il lavoro già fatto, e la versione bottom-up arriva alla stessa complessità senza stack di ricorsione. La forma chiusa è un'aggiunta possibile solo perché questo problema, a differenza di Fibonacci, ha anche un'elegante interpretazione combinatoria — ma è utilizzabile solo finché il risultato intermedio sta nel tipo intero scelto.
