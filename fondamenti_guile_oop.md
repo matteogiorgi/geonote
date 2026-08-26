@@ -1,4 +1,4 @@
-# Tipi Gnu Guile e programmazione a oggetti (GOOPS)
+# Tipi Guile e programmazione a oggetti (GOOPS)
 
 Questa nota approfondisce due argomenti già accennati in [fondamenti_guile.md](fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
 
