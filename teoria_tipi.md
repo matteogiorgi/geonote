@@ -175,9 +175,9 @@ let () = incrementa "ciao"
 **JavaScript — dinamico e debole.** Il perché è storico e deliberato: JavaScript nasce nel 1995 per manipolare form HTML in dieci giorni, con l'obiettivo esplicito di non far mai fallire rumorosamente uno script nel browser di un utente qualunque — meglio un risultato "ragionevole" che un errore bloccante. Il come è l'algoritmo di coercizione implicita (`ToPrimitive`/`ToNumber`/`ToString`) applicato ogni volta che un operatore riceve operandi di tipo diverso:
 
 ```javascript
-"5" + 3        // "53"  — + con una stringa forza ToString sull'altro operando
-"5" - 3        // 2     — con -, invece, forza ToNumber
-[] == ![]      // true  — [] diventa "" (ToString), ![] diventa false, poi entrambi 0
+"5" + 3; // "53" — + con una stringa forza ToString sull'altro operando
+"5" - 3; // 2 — con -, invece, forza ToNumber
+[] == ![]; // true — [] diventa "" (ToString), ![] diventa false, poi entrambi 0
 ```
 
 Il vantaggio è la tolleranza: un valore che arriva "quasi giusto" (una stringa `"3"` da un campo di un form, invece del numero `3`) spesso funziona comunque. Lo svantaggio è il rovescio della stessa medaglia — bug d'azione a distanza, difficili da individuare perché il linguaggio non si lamenta mai. L'uso migliore è disciplinare la debolezza a mano: `===` invece di `==` sempre, e in codice reale un livello statico sopra (TypeScript) che rifiuta molte di queste coercizioni prima ancora che accadano.
@@ -223,8 +223,8 @@ Il vantaggio è una scrittura quasi priva di annotazioni pur restando completame
 **Inferenza locale — Go e Java.** Il perché è una scelta pratica più recente e più conservativa: sia Go (dal day one, con `:=`) sia Java (con `var`, dalla versione 10) hanno deliberatamente *rifiutato* l'inferenza in stile Hindley-Milner a favore di un'inferenza puramente locale, guidata dal lato destro di una singola assegnazione — proprio per evitare i messaggi d'errore "a distanza" appena descritti e per mantenere le firme delle funzioni sempre esplicite come documentazione.
 
 ```go
-x := 42          // inferito da int letterale
-var y = "ciao"   // stesso principio, sintassi diversa
+x := 42        // inferito da int letterale
+var y = "ciao" // stesso principio, sintassi diversa
 ```
 ```java
 var lista = new ArrayList<String>();  // Java 10+, stesso principio: solo variabili locali
@@ -240,7 +240,7 @@ Il vantaggio è ridurre il rumore visivo (`var x = ...` invece di `TipoLunghissi
 **Sottotipaggio strutturale — Go.** Il perché è una reazione deliberata alle gerarchie di interfacce rigide in stile Java: i progettisti di Go (2009) volevano disaccoppiare *chi implementa* un'interfaccia da *chi la dichiara*, permettendo di scrivere un'interfaccia dopo aver già scritto i tipi che la soddisfano. Il come è che un tipo soddisfa un'interfaccia automaticamente, se possiede tutti i metodi richiesti — nessuna dichiarazione esplicita di intento:
 
 ```go
-type Stringer interface { String() string }
+type Stringer interface{ String() string }
 
 type Punto struct{ X, Y int }
 func (p Punto) String() string { return fmt.Sprintf("(%d,%d)", p.X, p.Y) }
@@ -286,7 +286,7 @@ System.out.println(s.length());  // NullPointerException, scoperta solo a runtim
 **OCaml e Haskell — `option`/`Maybe` come tipo esplicito.** L'assenza diventa un valore di prima classe dentro un tipo somma ([§12](#12-tipi-somma-e-pattern-matching-esaustivo)), e il compilatore obbliga a gestire entrambi i casi:
 
 ```ocaml
-let trova_utente : int -> utente option = fun id -> (* ... *)
+(* trova_utente : int -> utente option *)
 match trova_utente id with
 | Some u -> Printf.printf "%s\n" u.nome
 | None -> Printf.printf "utente non trovato\n"
@@ -298,10 +298,10 @@ match trova_utente id with
 ```go
 u, err := trovaUtente(id)
 if err != nil {
-    fmt.Println("utente non trovato:", err)
-    return
+	fmt.Println("utente non trovato:", err)
+	return
 }
-fmt.Println(u.Nome)   // qui, per convenzione, u è garantito valido
+fmt.Println(u.Nome) // qui, per convenzione, u è garantito valido
 ```
 
 Non è verificato dal compilatore quanto lo `option` di OCaml (nulla obbliga davvero a controllare `err`), ma la convenzione — rinforzata da linter come `errcheck` — rende l'ignorare l'errore un'anomalia visibile nel codice, non un'operazione silenziosa. Il confronto tra le quattro strategie mostra concretamente come un type system possa eliminare un'intera classe di bug (OCaml/Haskell), renderla solo più visibile per convenzione (Go), o non affrontarla affatto (C, e in pratica anche Java).
@@ -449,7 +449,7 @@ La prima è che R ha quattro sistemi a oggetti coesistenti — S3, S4, Reference
 cerchio <- list(raggio = 2)
 class(cerchio) <- "cerchio"
 print.cerchio <- function(x, ...) cat("Cerchio di raggio", x$raggio, "\n")
-print(cerchio)  # dispatch S3: cerca print.cerchio, la trova, la chiama
+print(cerchio) # dispatch S3: cerca print.cerchio, la trova, la chiama
 ```
 
 S4, più formale (`setClass`, `setGeneric`), aggiunge qualcosa che nessun altro linguaggio di questa nota ha nativamente: il **multiple dispatch** — un metodo può essere scelto in base alla classe di *più di un* argomento, non solo del ricevente.
@@ -457,8 +457,8 @@ S4, più formale (`setClass`, `setGeneric`), aggiunge qualcosa che nessun altro 
 La seconda ragione è la sua politica di coercizione automatica e gerarchica tra i tipi vettoriali di base (`logical` < `integer` < `double` < `character`), unita al valore speciale `NA` che si propaga silenziosamente attraverso i calcoli invece di segnalare un errore:
 
 ```r
-c(1, TRUE, "a")   # -> tutto coercito a character: c("1", "TRUE", "a")
-NA + 1             # -> NA, non un errore: l'assenza si propaga
+c(1, TRUE, "a") # -> tutto coercito a character: c("1", "TRUE", "a")
+NA + 1 # -> NA, non un errore: l'assenza si propaga
 ```
 
 Combinato con l'essere un linguaggio dinamico e debole (§7–§8), questo rende R il linguaggio della nota dove le coercizioni implicite sono più pervasive e più difficili da prevedere a colpo d'occhio — un costo accettato in cambio della comodità nell'esplorazione interattiva di dati eterogenei, che è il contesto per cui R è stato disegnato.
@@ -474,15 +474,15 @@ In Guile, R o JavaScript i *valori* portano con sé un tipo a runtime: `3` sa di
 
 ```bash
 x=5
-x=ciao          # rappresentazione IDENTICA alla riga precedente: solo testo
+x=ciao # rappresentazione IDENTICA alla riga precedente: solo testo
 
-echo $(( x + 1 ))   # errore solo perché "ciao" non parsifica come intero,
-                    # non perché il "tipo" non corrisponda: (( )) prova a
-                    # interpretare comunque la stringa come espressione aritmetica
+echo $((x + 1)) # errore solo perché "ciao" non parsifica come intero,
+                # non perché il "tipo" non corrisponda: (( )) prova a
+                # interpretare comunque la stringa come espressione aritmetica
 
-declare -i n=5      # il timido cenno a un "tipo": un attributo sulla variabile
-n=n+1                # -> 6: la stringa "n+1" viene ri-valutata come aritmetica
-                    # ogni volta che n viene letta, non è un vero intero tipato
+declare -i n=5 # il timido cenno a un "tipo": un attributo sulla variabile
+n=n+1          # -> 6: la stringa "n+1" viene ri-valutata come aritmetica
+               # ogni volta che n viene letta, non è un vero intero tipato
 ```
 
 È la stessa distinzione che, in teoria dei tipi, separa il lambda calcolo *tipato* dal lambda calcolo *non tipato*: qui il "tipo" emerge esclusivamente dal contesto sintattico che consuma il valore (`$(( ))` prova un'interpretazione numerica, `[[ -f ]]` una di percorso file, altrove resta testo puro), mai da un tag intrinseco al valore stesso.
@@ -491,9 +491,9 @@ La lezione più utile che Bash offre è al negativo: cosa succede senza alcuna d
 
 ```bash
 dir=
-rm -rf "$dir"/*     # con $dir vuota e quotata correttamente: errore "No such file"
-rm -rf $dir/*        # SENZA quote: $dir si espande a niente, il comando diventa
-                     # letteralmente `rm -rf /*` dopo l'espansione della shell
+rm -rf "$dir"/* # con $dir vuota e quotata correttamente: errore "No such file"
+rm -rf $dir/*   # SENZA quote: $dir si espande a niente, il comando diventa
+                # letteralmente `rm -rf /*` dopo l'espansione della shell
 ```
 
 Non è un tipo che manca in senso stretto — è l'assenza di *qualunque* distinzione tra "questo è un percorso", "questo è vuoto", "questo è una lista di percorsi" a rendere questa classe di errore strutturalmente possibile. È il miglior argomento *in negativo* del perché i tipi, anche quelli minimi come lo `option` del [§11](#11-il-problema-del-niente-null-option-zero-value), esistono: non per burocrazia, ma per rendere impossibili per costruzione errori come questo.

@@ -4,6 +4,8 @@
 	<img src="mario.gif" alt="Mario" style="display:block;width:100%;height:auto;margin-bottom:48px;border:5px solid var(--link);border-radius:12px;box-sizing:border-box;">
 </p>
 
+- **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
+- **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
 - **[Sistemi di tipi](teoria_tipi.md)**: statico/dinamico, forte/debole, inferenza, null/option, ADT, polimorfismo.
 - **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
 - **[Riduzioni](teoria_riduzioni.md)**: many-one e di Turing, SAT → 3-SAT → Clique → Vertex Cover, teorema di Cook-Levin.
