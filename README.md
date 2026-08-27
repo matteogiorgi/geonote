@@ -28,5 +28,6 @@
 
 ## Problemi e algoritmi
 
+- **[Matching di espressioni regolari](problema_regex_matching.md)**: implementazione di `.` e `*` da zero, con ricorsione diretta e DP.
 - **[Numero alberi binari di ricerca](problema_bst.md)**: ricorsione, DP, forma chiusa e numeri di Catalan.
 - **[Fibonacci](problema_fibonacci.md)**: ricorsione diretta, programmazione dinamica *top-down* (memoization) e *bottom-up*.
