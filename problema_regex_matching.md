@@ -99,6 +99,8 @@ func regexMatch(s, regex string) bool {
 
 Il ramo `a*`/`.*` è l'unico punto in cui la funzione genera più di una chiamata: da qui nasce la stessa esplosione combinatoria vista in [problema_fibonacci.md §1](problema_fibonacci.md#1-soluzione-ricorsione-diretta--o2n). Per vederlo, ecco il trace di `regexMatch("aab", "aa*b")` (tokens `["a", "a*", "b"]`), che restituisce `true`:
 
+<div markdown="1" align="center">
+
 ```mermaid
 flowchart TD
     m1["match(0,0)"] --> m2["match(1,1)"]
@@ -108,12 +110,14 @@ flowchart TD
     m5 --> m6["match(3,3) — match!"]
 ```
 
-Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [teoria_costo.md §2](teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = |s|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [teoria_regex.md §4.5](teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
+</div>
+
+Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [teoria_costo.md §2](teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = \|s\|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [teoria_regex.md §4.5](teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
 
 > **Curiosità:** il sottoinsieme di sintassi usato qui (`.` e `*`) è già valido come regex "vera" in quasi ogni flavor (vedi [teoria_regex.md §6](teoria_regex.md#6-i-flavor-perché-la-stessa-regex-non-funziona-ovunque)). Si può quindi delegare lo stesso confronto a un motore reale, ancorando con `^...$` per pretendere un match totale invece che parziale:
 > ```r
 > regex_match_motore_vero <- function(s, regex) grepl(paste0("^", regex, "$"), s)
-> regex_match_motore_vero("aab", "aa*b")  # TRUE, come regexMatch("aab", "aa*b")
+> regex_match_motore_vero("aab", "aa*b") # TRUE, come regexMatch("aab", "aa*b")
 > ```
 > La differenza è tutta dietro le quinte: qui sopra `grepl` delega a un motore NFA/DFA compilato, mentre `regexMatch` implementa da zero, con ricorsione esplicita, esattamente la stessa logica.
 
@@ -166,9 +170,9 @@ Le combinazioni possibili di `(iString, iRegex)` sono al più $(n+1)(m+1)$, quin
 
 > **Approfondimento in _Guile_:** il `memoize` visto in [problema_fibonacci.md §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile) funziona qui altrettanto bene, ma senza bisogno di definire uno `struct` apposito: basta usare come chiave una coppia `(cons i-string i-regex)`, perché le hash-table di Guile confrontano le chiavi per struttura (`equal?`) e non per identità:
 > ```scheme
-> (define match (memoize (lambda (chiave)
->                            (let ((i-string (car chiave)) (i-regex (cdr chiave)))
->                              ...))))
+> (define match
+>   (memoize (lambda (chiave)
+>              (esegui-match (car chiave) (cdr chiave)))))
 > (match (cons 0 0))
 > ```
 > È lo stesso vantaggio della tipizzazione dinamica già notato in [problema_fibonacci.md §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile): Go richiede di dichiarare in anticipo la forma della chiave, Guile no.
