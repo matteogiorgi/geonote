@@ -571,9 +571,7 @@ Errori più frequenti in assoluto:
 4. Doppio escaping sbagliato → il pattern non è quello che credi.
 5. Provare a parsare HTML/JSON con le regex.
 
-> **Esercizio:** prendi il pattern data del [§7](#7-lo-stesso-problema-in-ogni-linguaggio-rosetta) e riscrivilo per estrarre un'altra cosa (es. una riga di log `IP - - [data] "GET /path" 200`). Costringe a usare gruppi, quantificatori e ancore tutti insieme.
->
-> **Soluzione (in Bash):** il candidato più snello — niente import, niente funzione, match ed estrazione dei gruppi in un solo `if`.
+> **Esercizio risolto (in Bash):** prendi il pattern data del [§7](#7-lo-stesso-problema-in-ogni-linguaggio-rosetta) e riscrivilo per estrarre un'altra cosa, ad esempio una riga di log `IP - - [data] "GET /path" 200` — costringe a usare gruppi, quantificatori e ancore tutti insieme. Bash è il linguaggio più snello per risolverlo: niente import, niente funzione, match ed estrazione dei gruppi in un solo `if`.
 > ```bash
 > line='93.184.216.34 - - [27/Aug/2026:14:32:05 +0200] "GET /index.html HTTP/1.1" 200'
 >
