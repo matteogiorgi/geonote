@@ -334,4 +334,4 @@ $$
 
 > I primi tre passaggi sono costruiti passo-passo nei [§5](#5-esempio-1--sat-le_p-3-sat)–[§7](#7-esempio-3--clique-le_p-vertex-cover); gli ultimi due (non trattati qui) seguono lo stesso schema generale.
 
-> Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi **[teoria_complessita.md](teoria_complessita.md)**.
+> Per le definizioni di P, NP, NP-completezza e le classi correlate, vedi [teoria_complessita.md](teoria_complessita.md).
