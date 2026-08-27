@@ -1,4 +1,4 @@
-# Problema: la partizione di un insieme in due parti di uguale somma
+# Problema: partizione in due parti di uguale somma
 
 Dato un insieme di numeri interi positivi, determinare se può essere partizionato in due parti aventi la stessa somma.
 
