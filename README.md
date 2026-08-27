@@ -28,6 +28,7 @@
 
 ## Problemi e algoritmi
 
+- **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
 - **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
 - **[Numero di BST](problema_bst.md)**: ricorsione, PD, forma chiusa e numeri di Catalan.
 - **[Fibonacci](problema_fibonacci.md)**: ricorsione diretta, PD *top-down* (memoization) e *bottom-up*.
