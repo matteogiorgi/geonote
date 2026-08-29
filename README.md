@@ -1,6 +1,6 @@
 # Geonote
 
-Raccolta di note teoriche su linguaggi e problemi algoritmici, pensati come riferimento rapido e materiale di ripasso.
+Raccolta di note teoriche pensati come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica. Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competizioni, risolti con più approcci (ricorsione diretta, programmazione dinamica, forme chiuse).
 
 
 
