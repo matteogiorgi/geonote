@@ -1,5 +1,12 @@
 # Geonote
 
+Raccolta di note teoriche su linguaggi e problemi algoritmici, pensati come riferimento rapido e materiale di ripasso.
+
+
+
+
+## Fondamenti e curiosità
+
 - **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
 - **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
 - **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
