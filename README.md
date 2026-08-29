@@ -1,14 +1,5 @@
 # Geonote
 
-<p align="center">
-	<img src="me.gif" alt="Me" style="display:block;width:100%;height:auto;margin-bottom:48px;border:5px solid var(--link);border-radius:12px;box-sizing:border-box;">
-</p>
-
-
-
-
-## Fondamenti e approfondimenti
-
 - **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
 - **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
 - **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
@@ -26,7 +17,7 @@
 
 
 
-## Problemi e algoritmi
+## Interview and competition problems
 
 - **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
 - **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
