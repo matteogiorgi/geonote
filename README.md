@@ -1,11 +1,13 @@
 # Geonote
 
-Raccolta di note teoriche pensati come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica. Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competizioni, risolti con più approcci (ricorsione diretta, programmazione dinamica, forme chiuse).
+Raccolta di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
+
+Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competizioni, risolti con più approcci (ricorsione diretta, programmazione dinamica, forme chiuse).
 
 
 
 
-## Fondamenti e curiosità
+## Teoria, fondamenti e curiosità
 
 - **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
 - **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
@@ -24,7 +26,7 @@ Raccolta di note teoriche pensati come riferimento rapido e materiale di ripasso
 
 
 
-## Interview and competition problems
+## Interview problems e programmazione competitiva
 
 - **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
 - **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
