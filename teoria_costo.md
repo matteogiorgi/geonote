@@ -184,9 +184,7 @@ $$
 Attenzione: a differenza del caso medio, qui **non c'è nessuna distribuzione di probabilità** — la garanzia vale per *ogni* sequenza di operazioni, anche costruita da un avversario. Le tre tecniche seguenti (aggregato, a scala, del potenziale) sono modi equivalenti per trovare e dimostrare validi questi $\hat{c}_i$.
 
 
-
-
-## 6. Metodo aggregato — esempio: vettore dinamico
+### 5.1 Metodo aggregato — esempio: vettore dinamico
 
 Il metodo più diretto: si calcola il costo **totale** $T(m)$ nel caso peggiore per una sequenza di $m$ operazioni, e si definisce il costo ammortizzato come la media:
 
@@ -235,9 +233,7 @@ $$
 Ogni singola `Push` può costare $\Theta(n)$ (quando ridimensiona), ma **in media su una sequenza qualsiasi** costa $O(1)$: è questo che si intende dicendo "l'inserimento in un vettore dinamico è $O(1)$ ammortizzato".
 
 
-
-
-## 7. Metodo a scala (accounting) — lo stesso esempio, vista diversa
+### 5.2 Metodo a scala (accounting) — lo stesso esempio, vista diversa
 
 Invece di sommare tutto e dividere, il metodo a scala assegna **manualmente** un costo ammortizzato $\hat{c}_i$ a ogni operazione, tale che l'operazione "sovrapaghi" quando è economica, accumulando un **credito** che finanzierà le operazioni future più costose. Deve valere, per ogni $k$:
 
@@ -256,9 +252,7 @@ cioè il credito accumulato non deve mai diventare negativo (non si può "spende
 Quando il vettore, pieno con $n$ elementi, deve raddoppiare: esattamente gli $n$ elementi presenti hanno (per induzione) un credito di 1 ciascuno, sufficiente a pagare la loro copia nel nuovo array. Il credito non scende mai sotto zero, quindi $\hat{c}_i = 3 = \Theta(1)$ è una maggiorazione valida — stesso risultato del metodo aggregato, ottenuto però assegnando un costo esplicito a ogni singola chiamata (utile quando si mescolano operazioni di tipo diverso, es. `Push` e `Pop`, cosa che il metodo aggregato da solo non distingue).
 
 
-
-
-## 8. Metodo del potenziale — esempio: contatore binario
+### 5.3 Metodo del potenziale — esempio: contatore binario
 
 Il metodo più generale (ed è quello che si generalizza meglio a strutture dati complesse, es. splay tree, heap binomiali). Si definisce una **funzione potenziale** $\Phi$ che mappa lo stato $D_i$ della struttura dati (dopo l'operazione $i$-esima) in un numero reale, con $\Phi(D_0) = 0$ e $\Phi(D_i) \ge 0$ per ogni $i$. Il costo ammortizzato dell'operazione $i$-esima è definito come:
 
@@ -314,7 +308,7 @@ Il costo ammortizzato per incremento è **costante**, indipendentemente da $k$: 
 
 
 
-## 9. Quadro riassuntivo
+## 6. Quadro riassuntivo
 
 | Nozione | Media/estremo su | Richiede probabilità? | Garanzia | Esempio tipico |
 |---|---|---|---|---|
@@ -328,7 +322,7 @@ Un punto spesso frainteso: il costo ammortizzato **non è** un caso medio "nel t
 
 
 
-## 10. Formulario compatto
+## 7. Formulario compatto
 
 $$
 T_{\text{pess}}(n) = \max_{I \in I_n} T(I) \qquad T_{\text{ott}}(n) = \min_{I \in I_n} T(I) \qquad T_{\text{medio}}(n) = \sum_{I \in I_n} \Pr[I]\, T(I) = \mathbb{E}_{I \sim D}[T(I)]
