@@ -5,7 +5,7 @@ Data una lista di $n$ numeri distinti, contare quanti alberi binari di ricerca (
 Esempio: dati i numeri $[1, 2, 3]$, si possono formare esattamente $5$ BST distinti, raggruppati qui sotto per elemento scelto come radice:
 
 ```mermaid
-%%{init: {"flowchart": {"nodeSpacing": 20, "rankSpacing": 30}}}%%
+%%{init: {"flowchart": {"nodeSpacing": 38, "rankSpacing": 40}}}%%
 flowchart TD
     subgraph R1["radice = 1"]
         a1((1)) --> a2((2))
