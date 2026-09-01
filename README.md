@@ -28,6 +28,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Interview problems e programmazione competitiva
 
+- **[Scomposizione di stringhe](problema_scomposizione_stringhe.md)**: ricorsione diretta, PD top-down e bottom-up (BFS).
 - **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
 - **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
 - **[Numero di BST](problema_bst.md)**: ricorsione, PD, forma chiusa e numeri di Catalan.
