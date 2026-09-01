@@ -178,7 +178,7 @@ Stessa complessità della memoization — $O(n \cdot m)$ in tempo, $O(n^2)$ in s
 
 
 
-## 4. Approfondimento: perché il problema chiede *una* scomposizione, non tutte quelle possibili
+## 4. Approfondimento: perché *una* scomposizione e non *tutte*
 
 Il problema chiede esplicitamente una scomposizione qualsiasi, non l'elenco completo. È una scelta che rende possibile la programmazione dinamica: se si chiedesse di enumerarle *tutte* (la variante nota come "Word Break II"), nessun algoritmo — memoizzato o meno — potrebbe farlo in tempo polinomiale in $n$, perché il numero di scomposizioni valide può a sua volta crescere esponenzialmente.
 
