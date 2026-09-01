@@ -60,7 +60,7 @@ Il caso pessimo vero e proprio, però, non è quello di una scomposizione riusci
 > **Approfondimento in _C_:** senza slice né `append`, la costruzione del risultato si scrive naturalmente al contrario: il chiamante alloca un buffer `risultato` grande abbastanza (nel caso pessimo, una parola per carattere), e ogni livello di ricorsione scrive la propria parola in `risultato[0]` solo *dopo* che la chiamata su `risultato + 1` è tornata con successo — cioè srotolando lo stack, dall'ultima parola alla prima:
 > ```c
 > bool scompone_frase(const char *dizionario[], int n_dizionario,
->                      const char *frase, const char *risultato[], int *n_parole) {
+>                     const char *frase, const char *risultato[], int *n_parole) {
 >     if (*frase == '\0') {
 >         *n_parole = 0;
 >         return true;
