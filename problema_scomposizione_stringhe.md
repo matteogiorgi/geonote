@@ -1,4 +1,4 @@
-# Problema: la scomposizione di una stringa senza spazi in parole
+# Problema: scomposizione di una stringa senza spazi
 
 Alcune lingue, come il thailandese o il latino classico, non separano le parole con spazi all'interno delle frasi. Questo crea qualche difficoltà per il software di elaborazione testi, che deve comunque essere in grado di riconoscere le parole.
 
