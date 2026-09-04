@@ -9,6 +9,8 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
+<img class="shot-img" src="sun_collision_blue.png" alt="Fumetto: astronauta e cinque strati di crema solare" />
+
 ### Teoria dei linguaggi
 
 - **[Sistemi di tipi](teoria_tipi.md)**: statico/dinamico, forte/debole, inferenza, null/option, ADT, polimorfismo.
@@ -49,6 +51,8 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 
 ## Interview problems e programmazione competitiva
+
+<img class="shot-img" src="sun_collision_red.png" alt="Fumetto: il nucleo del Sole produce energia per volume quanto una lucertola" />
 
 ### Programmazione dinamica
 
