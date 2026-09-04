@@ -9,27 +9,43 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
-- **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
-- **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
-- **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
 - **[Sistemi di tipi](teoria_tipi.md)**: statico/dinamico, forte/debole, inferenza, null/option, ADT, polimorfismo.
-- **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
-- **[Riduzioni](teoria_riduzioni.md)**: many-one, Turing, da SAT a Vertex Cover, teorema di Cook-Levin.
-- **[Costo algoritmico](teoria_costo.md)**: caso pessimo, ottimo, medio e ammortizzato con tecniche di calcolo.
+- **[I tipi _Go_ e OOP](fondamenti_go_oop.md)**: predicati, contratti, struct type, interfacce, ereditarietà, multiple dispatch.
+- **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
+- **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
+- **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
+
+<br>
+
 - **[Classi di complessità](teoria_complessita.md)**: notazione, MdT, P, NP, co-NP, NP-completezza, PSPACE, EXPTIME.
-- **[Fondamenti _R_](fondamenti_r.md)**: elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
-- **[Fondamenti _Guile_](fondamenti_guile.md)**: sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
+- **[Costo algoritmico](teoria_costo.md)**: caso pessimo, ottimo, medio e ammortizzato con tecniche di calcolo.
+- **[Riduzioni](teoria_riduzioni.md)**: many-one, Turing, da SAT a Vertex Cover, teorema di Cook-Levin.
+- **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
+
+<br>
+
 - **[Fondamenti _Go_](fondamenti_go.md)**: sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
-- **[Ripasso Analisi](teoria_analisi1.md)**: prerequisiti per Analisi 2 (successioni, serie, integrale di Riemann).
+- **[Fondamenti _Guile_](fondamenti_guile.md)**: sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
+- **[Fondamenti _R_](fondamenti_r.md)**: elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
+
+<br>
+
+- **[Elementi di Analisi](teoria_analisi1.md)**: prerequisiti per Analisi 2 (successioni, serie, integrale di Riemann).
+- **[Elementi di Probabilità](teoria_probabilita.md)**: prerequisiti per Probabilità 2 (spazi di probabilità, variabili aleatorie, distribuzioni).
+- **[Elementi di Statistica](teoria_statistica.md)**: prerequisiti per Statistica 2 (variabili aleatorie, distribuzioni, stima e test d'ipotesi).
+
+<br>
+
 - **[Geoteo _CSS_](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
+- **[GitHub Actions](github_actions.md)**: come aggiornare automaticamente il repository con GitHub Actions.
 
 
 
 
 ## Interview problems e programmazione competitiva
 
-- **[Scomposizione di stringhe](problema_scomposizione_stringhe.md)**: ricorsione diretta, PD top-down e bottom-up (BFS).
-- **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
-- **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
+- **[Risolvere Fibonacci](problema_fibonacci.md)**: ricorsione diretta, PD *top-down* (memoization) e *bottom-up*.
 - **[Numero di BST](problema_bst.md)**: ricorsione, PD, forma chiusa e numeri di Catalan.
-- **[Fibonacci](problema_fibonacci.md)**: ricorsione diretta, PD *top-down* (memoization) e *bottom-up*.
+- **[Matching di regex](problema_regex_matching.md)**: implementazione di `.` e `*` con ricorsione diretta e PD.
+- **[Partizione insieme](problema_partizione_uguale.md)**: ricorsione diretta e PD, ottimizzazione spazio e tempo.
+- **[Scomposizione di stringhe](problema_scomposizione_stringhe.md)**: ricorsione diretta, PD top-down e bottom-up (BFS).
