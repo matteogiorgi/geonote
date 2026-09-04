@@ -13,28 +13,28 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[I tipi _Go_ e OOP](fondamenti_go_oop.md)**: predicati, contratti, struct type, interfacce, ereditarietà, multiple dispatch.
 - **[I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)**: predicati, contratti, record type, classi, ereditarietà, multiple dispatch.
 - **[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md)**: predicati, contratti, coercizioni, S3, S4, multiple dispatch, R6.
+- **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
 - **[Regex](teoria_regex.md)**: sintassi, matching, flavor (POSIX/PCRE/RE2/ECMAScript), ReDoS, con esempi.
 
-<!-- --- -->
+<div align="center">⸻⸻⸻</div>
 
 - **[Classi di complessità](teoria_complessita.md)**: notazione, MdT, P, NP, co-NP, NP-completezza, PSPACE, EXPTIME.
 - **[Costo algoritmico](teoria_costo.md)**: caso pessimo, ottimo, medio e ammortizzato con tecniche di calcolo.
 - **[Riduzioni](teoria_riduzioni.md)**: many-one, Turing, da SAT a Vertex Cover, teorema di Cook-Levin.
-- **[Closure](teoria_chiusure.md)**: definizione, upward funarg problem, rappresentazione a runtime e confronti.
 
-<!-- --- -->
+<div align="center">⸻⸻⸻</div>
 
 - **[Fondamenti _Go_](fondamenti_go.md)**: sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
 - **[Fondamenti _Guile_](fondamenti_guile.md)**: sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
 - **[Fondamenti _R_](fondamenti_r.md)**: elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
 
-<!-- --- -->
+<div align="center">⸻⸻⸻</div>
 
 - **[Elementi di Analisi](teoria_analisi1.md)**: prerequisiti per Analisi 2 (successioni, serie, integrale di Riemann).
 - **[Elementi di Probabilità](teoria_probabilita.md)**: prerequisiti per Probabilità 2 (spazi di probabilità, variabili aleatorie, distribuzioni).
 - **[Elementi di Statistica](teoria_statistica.md)**: prerequisiti per Statistica 2 (variabili aleatorie, distribuzioni, stima e test d'ipotesi).
 
-<!-- --- -->
+<div align="center">⸻⸻⸻</div>
 
 - **[Geoteo _CSS_](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 - **[GitHub Actions](github_actions.md)**: come aggiornare automaticamente il repository con GitHub Actions.
