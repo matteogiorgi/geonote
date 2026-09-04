@@ -9,7 +9,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
-<img class="shot-img" src="sun_collision_blue.png" alt="Fumetto: astronauta e cinque strati di crema solare" />
+<img class="shot-img" src="sun_collision_red.png" alt="xkcd sun core" />
 
 ### Teoria dei linguaggi
 
@@ -52,7 +52,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Interview problems e programmazione competitiva
 
-<img class="shot-img" src="sun_collision_red.png" alt="Fumetto: il nucleo del Sole produce energia per volume quanto una lucertola" />
+<img class="shot-img" src="sun_collision_blue.png" alt="xkcd sunscreen" />
 
 ### Programmazione dinamica
 
