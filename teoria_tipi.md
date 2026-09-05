@@ -243,7 +243,9 @@ Il vantaggio è ridurre il rumore visivo (`var x = ...` invece di `TipoLunghissi
 type Stringer interface{ String() string }
 
 type Punto struct{ X, Y int }
+
 func (p Punto) String() string { return fmt.Sprintf("(%d,%d)", p.X, p.Y) }
+
 // Punto soddisfa Stringer senza mai menzionarlo — il compilatore lo scopre da solo
 ```
 
@@ -355,6 +357,7 @@ type Rettangolo struct{ Base, Altezza float64 }
 
 func (c Cerchio) Area() float64    { return math.Pi * c.Raggio * c.Raggio }
 func (r Rettangolo) Area() float64 { return r.Base * r.Altezza }
+
 // nessun controllo di esaustività nativo se si aggiunge un nuovo tipo che implementa Forma
 ```
 
@@ -390,7 +393,9 @@ Il come implementativo, degno di nota: il compilatore risolve `(==)` scegliendo 
 **Duck typing.** Informale e a runtime, negli stessi linguaggi dinamici del [§7](#7-statico-vs-dinamico-applicato):
 
 ```javascript
-function faiVersoso(animale) { animale.verso(); }
+function faiVersoso(animale) {
+    animale.verso();
+}
 // funziona con QUALUNQUE oggetto che abbia un metodo verso(), nessuna dichiarazione di tipo
 ```
 

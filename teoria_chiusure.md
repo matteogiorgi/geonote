@@ -204,8 +204,8 @@ crea_contatore <- function() {
 }
 
 conta <- crea_contatore()
-conta()   # => 1
-conta()   # => 2
+conta() # => 1
+conta() # => 2
 ```
 
 > **Nota:** il nome della variabile è `count`, non `c` — in R `c()` è la funzione di concatenazione (quella che costruisce vettori, es. `c(1, 2, 3)`), e chiamare una variabile locale `c` la ombreggerebbe silenziosamente in tutto il corpo della funzione.
@@ -254,10 +254,10 @@ Lo stesso problema di *loop-variable capture* si presenta in JavaScript, con una
 
 ```javascript
 // var: function-scoped — tutte le callback catturano la stessa variabile
-for (var i = 0; i < 3; i++) setTimeout(() => console.log(i));   // 3, 3, 3
+for (var i = 0; i < 3; i++) setTimeout(() => console.log(i)); // 3, 3, 3
 
 // let: block-scoped — una variabile per iterazione
-for (let i = 0; i < 3; i++) setTimeout(() => console.log(i));   // 0, 1, 2
+for (let i = 0; i < 3; i++) setTimeout(() => console.log(i)); // 0, 1, 2
 ```
 
 Il confronto è istruttivo perché le due correzioni attaccano il problema da lati opposti:

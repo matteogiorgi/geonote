@@ -53,9 +53,9 @@ Per argomenti che devono essere uno tra pochi valori ammessi, `match.arg()` vali
 riassumi <- function(x, metodo = c("media", "mediana", "somma")) {
     metodo <- match.arg(metodo) # errore chiaro se metodo non è tra i tre ammessi
     switch(metodo,
-           media   = mean(x),
-           mediana = median(x),
-           somma   = sum(x))
+        media   = mean(x),
+        mediana = median(x),
+        somma   = sum(x))
 }
 ```
 
@@ -190,11 +190,11 @@ setClass("Rettangolo", representation(base = "numeric", altezza = "numeric"))
 
 setGeneric("collide", function(a, b) standardGeneric("collide"))
 setMethod("collide", signature("Cerchio", "Cerchio"),
-          function(a, b) cat("collisione cerchio-cerchio\n"))
+    function(a, b) cat("collisione cerchio-cerchio\n"))
 setMethod("collide", signature("Cerchio", "Rettangolo"),
-          function(a, b) cat("collisione cerchio-rettangolo\n"))
+    function(a, b) cat("collisione cerchio-rettangolo\n"))
 setMethod("collide", signature("Rettangolo", "Rettangolo"),
-          function(a, b) cat("collisione rettangolo-rettangolo\n"))
+    function(a, b) cat("collisione rettangolo-rettangolo\n"))
 
 collide(new("Cerchio", raggio = 1), new("Rettangolo", base = 2, altezza = 2))
 # collisione cerchio-rettangolo — sceglie automaticamente il metodo giusto
@@ -211,7 +211,7 @@ setClass("Colorata", representation(colore = "character"))
 
 # ereditarietà multipla: contains accetta più di una superclasse
 setClass("CerchioColorato", contains = c("Forma", "Colorata"),
-         representation(raggio = "numeric"))
+    representation(raggio = "numeric"))
 
 cc <- new("CerchioColorato", nome = "c1", colore = "rosso", raggio = 5)
 cc@nome; cc@colore; cc@raggio
