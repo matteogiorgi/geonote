@@ -1,4 +1,4 @@
-# Tipi Go e programmazione a oggetti (struct, interfacce, embedding)
+# Tipi Go e programmazione a oggetti
 
 Questa nota approfondisce un argomento solo accennato in [fondamenti_go.md §7](fondamenti_go.md#7-struct-metodi-e-interfacce): il sistema di tipi di Go visto dal lato pratico (asserzioni, contratti a compile-time) e lo stile "a oggetti" del linguaggio — che non ha né classi né ereditarietà classica, ma **struct**, **interfacce implicite** ed **embedding**. È il confronto più istruttivo delle tre note sull'argomento proprio perché Go è l'unico dei tre linguaggi a essere *staticamente* tipato: molte domande che in [fondamenti_guile_oop.md](fondamenti_guile_oop.md) e [fondamenti_r_oop.md](fondamenti_r_oop.md) si risolvono a runtime, qui il compilatore le chiude prima ancora di eseguire una riga.
 
