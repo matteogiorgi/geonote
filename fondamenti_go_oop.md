@@ -62,10 +62,7 @@ Nei linguaggi dinamici delle altre due note, un "contratto" è una condizione co
 L'idioma per rendere quel controllo esplicito e immediato, invece di scoprirlo alla prima chiamata che lo richiede, è l'**asserzione di interfaccia a compile-time**: una dichiarazione a costo zero a runtime (`_` scarta il valore) che esiste solo per far fallire la build se il contratto si rompe.
 
 ```go
-type Forma interface {
-	Area() float64
-}
-
+type Forma interface{ Area() float64 }
 type Cerchio struct{ Raggio float64 }
 
 func (c Cerchio) Area() float64 { return math.Pi * c.Raggio * c.Raggio }
@@ -98,9 +95,7 @@ Lo stesso principio del *fail fast* di [fondamenti_guile_oop.md §2](fondamenti_
 Una `struct` è l'unico modo che Go offre per raggruppare campi con nome sotto un solo tipo — l'analogo dei *record type* di Scheme ([fondamenti_guile_oop.md §4](fondamenti_guile_oop.md#4-record-types-dati-strutturati-senza-oop)) e delle liste con `class` di R ([fondamenti_r_oop.md §4](fondamenti_r_oop.md#4-s3-il-sistema-informale)), ma verificata a compile-time invece che per convenzione.
 
 ```go
-type Punto struct {
-	X, Y float64
-}
+type Punto struct{ X, Y float64 }
 
 p := Punto{X: 3, Y: 4}
 p.X // => 3
@@ -140,10 +135,7 @@ func (p *Punto) Sposta(dx, dy float64) {
 Un'interfaccia elenca solo un insieme di metodi; un tipo la soddisfa **implicitamente**, avendo quei metodi, senza mai scrivere qualcosa come `implements` — il caso di scuola del sottotipaggio strutturale in [teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale), qui applicato allo stesso esempio ricorrente delle altre due note (cerchio, rettangolo, area):
 
 ```go
-type Forma interface {
-	Area() float64
-}
-
+type Forma interface{ Area() float64 }
 type Cerchio struct{ Raggio float64 }
 type Rettangolo struct{ Base, Altezza float64 }
 
@@ -184,15 +176,8 @@ type ReadWriter interface {
 Go non ha classi né ereditarietà nel senso di Java o C++: il meccanismo di riuso è l'**embedding**, un campo struct dichiarato senza nome che *promuove* i propri campi e metodi al tipo che lo contiene.
 
 ```go
-type Forma struct {
-	Nome string
-}
-
-func (f Forma) Descrivi() string { return "forma: " + f.Nome }
-
-type Colorata struct {
-	Colore string
-}
+type Forma struct{ Nome string }
+type Colorata struct{ Colore string }
 
 // embedding multiplo: CerchioColorato "eredita" campi e metodi di entrambe
 type CerchioColorato struct {
@@ -200,6 +185,8 @@ type CerchioColorato struct {
 	Colorata
 	Raggio float64
 }
+
+func (f Forma) Descrivi() string { return "forma: " + f.Nome }
 
 cc := CerchioColorato{
 	Forma:    Forma{Nome: "c1"},
@@ -281,9 +268,8 @@ Il workaround classico dell'OOP a dispatch singolo per questo esatto problema è
 Fino alla versione 1.18 (2022), il polimorfismo parametrico in Go si simulava solo con `any` e asserzioni di tipo, perdendo ogni controllo statico. I **generics** aggiungono parametri di tipo vincolati da un'interfaccia usata come *constraint* — l'insieme dei tipi ammessi al posto dell'insieme dei metodi richiesti:
 
 ```go
-type Numero interface {
-	~int | ~float64 // "~" ammette anche i tipi il cui underlying type è int/float64
-}
+// "~" ammette anche i tipi il cui underlying type è int/float64
+type Numero interface{ ~int | ~float64 }
 
 func Somma[T Numero](valori []T) T {
 	var tot T
@@ -373,12 +359,12 @@ func backup(s Salvatore, dato []byte) error { return s.Salva(dato) }
 // Bene: Logger è una capacità componibile, non un genitore concettuale
 type Logger struct{ prefisso string }
 
-func (l Logger) Log(msg string) { fmt.Println(l.prefisso + ": " + msg) }
-
 type Server struct {
 	Logger
 	porta int
 }
+
+func (l Logger) Log(msg string) { fmt.Println(l.prefisso + ": " + msg) }
 
 s := Server{Logger: Logger{prefisso: "server"}, porta: 8080}
 s.Log("avviato") // "server: avviato" — riuso per composizione, non per gerarchia
