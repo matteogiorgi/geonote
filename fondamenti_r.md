@@ -249,9 +249,13 @@ R dispone di un sistema grafico "base" e del pacchetto `ggplot2` (grammar of gra
 
 ```r
 # Grafica base
-plot(mtcars$wt, mtcars$mpg,
-    xlab = "Peso", ylab = "Consumo",
-    main = "Consumo vs Peso", pch = 19
+plot(
+    mtcars$wt,
+    mtcars$mpg,
+    xlab = "Peso",
+    ylab = "Consumo",
+    main = "Consumo vs Peso",
+    pch = 19
 )
 abline(lm(mpg ~ wt, data = mtcars), col = "red")
 hist(mtcars$mpg, breaks = 10)

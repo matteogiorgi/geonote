@@ -52,10 +52,12 @@ Per argomenti che devono essere uno tra pochi valori ammessi, `match.arg()` vali
 ```r
 riassumi <- function(x, metodo = c("media", "mediana", "somma")) {
     metodo <- match.arg(metodo) # errore chiaro se metodo non è tra i tre ammessi
-    switch(metodo,
+    switch(
+        metodo,
         media   = mean(x),
         mediana = median(x),
-        somma   = sum(x))
+        somma   = sum(x)
+    )
 }
 ```
 
@@ -171,10 +173,13 @@ area(c1) # => 12.56637
 A differenza di S3, dove `structure(list(...), class = ...)` accetta qualunque contenuto, S4 può rifiutare un oggetto malformato già alla costruzione, tramite una funzione di validità:
 
 ```r
-setClass("Cerchio", representation(raggio = "numeric"),
+setClass(
+    "Cerchio",
+    representation(raggio = "numeric"),
     validity = function(object) {
         if (object@raggio <= 0) "il raggio deve essere positivo" else TRUE
-    })
+    }
+)
 
 new("Cerchio", raggio = -1)
 # Error: invalid class "Cerchio" object: il raggio deve essere positivo
@@ -188,15 +193,30 @@ Lo stesso esempio "cosa succede quando due forme si scontrano" già visto per GO
 ```r
 setClass("Rettangolo", representation(base = "numeric", altezza = "numeric"))
 
-setGeneric("collide", function(a, b) standardGeneric("collide"))
-setMethod("collide", signature("Cerchio", "Cerchio"),
-    function(a, b) cat("collisione cerchio-cerchio\n"))
-setMethod("collide", signature("Cerchio", "Rettangolo"),
-    function(a, b) cat("collisione cerchio-rettangolo\n"))
-setMethod("collide", signature("Rettangolo", "Rettangolo"),
-    function(a, b) cat("collisione rettangolo-rettangolo\n"))
+setGeneric(
+    "collide",
+    function(a, b) standardGeneric("collide")
+)
+setMethod(
+    "collide",
+    signature("Cerchio", "Cerchio"),
+    function(a, b) cat("collisione cerchio-cerchio\n")
+)
+setMethod(
+    "collide",
+    signature("Cerchio", "Rettangolo"),
+    function(a, b) cat("collisione cerchio-rettangolo\n")
+)
+setMethod(
+    "collide",
+    signature("Rettangolo", "Rettangolo"),
+    function(a, b) cat("collisione rettangolo-rettangolo\n")
+)
 
-collide(new("Cerchio", raggio = 1), new("Rettangolo", base = 2, altezza = 2))
+collide(
+    new("Cerchio", raggio = 1),
+    new("Rettangolo", base = 2, altezza = 2)
+)
 # collisione cerchio-rettangolo — sceglie automaticamente il metodo giusto
 ```
 
@@ -210,8 +230,11 @@ setClass("Forma", representation(nome = "character"))
 setClass("Colorata", representation(colore = "character"))
 
 # ereditarietà multipla: contains accetta più di una superclasse
-setClass("CerchioColorato", contains = c("Forma", "Colorata"),
-    representation(raggio = "numeric"))
+setClass(
+    "CerchioColorato",
+    contains = c("Forma", "Colorata"),
+    representation(raggio = "numeric")
+)
 
 cc <- new("CerchioColorato", nome = "c1", colore = "rosso", raggio = 5)
 cc@nome; cc@colore; cc@raggio
@@ -250,7 +273,8 @@ S3 e S4 seguono la semantica **copy-on-modify** di R: modificare un campo produc
 ```r
 library(R6)
 
-Contatore <- R6Class("Contatore",
+Contatore <- R6Class(
+    "Contatore",
     public = list(
         count = 0,
         initialize = function(start = 0) { self$count <- start },
