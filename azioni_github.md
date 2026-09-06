@@ -1,4 +1,4 @@
-# GitHub Actions
+# Automatizzare un repo con GitHub Actions
 
 **GitHub Actions** è la piattaforma di CI/CD integrata in GitHub: definisce *workflow* dichiarativi in *YAML*, salvati in `.github/workflows/*.yml`, che GitHub esegue automaticamente in risposta a eventi del repository (push, pull request, schedule, ecc.) su macchine virtuali temporanee (*runner*) messe a disposizione da GitHub stesso o auto-ospitate. A differenza di un tema grafico o di una libreria condivisa, un workflow non viene "incluso": vive interamente dentro il repository che lo usa, un file per ogni pipeline.
 
