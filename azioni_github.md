@@ -7,12 +7,12 @@
 
 ## Mappa: cosa serve per cosa
 
-- **Eventi (`on`)** → *quando* un workflow parte: push, pull request, orario fisso (`schedule`), avvio manuale (`workflow_dispatch`).
-- **Job (`jobs`)** → *cosa* gira, isolato: ogni job ha il proprio runner (VM pulita), i job comunicano solo tramite artifact, mai tramite memoria condivisa.
-- **`needs`** → l'ordine tra job: un grafo aciclico diretto (DAG), non necessariamente una catena lineare.
-- **Matrix (`strategy.matrix`)** → *quante volte* ripetere lo stesso job, con parametri diversi (versioni, sistemi operativi).
-- **Cache e artifact** → cosa sopravvive *tra* run diversi (cache) o *tra* job dello stesso run (artifact).
-- **Permessi e secrets** → cosa il workflow *può fare* verso il resto di GitHub e verso servizi esterni.
+- **Eventi (`on`)**: *quando* un workflow parte. Push, pull request, orario fisso (`schedule`), avvio manuale (`workflow_dispatch`).
+- **Job (`jobs`)**: *cosa* gira, isolato. Ogni job ha il proprio runner (VM pulita), i job comunicano solo tramite artifact, mai tramite memoria condivisa.
+- **`needs`**: l'ordine tra job. Un grafo aciclico diretto (DAG), non necessariamente una catena lineare.
+- **Matrix (`strategy.matrix`)**: *quante volte* ripetere lo stesso job, con parametri diversi (versioni, sistemi operativi).
+- **Cache e artifact**: cosa sopravvive *tra* run diversi (cache) o *tra* job dello stesso run (artifact).
+- **Permessi e secrets**: cosa il workflow *può fare* verso il resto di GitHub e verso servizi esterni.
 
 
 
@@ -136,7 +136,7 @@ $$
 |J| = \prod_{i=1}^{k} |V_i|
 $$
 
-nell'esempio sopra, $|J| = 2 \times 3 = 6$ job indipendenti (GitHub impone un limite pratico di 256 job per matrice). `exclude` e `include` permettono di togliere o aggiungere combinazioni specifiche senza dover elencare tutto il prodotto cartesiano.
+nell'esempio sopra, $\|J\| = 2 \times 3 = 6$ job indipendenti (GitHub impone un limite pratico di 256 job per matrice). `exclude` e `include` permettono di togliere o aggiungere combinazioni specifiche senza dover elencare tutto il prodotto cartesiano.
 
 
 
@@ -288,7 +288,7 @@ Questo stesso repository (`geonote`) pubblica le proprie pagine su GitHub Pages 
 | File coinvolti       | `_layouts/`, `_config.yml` (vedi [tema_geoteo.md §2](tema_geoteo.md#2-passi-per-replicarlo-in-un-altro-repository)) | `.github/workflows/docs.yml`, `docs/source/` |
 | Trigger              | push su `main` (gestito da GitHub) | push su `main` **o** `workflow_dispatch` (dichiarati esplicitamente) |
 
-La regola generale: **serve un workflow di Actions per pubblicare su Pages ogni volta che il generatore del sito non è Jekyll** (Sphinx, Hugo, Docusaurus, un semplice script che produce HTML statico...) — in tutti questi casi tocca a un job `build` fare esplicitamente ciò che, per Jekyll, GitHub fa da solo dietro le quinte.
+> **La regola generale**: serve un workflow di Actions per pubblicare su Pages ogni volta che il generatore del sito non è Jekyll (Sphinx, Hugo, Docusaurus, un semplice script che produce HTML statico...) — in tutti questi casi tocca a un job `build` fare esplicitamente ciò che, per Jekyll, GitHub fa da solo dietro le quinte.
 
 
 

@@ -42,7 +42,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Elementi di Statistica](teoria_statistica.md)**: variabili aleatorie, distribuzioni, stima e test d'ipotesi.
 
 
-### Varie
+### Strumenti e curiosità
 
 - **[Geoteo _CSS_](tema_geoteo.md)**: come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 - **[GitHub Actions](azioni_github.md)**: workflow YAML, eventi, DAG di job, matrix, cache e permessi/OIDC.
