@@ -7,12 +7,12 @@
 
 ## Mappa: cosa serve per cosa
 
-- **Eventi (`on`)**: *quando* un workflow parte. Push, pull request, orario fisso (`schedule`), avvio manuale (`workflow_dispatch`).
-- **Job (`jobs`)**: *cosa* gira, isolato. Ogni job ha il proprio runner (VM pulita), i job comunicano solo tramite artifact, mai tramite memoria condivisa.
-- **`needs`**: l'ordine tra job. Un grafo aciclico diretto (DAG), non necessariamente una catena lineare.
-- **Matrix (`strategy.matrix`)**: *quante volte* ripetere lo stesso job, con parametri diversi (versioni, sistemi operativi).
-- **Cache e artifact**: cosa sopravvive *tra* run diversi (cache) o *tra* job dello stesso run (artifact).
-- **Permessi e secrets**: cosa il workflow *può fare* verso il resto di GitHub e verso servizi esterni.
+- **Eventi (`on`)** — *quando* un workflow parte: push, pull request, orario fisso (`schedule`), avvio manuale (`workflow_dispatch`).
+- **Job (`jobs`)** — *cosa* gira, isolato: ogni job ha il proprio runner (VM pulita), i job comunicano solo tramite artifact, mai tramite memoria condivisa.
+- **`needs`** — l'ordine tra job: un grafo aciclico diretto (DAG), non necessariamente una catena lineare.
+- **Matrix (`strategy.matrix`)** — *quante volte* ripetere lo stesso job, con parametri diversi (versioni, sistemi operativi).
+- **Cache e artifact** — cosa sopravvive *tra* run diversi (cache) o *tra* job dello stesso run (artifact).
+- **Permessi e secrets** — cosa il workflow *può fare* verso il resto di GitHub e verso servizi esterni.
 
 
 
