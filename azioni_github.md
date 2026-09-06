@@ -25,19 +25,19 @@ Un workflow minimo che gira su ogni push:
 name: CI
 
 on:
-    push:
-        branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-python@v5
-              with:
-                  python-version: "3.12"
-            - run: pip install -r requirements.txt
-            - run: pytest
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest
 ```
 
 | Chiave    | Livello           | Significato                                                                                    |
@@ -69,12 +69,12 @@ La chiave `on` accetta uno o più eventi:
 
 ```yaml
 on:
-    push:
-        branches: [main]
-    pull_request:
-    schedule:
-        - cron: "0 3 * * 1-5"
-    workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 3 * * 1-5"
+  workflow_dispatch:
 ```
 
 - **`push`** / **`pull_request`**: il caso più comune, con filtri opzionali su branch, tag o path.
@@ -117,17 +117,17 @@ flowchart LR
 
 ```yaml
 jobs:
-    test:
-        strategy:
-            matrix:
-                os: [ubuntu-latest, macos-latest]
-                python-version: ["3.10", "3.11", "3.12"]
-        runs-on: ${{ matrix.os }}
-        steps:
-            - uses: actions/setup-python@v5
-              with:
-                  python-version: ${{ matrix.python-version }}
-            - run: pytest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pytest
 ```
 
 Se la matrice ha $k$ assi $V_1, \dots, V_k$ (qui $k=2$: `os` e `python-version`), il numero di job generati è il prodotto cartesiano delle cardinalità di ciascun asse:
@@ -148,8 +148,8 @@ nell'esempio sopra, $|J| = 2 \times 3 = 6$ job indipendenti (GitHub impone un li
 ```yaml
 - uses: actions/cache@v4
   with:
-      path: ~/.cache/pip
-      key: pip-${{ hashFiles('requirements.txt') }}
+    path: ~/.cache/pip
+    key: pip-${{ hashFiles('requirements.txt') }}
 ```
 
 Concettualmente è la stessa idea della **memoization top-down** vista in [problema_fibonacci.md §2](problema_fibonacci.md): lì si evita di ricalcolare `fib(k)` se il risultato per quel `k` è già in tabella; qui si evita di reinstallare le dipendenze se il loro hash (`hashFiles('requirements.txt')`, che gioca il ruolo di chiave della tabella dei risultati) non è cambiato rispetto a un run precedente. In entrambi i casi la chiave è ciò che rende sicuro saltare il lavoro: se l'input cambia, cambia la chiave, e il "ricalcolo" (qui: `pip install`) riparte da zero.
@@ -167,9 +167,9 @@ Ogni workflow riceve automaticamente un `GITHUB_TOKEN` con permessi di default p
 
 ```yaml
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 ```
 
 - **`contents: read`**: il job può solo leggere il repository (checkout), non scrivere (niente push, niente release) — sufficiente per una build.
@@ -182,8 +182,8 @@ I **secrets** (`${{ secrets.NOME }}`) sono invece valori cifrati e persistenti c
 
 ```yaml
 concurrency:
-    group: pages
-    cancel-in-progress: false
+  group: pages
+  cancel-in-progress: false
 ```
 
 con `cancel-in-progress: false` un nuovo run entra in coda invece di cancellare quello in corso — importante per un deploy (non si vuole un sito a metà pubblicato), mentre per build di test su pull request si usa spesso `true`, per non sprecare minuti di CI su commit ormai superati da un push successivo.
@@ -199,62 +199,62 @@ Il repository [nn-option-pricing](https://github.com/matteogiorgi/nn-option-pric
 name: Build and publish documentation
 
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-    group: pages
-    cancel-in-progress: false
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Check out repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.11"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-            - name: Install dependencies
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install -r requirements.txt
-                  pip install -r requirements-docs.txt
-                  pip install -e . --no-build-isolation
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-docs.txt
+          pip install -e . --no-build-isolation
 
-            - name: Build Sphinx documentation
-              run: sphinx-build -W -b html docs/source docs/build/html
+      - name: Build Sphinx documentation
+        run: sphinx-build -W -b html docs/source docs/build/html
 
-            - name: Configure GitHub Pages
-              uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-            - name: Upload GitHub Pages artifact
-              uses: actions/upload-pages-artifact@v3
-              with:
-                  path: docs/build/html
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/build/html
 
-    deploy:
-        needs: build
-        runs-on: ubuntu-latest
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-        steps:
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 Due job, un solo arco `needs`:
