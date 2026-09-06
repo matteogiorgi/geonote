@@ -7,10 +7,10 @@ Le **riduzioni** sono lo strumento con cui si confronta la difficoltà di due pr
 
 ## Mappa: cosa serve per cosa
 
-- **Riduzione many-one (Karp)** → la più usata per confrontare problemi decisionali; è alla base della catena di riduzioni che dimostra NP-completezza.
-- **Riduzione Turing (Cook)** → più generale, usa $B$ come "oracolo" chiamabile più volte.
-- **Catena SAT → 3-SAT → Clique → Vertex Cover** → l'esempio canonico che si studia per capire come si costruiscono le riduzioni in pratica.
-- **Teorema di Cook-Levin** → il punto di partenza: SAT è NP-completo "per definizione diretta", tutto il resto si dimostra per riduzione da SAT (o da un problema già noto NP-completo).
+- **Riduzione many-one (Karp)** — la più usata per confrontare problemi decisionali; è alla base della catena di riduzioni che dimostra NP-completezza.
+- **Riduzione Turing (Cook)** — più generale, usa $B$ come "oracolo" chiamabile più volte.
+- **Catena SAT $\to$ 3-SAT $\to$ Clique $\to$ Vertex Cover** — l'esempio canonico che si studia per capire come si costruiscono le riduzioni in pratica.
+- **Teorema di Cook-Levin** — il punto di partenza: SAT è NP-completo "per definizione diretta", tutto il resto si dimostra per riduzione da SAT (o da un problema già noto NP-completo).
 
 
 
@@ -103,7 +103,7 @@ Non serve mai ridurre *da tutti* i problemi di NP: basta ridurre da **uno solo**
 
 La riduzione trasforma ogni clausola $C$ di SAT in un insieme equisoddisfacibile di clausole a 3 letterali, introducendo variabili ausiliarie:
 
-- Clausola con 1 letterale $(\ell_1)$ → si duplica:
+- Clausola con 1 letterale $(\ell_1) \to$ si duplica:
 
 $$
 (\ell_1 \vee z_1 \vee z_2) \wedge (\ell_1 \vee \overline{z_1} \vee z_2) \wedge (\ell_1 \vee z_1 \vee \overline{z_2}) \wedge (\ell_1 \vee \overline{z_1} \vee \overline{z_2}).
@@ -115,8 +115,8 @@ $$
 (\ell_1 \vee \ell_2) \rightarrow (\ell_1 \vee \ell_2 \vee z) \wedge (\ell_1 \vee \ell_2 \vee \overline{z}).
 $$
 
-- Clausola con 3 letterali → resta invariata.
-- Clausola con $k > 3$ letterali $(\ell_1 \vee \ell_2 \vee \cdots \vee \ell_k)$ → si introducono $k-3$ variabili ausiliarie $z_1, \dots, z_{k-3}$ per "spezzarla" in catena:
+- Clausola con 3 letterali $\to$ resta invariata.
+- Clausola con $k > 3$ letterali $(\ell_1 \vee \ell_2 \vee \cdots \vee \ell_k) \to$ si introducono $k-3$ variabili ausiliarie $z_1, \dots, z_{k-3}$ per "spezzarla" in catena:
 
 $$
 (\ell_1 \vee \ell_2 \vee z_1) \wedge (\overline{z_1} \vee \ell_3 \vee z_2) \wedge (\overline{z_2} \vee \ell_4 \vee z_3) \wedge \cdots \wedge (\overline{z_{k-3}} \vee \ell_{k-1} \vee \ell_k).

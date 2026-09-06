@@ -7,11 +7,11 @@ La **teoria della complessità computazionale** classifica i problemi in base al
 
 ## Mappa: cosa serve per cosa
 
-- **Notazione asintotica** ($O$, $\Omega$, $\Theta$) → per parlare di crescita del tempo/spazio ignorando le costanti.
-- **Macchina di Turing (deterministica e non deterministica)** → il modello formale su cui si definiscono le classi.
-- **P, NP, co-NP** → le classi centrali per i problemi "trattabili" e "verificabili in fretta".
-- **NP-completezza** → i problemi più difficili di NP; per dimostrarla servono le **riduzioni**, trattate in dettaglio in [teoria_riduzioni.md](teoria_riduzioni.md).
-- **PSPACE, EXPTIME** → classi più ampie, per problemi che richiedono più spazio o tempo esponenziale.
+- **Notazione asintotica** ($O$, $\Omega$, $\Theta$) — per parlare di crescita del tempo/spazio ignorando le costanti.
+- **Macchina di Turing (deterministica e non deterministica)** — il modello formale su cui si definiscono le classi.
+- **P, NP, co-NP** — le classi centrali per i problemi "trattabili" e "verificabili in fretta".
+- **NP-completezza** — i problemi più difficili di NP; per dimostrarla servono le **riduzioni**, trattate in dettaglio in [teoria_riduzioni.md](teoria_riduzioni.md).
+- **PSPACE, EXPTIME** — classi più ampie, per problemi che richiedono più spazio o tempo esponenziale.
 
 
 
@@ -190,7 +190,7 @@ I problemi NP-completi sono, informalmente, i "più difficili" di NP: se se ne t
 
 Il **teorema di Cook-Levin** (1971) dimostra che **SAT è NP-completo** — è stato il primo problema per cui si è dimostrata questa proprietà, ed è la base da cui si dimostrano NP-completi tutti gli altri (tramite riduzioni a catena).
 
-> La costruzione delle riduzioni, con esempi passo-passo (SAT → 3-SAT → Clique → Vertex Cover → ...), è approfondita in [teoria_riduzioni.md](teoria_riduzioni.md).
+> La costruzione delle riduzioni, con esempi passo-passo (SAT $\to$ 3-SAT $\to$ Clique $\to$ Vertex Cover $\to \dots$), è approfondita in [teoria_riduzioni.md](teoria_riduzioni.md).
 
 **Esempi di problemi NP-completi:** SAT, 3-SAT, Clique, Vertex Cover, Hamiltonian Cycle, commesso viaggiatore (decisionale), Subset Sum, coloring di grafi ($k \ge 3$).
 
