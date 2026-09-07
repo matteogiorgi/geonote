@@ -31,9 +31,9 @@ Non serve una laurea in informatica teorica, ma due idee chiariscono *perché* l
 
 Formalmente, una regex descrive un **linguaggio regolare**: un insieme (anche infinito) di stringhe. Si costruisce da tre operazioni fondamentali, che ritrovi tali e quali nella sintassi:
 
-- **Concatenazione** — una cosa dopo l'altra: $R_1 R_2$ → in regex si scrive semplicemente `ab`;
-- **Unione (alternanza)** — una cosa *oppure* un'altra: $R_1 \cup R_2$ → in regex `a|b`;
-- **Stella di Kleene** — "zero o più ripetizioni": $R^{*}$ → in regex `a*`.
+- **Concatenazione** — una cosa dopo l'altra: $R_1 R_2 \to$ in regex si scrive semplicemente `ab`;
+- **Unione (alternanza)** — una cosa *oppure* un'altra: $R_1 \cup R_2 \to$ in regex `a|b`;
+- **Stella di Kleene** — "zero o più ripetizioni": $R^{*} \to$ in regex `a*`.
 
 Partendo dal carattere singolo e dalla stringa vuota $\varepsilon$, con queste tre operazioni costruisci qualsiasi pattern. Tutto il resto (`+`, `?`, `\d`, `[...]`) è zucchero sintattico: scorciatoie comode per cose che potresti scrivere anche con solo queste tre. Un linguaggio regolare si può anche definire ricorsivamente:
 
@@ -103,12 +103,12 @@ Dicono quante volte ripetere l'elemento che li precede:
 
 | Quantificatore | Significato | Esempio |
 |---|---|---|
-| `*` | zero o più | `ab*` → `a`, `ab`, `abbbb` |
-| `+` | uno o più | `ab+` → `ab`, `abbbb` (non `a`) |
-| `?` | zero o uno (opzionale) | `colou?r` → `color`, `colour` |
-| `{n}` | esattamente `n` volte | `\d{4}` → un anno a 4 cifre |
-| `{n,}` | almeno `n` volte | `\d{2,}` → 2 o più cifre |
-| `{n,m}` | da `n` a `m` volte | `\d{2,4}` → da 2 a 4 cifre |
+| `*` | zero o più | `ab*` $\to$ `a`, `ab`, `abbbb` |
+| `+` | uno o più | `ab+` $\to$ `ab`, `abbbb` (non `a`) |
+| `?` | zero o uno (opzionale) | `colou?r` $\to$ `color`, `colour` |
+| `{n}` | esattamente `n` volte | `\d{4}` $\to$ un anno a 4 cifre |
+| `{n,}` | almeno `n` volte | `\d{2,}` $\to$ 2 o più cifre |
+| `{n,m}` | da `n` a `m` volte | `\d{2,4}` $\to$ da 2 a 4 cifre |
 
 **Greedy, lazy, possessive** — questa distinzione crea molti bug. Di default i quantificatori sono golosi (**greedy**): prendono il più possibile. Il quantificatore **lazy** (`.*?`) prende il minimo possibile; il **possessive** (`.*+`) prende il massimo e non molla mai (utile per le prestazioni, vedi [§4.5](#45-catastrophic-backtracking-e-redos)). Esempio su `<a><b>`:
 
@@ -196,7 +196,7 @@ Questa è una fonte di bug enorme perché cambia da linguaggio a linguaggio. Dat
 
 Se un pattern può combaciare in più modi, ci sono due filosofie: **leftmost-longest** (semantica POSIX), a parità di punto di partenza vince il match più lungo possibile — è un criterio globale; **leftmost-first** (semantica Perl/PCRE), il motore prova le alternative in ordine e si tiene la prima che funziona, guidato dal backtracking — non è detto sia la più lunga.
 
-Esempio: pattern `a|ab` sul testo `ab`. Perl/PCRE prova `a` per prima, funziona → match = `a`. POSIX (leftmost-longest) sceglie il più lungo → match = `ab`.
+Esempio: pattern `a|ab` sul testo `ab`. Perl/PCRE prova `a` per prima, funziona $\to$ match = `a`. POSIX (leftmost-longest) sceglie il più lungo $\to$ match = `ab`.
 
 La maggior parte dei linguaggi che userai è Perl-style; ma POSIX (C, `grep`, la libreria `regex-tdfa` di Haskell) segue l'altra regola. Se ottieni un match "più corto/lungo del previsto" tra due ambienti, quasi sempre è questa la ragione.
 
@@ -257,7 +257,7 @@ Le regex sembrano uguali dappertutto, ma sotto ci sono motori diversi con dialet
 
 - **POSIX BRE** (*Basic Regular Expressions*) — il dialetto "vecchio" di `grep` e `sed`. Qui `+`, `?`, `{}`, `|`, `()` sono letterali; per dargli il significato speciale servono `\(`, `\{`, `\|`. Ha le backreference.
 - **POSIX ERE** (*Extended*) — `grep -E`, `[[ =~ ]]` di Bash, C con `REG_EXTENDED`. Qui `+ ? { } | ( )` funzionano "normalmente". Niente `\d` (si usa `[[:digit:]]`), niente lookaround, niente lazy; le backreference non fanno parte dello standard.
-- **PCRE / Perl-compatible** — lo standard *de facto* moderno. Ricchissimo: `\d`, gruppi con nome, lookaround, possessive, backreference. Motore a backtracking → potente ma vulnerabile al ReDoS.
+- **PCRE / Perl-compatible** — lo standard *de facto* moderno. Ricchissimo: `\d`, gruppi con nome, lookaround, possessive, backreference. Motore a backtracking $\to$ potente ma vulnerabile al ReDoS.
 - **ECMAScript** — il flavor di JavaScript. Molto vicino a PCRE (`\d`, gruppi con nome dal 2018, lookahead da sempre e lookbehind dal 2018). Sintassi literal comoda: `/pattern/flag`.
 - **RE2** — il motore di Go (e opzionale altrove). Filosofia opposta a PCRE: rinuncia a backreference e lookaround per garantire tempo lineare $O(n)$ e immunità al ReDoS. Ha `\d` e i gruppi con nome `(?P<…>)`.
 - **SRE / SRFI-115** — l'approccio di Guile/Scheme: la regex non è una stringa criptica ma una struttura dati (s-espressione). Concettualmente diverso, molto leggibile.
@@ -304,7 +304,7 @@ int main(void) {
 }
 ```
 
-Il ciclo tipico del mondo POSIX: compila (`regcomp`) → esegui (`regexec`) → libera (`regfree`). Si lavora con indici sul testo, non con sottostringhe pronte.
+Il ciclo tipico del mondo POSIX: compila (`regcomp`) $\to$ esegui (`regexec`) $\to$ libera (`regfree`). Si lavora con indici sul testo, non con sottostringhe pronte.
 
 
 ### Bash — POSIX ERE (`[[ =~ ]]`)
@@ -321,8 +321,8 @@ if [[ $text =~ ([0-9]{2})/([0-9]{2})/([0-9]{4}) ]]; then
 fi
 
 # In alternativa, dalla riga di comando con gli strumenti classici:
-#   grep -oE '[0-9]{2}/[0-9]{2}/[0-9]{4}'   → ERE
-#   grep -oP '\d{2}/\d{2}/\d{4}'            → PCRE (GNU grep)
+#   grep -oE '[0-9]{2}/[0-9]{2}/[0-9]{4}'   -> ERE
+#   grep -oP '\d{2}/\d{2}/\d{4}'            -> PCRE (GNU grep)
 #   sed -E 's#.*([0-9]{2})/([0-9]{2})/([0-9]{4}).*#\1 \2 \3#'
 ```
 
@@ -472,7 +472,7 @@ let () =
     | None -> ()
 ```
 
-`Re` (moderna, sicura, componibile) è preferibile al modulo standard `Str`, più basilare e non rientrante (stato globale condiviso → problemi con i thread).
+`Re` (moderna, sicura, componibile) è preferibile al modulo standard `Str`, più basilare e non rientrante (stato globale condiviso $\to$ problemi con i thread).
 
 
 ### Haskell — `regex-tdfa`, l'operatore `=~` polimorfo
@@ -528,7 +528,7 @@ Riepilogo per linguaggio:
 
 | Linguaggio | Motore / flavor | Nota chiave |
 |---|---|---|
-| C | POSIX ERE (`<regex.h>`) | compila → esegui → libera; lavori con indici |
+| C | POSIX ERE (`<regex.h>`) | compila $\to$ esegui $\to$ libera; lavori con indici |
 | Bash | POSIX ERE (`[[ =~ ]]`) | ma `grep -P`/`sed`/`awk` cambiano flavor |
 | Go | RE2 | tempo lineare, niente backref/lookaround |
 | Java | PCRE-like | doppio escaping `"\\d"`; `find()` vs `matches()` |
@@ -545,9 +545,9 @@ Riepilogo per linguaggio:
 
 Prima di scrivere il pattern:
 
-- Il testo è annidato (HTML/JSON/parentesi)? → non usare regex, usa un parser.
+- Il testo è annidato (HTML/JSON/parentesi)? $\to$ non usare regex, usa un parser.
 - In che flavor sto scrivendo? (`\d` esiste? servono lookaround/backref?)
-- Devo validare "tutta la stringa"? → àncora con `^…$` o usa la funzione di match totale.
+- Devo validare "tutta la stringa"? $\to$ àncora con `^…$` o usa la funzione di match totale.
 
 Mentre lo scrivo:
 
@@ -559,16 +559,16 @@ Mentre lo scrivo:
 
 Prima di mandarlo in produzione:
 
-- Il pattern ha quantificatori annidati (`(x+)+`)? → rischio ReDoS, riscrivilo o usa RE2.
+- Il pattern ha quantificatori annidati (`(x+)+`)? $\to$ rischio ReDoS, riscrivilo o usa RE2.
 - L'ho testato su: caso valido, caso non valido, stringa vuota, e input "cattivo" lungo?
 - Ho considerato Unicode (accenti, emoji) se il testo può contenerne?
 
 Errori più frequenti in assoluto:
 
-1. Greedy dove serviva lazy → il match "sconfina".
-2. Dimenticare `^…$` → validi solo un pezzo della stringa.
+1. Greedy dove serviva lazy $\to$ il match "sconfina".
+2. Dimenticare `^…$` $\to$ validi solo un pezzo della stringa.
 3. Usare `\d`/`\w` in POSIX (C, Bash) dove non esistono.
-4. Doppio escaping sbagliato → il pattern non è quello che credi.
+4. Doppio escaping sbagliato $\to$ il pattern non è quello che credi.
 5. Provare a parsare HTML/JSON con le regex.
 
 > **Esercizio risolto (in Bash):** prendi il pattern data del [§7](#7-lo-stesso-problema-in-ogni-linguaggio-rosetta) e riscrivilo per estrarre un'altra cosa, ad esempio una riga di log `IP - - [data] "GET /path" 200` — costringe a usare gruppi, quantificatori e ancore tutti insieme. Bash è il linguaggio più snello per risolverlo: niente import, niente funzione, match ed estrazione dei gruppi in un solo `if`.

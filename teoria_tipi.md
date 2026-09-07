@@ -87,9 +87,9 @@ I costruttori di tipo più comuni hanno una struttura algebrica precisa, che val
 
 | Costruttore | Notazione | Cardinalità | Esempio |
 |---|---|---|---|
-| Prodotto (record / tupla) | $A \times B$ | $\lvert A\rvert \cdot \lvert B\rvert$ | `(bool, bool)` → 4 valori |
-| Somma (variant / `enum` taggato) | $A + B$ | $\lvert A\rvert + \lvert B\rvert$ | `Left of bool \| Right of unit` → 3 valori |
-| Funzione | $B^A$ | $\lvert B\rvert^{\lvert A\rvert}$ | `bool -> bool` → 4 funzioni possibili |
+| Prodotto (record / tupla) | $A \times B$ | $\lvert A\rvert \cdot \lvert B\rvert$ | `(bool, bool)` $\to$ 4 valori |
+| Somma (variant / `enum` taggato) | $A + B$ | $\lvert A\rvert + \lvert B\rvert$ | `Left of bool \| Right of unit` $\to$ 3 valori |
+| Funzione | $B^A$ | $\lvert B\rvert^{\lvert A\rvert}$ | `bool -> bool` $\to$ 4 funzioni possibili |
 | Unità | $1$ | $1$ | `unit` (OCaml), `()` (Haskell) — un solo valore |
 | Vuoto | $0$ | $0$ | `Void` (Haskell), tipo senza alcun costruttore |
 
@@ -425,7 +425,7 @@ Il perché storico: Java 1.0 (1996) non aveva ancora i generics (arrivati solo n
 
 ## 15. Il soffitto: effetti nel tipo e higher-kinded types
 
-Haskell illustra un asse che nessun altro linguaggio di questa nota tocca, ed è utile seguirne la genesi causale, perché è la catena che rende il risultato finale meno arbitrario di quanto sembri a prima vista: Haskell voleva la *valutazione lazy* (per poter ragionare sul codice per via puramente equazionale, senza dover fissare un ordine di valutazione) → ma la pigrizia rende gli effetti collaterali imprevedibili (se non si sa quando un'espressione viene valutata, non si sa nemmeno quando un `print` al suo interno avverrebbe), quindi il linguaggio impone la purezza nel nucleo: nessuna funzione può avere effetti collaterali e gli effetti, quando servono, vengono spostati nel sistema di tipi, con un tipo speciale `IO a` che li rende visibili nella firma:
+Haskell illustra un asse che nessun altro linguaggio di questa nota tocca, ed è utile seguirne la genesi causale, perché è la catena che rende il risultato finale meno arbitrario di quanto sembri a prima vista: Haskell voleva la *valutazione lazy* (per poter ragionare sul codice per via puramente equazionale, senza dover fissare un ordine di valutazione) $\to$ ma la pigrizia rende gli effetti collaterali imprevedibili (se non si sa quando un'espressione viene valutata, non si sa nemmeno quando un `print` al suo interno avverrebbe), quindi il linguaggio impone la purezza nel nucleo: nessuna funzione può avere effetti collaterali e gli effetti, quando servono, vengono spostati nel sistema di tipi, con un tipo speciale `IO a` che li rende visibili nella firma:
 
 ```haskell
 saluta :: String -> IO ()

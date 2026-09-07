@@ -1,4 +1,4 @@
-# Analisi 1 → Analisi 2: ripasso essenziale
+# Analisi 1 $\to$ Analisi 2: ripasso essenziale
 
 > Ripasso mirato dei prerequisiti di Analisi 1, organizzato in funzione del programma di Analisi 2:
 > successioni e serie, teoria della misura e integrazione, calcolo differenziale in più variabili,
@@ -197,7 +197,7 @@ $$f''(x_0) > 0 \Rightarrow \text{minimo locale}, \qquad f''(x_0) < 0 \Rightarrow
 
 **Convessità.** $f$ è convessa $\iff f'' \ge 0$; concava $\iff f'' \le 0$. Un punto dove la concavità cambia è un **flesso**.
 
-> **Serve per:** l'ottimizzazione libera in più variabili è la trasposizione esatta di questa sezione — $f'(x_0)=0$ diventa $\nabla f = 0$, e il segno di $f''$ diventa il segno della matrice hessiana (definita positiva → minimo, definita negativa → massimo, indefinita → sella).
+> **Serve per:** l'ottimizzazione libera in più variabili è la trasposizione esatta di questa sezione — $f'(x_0)=0$ diventa $\nabla f = 0$, e il segno di $f''$ diventa il segno della matrice hessiana (definita positiva $\to$ minimo, definita negativa $\to$ massimo, indefinita $\to$ sella).
 
 
 
