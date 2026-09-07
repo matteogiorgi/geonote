@@ -278,7 +278,7 @@ Il risultato è pubblicato all'indirizzo `https://matteogiorgi.github.io/nn-opti
 
 ## 8. Jekyll vs Sphinx: quando serve davvero un workflow
 
-Questo stesso repository (`geonote`) pubblica le proprie pagine su GitHub Pages **senza** alcun workflow: come descritto in [tema_geoteo.md §2.4](tema_geoteo.md#24-abilitare-github-pages), basta **Settings $\to$ Pages $\to$ Deploy from a branch**, perché *Jekyll* è generato **nativamente** dalla pipeline di build di GitHub Pages. `nn-option-pricing`, che usa *Sphinx* invece di Jekyll, non ha questa scorciatoia: Sphinx non è tra i generatori supportati nativamente da GitHub Pages, quindi la build va eseguita a mano (o, meglio, automatizzata) e solo l'HTML risultante va caricato come artifact di Pages.
+Questo stesso repository (`geonote`) pubblica le proprie pagine su GitHub Pages **senza** alcun workflow: come descritto in [tema_geoteo.md §2.4](tema_geoteo.md#24-abilitare-github-pages), basta *Settings $\to$ Pages $\to$ Deploy from a branch*, perché *Jekyll* è generato **nativamente** dalla pipeline di build di GitHub Pages. `nn-option-pricing`, che usa *Sphinx* invece di Jekyll, non ha questa scorciatoia: Sphinx non è tra i generatori supportati nativamente da GitHub Pages, quindi la build va eseguita a mano (o, meglio, automatizzata) e solo l'HTML risultante va caricato come artifact di Pages.
 
 |                      | `geonote` (Jekyll)                 | `nn-option-pricing` (Sphinx)                                         |
 |----------------------|------------------------------------|----------------------------------------------------------------------|

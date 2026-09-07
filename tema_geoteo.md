@@ -175,7 +175,7 @@ Il tag `{% raw %}{% seo %}{% endraw %}`, usato nel layout, richiede `jekyll-seo-
 
 ### 2.4 Abilitare GitHub-Pages
 
-Nelle impostazioni del repository: **Settings $\to$ Pages $\to$ Build and deployment $\to$ Deploy from a branch**, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [§2.1](#21-copiare-il-layout).
+Nelle impostazioni del repository: *Settings $\to$ Pages $\to$ Build and deployment $\to$ Deploy from a branch*, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [§2.1](#21-copiare-il-layout).
 
 
 
