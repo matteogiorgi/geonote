@@ -9,7 +9,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
-<img class="shot-img" src="pixel_alone.gif" alt="alone" />
+<img class="shot-img" src="pixel_astronaut_1.png" alt="astronaut_1" />
 
 ### Teoria dei linguaggi
 
@@ -52,7 +52,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Interview problems e programmazione competitiva
 
-<img class="shot-img" src="pixel_mario.gif" alt="mario" />
+<img class="shot-img" src="pixel_astronaut_2.png" alt="astronaut_2" />
 
 ### Programmazione dinamica
 
