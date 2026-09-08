@@ -1,6 +1,6 @@
 # Geonote — `(cons geo note)`
 
-Raccolta di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
+Raccolta (work in progress †) di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
 
 Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competizioni, risolti con più approcci (ricorsione diretta, programmazione dinamica, forme chiuse).
 
@@ -72,11 +72,3 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Travelling salesman](problema_tsp.md)** † — NP-hardness, ricerca esaustiva, PD con bitmask (Held-Karp), euristiche.
 - **[N-regine](problema_n_regine.md)** † — backtracking, pruning e PD con bitmask.
 - **[Secretary problem](problema_secretary.md)** † — arresto ottimale, strategia a soglia e regola 1/e.
-
-
-
-
-&nbsp;
-
-*† work in progress.*
-{: style="opacity:0.6;"}
