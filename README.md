@@ -38,8 +38,9 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 ### Matematica e statistica
 
 - **[Elementi di Analisi](teoria_analisi1.md)**: successioni, serie, integrale di Riemann.
-- **[Elementi di Probabilità](teoria_probabilita.md)**: spazi di probabilità, variabili aleatorie, distribuzioni.
-- **[Elementi di Statistica](teoria_statistica.md)**: variabili aleatorie, distribuzioni, stima e test d'ipotesi.
+- **[Elementi di Probabilità](teoria_probabilita.md)** †: spazi di probabilità, variabili aleatorie, distribuzioni.
+- **[Elementi di Statistica](teoria_statistica.md)** †: variabili aleatorie, distribuzioni, stima e test d'ipotesi.
+- **[Catene di Markov](teoria_markov.md)** †: stati e transizioni, proprietà di Markov, ergodicità, distribuzione stazionaria.
 
 
 ### Strumenti e curiosità
@@ -65,5 +66,17 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ### Problemi famosi
 
-- **[Knapsack problem](problema_knapsack.md)**: ottimizzazione con vincolo di capacità, PD 0/1 e frazionario.
-- **[Ponti di Königsberg](problema_konigsberg.md)**: teoria dei grafi, cammini e circuiti euleriani.
+- **[Knapsack problem](problema_knapsack.md)** †: ottimizzazione con vincolo di capacità, PD 0/1 e frazionario.
+- **[Ponti di Königsberg](problema_konigsberg.md)** †: teoria dei grafi, cammini e circuiti euleriani.
+- **[Postino cinese](problema_postino_cinese.md)** †: teoria dei grafi, matching perfetto minimo, estensione del caso euleriano.
+- **[Travelling salesman](problema_tsp.md)** †: NP-hardness, ricerca esaustiva, PD con bitmask (Held-Karp), euristiche.
+- **[N-regine](problema_n_regine.md)** †: backtracking, pruning e PD con bitmask.
+- **[Secretary problem](problema_secretary.md)** †: arresto ottimale, strategia a soglia e regola 1/e.
+
+
+
+
+&nbsp;
+
+*† work in progress.*
+{: style="opacity:0.6;"}
