@@ -9,8 +9,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
-<!-- <img class="shot-img" src="sun_collision_red.png" alt="xkcd sun core" /> -->
-<img class="shot-img" src="mario.gif" alt="mario" />
+<img class="shot-img" src="pixel_alone.gif" alt="alone" />
 
 ### Teoria dei linguaggi
 
@@ -53,8 +52,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Interview problems e programmazione competitiva
 
-<!-- <img class="shot-img" src="sun_collision_blue.png" alt="xkcd sunscreen" /> -->
-<img class="shot-img" src="pacman.gif" alt="pacman" />
+<img class="shot-img" src="pixel_mario.gif" alt="mario" />
 
 ### Programmazione dinamica
 
