@@ -70,5 +70,5 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Ponti di Königsberg](problema_konigsberg.md)** † — teoria dei grafi, cammini e circuiti euleriani.
 - **[Postino cinese](problema_postino_cinese.md)** † — teoria dei grafi, matching perfetto minimo, estensione del caso euleriano.
 - **[Travelling salesman](problema_tsp.md)** † — NP-hardness, ricerca esaustiva, PD con bitmask (Held-Karp), euristiche.
-- **[N-regine](problema_n_regine.md)** † — backtracking, pruning e PD con bitmask.
-- **[Secretary problem](problema_secretary.md)** † — arresto ottimale, strategia a soglia e regola 1/e.
+- **[N-Regine](problema_n_regine.md)** † — backtracking, pruning e PD con bitmask.
+- **[Secretary problem](problema_secretary.md)** † — arresto ottimale, strategia a soglia e regola $1/e$.
