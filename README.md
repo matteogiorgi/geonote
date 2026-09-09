@@ -1,6 +1,6 @@
 # Geonote — `(cons geo note)`
 
-Raccolta (sempre work in progress †) di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
+Raccolta (work in progress †) di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
 
 Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competizioni, risolti con più approcci (ricorsione diretta, programmazione dinamica, forme chiuse).
 
@@ -9,7 +9,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Teoria, fondamenti e curiosità
 
-<img class="shot-img" src="pixel_astronaut_1.png" alt="astronaut_1" />
+<img class="shot-img" src="pixel_astronaut_shifted_1.png" alt="astronaut_shifted_1" />
 
 ### Teoria dei linguaggi
 
@@ -53,7 +53,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ## Interview problems e programmazione competitiva
 
-<img class="shot-img" src="pixel_astronaut_2.png" alt="astronaut_2" />
+<img class="shot-img" src="pixel_astronaut_shifted_2.png" alt="astronaut_shifted_2" />
 
 ### Programmazione dinamica
 
