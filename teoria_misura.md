@@ -33,13 +33,7 @@ flowchart LR
 
 ### 1.1 Insiemi numerabili
 
-**Funzioni iniettive, suriettive, biiettive.** Data $f: A \to B$:
-
-- è **iniettiva** se $a \neq a' \Rightarrow f(a) \neq f(a')$;
-- è **suriettiva** se $f(A) = B$;
-- è **biiettiva** se è iniettiva e suriettiva.
-
-**Insieme numerabile.** $A$ è numerabile se è finito oppure se esiste una biiezione $f: A \to \mathbb{N}$.
+$A$ è numerabile se è finito oppure se esiste una biiezione $f: A \to \mathbb{N}$.
 
 $\mathbb{N} \times \mathbb{N}$ è numerabile: si può enumerare per diagonali successive $(0,0), (0,1), (1,0), (0,2), (1,1), (2,0), \dots$, oppure esplicitamente con la funzione di pairing di Cantor
 
@@ -48,6 +42,12 @@ $$
 $$
 
 che è una biiezione $\mathbb{N} \times \mathbb{N} \to \mathbb{N}$. Da qui segue che $\mathbb{Q}$ è numerabile: ogni razionale è $p/q$ con $(p,q) \in \mathbb{Z} \times \mathbb{N}$, e un'unione numerabile di insiemi numerabili è numerabile.
+
+> Ricorda che, $f: A \to B$:
+>
+> - è **iniettiva** se $a \neq a' \Rightarrow f(a) \neq f(a')$;
+> - è **suriettiva** se $f(A) = B$;
+> - è **biiettiva** se è iniettiva e suriettiva.
 
 
 ### 1.2 La non numerabilità di $\mathbb{R}$
@@ -145,7 +145,7 @@ $$
 \mu^\ast(E) = \inf\left\lbrace \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\rbrace \in [0, +\infty]
 $$
 
-A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
+A differenza di una misura, $\mu^\ast$ è definita su *tutti* i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
 
 
 ### 4.2 Proprietà
@@ -164,7 +164,7 @@ e si conclude lasciando $\varepsilon \to 0$. $\blacksquare$
 
 Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\mu^\ast(S) = \mathrm{mis}(S)$: la misura esterna estende quella elementare, non la contraddice.
 
-> **Perché non basta?** $\mu^\ast$ è definita ovunque, ma **non** è numerabilmente additiva su *tutti* i sottoinsiemi di $\mathbb{R}^d$ — solo subadditiva. Costruire un esempio di due insiemi disgiunti con $\mu^\ast(A \cup B) < \mu^\ast(A) + \mu^\ast(B)$ richiede l'assioma di scelta (è essenzialmente l'insieme di Vitali del [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali)). La soluzione standard non è "aggiustare" $\mu^\ast$, ma **restringerla** a una $\sigma$-algebra più piccola su cui torna ad essere additiva: è l'argomento del prossimo paragrafo.
+> **Perché non basta?** $\mu^\ast$ è definita ovunque, ma *non* è numerabilmente additiva su *tutti* i sottoinsiemi di $\mathbb{R}^d$ — solo subadditiva. Costruire un esempio di due insiemi disgiunti con $\mu^\ast(A \cup B) < \mu^\ast(A) + \mu^\ast(B)$ richiede l'assioma di scelta (è essenzialmente l'insieme di Vitali del [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali)). La soluzione standard non è "aggiustare" $\mu^\ast$, ma **restringerla** a una $\sigma$-algebra più piccola su cui torna ad essere additiva: è l'argomento del prossimo paragrafo.
 
 
 
@@ -183,7 +183,7 @@ $$
 \mathcal{B}(\mathbb{R}^d) \ \subseteq\ \mathcal{L}(\mathbb{R}^d) \ \subsetneq\ 2^{\mathbb{R}^d}
 $$
 
-la seconda inclusione è **stretta**, e il modo più diretto per convincersene è costruire esplicitamente un insieme non misurabile — l'**insieme di Vitali**, oggetto del prossimo paragrafo ([§5.2](#52-linsieme-di-vitali)).
+la seconda inclusione è *stretta*, e il modo più diretto per convincersene è costruire esplicitamente un insieme non misurabile — l'**insieme di Vitali**, oggetto del prossimo paragrafo ([§5.2](#52-linsieme-di-vitali)).
 
 
 ### 5.2 L'insieme di Vitali
@@ -279,7 +279,7 @@ $$
 \mathbb{1}_{\mathbb{Q}}(x) = \begin{cases} 1 & x \in \mathbb{Q} \\ 0 & x \notin \mathbb{Q} \end{cases}
 $$
 
-$\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1}&#95;{\mathbb{Q}}$ è misurabile — pur non essendo continua in **nessun** punto di $\mathbb{R}$ (ogni intorno di ogni punto contiene sia razionali che irrazionali). Misurabilità e continuità sono quindi nozioni distinte: la prima è molto più permissiva.
+$\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1}&#95;{\mathbb{Q}}$ è misurabile — pur non essendo continua in *nessun* punto di $\mathbb{R}$ (ogni intorno di ogni punto contiene sia razionali che irrazionali). Misurabilità e continuità sono quindi nozioni distinte: la prima è molto più permissiva.
 
 
 ### 7.3 Funzioni semplici
@@ -357,7 +357,7 @@ Questo non è un caso isolato ma un fenomeno completamente caratterizzato:
 
 **Teorema.** Una funzione $f: [a,b] \to \mathbb{R}$ limitata è integrabile secondo Riemann **se e solo se** l'insieme dei suoi punti di discontinuità ha misura di Lebesgue nulla (si dice che $f$ è "continua quasi ovunque").
 
-> La funzione di Dirichlet è discontinua **ovunque** (misura $1 \neq 0$): ecco perché fallisce Riemann. Una funzione continua a tratti con un numero finito (o numerabile) di salti è invece discontinua solo su un insieme di misura nulla: ecco perché Riemann la gestisce senza problemi. **Corollario**: se $f$ è Riemann-integrabile su $[a,b]$, allora è anche Lebesgue-integrabile, con lo stesso valore — l'integrale di Lebesgue **estende** quello di Riemann, non lo sostituisce; lo estende esattamente fino al bordo tracciato da questo criterio.
+> La funzione di Dirichlet è discontinua *ovunque* (misura $1 \neq 0$): ecco perché fallisce Riemann. Una funzione continua a tratti con un numero finito (o numerabile) di salti è invece discontinua solo su un insieme di misura nulla: ecco perché Riemann la gestisce senza problemi. **Corollario**: se $f$ è Riemann-integrabile su $[a,b]$, allora è anche Lebesgue-integrabile, con lo stesso valore — l'integrale di Lebesgue *estende* quello di Riemann, non lo sostituisce; lo estende esattamente fino al bordo tracciato da questo criterio.
 
 
 
@@ -374,7 +374,7 @@ $$
 
 **Teorema di Fubini.** Stessa formula, ma per $f$ con segno variabile, purché $f$ sia **integrabile** ($\int \lvert f \rvert\, d\mu_d < \infty$) — la non negatività di Tonelli non basta più, serve integrabilità assoluta.
 
-**Principio di Cavalieri** è il caso particolare $f = \mathbb{1}&#95;A$: la (2) diventa $\mu_d(A) = \int_{\mathbb{R}^p} \mu_q(A_x)\, d\mu_p(x)$, cioè *l'area (volume) di un insieme è l'integrale delle lunghezze (aree) delle sue sezioni* — la stessa idea intuitiva insegnata per calcolare volumi "affettando" un solido, ora con una dimostrazione rigorosa alle spalle.
+**Principio di Cavalieri** è il caso particolare $f = \mathbb{1}&#95;A$: la formula di Tonelli diventa $\mu_d(A) = \int_{\mathbb{R}^p} \mu_q(A_x)\, d\mu_p(x)$, cioè l'area (volume) di un insieme è l'integrale delle lunghezze (aree) delle sue sezioni — la stessa idea intuitiva insegnata per calcolare volumi "affettando" un solido, ora con una dimostrazione rigorosa alle spalle.
 
 
 ### 10.1 Esempio e verifica numerica in R
