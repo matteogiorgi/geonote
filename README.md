@@ -37,10 +37,10 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ### Matematica e statistica
 
-- **[Elementi di Analisi](teoria_analisi1.md)** — successioni, serie, integrale di Riemann.
-- **[Elementi di Probabilità](teoria_probabilita.md)** † — spazi di probabilità, variabili aleatorie, distribuzioni.
-- **[Elementi di Statistica](teoria_statistica.md)** † — variabili aleatorie, distribuzioni, stima e test d'ipotesi.
-- **[Catene di Markov](teoria_markov.md)** † — stati e transizioni, proprietà di Markov, ergodicità, distribuzione stazionaria.
+- **[Teoria della misura](teoria_misura.md)** † — $\sigma$-algebre, misura di Lebesgue, funzioni misurabili, integrale di Lebesgue.
+- **[Metodi stocastici](teoria_metodi.md)** † — spazi di probabilità, variabili aleatorie, distribuzioni.
+- **[Processi stocastici](teoria_processi.md)** † — catene di Markov, ergodicità, distribuzione stazionaria, processi di Poisson, martingale.
+- **[Inferenza statistica](teoria_inferenza.md)** † — stima puntuale e per intervalli, test d'ipotesi.
 
 
 ### Strumenti e curiosità
