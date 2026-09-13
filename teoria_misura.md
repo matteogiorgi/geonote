@@ -90,7 +90,7 @@ $$
 \mu\Big(\bigcup_{n=1}^{\infty} E_n\Big) = \sum_{n=1}^{\infty} \mu(E_n) \qquad \text{(additività numerabile)}
 $$
 
-- **Misura di conteggio**: $\mu(E) = \|E\|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
+- **Misura di conteggio**: $\mu(E) = |E|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
 - **Massa di Dirac**: fissato $z \in X$, $\mu_z(E) = 1$ se $z \in E$, $0$ altrimenti.
 - **Misura di probabilità**: qualunque misura con $\mu(X) = 1$ — il ponte diretto verso la teoria della probabilità.
 
@@ -136,29 +136,29 @@ I Boreliani non esauriscono però gli insiemi misurabili che vogliamo costruire:
 **Misura esterna di Lebesgue.**
 
 $$
-\mu^*(E) = \inf\left\{ \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\} \in [0, +\infty]
+\mu^\ast(E) = \inf\left\{ \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\} \in [0, +\infty]
 $$
 
-A differenza di una misura, $\mu^*$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
+A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
 
 
 ### 4.2 Proprietà
 
-- $\mu^*(\emptyset) = 0$ (ricoprimento con scatole degeneri).
-- **Monotonia**: $E \subseteq F \Rightarrow \mu^*(E) \le \mu^*(F)$.
-- **Subadditività numerabile**: $\mu^*\big(\bigcup_n E_n\big) \le \sum_n \mu^*(E_n)$.
+- $\mu^\ast(\emptyset) = 0$ (ricoprimento con scatole degeneri).
+- **Monotonia**: $E \subseteq F \Rightarrow \mu^\ast(E) \le \mu^\ast(F)$.
+- **Subadditività numerabile**: $\mu^\ast\big(\bigcup_n E_n\big) \le \sum_n \mu^\ast(E_n)$.
 
-*Dimostrazione della subadditività* (lo stesso trucco $\varepsilon/2^n$ già usato nel [§1](#1-insiemi-numerabili-e-più-che-numerabili)). Se $\sum_n \mu^*(E_n) = +\infty$ non c'è nulla da dimostrare. Altrimenti, fissato $\varepsilon>0$, per ogni $n$ si sceglie (per definizione di estremo inferiore) un ricoprimento $(S_{n,j})_j$ di $E_n$ con $\sum_j \mathrm{mis}(S_{n,j}) < \mu^*(E_n) + \varepsilon/2^n$. La famiglia $(S_{n,j})_{n,j}$ è un ricoprimento numerabile di $\bigcup_n E_n$, quindi
+*Dimostrazione della subadditività* (lo stesso trucco $\varepsilon/2^n$ già usato nel [§1](#1-insiemi-numerabili-e-più-che-numerabili)). Se $\sum_n \mu^\ast(E_n) = +\infty$ non c'è nulla da dimostrare. Altrimenti, fissato $\varepsilon>0$, per ogni $n$ si sceglie (per definizione di estremo inferiore) un ricoprimento $(S_{n,j})_j$ di $E_n$ con $\sum_j \mathrm{mis}(S_{n,j}) < \mu^\ast(E_n) + \varepsilon/2^n$. La famiglia $(S_{n,j})_{n,j}$ è un ricoprimento numerabile di $\bigcup_n E_n$, quindi
 
 $$
-\mu^*\Big(\bigcup_n E_n\Big) \le \sum_{n,j} \mathrm{mis}(S_{n,j}) \le \sum_n \Big(\mu^*(E_n) + \frac{\varepsilon}{2^n}\Big) = \sum_n \mu^*(E_n) + \varepsilon
+\mu^\ast\Big(\bigcup_n E_n\Big) \le \sum_{n,j} \mathrm{mis}(S_{n,j}) \le \sum_n \Big(\mu^\ast(E_n) + \frac{\varepsilon}{2^n}\Big) = \sum_n \mu^\ast(E_n) + \varepsilon
 $$
 
 e si conclude lasciando $\varepsilon \to 0$. $\blacksquare$
 
-Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\mu^*(S) = \mathrm{mis}(S)$: la misura esterna estende quella elementare, non la contraddice.
+Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\mu^\ast(S) = \mathrm{mis}(S)$: la misura esterna estende quella elementare, non la contraddice.
 
-> **Perché non basta?** $\mu^*$ è definita ovunque, ma **non** è numerabilmente additiva su *tutti* i sottoinsiemi di $\mathbb{R}^d$ — solo subadditiva. Costruire un esempio di due insiemi disgiunti con $\mu^*(A \cup B) < \mu^*(A) + \mu^*(B)$ richiede l'assioma di scelta (è essenzialmente l'insieme di Vitali del [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali)). La soluzione standard non è "aggiustare" $\mu^*$, ma **restringerla** a una $\sigma$-algebra più piccola su cui torna ad essere additiva: è l'argomento del prossimo paragrafo.
+> **Perché non basta?** $\mu^\ast$ è definita ovunque, ma **non** è numerabilmente additiva su *tutti* i sottoinsiemi di $\mathbb{R}^d$ — solo subadditiva. Costruire un esempio di due insiemi disgiunti con $\mu^\ast(A \cup B) < \mu^\ast(A) + \mu^\ast(B)$ richiede l'assioma di scelta (è essenzialmente l'insieme di Vitali del [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali)). La soluzione standard non è "aggiustare" $\mu^\ast$, ma **restringerla** a una $\sigma$-algebra più piccola su cui torna ad essere additiva: è l'argomento del prossimo paragrafo.
 
 
 
@@ -167,9 +167,9 @@ Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\
 
 ### 5.1 Misurabilità secondo Lebesgue
 
-**Definizione.** $A \subseteq \mathbb{R}^d$ è misurabile se per ogni $\varepsilon > 0$ esiste un aperto $\Omega \supseteq A$ con $\mu^*(\Omega \setminus A) < \varepsilon$ — cioè se $A$ è approssimabile "dall'esterno" da aperti con errore arbitrariamente piccolo.
+**Definizione.** $A \subseteq \mathbb{R}^d$ è misurabile se per ogni $\varepsilon > 0$ esiste un aperto $\Omega \supseteq A$ con $\mu^\ast(\Omega \setminus A) < \varepsilon$ — cioè se $A$ è approssimabile "dall'esterno" da aperti con errore arbitrariamente piccolo.
 
-**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^*|_{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^*$ su $2^{\mathbb{R}^d}$.
+**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^\ast|_{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^\ast$ su $2^{\mathbb{R}^d}$.
 
 Conseguenze immediate: ogni aperto è misurabile (banale, $\Omega = A$); ogni insieme di misura esterna nulla è misurabile (**completezza** della misura di Lebesgue); quindi
 
