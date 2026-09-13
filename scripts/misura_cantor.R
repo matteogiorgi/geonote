@@ -25,7 +25,8 @@ par(mar = c(3, 5, 1, 1), family = "Spectral")
 plot(NA, xlim = c(0, 1), ylim = c(n_livelli, 0),
      xlab = "", ylab = "", yaxt = "n", xaxt = "n", bty = "n")
 axis(1, at = seq(0, 1, 0.2))
-axis(2, at = 0:n_livelli, labels = paste0("C_", 0:n_livelli), las = 1)
+etichette <- do.call(expression, lapply(0:n_livelli, function(i) bquote(C[.(i)])))
+axis(2, at = 0:n_livelli, labels = etichette, las = 1)
 
 for (livello in 0:n_livelli) {
     ins <- cantor_intervalli(livello)

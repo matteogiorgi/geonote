@@ -326,7 +326,7 @@ $$
 
 - **Linearità**: $\int (\alpha f + \beta g) = \alpha \int f + \beta \int g$.
 - **Monotonia**: $f \le g \Rightarrow \int f \le \int g$.
-- **Disuguaglianza triangolare**: $\|\int f\| \le \int |f|$.
+- **Disuguaglianza triangolare**: $\|\int f\| \le \int \|f\|$.
 
 **Uguaglianza quasi ovunque.** Si dice che una proprietà vale **quasi ovunque** (q.o.) se l'insieme dei punti dove fallisce ha misura nulla. Fatto notevole: se $f = g$ q.o., allora $\int f = \int g$ — l'integrale di Lebesgue è "cieco" rispetto a modifiche su un insieme di misura nulla. È esattamente questo a rendere possibile l'esempio del prossimo paragrafo.
 
