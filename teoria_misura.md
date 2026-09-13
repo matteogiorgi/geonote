@@ -33,7 +33,11 @@ flowchart LR
 
 ### 1.1 Insiemi numerabili
 
-**Funzioni iniettive, suriettive, biiettive.** $f: A \to B$ è iniettiva se $a \neq a' \Rightarrow f(a) \neq f(a')$; è suriettiva se $f(A) = B$; è biiettiva se è entrambe.
+**Funzioni iniettive, suriettive, biiettive.** Data $f: A \to B$:
+
+- è **iniettiva** se $a \neq a' \Rightarrow f(a) \neq f(a')$;
+- è **suriettiva** se $f(A) = B$;
+- è **biiettiva** se è iniettiva e suriettiva.
 
 **Insieme numerabile.** $A$ è numerabile se è finito oppure se esiste una biiezione $f: A \to \mathbb{N}$.
 
@@ -48,7 +52,7 @@ che è una biiezione $\mathbb{N} \times \mathbb{N} \to \mathbb{N}$. Da qui segue
 
 ### 1.2 La non numerabilità di $\mathbb{R}$
 
-**Teorema di Cantor — argomento diagonale.** Supponiamo per assurdo che $[0,1]$ sia numerabile, cioè $[0,1] = \{x_1, x_2, x_3, \dots\}$. Scriviamo ogni $x_n$ in forma decimale, $x_n = 0.d_{n1}d_{n2}d_{n3}\dots$, e costruiamo
+**Teorema di Cantor — argomento diagonale.** Supponiamo per assurdo che $[0,1]$ sia numerabile, cioè $[0,1] = \lbrace x_1, x_2, x_3, \dots\rbrace$. Scriviamo ogni $x_n$ in forma decimale, $x_n = 0.d_{n1}d_{n2}d_{n3}\dots$, e costruiamo
 
 $$
 y = 0.e_1 e_2 e_3 \dots \qquad \text{con } e_n = \begin{cases} 5 & \text{se } d_{nn} \neq 5 \\ 6 & \text{se } d_{nn} = 5 \end{cases}
@@ -56,7 +60,7 @@ $$
 
 Allora $y \in [0,1]$ ma $y \neq x_n$ per ogni $n$ (differiscono almeno nella $n$-esima cifra), contraddizione. $\blacksquare$
 
-**Una seconda dimostrazione — l'argomento della misura (Stillwell).** Vale la pena vederne un'altra, perché anticipa concettualmente tutta la nota. Supponiamo ancora $[0,1] = \{x_1, x_2, \dots\}$ numerabile. Fissato $\varepsilon > 0$, ricopriamo ogni $x_n$ con un intervallo aperto $I_n$ di lunghezza $\varepsilon/2^n$:
+**Una seconda dimostrazione — l'argomento della misura (Stillwell).** Vale la pena vederne un'altra, perché anticipa concettualmente tutta la nota. Supponiamo ancora $[0,1] = \lbrace x_1, x_2, \dots\rbrace$ numerabile. Fissato $\varepsilon > 0$, ricopriamo ogni $x_n$ con un intervallo aperto $I_n$ di lunghezza $\varepsilon/2^n$:
 
 $$
 I_n = \left(x_n - \frac{\varepsilon}{2^{n+1}},\ x_n + \frac{\varepsilon}{2^{n+1}}\right)
@@ -80,6 +84,8 @@ Una famiglia $\mathcal{A}$ di sottoinsiemi di $X$ è una $\sigma$-algebra su $X$
 3. $E_n \in \mathcal{A}$ per ogni $n \Rightarrow \bigcup_n E_n \in \mathcal{A}$.
 
 Per De Morgan, una $\sigma$-algebra è chiusa anche per intersezioni numerabili. Gli elementi di $\mathcal{A}$ si dicono **insiemi misurabili**; $(X, \mathcal{A})$ è uno **spazio misurabile**. Data una famiglia qualsiasi $\mathcal{F}$ di sottoinsiemi di $X$, esiste sempre una più piccola $\sigma$-algebra che la contiene (l'intersezione di tutte le $\sigma$-algebre che contengono $\mathcal{F}$): è la **$\boldsymbol{\sigma}$-algebra generata** da $\mathcal{F}$, notazione $\sigma(\mathcal{F})$ — la useremo nel [§3](#3-insiemi-di-borel) per definire i Boreliani.
+
+> **Esempio.** Sia $X = \lbrace 1,2,3\rbrace$ e $\mathcal{F} = \lbrace\lbrace 1\rbrace\rbrace$. Per costruire $\sigma(\mathcal{F})$ si parte da $\mathcal{F}$ e si aggiunge il minimo indispensabile a chiudersi rispetto a complementare e unione numerabile: il complementare di $\lbrace 1\rbrace$ è $\lbrace 2,3\rbrace$, e gli assiomi 1 e 2 impongono anche $X$ ed $\emptyset$. La famiglia $\lbrace\emptyset, \lbrace 1\rbrace, \lbrace 2,3\rbrace, X\rbrace$ così ottenuta è già chiusa (unioni e complementari tra questi quattro insiemi non producono nulla di nuovo), quindi $\sigma(\mathcal{F}) = \lbrace\emptyset, \lbrace 1\rbrace, \lbrace 2,3\rbrace, X\rbrace$.
 
 
 ### 2.2 Misure ed esempi
@@ -136,7 +142,7 @@ I Boreliani non esauriscono però gli insiemi misurabili che vogliamo costruire:
 **Misura esterna di Lebesgue.**
 
 $$
-\mu^\ast(E) = \inf\left\{ \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\} \in [0, +\infty]
+\mu^\ast(E) = \inf\left\lbrace \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\rbrace \in [0, +\infty]
 $$
 
 A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
@@ -144,7 +150,7 @@ A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi d
 
 ### 4.2 Proprietà
 
-- $\mu^\ast(\emptyset) = 0$ (ricoprimento con scatole degeneri).
+- **Ricoprimento con scatole degeneri**: $\mu^\ast(\emptyset) = 0$.
 - **Monotonia**: $E \subseteq F \Rightarrow \mu^\ast(E) \le \mu^\ast(F)$.
 - **Subadditività numerabile**: $\mu^\ast\big(\bigcup_n E_n\big) \le \sum_n \mu^\ast(E_n)$.
 
@@ -177,17 +183,17 @@ $$
 \mathcal{B}(\mathbb{R}^d) \ \subseteq\ \mathcal{L}(\mathbb{R}^d) \ \subsetneq\ 2^{\mathbb{R}^d}
 $$
 
-la seconda inclusione è **stretta**, e il modo più diretto per convincersene è costruire esplicitamente un insieme non misurabile.
+la seconda inclusione è **stretta**, e il modo più diretto per convincersene è costruire esplicitamente un insieme non misurabile — l'**insieme di Vitali**, oggetto del prossimo paragrafo ([§5.2](#52-linsieme-di-vitali)).
 
 
 ### 5.2 L'insieme di Vitali
 
 Su $[0,1]$ definiamo la relazione di equivalenza $x \sim y \iff x - y \in \mathbb{Q}$. Per l'assioma di scelta, esiste un insieme $V \subseteq [0,1]$ che contiene **esattamente un rappresentante** per ciascuna classe di equivalenza.
 
-Sia $\{q_n\}&#95;{n \in \mathbb{N}}$ un'enumerazione di $\mathbb{Q} \cap [-1,1]$ (numerabile, [§1](#1-insiemi-numerabili-e-più-che-numerabili)) e definiamo i traslati $V_n = V + q_n = \{v + q_n : v \in V\}$. Valgono due fatti:
+Sia $\lbrace q_n\rbrace&#95;{n \in \mathbb{N}}$ un'enumerazione di $\mathbb{Q} \cap [-1,1]$ (numerabile, [§1](#1-insiemi-numerabili-e-più-che-numerabili)) e definiamo i traslati $V_n = V + q_n = \lbrace v + q_n : v \in V\rbrace$. Valgono due fatti:
 
-1. **I $V_n$ sono a due a due disgiunti.** Se $v + q_n = v' + q_m$ con $v, v' \in V$, allora $v - v' = q_m - q_n \in \mathbb{Q}$, quindi $v \sim v'$; ma $V$ contiene un solo rappresentante per classe, quindi $v = v'$ e $q_n = q_m$, cioè $n=m$.
-2. **$[0,1] \subseteq \bigcup_n V_n \subseteq [-1,2]$.** Il secondo contenimento è immediato ($V \subseteq [0,1]$, $q_n \in [-1,1]$). Per il primo: dato $x \in [0,1]$, esiste $v \in V$ con $x \sim v$ (il rappresentante della sua classe), quindi $x - v \in \mathbb{Q} \cap [-1,1]$, cioè $x - v = q_n$ per qualche $n$, cioè $x \in V_n$.
+1. **I $\boldsymbol{V_n}$ sono a due a due disgiunti.** Se $v + q_n = v' + q_m$ con $v, v' \in V$, allora $v - v' = q_m - q_n \in \mathbb{Q}$, quindi $v \sim v'$; ma $V$ contiene un solo rappresentante per classe, quindi $v = v'$ e $q_n = q_m$, cioè $n=m$.
+2. **$\boldsymbol{[0,1] \subseteq \bigcup_n V_n \subseteq [-1,2]}$.** Il secondo contenimento è immediato ($V \subseteq [0,1]$, $q_n \in [-1,1]$). Per il primo: dato $x \in [0,1]$, esiste $v \in V$ con $x \sim v$ (il rappresentante della sua classe), quindi $x - v \in \mathbb{Q} \cap [-1,1]$, cioè $x - v = q_n$ per qualche $n$, cioè $x \in V_n$.
 
 Se $V$ fosse misurabile, per traslazione lo sarebbero anche tutti i $V_n$, con $\mu(V_n) = \mu(V)$ (la misura di Lebesgue è **invariante per traslazioni** — proprietà che qui usiamo senza dimostrare, ma è immediata dalla definizione via scatole). Per additività numerabile e monotonia, da $[0,1] \subseteq \bigcup_n V_n \subseteq [-1,2]$ seguirebbe
 
@@ -217,11 +223,11 @@ $$
 $$
 
 
-### 6.2 Non numerabilità e il punto della costruzione
+### 6.2 Non numerabilità e ortogonalità
 
-**Non numerabile.** Ogni $x \in C$ ammette una rappresentazione in base $3$ che usa solo le cifre $0$ e $2$ (a ogni passo si esclude esattamente il terzo "di mezzo", cioè le cifre che comincerebbero con $1$). La mappa che manda ogni tale sequenza di cifre $\{0,2\}^{\mathbb{N}}$ in $\{0,1\}^{\mathbb{N}}$ (dividendo per $2$) è una biiezione, e $\{0,1\}^{\mathbb{N}}$ ha la cardinalità del continuo — non numerabile per l'argomento diagonale del [§1](#1-insiemi-numerabili-e-più-che-numerabili) (è essenzialmente lo stesso argomento, applicato a sequenze di cifre invece che a decimali).
+**Non numerabile.** Ogni $x \in C$ ammette una rappresentazione in base $3$ che usa solo le cifre $0$ e $2$ (a ogni passo si esclude esattamente il terzo "di mezzo", cioè le cifre che comincerebbero con $1$). La mappa che manda ogni tale sequenza di cifre $\lbrace 0,2\rbrace^{\mathbb{N}}$ in $\lbrace 0,1\rbrace^{\mathbb{N}}$ (dividendo per $2$) è una biiezione, e $\lbrace 0,1\rbrace^{\mathbb{N}}$ ha la cardinalità del continuo — non numerabile per l'argomento diagonale del [§1](#1-insiemi-numerabili-e-più-che-numerabili) (è essenzialmente lo stesso argomento, applicato a sequenze di cifre invece che a decimali).
 
-**Il punto della costruzione.** $C$ è **tanto numeroso quanto $\mathbb{R}$** (non numerabile) ma **piccolo quanto un punto** dal punto di vista della misura (misura nulla). Cardinalità e misura sono assi ortogonali: un insieme può essere "grande" nell'uno ed "piccolo" nell'altro. È anche il primo esempio non banale di insieme di misura nulla che non è né finito né numerabile — negli esempi del [§4](#4-misura-esterna-di-lebesgue) la misura nulla veniva sempre da insiemi al più numerabili (dove bastava la subadditività: un'unione numerabile di punti, ciascuno di misura $0$, ha misura $0$). Qui invece la misura nulla è un fatto genuinamente geometrico, non un corollario della numerabilità.
+$C$ è **tanto numeroso quanto $\boldsymbol{\mathbb{R}}$** (non numerabile) ma **piccolo quanto un punto** dal punto di vista della misura (misura nulla). Cardinalità e misura sono assi ortogonali: un insieme può essere "grande" nell'uno ed "piccolo" nell'altro. È anche il primo esempio non banale di insieme di misura nulla che non è né finito né numerabile — negli esempi del [§4](#4-misura-esterna-di-lebesgue) la misura nulla veniva sempre da insiemi al più numerabili (dove bastava la subadditività: un'unione numerabile di punti, ciascuno di misura $0$, ha misura $0$). Qui invece la misura nulla è un fatto genuinamente geometrico, non un corollario della numerabilità.
 
 
 ### 6.3 Verifica numerica in R
@@ -278,7 +284,7 @@ $\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1
 
 ### 7.3 Funzioni semplici
 
-Una funzione $s: \mathbb{R}^d \to \mathbb{R}$ misurabile che assume un numero **finito** di valori $c_1,\dots,c_p$ si dice **semplice**. Ponendo $A_k = s^{-1}(\{c_k\})$ (misurabili, disgiunti, unione $= \mathbb{R}^d$),
+Una funzione $s: \mathbb{R}^d \to \mathbb{R}$ misurabile che assume un numero **finito** di valori $c_1,\dots,c_p$ si dice **semplice**. Ponendo $A_k = s^{-1}(\lbrace c_k\rbrace)$ (misurabili, disgiunti, unione $= \mathbb{R}^d$),
 
 $$
 s(x) = \sum_{k=1}^{p} c_k \, \mathbb{1}_{A_k}(x)
@@ -312,7 +318,7 @@ $$
 ("si arrotonda $f$ per difetto a multipli di $2^{-n}$, troncando a $n$"), e si verifica $s_n \uparrow f$ puntualmente. Si definisce allora
 
 $$
-\int_E f \, d\mu = \sup\left\{ \int_E s \, d\mu \ :\ s \text{ semplice},\ 0 \le s \le f \right\}
+\int_E f \, d\mu = \sup\left\lbrace \int_E s \, d\mu \ :\ s \text{ semplice},\ 0 \le s \le f \right\rbrace
 $$
 
 **3. Funzioni con segno.** Scritta $f = f^+ - f^-$ (parte positiva e negativa, entrambe $\ge 0$), $f$ è **integrabile** se $\int_E \lvert f \rvert\,d\mu = \int_E f^+ d\mu + \int_E f^- d\mu < \infty$, e in tal caso
@@ -358,7 +364,7 @@ Questo non è un caso isolato ma un fenomeno completamente caratterizzato:
 
 ## 10. Teoremi di riduzione: Tonelli, Fubini e Cavalieri
 
-Scriviamo $\mathbb{R}^d = \mathbb{R}^p \times \mathbb{R}^q$ e $(x,y) \in \mathbb{R}^p \times \mathbb{R}^q$. Per $A \subseteq \mathbb{R}^d$ misurabile, la **sezione** $A_x = \{y \in \mathbb{R}^q : (x,y) \in A\}$.
+Scriviamo $\mathbb{R}^d = \mathbb{R}^p \times \mathbb{R}^q$ e $(x,y) \in \mathbb{R}^p \times \mathbb{R}^q$. Per $A \subseteq \mathbb{R}^d$ misurabile, la **sezione** $A_x = \lbrace y \in \mathbb{R}^q : (x,y) \in A\rbrace$.
 
 **Teorema di Tonelli** (caso $f \ge 0$). Se $f: \mathbb{R}^d \to [0,+\infty]$ è misurabile, allora per quasi ogni $x$ la sezione $y \mapsto f(x,y)$ è misurabile, la funzione $x \mapsto \int f(x,y)\, d\mu_q(y)$ è misurabile, e
 
@@ -373,7 +379,7 @@ $$
 
 ### 10.1 Esempio e verifica numerica in R
 
-Area del triangolo $A = \{(x,y) \in \mathbb{R}^2 : 0 \le x \le 1,\ 0 \le y \le x\}$:
+Area del triangolo $A = \lbrace(x,y) \in \mathbb{R}^2 : 0 \le x \le 1,\ 0 \le y \le x\rbrace$:
 
 $$
 \mu_2(A) = \int_0^1 \mu_1(A_x)\, dx = \int_0^1 x \, dx = \frac{1}{2}
