@@ -21,7 +21,7 @@ n_livelli <- 6
 # Spectral è il font usato dalla pagina GitHub (geoteo.net/static/style.css);
 # richiede il device Cairo per essere referenziato per nome famiglia.
 png("img/misura_cantor.png", width = 1400, height = 900, res = 150, type = "cairo")
-par(mar = c(4.2, 5, 6.2, 2), family = "Spectral")
+par(mar = c(4, 4.8, 6.2, 2), family = "Spectral")
 plot(NA,
     xlim = c(0, 1), ylim = c(n_livelli, 0),
     xlab = "", ylab = "", yaxt = "n", xaxt = "n", bty = "n"
