@@ -18,8 +18,10 @@ cantor_intervalli <- function(n) {
 
 n_livelli <- 6
 
-png("img/misura_cantor.png", width = 1400, height = 900, res = 150)
-par(mar = c(3, 5, 1, 1))
+# Spectral è il font usato dalla pagina GitHub (geoteo.net/static/style.css);
+# richiede il device Cairo per essere referenziato per nome famiglia.
+png("img/misura_cantor.png", width = 1400, height = 900, res = 150, type = "cairo")
+par(mar = c(3, 5, 1, 1), family = "Spectral")
 plot(NA, xlim = c(0, 1), ylim = c(n_livelli, 0),
      xlab = "", ylab = "", yaxt = "n", xaxt = "n", bty = "n")
 axis(1, at = seq(0, 1, 0.2))

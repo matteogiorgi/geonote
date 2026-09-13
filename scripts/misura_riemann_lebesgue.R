@@ -7,8 +7,10 @@ f <- function(x) 4 * x * (1 - x)
 x <- seq(0, 1, length.out = 400)
 y <- f(x)
 
-png("img/misura_riemann_lebesgue.png", width = 1800, height = 850, res = 150)
-par(mfrow = c(1, 2), mar = c(3, 3, 3, 1))
+# Spectral è il font usato dalla pagina GitHub (geoteo.net/static/style.css);
+# richiede il device Cairo per essere referenziato per nome famiglia.
+png("img/misura_riemann_lebesgue.png", width = 1800, height = 850, res = 150, type = "cairo")
+par(mfrow = c(1, 2), mar = c(3, 3, 3, 1), family = "Spectral")
 
 # --- Pannello sinistro: Riemann, partizione del dominio ---
 plot(x, y, type = "l", lwd = 2, main = "Riemann: partiziona il dominio",
