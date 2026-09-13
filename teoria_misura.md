@@ -1,6 +1,6 @@
 # Teoria della misura
 
-L'integrale di Riemann funziona benissimo finché ci si limita a funzioni "ragionevoli" su intervalli. Ma appena si chiede quanto vale $\int_0^1 \mathbb{1}_{\mathbb{Q}}(x)\,dx$ (la funzione che vale $1$ sui razionali e $0$ altrove), l'integrale di Riemann semplicemente non esiste: le somme superiori danno sempre $1$, le inferiori sempre $0$. Il problema non è la funzione, ma lo strumento: Riemann misura implicitamente gli insiemi con cui lavora usando solo intervalli, e i razionali — densi ma "piccoli" — non si lasciano approssimare bene in questo modo.
+L'integrale di Riemann funziona benissimo finché ci si limita a funzioni "ragionevoli" su intervalli. Ma appena si chiede quanto vale $\int_0^1 \mathbb{1}\_{\mathbb{Q}}(x)\,dx$ (la funzione che vale $1$ sui razionali e $0$ altrove), l'integrale di Riemann semplicemente non esiste: le somme superiori danno sempre $1$, le inferiori sempre $0$. Il problema non è la funzione, ma lo strumento: Riemann misura implicitamente gli insiemi con cui lavora usando solo intervalli, e i razionali — densi ma "piccoli" — non si lasciano approssimare bene in questo modo.
 
 La teoria della misura nasce per rispondere a una domanda più generale: quali sottoinsiemi di $\mathbb{R}^d$ hanno senso di avere una lunghezza/area/volume, e come si integra rispetto a una nozione di misura così estesa. Il prezzo da pagare, come si vedrà nel [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali), è che non *tutti* i sottoinsiemi di $\mathbb{R}^d$ sono misurabili.
 
@@ -84,13 +84,13 @@ Per De Morgan, una $\sigma$-algebra è chiusa anche per intersezioni numerabili.
 
 ### 2.2 Misure ed esempi
 
-**Misura.** Data una $\sigma$-algebra $\mathcal{A}$ su $X$, una misura è $\mu: \mathcal{A} \to [0, +\infty]$ tale che $\mu(\emptyset)=0$ e, per ogni famiglia disgiunta $(E_n)_{n \in \mathbb{N}} \subset \mathcal{A}$,
+**Misura.** Data una $\sigma$-algebra $\mathcal{A}$ su $X$, una misura è $\mu: \mathcal{A} \to [0, +\infty]$ tale che $\mu(\emptyset)=0$ e, per ogni famiglia disgiunta $(E_n)\_{n \in \mathbb{N}} \subset \mathcal{A}$,
 
 $$
 \mu\Big(\bigcup_{n=1}^{\infty} E_n\Big) = \sum_{n=1}^{\infty} \mu(E_n) \qquad \text{(additività numerabile)}
 $$
 
-- **Misura di conteggio**: $\mu(E) = |E|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
+- **Misura di conteggio**: $\mu(E) = \|E\|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
 - **Massa di Dirac**: fissato $z \in X$, $\mu_z(E) = 1$ se $z \in E$, $0$ altrimenti.
 - **Misura di probabilità**: qualunque misura con $\mu(X) = 1$ — il ponte diretto verso la teoria della probabilità.
 
@@ -101,7 +101,7 @@ $$
 
 **Continuità dall'alto (con un'avvertenza).** Se $E_n \supseteq E_{n+1}$ per ogni $n$ e **almeno un** $E_n$ ha misura finita, allora $\mu\big(\bigcap_n E_n\big) = \lim_n \mu(E_n)$. L'ipotesi di finitezza non è cosmetica: prendendo $\mu$ = misura di Lebesgue su $\mathbb{R}$ e $E_n = [n, +\infty)$, si ha $\bigcap_n E_n = \emptyset$ (quindi misura $0$), ma $\mu(E_n) = +\infty$ per ogni $n$, e il limite è $+\infty \neq 0$.
 
-**Subadditività numerabile.** Per ogni famiglia $(A_k)_{k \in \mathbb{N}} \subset \mathcal{A}$ (non necessariamente disgiunta),
+**Subadditività numerabile.** Per ogni famiglia $(A_k)\_{k \in \mathbb{N}} \subset \mathcal{A}$ (non necessariamente disgiunta),
 
 $$
 \mu\Big(\bigcup_{k=1}^{\infty} A_k\Big) \le \sum_{k=1}^{\infty} \mu(A_k)
@@ -131,12 +131,12 @@ I Boreliani non esauriscono però gli insiemi misurabili che vogliamo costruire:
 
 **Scatola.** Una scatola in $\mathbb{R}^d$ è $S = [a_1,b_1] \times \dots \times [a_d,b_d]$, con misura elementare $\mathrm{mis}(S) = (b_1-a_1)\cdots(b_d-a_d)$.
 
-**Ricoprimento.** $(S_n)_{n \in \mathbb{N}}$ è un ricoprimento di $E \subseteq \mathbb{R}^d$ se $E \subseteq \bigcup_n S_n$. Ogni insieme ammette almeno un ricoprimento (banalmente, con scatole enormi).
+**Ricoprimento.** $(S_n)\_{n \in \mathbb{N}}$ è un ricoprimento di $E \subseteq \mathbb{R}^d$ se $E \subseteq \bigcup_n S_n$. Ogni insieme ammette almeno un ricoprimento (banalmente, con scatole enormi).
 
 **Misura esterna di Lebesgue.**
 
 $$
-\mu^\ast(E) = \inf\left\{ \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\} \in [0, +\infty]
+\mu^\ast(E) = \inf\left\{ \sum_{n=1}^{\infty} \mathrm{mis}(S_n) \ :\ (S_n)\_{n \in \mathbb{N}} \text{ è un ricoprimento di } E \right\} \in [0, +\infty]
 $$
 
 A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
@@ -148,7 +148,7 @@ A differenza di una misura, $\mu^\ast$ è definita su **tutti** i sottoinsiemi d
 - **Monotonia**: $E \subseteq F \Rightarrow \mu^\ast(E) \le \mu^\ast(F)$.
 - **Subadditività numerabile**: $\mu^\ast\big(\bigcup_n E_n\big) \le \sum_n \mu^\ast(E_n)$.
 
-*Dimostrazione della subadditività* (lo stesso trucco $\varepsilon/2^n$ già usato nel [§1](#1-insiemi-numerabili-e-più-che-numerabili)). Se $\sum_n \mu^\ast(E_n) = +\infty$ non c'è nulla da dimostrare. Altrimenti, fissato $\varepsilon>0$, per ogni $n$ si sceglie (per definizione di estremo inferiore) un ricoprimento $(S_{n,j})_j$ di $E_n$ con $\sum_j \mathrm{mis}(S_{n,j}) < \mu^\ast(E_n) + \varepsilon/2^n$. La famiglia $(S_{n,j})_{n,j}$ è un ricoprimento numerabile di $\bigcup_n E_n$, quindi
+*Dimostrazione della subadditività* (lo stesso trucco $\varepsilon/2^n$ già usato nel [§1](#1-insiemi-numerabili-e-più-che-numerabili)). Se $\sum_n \mu^\ast(E_n) = +\infty$ non c'è nulla da dimostrare. Altrimenti, fissato $\varepsilon>0$, per ogni $n$ si sceglie (per definizione di estremo inferiore) un ricoprimento $(S_{n,j})_j$ di $E_n$ con $\sum_j \mathrm{mis}(S_{n,j}) < \mu^\ast(E_n) + \varepsilon/2^n$. La famiglia $(S_{n,j})\_{n,j}$ è un ricoprimento numerabile di $\bigcup_n E_n$, quindi
 
 $$
 \mu^\ast\Big(\bigcup_n E_n\Big) \le \sum_{n,j} \mathrm{mis}(S_{n,j}) \le \sum_n \Big(\mu^\ast(E_n) + \frac{\varepsilon}{2^n}\Big) = \sum_n \mu^\ast(E_n) + \varepsilon
@@ -169,7 +169,7 @@ Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\
 
 **Definizione.** $A \subseteq \mathbb{R}^d$ è misurabile se per ogni $\varepsilon > 0$ esiste un aperto $\Omega \supseteq A$ con $\mu^\ast(\Omega \setminus A) < \varepsilon$ — cioè se $A$ è approssimabile "dall'esterno" da aperti con errore arbitrariamente piccolo.
 
-**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^\ast|_{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^\ast$ su $2^{\mathbb{R}^d}$.
+**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^\ast\|\_{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^\ast$ su $2^{\mathbb{R}^d}$.
 
 Conseguenze immediate: ogni aperto è misurabile (banale, $\Omega = A$); ogni insieme di misura esterna nulla è misurabile (**completezza** della misura di Lebesgue); quindi
 
@@ -184,7 +184,7 @@ la seconda inclusione è **stretta**, e il modo più diretto per convincersene �
 
 Su $[0,1]$ definiamo la relazione di equivalenza $x \sim y \iff x - y \in \mathbb{Q}$. Per l'assioma di scelta, esiste un insieme $V \subseteq [0,1]$ che contiene **esattamente un rappresentante** per ciascuna classe di equivalenza.
 
-Sia $\{q_n\}_{n \in \mathbb{N}}$ un'enumerazione di $\mathbb{Q} \cap [-1,1]$ (numerabile, [§1](#1-insiemi-numerabili-e-più-che-numerabili)) e definiamo i traslati $V_n = V + q_n = \{v + q_n : v \in V\}$. Valgono due fatti:
+Sia $\{q_n\}\_{n \in \mathbb{N}}$ un'enumerazione di $\mathbb{Q} \cap [-1,1]$ (numerabile, [§1](#1-insiemi-numerabili-e-più-che-numerabili)) e definiamo i traslati $V_n = V + q_n = \{v + q_n : v \in V\}$. Valgono due fatti:
 
 1. **I $V_n$ sono a due a due disgiunti.** Se $v + q_n = v' + q_m$ con $v, v' \in V$, allora $v - v' = q_m - q_n \in \mathbb{Q}$, quindi $v \sim v'$; ma $V$ contiene un solo rappresentante per classe, quindi $v = v'$ e $q_n = q_m$, cioè $n=m$.
 2. **$[0,1] \subseteq \bigcup_n V_n \subseteq [-1,2]$.** Il secondo contenimento è immediato ($V \subseteq [0,1]$, $q_n \in [-1,1]$). Per il primo: dato $x \in [0,1]$, esiste $v \in V$ con $x \sim v$ (il rappresentante della sua classe), quindi $x - v \in \mathbb{Q} \cap [-1,1]$, cioè $x - v = q_n$ per qualche $n$, cioè $x \in V_n$.
@@ -207,6 +207,8 @@ Ma $\sum_n \mu(V)$ vale $0$ se $\mu(V) = 0$, oppure $+\infty$ se $\mu(V) > 0$: i
 ### 6.1 Costruzione e misura nulla
 
 **Costruzione.** $C_0 = [0,1]$. Da $C_n$ si ottiene $C_{n+1}$ rimuovendo il terzo centrale aperto da ciascuno dei $2^n$ intervalli di $C_n$. L'**insieme di Cantor** è $C = \bigcap_{n=0}^{\infty} C_n$.
+
+<img class="shot-img" src="img/misura_cantor.png" alt="Le prime sei iterazioni della costruzione dell'insieme di Cantor" />
 
 **Misura nulla.** $C_n$ è unione di $2^n$ intervalli chiusi di lunghezza $3^{-n}$, quindi $\mu(C_n) = (2/3)^n$. Poiché $C_n \supseteq C_{n+1}$ e $\mu(C_0) = 1 < \infty$, per continuità dall'alto ([§2](#2-spazi-con-misura))
 
@@ -268,10 +270,10 @@ Ogni funzione **continua** è misurabile (le controimmagini di aperti tramite fu
 L'esempio canonico è la **funzione di Dirichlet**
 
 $$
-\mathbb{1}_{\mathbb{Q}}(x) = \begin{cases} 1 & x \in \mathbb{Q} \\ 0 & x \notin \mathbb{Q} \end{cases}
+\mathbb{1}\_{\mathbb{Q}}(x) = \begin{cases} 1 & x \in \mathbb{Q} \\ 0 & x \notin \mathbb{Q} \end{cases}
 $$
 
-$\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1}_{\mathbb{Q}}$ è misurabile — pur non essendo continua in **nessun** punto di $\mathbb{R}$ (ogni intorno di ogni punto contiene sia razionali che irrazionali). Misurabilità e continuità sono quindi nozioni distinte: la prima è molto più permissiva.
+$\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1}\_{\mathbb{Q}}$ è misurabile — pur non essendo continua in **nessun** punto di $\mathbb{R}$ (ogni intorno di ogni punto contiene sia razionali che irrazionali). Misurabilità e continuità sono quindi nozioni distinte: la prima è molto più permissiva.
 
 
 ### 7.3 Funzioni semplici
@@ -279,7 +281,7 @@ $\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1
 Una funzione $s: \mathbb{R}^d \to \mathbb{R}$ misurabile che assume un numero **finito** di valori $c_1,\dots,c_p$ si dice **semplice**. Ponendo $A_k = s^{-1}(\{c_k\})$ (misurabili, disgiunti, unione $= \mathbb{R}^d$),
 
 $$
-s(x) = \sum_{k=1}^{p} c_k \, \mathbb{1}_{A_k}(x)
+s(x) = \sum_{k=1}^{p} c_k \, \mathbb{1}\_{A_k}(x)
 $$
 
 Le funzioni semplici sono ai fini della teoria della misura quello che le funzioni a scala sono per Riemann: mattoni elementari su cui costruire l'integrale ([§8](#8-integrale-di-lebesgue)).
@@ -295,7 +297,7 @@ Le funzioni semplici sono ai fini della teoria della misura quello che le funzio
 
 La costruzione procede in tre passi, ciascuno più generale del precedente.
 
-**1. Funzioni semplici non negative.** Se $s = \sum_{k=1}^p c_k \mathbb{1}_{A_k} \ge 0$,
+**1. Funzioni semplici non negative.** Se $s = \sum_{k=1}^p c_k \mathbb{1}\_{A_k} \ge 0$,
 
 $$
 \int_E s \, d\mu = \sum_{k=1}^{p} c_k\, \mu(E \cap A_k)
@@ -313,7 +315,7 @@ $$
 \int_E f \, d\mu = \sup\left\{ \int_E s \, d\mu \ :\ s \text{ semplice},\ 0 \le s \le f \right\}
 $$
 
-**3. Funzioni con segno.** Scritta $f = f^+ - f^-$ (parte positiva e negativa, entrambe $\ge 0$), $f$ è **integrabile** se $\int_E |f|\,d\mu = \int_E f^+ d\mu + \int_E f^- d\mu < \infty$, e in tal caso
+**3. Funzioni con segno.** Scritta $f = f^+ - f^-$ (parte positiva e negativa, entrambe $\ge 0$), $f$ è **integrabile** se $\int_E \|f\|\,d\mu = \int_E f^+ d\mu + \int_E f^- d\mu < \infty$, e in tal caso
 
 $$
 \int_E f \, d\mu = \int_E f^+ d\mu - \int_E f^- d\mu
@@ -324,7 +326,7 @@ $$
 
 - **Linearità**: $\int (\alpha f + \beta g) = \alpha \int f + \beta \int g$.
 - **Monotonia**: $f \le g \Rightarrow \int f \le \int g$.
-- **Disuguaglianza triangolare**: $|\int f| \le \int |f|$.
+- **Disuguaglianza triangolare**: $\|\int f\| \le \int |f|$.
 
 **Uguaglianza quasi ovunque.** Si dice che una proprietà vale **quasi ovunque** (q.o.) se l'insieme dei punti dove fallisce ha misura nulla. Fatto notevole: se $f = g$ q.o., allora $\int f = \int g$ — l'integrale di Lebesgue è "cieco" rispetto a modifiche su un insieme di misura nulla. È esattamente questo a rendere possibile l'esempio del prossimo paragrafo.
 
@@ -333,12 +335,14 @@ $$
 
 ## 9. Lebesgue contro Riemann: quando coincidono i due integrali
 
+<img class="shot-img" src="img/misura_riemann_lebesgue.png" alt="Riemann partiziona il dominio in strisce verticali, Lebesgue partiziona il codominio in livelli orizzontali" />
+
 ### 9.1 La funzione di Dirichlet, di nuovo
 
-Torniamo alla funzione di Dirichlet $\mathbb{1}_{\mathbb{Q}}$ del [§7](#7-funzioni-misurabili), il controesempio con cui abbiamo aperto la nota.
+Torniamo alla funzione di Dirichlet $\mathbb{1}\_{\mathbb{Q}}$ del [§7](#7-funzioni-misurabili), il controesempio con cui abbiamo aperto la nota.
 
 - **Riemann**: non integrabile su $[0,1]$. Su ogni sottointervallo di ogni partizione ci sono sia razionali che irrazionali (densità di $\mathbb{Q}$ e $\mathbb{R} \setminus \mathbb{Q}$), quindi ogni somma superiore vale $1$ e ogni somma inferiore vale $0$: $\sup_P s(P) = 0 \neq 1 = \inf_P S(P)$.
-- **Lebesgue**: perfettamente integrabile. $\mathbb{1}_{\mathbb{Q}} = 0$ quasi ovunque (perché $\mu(\mathbb{Q}) = 0$, essendo $\mathbb{Q}$ numerabile — [§1](#1-insiemi-numerabili-e-più-che-numerabili)), quindi $\int_0^1 \mathbb{1}_{\mathbb{Q}}\, d\mu = \int_0^1 0 \, d\mu = 0$.
+- **Lebesgue**: perfettamente integrabile. $\mathbb{1}\_{\mathbb{Q}} = 0$ quasi ovunque (perché $\mu(\mathbb{Q}) = 0$, essendo $\mathbb{Q}$ numerabile — [§1](#1-insiemi-numerabili-e-più-che-numerabili)), quindi $\int_0^1 \mathbb{1}\_{\mathbb{Q}}\, d\mu = \int_0^1 0 \, d\mu = 0$.
 
 Questo non è un caso isolato ma un fenomeno completamente caratterizzato:
 
@@ -362,7 +366,7 @@ $$
 \int_{\mathbb{R}^d} f(x,y)\, d\mu_d(x,y) = \int_{\mathbb{R}^p} \left( \int_{\mathbb{R}^q} f(x,y)\, d\mu_q(y) \right) d\mu_p(x)
 $$
 
-**Teorema di Fubini.** Stessa formula, ma per $f$ con segno variabile, purché $f$ sia **integrabile** ($\int |f|\, d\mu_d < \infty$) — la non negatività di Tonelli non basta più, serve integrabilità assoluta.
+**Teorema di Fubini.** Stessa formula, ma per $f$ con segno variabile, purché $f$ sia **integrabile** ($\int \|f\|\, d\mu_d < \infty$) — la non negatività di Tonelli non basta più, serve integrabilità assoluta.
 
 **Principio di Cavalieri** è il caso particolare $f = \mathbb{1}_A$: la (2) diventa $\mu_d(A) = \int_{\mathbb{R}^p} \mu_q(A_x)\, d\mu_p(x)$, cioè *l'area (volume) di un insieme è l'integrale delle lunghezze (aree) delle sue sezioni* — la stessa idea intuitiva insegnata per calcolare volumi "affettando" un solido, ora con una dimostrazione rigorosa alle spalle.
 
