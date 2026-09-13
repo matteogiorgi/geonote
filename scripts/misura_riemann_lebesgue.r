@@ -63,15 +63,15 @@ plot(NA,
 mtext("Lebesgue: partiziona il codominio", side = 3, line = 3.0, cex = 1.15, font = 2)
 mtext("il colore sull'asse mostra la controimmagine di ciascuna fascia", side = 3, line = 1.5, cex = 0.75)
 
+# Ogni fascia [lo, hi) diventa un rettangolo piatto (cima e base
+# orizzontali, non segue la curva) largo quanto l'insieme {f >= lo}:
+# è l'equivalente Lebesgue dei rettangoli di Riemann a sinistra, e
+# annidandosi dal più largo (lo = 0) al più stretto (lo = 0.8)
+# ricostruiscono a gradoni il profilo della curva.
 for (i in seq_len(length(fasce) - 1)) {
     lo <- fasce[i]
     hi <- fasce[i + 1]
-    xs <- seq(x_meno(lo), x_piu(lo), length.out = 200)
-    alto <- pmin(f(xs), hi)
-    polygon(c(xs, rev(xs)), c(alto, rep(lo, length(xs))), col = colori_chiari[i], border = NA)
-}
-for (livello in fasce) {
-    segments(x_meno(livello), livello, x_piu(livello), livello, lty = 3, col = "grey70")
+    rect(x_meno(lo), lo, x_piu(lo), hi, col = colori_chiari[i], border = NA)
 }
 lines(x, y, lwd = 2)
 abline(h = 0, col = "black")
