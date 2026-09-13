@@ -37,9 +37,9 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 ### Matematica e statistica
 
-- **[Teoria della misura](teoria_misura.md)** † — $\sigma$-algebre, misura di Lebesgue, funzioni misurabili, integrale di Lebesgue.
+- **[Teoria della misura](teoria_misura.md)** — cardinalità e insieme di Cantor, $\sigma$-algebre, misura e insieme di Vitali, integrale di Lebesgue.
 - **[Metodi stocastici](teoria_metodi.md)** † — spazi di probabilità, variabili aleatorie, distribuzioni.
-- **[Processi stocastici](teoria_processi.md)** † — catene di Markov, ergodicità, distribuzione stazionaria, processi di Poisson, martingale.
+- **[Processi stocastici](teoria_processi.md)** † — catene di Markov, ergodicità, distribuzione stazionaria, processi di Poisson.
 - **[Inferenza statistica](teoria_inferenza.md)** † — stima puntuale e per intervalli, test d'ipotesi.
 
 
