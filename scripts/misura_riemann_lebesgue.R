@@ -10,22 +10,27 @@ y <- f(x)
 # Spectral è il font usato dalla pagina GitHub (geoteo.net/static/style.css);
 # richiede il device Cairo per essere referenziato per nome famiglia.
 png("img/misura_riemann_lebesgue.png", width = 1800, height = 850, res = 150, type = "cairo")
-par(mfrow = c(1, 2), mar = c(3, 3, 3.5, 1), family = "Spectral")
+par(mfrow = c(1, 2), mar = c(1.2, 2, 6.2, 2), family = "Spectral")
 
 # --- Pannello sinistro: Riemann, partizione del dominio ---
 plot(x, y, type = "l", lwd = 2,
      xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n", ylim = c(-0.08, 1))
-mtext("Riemann: partiziona il dominio", side = 3, line = 2.1, cex = 1.15, font = 2)
-mtext("l'altezza del rettangolo approssima f al centro di ciascuna striscia", side = 3, line = 1.1, cex = 0.75)
+mtext("Riemann: partiziona il dominio", side = 3, line = 3.0, cex = 1.15, font = 2)
+mtext("l'altezza del rettangolo approssima f al centro di ciascuna striscia", side = 3, line = 1.5, cex = 0.75)
 strisce <- seq(0, 1, by = 0.1)
-for (i in seq_len(length(strisce) - 1)) {
-    a <- strisce[i]
-    b <- strisce[i + 1]
-    altezza <- f((a + b) / 2)
-    rect(a, 0, b, altezza, col = "grey85", border = "grey50")
+altezze <- sapply(seq_len(length(strisce) - 1), function(i) f((strisce[i] + strisce[i + 1]) / 2))
+for (i in seq_along(altezze)) {
+    rect(strisce[i], 0, strisce[i + 1], altezze[i], col = "grey85", border = "grey50")
 }
 lines(x, y, lwd = 2)
-abline(v = strisce, lty = 3, col = "grey60")
+
+# righe tratteggiate verticali: si fermano all'altezza del più alto dei due
+# rettangoli adiacenti al confine, senza sbordare sopra di essi
+for (k in seq_along(strisce)) {
+    vicini <- altezze[c(k - 1, k)]
+    cima <- max(vicini, na.rm = TRUE)
+    segments(strisce[k], 0, strisce[k], cima, lty = 3, col = "grey60")
+}
 
 # --- Pannello destro: Lebesgue, partizione del codominio ---
 # Il codominio [0,1] è diviso in fasce; per ciascuna fascia si colora solo
@@ -51,8 +56,8 @@ colori_chiari <- schiarisci(colori)
 
 plot(NA, xlim = c(0, 1), ylim = c(-0.08, 1),
      xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
-mtext("Lebesgue: partiziona il codominio", side = 3, line = 2.1, cex = 1.15, font = 2)
-mtext("il colore sull'asse mostra la controimmagine di ciascuna fascia", side = 3, line = 1.1, cex = 0.75)
+mtext("Lebesgue: partiziona il codominio", side = 3, line = 3.0, cex = 1.15, font = 2)
+mtext("il colore sull'asse mostra la controimmagine di ciascuna fascia", side = 3, line = 1.5, cex = 0.75)
 
 for (i in seq_len(length(fasce) - 1)) {
     lo <- fasce[i]
@@ -61,7 +66,9 @@ for (i in seq_len(length(fasce) - 1)) {
     alto <- pmin(f(xs), hi)
     polygon(c(xs, rev(xs)), c(alto, rep(lo, length(xs))), col = colori_chiari[i], border = NA)
 }
-abline(h = fasce, lty = 3, col = "grey70")
+for (livello in fasce) {
+    segments(x_meno(livello), livello, x_piu(livello), livello, lty = 3, col = "grey70")
+}
 lines(x, y, lwd = 2)
 abline(h = 0, col = "black")
 
