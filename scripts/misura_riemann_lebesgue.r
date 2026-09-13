@@ -13,8 +13,10 @@ png("img/misura_riemann_lebesgue.png", width = 1800, height = 850, res = 150, ty
 par(mfrow = c(1, 2), mar = c(1.2, 2, 6.2, 2), family = "Spectral")
 
 # --- Pannello sinistro: Riemann, partizione del dominio ---
-plot(x, y, type = "l", lwd = 2,
-     xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n", ylim = c(-0.08, 1))
+plot(x, y,
+    type = "l", lwd = 2,
+    xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n", ylim = c(-0.08, 1)
+)
 mtext("Riemann: partiziona il dominio", side = 3, line = 3.0, cex = 1.15, font = 2)
 mtext("l'altezza del rettangolo approssima f al centro di ciascuna striscia", side = 3, line = 1.5, cex = 0.75)
 strisce <- seq(0, 1, by = 0.1)
@@ -54,8 +56,10 @@ fasce <- seq(0, 1, length.out = 6)
 colori <- c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e")
 colori_chiari <- schiarisci(colori)
 
-plot(NA, xlim = c(0, 1), ylim = c(-0.08, 1),
-     xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
+plot(NA,
+    xlim = c(0, 1), ylim = c(-0.08, 1),
+    xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n"
+)
 mtext("Lebesgue: partiziona il codominio", side = 3, line = 3.0, cex = 1.15, font = 2)
 mtext("il colore sull'asse mostra la controimmagine di ciascuna fascia", side = 3, line = 1.5, cex = 0.75)
 
