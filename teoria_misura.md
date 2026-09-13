@@ -90,7 +90,7 @@ $$
 \mu\Big(\bigcup_{n=1}^{\infty} E_n\Big) = \sum_{n=1}^{\infty} \mu(E_n) \qquad \text{(additività numerabile)}
 $$
 
-- **Misura di conteggio**: $\mu(E) = \|E\|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
+- **Misura di conteggio**: $\mu(E) = \lvert E \rvert$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
 - **Massa di Dirac**: fissato $z \in X$, $\mu_z(E) = 1$ se $z \in E$, $0$ altrimenti.
 - **Misura di probabilità**: qualunque misura con $\mu(X) = 1$ — il ponte diretto verso la teoria della probabilità.
 
@@ -169,7 +169,7 @@ Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\
 
 **Definizione.** $A \subseteq \mathbb{R}^d$ è misurabile se per ogni $\varepsilon > 0$ esiste un aperto $\Omega \supseteq A$ con $\mu^\ast(\Omega \setminus A) < \varepsilon$ — cioè se $A$ è approssimabile "dall'esterno" da aperti con errore arbitrariamente piccolo.
 
-**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^\ast|&#95;{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^\ast$ su $2^{\mathbb{R}^d}$.
+**Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^\ast\vert&#95;{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^\ast$ su $2^{\mathbb{R}^d}$.
 
 Conseguenze immediate: ogni aperto è misurabile (banale, $\Omega = A$); ogni insieme di misura esterna nulla è misurabile (**completezza** della misura di Lebesgue); quindi
 
@@ -315,7 +315,7 @@ $$
 \int_E f \, d\mu = \sup\left\{ \int_E s \, d\mu \ :\ s \text{ semplice},\ 0 \le s \le f \right\}
 $$
 
-**3. Funzioni con segno.** Scritta $f = f^+ - f^-$ (parte positiva e negativa, entrambe $\ge 0$), $f$ è **integrabile** se $\int_E \|f\|\,d\mu = \int_E f^+ d\mu + \int_E f^- d\mu < \infty$, e in tal caso
+**3. Funzioni con segno.** Scritta $f = f^+ - f^-$ (parte positiva e negativa, entrambe $\ge 0$), $f$ è **integrabile** se $\int_E \lvert f \rvert\,d\mu = \int_E f^+ d\mu + \int_E f^- d\mu < \infty$, e in tal caso
 
 $$
 \int_E f \, d\mu = \int_E f^+ d\mu - \int_E f^- d\mu
@@ -326,7 +326,7 @@ $$
 
 - **Linearità**: $\int (\alpha f + \beta g) = \alpha \int f + \beta \int g$.
 - **Monotonia**: $f \le g \Rightarrow \int f \le \int g$.
-- **Disuguaglianza triangolare**: $\|\int f\| \le \int \|f\|$.
+- **Disuguaglianza triangolare**: $\lvert \int f \rvert \le \int \lvert f \rvert$.
 
 **Uguaglianza quasi ovunque.** Si dice che una proprietà vale **quasi ovunque** (q.o.) se l'insieme dei punti dove fallisce ha misura nulla. Fatto notevole: se $f = g$ q.o., allora $\int f = \int g$ — l'integrale di Lebesgue è "cieco" rispetto a modifiche su un insieme di misura nulla. È esattamente questo a rendere possibile l'esempio del prossimo paragrafo.
 
@@ -366,7 +366,7 @@ $$
 \int_{\mathbb{R}^d} f(x,y)\, d\mu_d(x,y) = \int_{\mathbb{R}^p} \left( \int_{\mathbb{R}^q} f(x,y)\, d\mu_q(y) \right) d\mu_p(x)
 $$
 
-**Teorema di Fubini.** Stessa formula, ma per $f$ con segno variabile, purché $f$ sia **integrabile** ($\int \|f\|\, d\mu_d < \infty$) — la non negatività di Tonelli non basta più, serve integrabilità assoluta.
+**Teorema di Fubini.** Stessa formula, ma per $f$ con segno variabile, purché $f$ sia **integrabile** ($\int \lvert f \rvert\, d\mu_d < \infty$) — la non negatività di Tonelli non basta più, serve integrabilità assoluta.
 
 **Principio di Cavalieri** è il caso particolare $f = \mathbb{1}&#95;A$: la (2) diventa $\mu_d(A) = \int_{\mathbb{R}^p} \mu_q(A_x)\, d\mu_p(x)$, cioè *l'area (volume) di un insieme è l'integrale delle lunghezze (aree) delle sue sezioni* — la stessa idea intuitiva insegnata per calcolare volumi "affettando" un solido, ora con una dimostrazione rigorosa alle spalle.
 
