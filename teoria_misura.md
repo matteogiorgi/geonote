@@ -1,14 +1,16 @@
 # Teoria della misura
 
-L'integrale di Riemann funziona benissimo finché ci si limita a funzioni "ragionevoli" su intervalli. Ma appena si chiede quanto vale $\int_0^1 \mathbb{1}_{\mathbb{Q}}(x)\,dx$ (la funzione che vale $1$ sui razionali e $0$ altrove), l'integrale di Riemann semplicemente non esiste: le somme superiori danno sempre $1$, le inferiori sempre $0$. Il problema non è la funzione, ma lo strumento: Riemann misura implicitamente gli insiemi con cui lavora usando solo intervalli, e i razionali — densi ma "piccoli" — non si lasciano approssimare bene in questo modo. La teoria della misura nasce per rispondere a una domanda più generale: **quali sottoinsiemi di $\mathbb{R}^d$ hanno senso di avere una lunghezza/area/volume**, e come si integra rispetto a una nozione di misura così estesa. Il prezzo da pagare, come si vedrà nel [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali), è che non *tutti* i sottoinsiemi di $\mathbb{R}^d$ sono misurabili.
+L'integrale di Riemann funziona benissimo finché ci si limita a funzioni "ragionevoli" su intervalli. Ma appena si chiede quanto vale $\int_0^1 \mathbb{1}_{\mathbb{Q}}(x)\,dx$ (la funzione che vale $1$ sui razionali e $0$ altrove), l'integrale di Riemann semplicemente non esiste: le somme superiori danno sempre $1$, le inferiori sempre $0$. Il problema non è la funzione, ma lo strumento: Riemann misura implicitamente gli insiemi con cui lavora usando solo intervalli, e i razionali — densi ma "piccoli" — non si lasciano approssimare bene in questo modo.
+
+La teoria della misura nasce per rispondere a una domanda più generale: quali sottoinsiemi di $\mathbb{R}^d$ hanno senso di avere una lunghezza/area/volume, e come si integra rispetto a una nozione di misura così estesa. Il prezzo da pagare, come si vedrà nel [§5](#5-insiemi-misurabili-e-il-controesempio-di-vitali), è che non *tutti* i sottoinsiemi di $\mathbb{R}^d$ sono misurabili.
 
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Insiemi numerabili e argomento diagonale** — servono a capire perché $\mathbb{Q}$ ha misura nulla e perché $\mathbb{R}$ no; sono il prerequisito concettuale per l'insieme di Cantor ([§6](#6-linsieme-di-cantor-cardinalità-e-misura-non-coincidono)).
-- **$\sigma$-algebre e misure** — il linguaggio condiviso da teoria dell'integrazione e teoria della probabilità: una misura di probabilità è solo una misura con $\mu(X)=1$.
+- **$\boldsymbol{\sigma}$-algebre e misure** — il linguaggio condiviso da teoria dell'integrazione e teoria della probabilità: una misura di probabilità è solo una misura con $\mu(X)=1$.
 - **Misura esterna e misurabilità secondo Lebesgue** — la costruzione centrale della nota; da qui nasce sia la misura di Lebesgue sia il controesempio (insieme di Vitali) che mostra che non si può misurare tutto.
 - **Integrale di Lebesgue** — generalizza Riemann; il [§9](#9-lebesgue-contro-riemann-quando-coincidono-i-due-integrali) chiarisce esattamente quando i due integrali coincidono e quando no.
 
@@ -29,6 +31,8 @@ flowchart LR
 
 ## 1. Insiemi numerabili e più che numerabili
 
+### Insiemi numerabili
+
 **Funzioni iniettive, suriettive, biiettive.** $f: A \to B$ è iniettiva se $a \neq a' \Rightarrow f(a) \neq f(a')$; è suriettiva se $f(A) = B$; è biiettiva se è entrambe.
 
 **Insieme numerabile.** $A$ è numerabile se è finito oppure se esiste una biiezione $f: A \to \mathbb{N}$.
@@ -40,6 +44,9 @@ $$
 $$
 
 che è una biiezione $\mathbb{N} \times \mathbb{N} \to \mathbb{N}$. Da qui segue che $\mathbb{Q}$ è numerabile: ogni razionale è $p/q$ con $(p,q) \in \mathbb{Z} \times \mathbb{N}$, e un'unione numerabile di insiemi numerabili è numerabile.
+
+
+### La non numerabilità di $\mathbb{R}$
 
 **Teorema (Cantor, non numerabilità di $\mathbb{R}$) — argomento diagonale.** Supponiamo per assurdo che $[0,1]$ sia numerabile, cioè $[0,1] = \{x_1, x_2, x_3, \dots\}$. Scriviamo ogni $x_n$ in forma decimale, $x_n = 0.d_{n1}d_{n2}d_{n3}\dots$, e costruiamo
 
@@ -62,15 +69,20 @@ Allora $[0,1] \subseteq \bigcup_n I_n$, ma la somma delle lunghezze è $\sum_n \
 
 
 
-## 2. $\sigma$-algebre, spazi misurabili e misure
+## 2. $\boldsymbol{\sigma}$-algebre, spazi misurabili e misure
 
-**$\sigma$-algebra.** $\mathcal{A}$, famiglia di sottoinsiemi di $X$, è una $\sigma$-algebra su $X$ se:
+### $\boldsymbol{\sigma}$-algebre e spazi misurabili
+
+**$\boldsymbol{\sigma}$-algebra.** $\mathcal{A}$, famiglia di sottoinsiemi di $X$, è una $\sigma$-algebra su $X$ se:
 
 1. $X \in \mathcal{A}$;
 2. $E \in \mathcal{A} \Rightarrow E^c \in \mathcal{A}$;
 3. $E_n \in \mathcal{A}$ per ogni $n \Rightarrow \bigcup_n E_n \in \mathcal{A}$.
 
-Per De Morgan, una $\sigma$-algebra è chiusa anche per intersezioni numerabili. Gli elementi di $\mathcal{A}$ si dicono **insiemi misurabili**; $(X, \mathcal{A})$ è uno **spazio misurabile**. Data una famiglia qualsiasi $\mathcal{F}$ di sottoinsiemi di $X$, esiste sempre una più piccola $\sigma$-algebra che la contiene (l'intersezione di tutte le $\sigma$-algebre che contengono $\mathcal{F}$): è la **$\sigma$-algebra generata** da $\mathcal{F}$, notazione $\sigma(\mathcal{F})$ — la useremo nel [§3](#3-insiemi-di-borel) per definire i Boreliani.
+Per De Morgan, una $\sigma$-algebra è chiusa anche per intersezioni numerabili. Gli elementi di $\mathcal{A}$ si dicono **insiemi misurabili**; $(X, \mathcal{A})$ è uno **spazio misurabile**. Data una famiglia qualsiasi $\mathcal{F}$ di sottoinsiemi di $X$, esiste sempre una più piccola $\sigma$-algebra che la contiene (l'intersezione di tutte le $\sigma$-algebre che contengono $\mathcal{F}$): è la **$\boldsymbol{\sigma}$-algebra generata** da $\mathcal{F}$, notazione $\sigma(\mathcal{F})$ — la useremo nel [§3](#3-insiemi-di-borel) per definire i Boreliani.
+
+
+### Misure ed esempi
 
 **Misura.** Data una $\sigma$-algebra $\mathcal{A}$ su $X$, una misura è $\mu: \mathcal{A} \to [0, +\infty]$ tale che $\mu(\emptyset)=0$ e, per ogni famiglia disgiunta $(E_n)_{n \in \mathbb{N}} \subset \mathcal{A}$,
 
@@ -78,11 +90,12 @@ $$
 \mu\Big(\bigcup_{n=1}^{\infty} E_n\Big) = \sum_{n=1}^{\infty} \mu(E_n) \qquad \text{(additività numerabile)}
 $$
 
-**Esempi.**
-
-- **Misura di conteggio**: $\mu(E) = |E|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
+- **Misura di conteggio**: $\mu(E) = \|E\|$ se $E$ finito, $+\infty$ altrimenti, su $\mathcal{A} = 2^X$.
 - **Massa di Dirac**: fissato $z \in X$, $\mu_z(E) = 1$ se $z \in E$, $0$ altrimenti.
 - **Misura di probabilità**: qualunque misura con $\mu(X) = 1$ — il ponte diretto verso la teoria della probabilità.
+
+
+### Continuità e subadditività
 
 **Continuità dal basso.** Se $E_n \subseteq E_{n+1}$ per ogni $n$ (successione crescente), allora $\mu\big(\bigcup_n E_n\big) = \lim_n \mu(E_n)$. *Idea della dimostrazione*: si "disgiunge" ponendo $B_1 = E_1$, $B_n = E_n \setminus E_{n-1}$; gli $E_n$ diventano unioni finite dei $B_k$ disgiunti, e si applica l'additività numerabile ai $B_k$.
 
@@ -114,6 +127,8 @@ I Boreliani non esauriscono però gli insiemi misurabili che vogliamo costruire:
 
 ## 4. Misura esterna di Lebesgue
 
+### Definizione
+
 **Scatola.** Una scatola in $\mathbb{R}^d$ è $S = [a_1,b_1] \times \dots \times [a_d,b_d]$, con misura elementare $\mathrm{mis}(S) = (b_1-a_1)\cdots(b_d-a_d)$.
 
 **Ricoprimento.** $(S_n)_{n \in \mathbb{N}}$ è un ricoprimento di $E \subseteq \mathbb{R}^d$ se $E \subseteq \bigcup_n S_n$. Ogni insieme ammette almeno un ricoprimento (banalmente, con scatole enormi).
@@ -126,7 +141,8 @@ $$
 
 A differenza di una misura, $\mu^*$ è definita su **tutti** i sottoinsiemi di $\mathbb{R}^d$ (è una funzione totale $2^{\mathbb{R}^d} \to [0,+\infty]$).
 
-**Proprietà.**
+
+### Proprietà
 
 - $\mu^*(\emptyset) = 0$ (ricoprimento con scatole degeneri).
 - **Monotonia**: $E \subseteq F \Rightarrow \mu^*(E) \le \mu^*(F)$.
@@ -149,6 +165,8 @@ Si può inoltre dimostrare (non lo facciamo qui) che per una scatola $S$ vale $\
 
 ## 5. Insiemi misurabili e il controesempio di Vitali
 
+### Misurabilità secondo Lebesgue
+
 **Definizione (misurabilità secondo Lebesgue).** $A \subseteq \mathbb{R}^d$ è misurabile se per ogni $\varepsilon > 0$ esiste un aperto $\Omega \supseteq A$ con $\mu^*(\Omega \setminus A) < \varepsilon$ — cioè se $A$ è approssimabile "dall'esterno" da aperti con errore arbitrariamente piccolo.
 
 **Teorema.** La famiglia $\mathcal{L}(\mathbb{R}^d)$ degli insiemi misurabili secondo Lebesgue è una $\sigma$-algebra, e $\mu := \mu^*|_{\mathcal{L}(\mathbb{R}^d)}$ è una misura (la **misura di Lebesgue**) — cioè è numerabilmente additiva sugli insiemi misurabili disgiunti, a differenza di $\mu^*$ su $2^{\mathbb{R}^d}$.
@@ -160,6 +178,9 @@ $$
 $$
 
 la seconda inclusione è **stretta**, e il modo più diretto per convincersene è costruire esplicitamente un insieme non misurabile.
+
+
+### L'insieme di Vitali
 
 **L'insieme di Vitali.** Su $[0,1]$ definiamo la relazione di equivalenza $x \sim y \iff x - y \in \mathbb{Q}$. Per l'assioma di scelta, esiste un insieme $V \subseteq [0,1]$ che contiene **esattamente un rappresentante** per ciascuna classe di equivalenza.
 
@@ -183,52 +204,59 @@ Ma $\sum_n \mu(V)$ vale $0$ se $\mu(V) = 0$, oppure $+\infty$ se $\mu(V) > 0$: i
 
 ## 6. L'insieme di Cantor: cardinalità e misura non coincidono
 
+### Costruzione e misura nulla
+
 **Costruzione.** $C_0 = [0,1]$. Da $C_n$ si ottiene $C_{n+1}$ rimuovendo il terzo centrale aperto da ciascuno dei $2^n$ intervalli di $C_n$. L'**insieme di Cantor** è $C = \bigcap_{n=0}^{\infty} C_n$.
 
-**Misura nulla.** $C_n$ è unione di $2^n$ intervalli chiusi di lunghezza $3^{-n}$, quindi $\mu(C_n) = (2/3)^n$. Poiché $C_n \supseteq C_{n+1}$ e $\mu(C_0) = 1 < \infty$, per continuità dall'alto ([§2](#2-sigma-algebre-spazi-misurabili-e-misure))
+**Misura nulla.** $C_n$ è unione di $2^n$ intervalli chiusi di lunghezza $3^{-n}$, quindi $\mu(C_n) = (2/3)^n$. Poiché $C_n \supseteq C_{n+1}$ e $\mu(C_0) = 1 < \infty$, per continuità dall'alto ([§2](#2-boldsymbolsigma-algebre-spazi-misurabili-e-misure))
 
 $$
 \mu(C) = \lim_{n \to \infty} \mu(C_n) = \lim_{n \to \infty} \left(\frac{2}{3}\right)^n = 0
 $$
 
+
+### Non numerabilità e il punto della costruzione
+
 **Non numerabile.** Ogni $x \in C$ ammette una rappresentazione in base $3$ che usa solo le cifre $0$ e $2$ (a ogni passo si esclude esattamente il terzo "di mezzo", cioè le cifre che comincerebbero con $1$). La mappa che manda ogni tale sequenza di cifre $\{0,2\}^{\mathbb{N}}$ in $\{0,1\}^{\mathbb{N}}$ (dividendo per $2$) è una biiezione, e $\{0,1\}^{\mathbb{N}}$ ha la cardinalità del continuo — non numerabile per l'argomento diagonale del [§1](#1-insiemi-numerabili-e-più-che-numerabili) (è essenzialmente lo stesso argomento, applicato a sequenze di cifre invece che a decimali).
 
 **Il punto della costruzione.** $C$ è **tanto numeroso quanto $\mathbb{R}$** (non numerabile) ma **piccolo quanto un punto** dal punto di vista della misura (misura nulla). Cardinalità e misura sono assi ortogonali: un insieme può essere "grande" nell'uno ed "piccolo" nell'altro. È anche il primo esempio non banale di insieme di misura nulla che non è né finito né numerabile — negli esempi del [§4](#4-misura-esterna-di-lebesgue) la misura nulla veniva sempre da insiemi al più numerabili (dove bastava la subadditività: un'unione numerabile di punti, ciascuno di misura $0$, ha misura $0$). Qui invece la misura nulla è un fatto genuinamente geometrico, non un corollario della numerabilità.
 
-Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo:
+
+### Verifica numerica in R
+
+Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo (vedi [fondamenti_r.md §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per sintassi e specifiche):
 
 ```r
-    cantor_intervalli <- function(n) {
-        # Estremi degli intervalli superstiti di C_n, una riga [a, b] per intervallo.
-        intervalli <- matrix(c(0, 1), ncol = 2)
-        for (k in seq_len(n)) {
-            nuovi <- matrix(nrow = 0, ncol = 2)
-            for (i in seq_len(nrow(intervalli))) {
-                a <- intervalli[i, 1]
-                b <- intervalli[i, 2]
-                terzo <- (b - a) / 3
-                nuovi <- rbind(nuovi, c(a, a + terzo), c(b - terzo, b))
-            }
-            intervalli <- nuovi
+cantor_intervalli <- function(n) {
+    # Estremi degli intervalli superstiti di C_n, una riga [a, b] per intervallo.
+    intervalli <- matrix(c(0, 1), ncol = 2)
+    for (k in seq_len(n)) {
+        nuovi <- matrix(nrow = 0, ncol = 2)
+        for (i in seq_len(nrow(intervalli))) {
+            a <- intervalli[i, 1]
+            b <- intervalli[i, 2]
+            terzo <- (b - a) / 3
+            nuovi <- rbind(nuovi, c(a, a + terzo), c(b - terzo, b))
         }
-        intervalli
+        intervalli <- nuovi
     }
+    intervalli
+}
 
-    misura_totale <- function(intervalli) sum(intervalli[, 2] - intervalli[, 1])
-
-    for (n in 0:12) {
-        ins <- cantor_intervalli(n)
-        cat(sprintf("C_%2d: %5d intervalli, misura = %.6f  (teorica (2/3)^n = %.6f)\n",
-                    n, nrow(ins), misura_totale(ins), (2 / 3)^n))
-    }
+misura_totale <- function(intervalli) sum(intervalli[, 2] - intervalli[, 1])
+for (n in 0:12) {
+    ins <- cantor_intervalli(n)
+    cat(sprintf("C_%2d: %5d intervalli, misura = %.6f  (teorica (2/3)^n = %.6f)\n",
+                n, nrow(ins), misura_totale(ins), (2 / 3)^n))
+}
 ```
-
-(vedi [fondamenti_r.md §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per la sintassi di funzioni e cicli usata qui).
 
 
 
 
 ## 7. Funzioni misurabili
+
+### Definizione e la funzione di Dirichlet
 
 **Definizione.** $f: A \to [-\infty, +\infty]$ (con $A \in \mathcal{L}(\mathbb{R}^d)$) è misurabile se $f^{-1}(]c,+\infty])$ è misurabile per ogni $c \in \mathbb{R}$. La condizione è equivalente a chiederlo per $[c,+\infty[$, $]-\infty,c[$, $]-\infty,c]$, o per $f^{-1}(\Omega)$ con $\Omega$ aperto qualsiasi.
 
@@ -239,6 +267,9 @@ $$
 $$
 
 $\mathbb{Q}$ è numerabile quindi Boreliano quindi misurabile, dunque $\mathbb{1}_{\mathbb{Q}}$ è misurabile — pur non essendo continua in **nessun** punto di $\mathbb{R}$ (ogni intorno di ogni punto contiene sia razionali che irrazionali). Misurabilità e continuità sono quindi nozioni distinte: la prima è molto più permissiva.
+
+
+### Funzioni semplici
 
 **Funzione semplice.** $s: \mathbb{R}^d \to \mathbb{R}$ misurabile che assume un numero **finito** di valori $c_1,\dots,c_p$. Ponendo $A_k = s^{-1}(\{c_k\})$ (misurabili, disgiunti, unione $= \mathbb{R}^d$),
 
@@ -254,6 +285,8 @@ Le funzioni semplici sono ai fini della teoria della misura quello che le funzio
 
 
 ## 8. Integrale di Lebesgue
+
+### Costruzione in tre passi
 
 La costruzione procede in tre passi, ciascuno più generale del precedente.
 
@@ -281,6 +314,9 @@ $$
 \int_E f \, d\mu = \int_E f^+ d\mu - \int_E f^- d\mu
 $$
 
+
+### Proprietà e uguaglianza quasi ovunque
+
 **Proprietà principali**: linearità ($\int (\alpha f + \beta g) = \alpha \int f + \beta \int g$), monotonia ($f \le g \Rightarrow \int f \le \int g$), disuguaglianza triangolare ($|\int f| \le \int |f|$).
 
 **Uguaglianza quasi ovunque.** Si dice che una proprietà vale **quasi ovunque** (q.o.) se l'insieme dei punti dove fallisce ha misura nulla. Fatto notevole: se $f = g$ q.o., allora $\int f = \int g$ — l'integrale di Lebesgue è "cieco" rispetto a modifiche su un insieme di misura nulla. È esattamente questo a rendere possibile l'esempio del prossimo paragrafo.
@@ -290,12 +326,17 @@ $$
 
 ## 9. Lebesgue contro Riemann: quando coincidono i due integrali
 
+### La funzione di Dirichlet, di nuovo
+
 Torniamo alla funzione di Dirichlet $\mathbb{1}_{\mathbb{Q}}$ del [§7](#7-funzioni-misurabili), il controesempio con cui abbiamo aperto la nota.
 
 - **Riemann**: non integrabile su $[0,1]$. Su ogni sottointervallo di ogni partizione ci sono sia razionali che irrazionali (densità di $\mathbb{Q}$ e $\mathbb{R} \setminus \mathbb{Q}$), quindi ogni somma superiore vale $1$ e ogni somma inferiore vale $0$: $\sup_P s(P) = 0 \neq 1 = \inf_P S(P)$.
 - **Lebesgue**: perfettamente integrabile. $\mathbb{1}_{\mathbb{Q}} = 0$ quasi ovunque (perché $\mu(\mathbb{Q}) = 0$, essendo $\mathbb{Q}$ numerabile — [§1](#1-insiemi-numerabili-e-più-che-numerabili)), quindi $\int_0^1 \mathbb{1}_{\mathbb{Q}}\, d\mu = \int_0^1 0 \, d\mu = 0$.
 
 Questo non è un caso isolato ma un fenomeno completamente caratterizzato:
+
+
+### Il criterio di Lebesgue
 
 **Teorema (criterio di Lebesgue per l'integrabilità secondo Riemann).** Una funzione $f: [a,b] \to \mathbb{R}$ limitata è integrabile secondo Riemann **se e solo se** l'insieme dei suoi punti di discontinuità ha misura di Lebesgue nulla (si dice che $f$ è "continua quasi ovunque").
 
@@ -305,6 +346,8 @@ La funzione di Dirichlet è discontinua **ovunque** (misura $1 \neq 0$): ecco pe
 
 
 ## 10. Teoremi di riduzione: Tonelli, Fubini e Cavalieri
+
+### Gli enunciati
 
 Scriviamo $\mathbb{R}^d = \mathbb{R}^p \times \mathbb{R}^q$ e $(x,y) \in \mathbb{R}^p \times \mathbb{R}^q$. Per $A \subseteq \mathbb{R}^d$ misurabile, la **sezione** $A_x = \{y \in \mathbb{R}^q : (x,y) \in A\}$.
 
@@ -318,6 +361,9 @@ $$
 
 **Principio di Cavalieri** è il caso particolare $f = \mathbb{1}_A$: la (2) diventa $\mu_d(A) = \int_{\mathbb{R}^p} \mu_q(A_x)\, d\mu_p(x)$, cioè *l'area (volume) di un insieme è l'integrale delle lunghezze (aree) delle sue sezioni* — la stessa idea intuitiva insegnata per calcolare volumi "affettando" un solido, ora con una dimostrazione rigorosa alle spalle.
 
+
+### Esempio e verifica numerica in R
+
 **Esempio.** Area del triangolo $A = \{(x,y) \in \mathbb{R}^2 : 0 \le x \le 1,\ 0 \le y \le x\}$:
 
 $$
@@ -329,20 +375,20 @@ dove $A_x = [0,x]$ ha lunghezza $x$ — esattamente il principio di Cavalieri ap
 Verifichiamo con l'approssimazione crescente per funzioni semplici del [§8](#8-integrale-di-lebesgue) il calcolo di $\int_0^1 x^2\, dx$, costruendo esplicitamente $s_n \uparrow f$ e osservando la convergenza:
 
 ```r
-    integrale_semplice_approx <- function(f, n, punti = 2000) {
-        # s_n(x) = floor(2^n * f(x)) / 2^n, integrata come somma di Riemann
-        # sulla griglia fine "punti": una stima dell'integrale di s_n.
-        x <- seq(0, 1, length.out = punti)
-        f_x <- f(x)
-        s_n <- floor(2^n * f_x) / 2^n
-        mean(s_n) # ampiezza del dominio è 1, quindi la media approssima l'integrale
-    }
+integrale_semplice_approx <- function(f, n, punti = 2000) {
+    # s_n(x) = floor(2^n * f(x)) / 2^n, integrata come somma di Riemann
+    # sulla griglia fine "punti": una stima dell'integrale di s_n.
+    x <- seq(0, 1, length.out = punti)
+    f_x <- f(x)
+    s_n <- floor(2^n * f_x) / 2^n
+    mean(s_n) # ampiezza del dominio è 1, quindi la media approssima l'integrale
+}
 
-    f <- function(x) x^2
-    for (n in 1:10) {
-        cat(sprintf("n = %2d: integrale di s_n ≈ %.6f  (vero integrale = 1/3 ≈ %.6f)\n",
-                    n, integrale_semplice_approx(f, n), 1 / 3))
-    }
+f <- function(x) x^2
+for (n in 1:10) {
+    cat(sprintf("n = %2d: integrale di s_n ≈ %.6f  (vero integrale = 1/3 ≈ %.6f)\n",
+                n, integrale_semplice_approx(f, n), 1 / 3))
+}
 ```
 
 Al crescere di $n$ le funzioni semplici $s_n$ approssimano $f$ sempre meglio dal basso, e l'integrale (una somma finita pesata, per costruzione) converge a $1/3$: è la costruzione del [§8](#8-integrale-di-lebesgue) resa visibile.
