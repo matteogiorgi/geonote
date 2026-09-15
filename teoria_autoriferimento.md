@@ -225,7 +225,7 @@ Il ciclo, a ogni livello, ha la stessa forma — e la stessa asimmetria di costo
 ```go
 func autoModifica(p Programma, propone func(Programma) Programma, migliore func(Programma, Programma) bool) Programma {
 	for {
-		candidato := propone(p) // generare: una passata sul modello, economico
+		candidato := propone(p)      // generare: una passata sul modello, economico
 		if !migliore(candidato, p) { // validare: esecuzione/training/benchmark, costoso
 			return p
 		}
