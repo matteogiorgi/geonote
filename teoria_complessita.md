@@ -40,7 +40,16 @@ $$
 O(1) \subset O(\log n) \subset O(n) \subset O(n \log n) \subset O(n^2) \subset O(n^k) \subset O(2^n) \subset O(n!)
 $$
 
-Ad esempio, un algoritmo $O(2^n)$ diventa inutilizzabile molto prima di uno $O(n^k)$ al crescere di $n$, anche se per $n$ piccoli può sembrare competitivo.
+Ad esempio, un algoritmo $O(2^n)$ diventa inutilizzabile molto prima di uno $O(n^k)$ al crescere di $n$, anche se per $n$ piccoli può sembrare competitivo. Il crossover si vede bene confrontando $2^n$ con $n^3$:
+
+| $n$ | $n^3$ | $2^n$ |
+|---|---|---|
+| 10 | 1.000 | 1.024 |
+| 20 | 8.000 | 1.048.576 |
+| 30 | 27.000 | ~1,07 miliardi |
+| 50 | 125.000 | ~1,13 · 10¹⁵ |
+
+Per $n=10$ i due costi sono comparabili; già a $n=30$ l'algoritmo esponenziale è milioni di volte più lento, e a $n=50$ è del tutto improponibile anche su hardware moderno.
 
 Questa notazione descrive *quanto* cresce un costo, ma non dice *rispetto a cosa* lo si sta misurando: lo stesso algoritmo ha in genere un costo diverso nel caso pessimo, ottimo o medio, e le strutture dati con operazioni di costo variabile si analizzano con il costo ammortizzato. Questi quattro modi di misurare il costo sono trattati in dettaglio, con esempi, in [teoria_costo.md](teoria_costo.md).
 
@@ -206,6 +215,52 @@ $$
 **co-NP** è la classe dei complementi dei linguaggi in NP: un problema è in co-NP se le istanze **negative** ammettono un certificato verificabile in tempo polinomiale.
 
 **Esempio:** *TAUTOLOGIA* (una formula booleana è vera per ogni assegnazione?) è in co-NP, perché il complemento — "esiste un'assegnazione che la rende falsa" — è SAT-like ed è in NP.
+
+L'asimmetria tra NP e co-NP si vede bene su SAT stesso: per dire "sì, è soddisfacibile" basta esibire un'assegnazione (certificato corto, verificabile in $O(n)$). Per dire "no, non è soddisfacibile" — cioè per il complemento di SAT, che è in co-NP — non si conosce alcun certificato corto: nella pratica si controllano tutte le $2^n$ assegnazioni possibili.
+
+```go
+// soddisfaClausole verifica in tempo polinomiale se una data assegnazione
+// (rappresentata come bitmask) soddisfa una formula in forma CNF.
+// Le clausole sono liste di letterali: un intero positivo i indica la variabile x_i,
+// un intero negativo -i indica la sua negazione ¬x_i.
+func soddisfaClausole(clausole [][]int, assegnazione uint) bool {
+	for _, clausola := range clausole {
+		clausolaVera := false
+		for _, letterale := range clausola {
+			variabile := letterale
+			if variabile < 0 {
+				variabile = -variabile
+			}
+			bit := (assegnazione >> uint(variabile-1)) & 1
+			valore := bit == 1
+			if letterale < 0 {
+				valore = !valore
+			}
+			if valore {
+				clausolaVera = true
+				break
+			}
+		}
+		if !clausolaVera {
+			return false
+		}
+	}
+	return true
+}
+
+// nonSoddisfacibile decide il complemento di SAT (problema in co-NP):
+// nessun certificato breve noto, si esplorano tutte le 2^n assegnazioni.
+func nonSoddisfacibile(clausole [][]int, nVariabili uint) bool {
+	for assegnazione := uint(0); assegnazione < (1 << nVariabili); assegnazione++ {
+		if soddisfaClausole(clausole, assegnazione) {
+			return false // trovata un'assegnazione che soddisfa: la formula NON è insoddisfacibile
+		}
+	}
+	return true
+}
+
+// Esempio: clausole := [][]int{{1, 2}, {-1, 2}, {1, -2}} → soddisfacibile (x1=x2=true)
+```
 
 Non si sa se $\mathrm{NP} = \mathrm{co\text{-}NP}$ (è un'altra domanda aperta, collegata a $\mathrm{P} \stackrel{?}{=} \mathrm{NP}$: se $\mathrm{P} = \mathrm{NP}$ allora necessariamente $\mathrm{NP} = \mathrm{co\text{-}NP}$, perché P è chiusa per complemento).
 
