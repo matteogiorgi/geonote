@@ -259,7 +259,7 @@ func nonSoddisfacibile(clausole [][]int, nVariabili uint) bool {
 	return true
 }
 
-// Esempio: clausole := [][]int{{1, 2}, {-1, 2}, {1, -2}} → soddisfacibile (x1=x2=true)
+// Esempio: clausole := [][]int{ {1, 2}, {-1, 2}, {1, -2} } → soddisfacibile (x1=x2=true)
 ```
 
 Non si sa se $\mathrm{NP} = \mathrm{co\text{-}NP}$ (è un'altra domanda aperta, collegata a $\mathrm{P} \stackrel{?}{=} \mathrm{NP}$: se $\mathrm{P} = \mathrm{NP}$ allora necessariamente $\mathrm{NP} = \mathrm{co\text{-}NP}$, perché P è chiusa per complemento).
