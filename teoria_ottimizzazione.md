@@ -94,7 +94,7 @@ func migliorVertice(candidati []vertice) vertice {
 	return migliore
 }
 
-// migliorVertice([]vertice{{0, 0}, {4, 0}, {0, 3}, {3, 1.5}}) → {3, 1.5}, valore 21
+// Su candidati = (0,0), (4,0), (0,3), (3,1.5): migliorVertice restituisce (3, 1.5), valore 21.
 ```
 
 ### 1.4 Complessità: decidibile, e per giunta in P
