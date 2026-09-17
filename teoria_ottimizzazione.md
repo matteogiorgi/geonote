@@ -41,6 +41,7 @@ $$
 
 dove $c \in \mathbb{R}^n$ sono i coefficienti dell'obiettivo, $A \in \mathbb{R}^{m \times n}$ e $b \in \mathbb{R}^m$ codificano gli $m$ vincoli. "Lineare" è una condizione forte: niente prodotti $x_i x_j$, niente potenze, niente funzioni — solo combinazioni lineari delle variabili.
 
+
 ### 1.2 Un esempio numerico
 
 Una piccola produzione con due prodotti $x$ e $y$, profitto unitario $5$ e $4$, e due risorse limitate:
@@ -59,6 +60,7 @@ L'insieme dei punti ammissibili è un poligono nel piano, delimitato dalle due r
 <img class="shot-img" src="img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di LP, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
 
 $(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le curve di livello di $5x+4y$ toccano il poliedro per l'ultima volta, e dà il massimo.
+
 
 ### 1.3 Geometria: perché basta guardare i vertici
 
@@ -92,6 +94,7 @@ func migliorVertice(candidati []vertice) vertice {
 // Su candidati = (0,0), (4,0), (0,3), (3,1.5): migliorVertice restituisce (3, 1.5), valore 21.
 ```
 
+
 ### 1.4 Complessità: decidibile, e per giunta in P
 
 - Il **simplesso** (Dantzig, 1947) cammina di vertice in vertice migliorando l'obiettivo: rapidissimo in pratica, esponenziale nel caso peggiore.
@@ -106,7 +109,7 @@ L'LP reale non solo termina sempre: sta in **P** ([teoria_complessita.md §3](te
 
 ### 2.1 Lo stesso problema, un vincolo in più
 
-Riprendiamo *esattamente* il problema del §1.2 e aggiungiamo un'unica richiesta: $x, y \in \mathbb{Z}$.
+Riprendiamo *esattamente* il problema del [§1.2](#12-un-esempio-numerico) e aggiungiamo un'unica richiesta: $x, y \in \mathbb{Z}$.
 
 $$
 \begin{aligned}
@@ -116,6 +119,7 @@ $$
 \end{aligned}
 $$
 
+
 ### 2.2 L'errore da non fare: arrotondare
 
 Il rilassamento continuo dava l'ottimo $(3,\,1.5)$ con valore $21$. Arrotondare $y$ verso l'alto è inammissibile: $(3,2)$ viola il primo vincolo ($6\cdot3+4\cdot2 = 26 > 24$). Arrotondare verso il basso dà $(3,1)$, valore $19$ — non ottimo. L'ottimo intero vero è altrove:
@@ -124,9 +128,10 @@ $$(x,y) = (4,0), \qquad 5x+4y = 20.$$
 
 Il vincolo di interezza non "sposta un po'" l'ottimo continuo: lo può spostare in un punto che l'arrotondamento non trova mai.
 
+
 ### 2.3 Perché resta decidibile
 
-Il poliedro del §1 è limitato: contiene solo un numero finito di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il punto teorico è che un algoritmo che termina sempre esiste — anche la sola enumerazione bruta, qui, basta:
+Il poliedro del [§1](#1-programmazione-lineare) è limitato: contiene solo un numero finito di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il punto teorico è che un algoritmo che termina sempre esiste — anche la sola enumerazione bruta, qui, basta:
 
 ```go
 // migliorSoluzioneIntera enumera i punti interi del rettangolo [0,xMax]x[0,yMax]:
@@ -144,6 +149,7 @@ func migliorSoluzioneIntera(xMax, yMax int) (x, y, val int) {
 
 // migliorSoluzioneIntera(4, 3) → (4, 0, 20): l'ottimo intero, non un arrotondamento.
 ```
+
 
 ### 2.4 Complessità: difficile, non indecidibile
 
@@ -165,6 +171,7 @@ $$
 $$
 
 La regione ammissibile non è più un poliedro ma un insieme *semialgebrico* (definito da disuguaglianze polinomiali): può curvare, avere buchi, spezzarsi in più componenti.
+
 
 ### 3.2 Il trucco del quadrato (qui innocuo)
 
@@ -200,6 +207,7 @@ func haRadiceReale(p func(float64) float64, lim float64, passi int) bool {
 
 > Questo `haRadiceReale` è solo un'illustrazione a griglia, non la procedura generale: perde radici a molteplicità pari che toccano zero senza cambiare segno (es. $p(x)=x^2$ in $x=0$), e non si estende da sé a più variabili. La garanzia di decidibilità vera arriva dalle **successioni di Sturm** (caso a una variabile) e, in generale, dal punto seguente.
 
+
 ### 3.3 Perché è decidibile: Tarski-Seidenberg
 
 La teoria del primo ordine dei **campi reali chiusi** — la struttura $(\mathbb{R}, +, \cdot, <, 0, 1)$ — ammette **eliminazione dei quantificatori** (Tarski 1948, Seidenberg 1954): qualunque enunciato costruito con polinomi, uguaglianze/disuguaglianze, $\land, \lor, \lnot$ e quantificatori $\exists, \forall$ sui reali, ad esempio
@@ -207,6 +215,7 @@ La teoria del primo ordine dei **campi reali chiusi** — la struttura $(\mathbb
 $$\exists x\,\exists y \; \big( p(x,y) = 0 \;\land\; q(x,y) > 0 \big),$$
 
 può essere deciso algoritmicamente. Un problema di ottimizzazione si esprime in questo linguaggio ("esiste un punto ammissibile con valore $\le t$?", "l'estremo inferiore è raggiunto?"), quindi **è decidibile**.
+
 
 ### 3.4 Complessità: costosa, ma finita
 
@@ -227,6 +236,7 @@ $$\min_{x \in \mathbb{Z}^n} \; p(x_1,\dots,x_n)^2, \qquad p \text{ a coefficient
 
 Di nuovo l'obiettivo è $\ge 0$, e vale $0$ se e solo se $p(x_1,\dots,x_n) = 0$ ammette una **soluzione intera** — cioè se e solo se la corrispondente **equazione diofantea** è risolubile.
 
+
 ### 4.2 Il decimo problema di Hilbert
 
 Decidere se un'arbitraria equazione diofantea ha soluzioni intere è precisamente il **decimo problema di Hilbert** (1900):
@@ -242,6 +252,7 @@ flowchart LR
 Di conseguenza non esiste alcun algoritmo che, data un'istanza qualsiasi di $\min_{x \in \mathbb{Z}^n} p(x)^2$, decida anche solo se l'ottimo è $0$ — a maggior ragione, nessuno per trovare il minimo in generale. Da notare: **non serve alcun vincolo**; già l'ottimizzazione *non vincolata* sugli interi basta a essere indecidibile, con un solo obiettivo polinomiale su $\mathbb{Z}^n$.
 
 Questa è la stessa barriera del problema della fermata ([teoria_autoriferimento.md §2.1](teoria_autoriferimento.md#21-il-problema-della-fermata)): lì nessun algoritmo decide se un programma termina, qui nessun algoritmo decide se un'equazione diofantea ha soluzione — entrambe conseguenze dello stesso fenomeno, l'esistenza di famiglie di domande per cui non c'è un criterio di arresto uniforme.
+
 
 ### 4.3 Un assaggio: la somma di tre cubi
 
@@ -273,11 +284,12 @@ func cercaSommaTreCubi(n, lim int64) (x, y, z int64, trovata bool) {
 // somma di tre cubi, solo che non lo è con termini di modulo ≤ 1000.
 ```
 
-*Nota di rigore:* la singola istanza $n=33$ non è di per sé "il problema indecidibile" — l'indecidibilità del §4.2 riguarda la **famiglia** di tutte le equazioni diofantee, non un'istanza isolata (per la quale, una volta trovata *una* soluzione, il problema è chiuso). Ma l'esempio dà l'intuizione di perché non possa esistere un criterio di arresto uniforme su tutta la famiglia.
+*Nota di rigore:* la singola istanza $n=33$ non è di per sé "il problema indecidibile" — l'indecidibilità del [§4.2](#42-il-decimo-problema-di-hilbert) riguarda la **famiglia** di tutte le equazioni diofantee, non un'istanza isolata (per la quale, una volta trovata *una* soluzione, il problema è chiuso). Ma l'esempio dà l'intuizione di perché non possa esistere un criterio di arresto uniforme su tutta la famiglia.
+
 
 ### 4.4 Perché nessuna ricerca limitata può bastare
 
-Nei tre casi precedenti (§1–§3) la decidibilità poggiava sempre su un **bound calcolabile a priori** che rendeva la ricerca finita: i vertici di un poliedro (§1.3), i punti interi di una regione limitata (§2.3), il bound di Cauchy sulle radici di un polinomio (§3.2). Qui quel bound non esiste — non per una lacuna tecnica, ma perché il teorema MRDP mostra che *nessuna* funzione calcolabile può fare da bound uniforme per tutte le equazioni diofantee. È esattamente questo, e non la sola difficoltà del calcolo, a separare il Caso 3 dagli altri tre.
+Nei tre casi precedenti ([§1](#1-programmazione-lineare)–[§3](#3-caso-2--ottimizzazione-polinomiale-sui-reali)) la decidibilità poggiava sempre su un **bound calcolabile a priori** che rendeva la ricerca finita: i vertici di un poliedro ([§1.3](#13-geometria-perché-basta-guardare-i-vertici)), i punti interi di una regione limitata ([§2.3](#23-perché-resta-decidibile)), il bound di Cauchy sulle radici di un polinomio ([§3.2](#32-il-trucco-del-quadrato-qui-innocuo)). Qui quel bound non esiste — non per una lacuna tecnica, ma perché il teorema MRDP mostra che *nessuna* funzione calcolabile può fare da bound uniforme per tutte le equazioni diofantee. È esattamente questo, e non la sola difficoltà del calcolo, a separare il Caso 3 dagli altri tre.
 
 > **Morale del Caso 3.** Interezza *e* non linearità insieme spingono oltre la barriera: il problema diventa indecidibile.
 
@@ -286,10 +298,10 @@ Nei tre casi precedenti (§1–§3) la decidibilità poggiava sempre su un **bou
 
 ## 5. Il confine, in sintesi
 
-|  | **Reali** $(\mathbb{R}^n)$ | **Interi** $(\mathbb{Z}^n)$ |
-|---|---|---|
-| **Lineare** | P — Khachiyan / Karmarkar | NP-completo — decidibile |
-| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | Indecidibile — MRDP |
+|                 | **Reali** $(\mathbb{R}^n)$            | **Interi** $(\mathbb{Z}^n)$ |
+|-----------------|---------------------------------------|-----------------------------|
+| **Lineare**     | P — Khachiyan / Karmarkar             | NP-completo — decidibile    |
+| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | Indecidibile — MRDP         |
 
 Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo in basso a destra sfonda la barriera (lo stesso percorso del diagramma in apertura, in [Cosa ci serve](#cosa-ci-serve)). Riletto per assi:
 
