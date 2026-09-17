@@ -9,7 +9,7 @@ La sorpresa è dove cade il confine: non è la non linearità da sola a romperlo
 
 ## Cosa ci serve
 
-- **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in **P** ([teoria_complessita.md §3](teoria_complessita.md#3-classe-p)).
+- **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in P ([teoria_complessita.md §3](teoria_complessita.md#3-classe-p)).
 - **Programmazione lineare intera (ILP)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [teoria_complessita.md §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
 - **Ottimizzazione polinomiale sui reali** — si toglie la linearità: serve Tarski–Seidenberg per restare decidibile.
 - **Ottimizzazione polinomiale sugli interi** — entrambe le generalizzazioni insieme: si sfonda la barriera della decidibilità, per il decimo problema di Hilbert.
@@ -64,7 +64,7 @@ $(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le cu
 
 Ogni vincolo lineare taglia lo spazio con un iperpiano e ne tiene un semispazio; l'intersezione di semispazi è un **poliedro convesso**. L'obiettivo $c^\top x$ è costante su iperpiani paralleli tra loro (le curve di livello): massimizzarlo equivale a traslare uno di questi iperpiani finché tocca il poliedro per l'ultima volta — e quel contatto, per un poliedro, cade sempre su un vertice, uno spigolo o una faccia, mai "in mezzo al niente".
 
-> **Teorema fondamentale della PL.** Se un LP è ammissibile e limitato, esiste un ottimo raggiunto su un **vertice** del poliedro.
+> **Teorema fondamentale della PL.** Se un LP è ammissibile e limitato, esiste un ottimo raggiunto su un vertice del poliedro.
 
 Questo è ciò che rende l'LP trattabile: al posto di un continuo infinito di punti, basta esaminare un insieme **finito** di vertici.
 
@@ -95,7 +95,7 @@ func migliorVertice(candidati []vertice) vertice {
 ### 1.4 Complessità: decidibile, e per giunta in P
 
 - Il **simplesso** (Dantzig, 1947) cammina di vertice in vertice migliorando l'obiettivo: rapidissimo in pratica, esponenziale nel caso peggiore.
-- L'**algoritmo dell'ellissoide** (Khachiyan, 1979) e i **metodi a punti interni** (Karmarkar, 1984) risolvono l'LP in **tempo polinomiale**.
+- L'**algoritmo dell'ellissoide** (Khachiyan, 1979) e i **metodi a punti interni** (Karmarkar, 1984) risolvono l'LP in tempo polinomiale.
 
 L'LP reale non solo termina sempre: sta in **P** ([teoria_complessita.md §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
 
@@ -126,7 +126,7 @@ Il vincolo di interezza non "sposta un po'" l'ottimo continuo: lo può spostare 
 
 ### 2.3 Perché resta decidibile
 
-Il poliedro del §1 è **limitato**: contiene solo un numero **finito** di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il punto teorico è che un algoritmo che **termina sempre** esiste — anche la sola enumerazione bruta, qui, basta:
+Il poliedro del §1 è limitato: contiene solo un numero finito di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il punto teorico è che un algoritmo che termina sempre esiste — anche la sola enumerazione bruta, qui, basta:
 
 ```go
 // migliorSoluzioneIntera enumera i punti interi del rettangolo [0,xMax]x[0,yMax]:
@@ -147,7 +147,7 @@ func migliorSoluzioneIntera(xMax, yMax int) (x, y, val int) {
 
 ### 2.4 Complessità: difficile, non indecidibile
 
-L'ILP è **NP-completo** ([teoria_complessita.md §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [teoria_riduzioni.md](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma **decidibile**. Curiosità sul confine: a **numero fissato** di variabili l'ILP torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
+L'ILP è **NP-completo** ([teoria_complessita.md §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [teoria_riduzioni.md](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma decidibile. Curiosità sul confine: a numero fissato di variabili l'ILP torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
 
 > **Morale del Caso 1.** L'interezza, da sola, alza la complessità (da P a NP-completo) ma non tocca la decidibilità.
 
@@ -172,7 +172,7 @@ Un modo comodo per sondare questi problemi: dato un polinomio $p$, si considera
 
 $$\min_{x \in \mathbb{R}^n} \; p(x)^2.$$
 
-L'obiettivo è sempre $\ge 0$, e vale **esattamente $0$** se e solo se $p$ ha una **radice reale**. Due esempi:
+L'obiettivo è sempre $\ge 0$, e vale esattamente $0$ se e solo se $p$ ha una **radice reale**. Due esempi:
 
 - $p(x) = x^2 - 2$: minimo di $(x^2-2)^2$ è $0$, in $x = \pm\sqrt{2}$ → radici reali.
 - $p(x) = x^2 + 1$: minimo di $(x^2+1)^2$ è $1$, in $x = 0$ → nessuna radice reale.
@@ -210,7 +210,7 @@ può essere deciso algoritmicamente. Un problema di ottimizzazione si esprime in
 
 ### 3.4 Complessità: costosa, ma finita
 
-Il prezzo è alto: l'eliminazione dei quantificatori è, nel caso generale, **doppiamente esponenziale**; già il solo frammento esistenziale (la *existential theory of the reals*, $\exists\mathbb{R}$) si colloca tra NP e PSPACE. Ma "costoso" non è "impossibile": un algoritmo che termina sempre **esiste**.
+Il prezzo è alto: l'eliminazione dei quantificatori è, nel caso generale, **doppiamente esponenziale**; già il solo frammento esistenziale (la *existential theory of the reals*, $\exists\mathbb{R}$) si colloca tra NP e PSPACE. Ma "costoso" non è "impossibile": un algoritmo che termina sempre esiste.
 
 > **Morale del Caso 2.** La non linearità, da sola, non tocca la decidibilità: sui reali anche l'ottimizzazione polinomiale generale resta risolubile in linea di principio.
 
@@ -225,7 +225,7 @@ Uniamo i due ingredienti — polinomi *e* variabili intere — riusando il trucc
 
 $$\min_{x \in \mathbb{Z}^n} \; p(x_1,\dots,x_n)^2, \qquad p \text{ a coefficienti interi}.$$
 
-Di nuovo l'obiettivo è $\ge 0$, e vale $0$ **se e solo se** $p(x_1,\dots,x_n) = 0$ ammette una **soluzione intera** — cioè se e solo se la corrispondente **equazione diofantea** è risolubile.
+Di nuovo l'obiettivo è $\ge 0$, e vale $0$ se e solo se $p(x_1,\dots,x_n) = 0$ ammette una **soluzione intera** — cioè se e solo se la corrispondente **equazione diofantea** è risolubile.
 
 ### 4.2 Il decimo problema di Hilbert
 
@@ -245,11 +245,11 @@ Questa è la stessa barriera del problema della fermata ([teoria_autoriferimento
 
 ### 4.3 Un assaggio: la somma di tre cubi
 
-L'intuizione dell'indecidibilità è che **non c'è un limite calcolabile a quanto in grande cercare**. Un assaggio dalla stessa famiglia: per quali interi $n$ esistono $x,y,z \in \mathbb{Z}$ con
+L'intuizione dell'indecidibilità è che non c'è un **limite calcolabile** a quanto in grande cercare. Un assaggio dalla stessa famiglia: per quali interi $n$ esistono $x,y,z \in \mathbb{Z}$ con
 
 $$x^3 + y^3 + z^3 = n \;?$$
 
-(equivalente a chiedere $\min_{\mathbb{Z}^3}(x^3+y^3+z^3-n)^2 = 0$.) Per anni non si sapeva se $33$ e $42$ fossero somma di tre cubi interi: entrambi risolti solo nel **2019**, con soluzioni fatte di numeri da 16-17 cifre.
+(equivalente a chiedere $\min_{\mathbb{Z}^3}(x^3+y^3+z^3-n)^2 = 0$.) Per anni non si sapeva se $33$ e $42$ fossero somma di tre cubi interi: entrambi risolti solo nel 2019, con soluzioni fatte di numeri da 16-17 cifre.
 
 ```go
 // cercaSommaTreCubi prova tutte le terne in [-lim, lim]^3. Trovarne una risponde
@@ -288,8 +288,8 @@ Nei tre casi precedenti (§1–§3) la decidibilità poggiava sempre su un **bou
 
 |  | **Reali** $(\mathbb{R}^n)$ | **Interi** $(\mathbb{Z}^n)$ |
 |---|---|---|
-| **Lineare** | **P** — Khachiyan / Karmarkar | **NP-completo** — decidibile |
-| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | **Indecidibile** — MRDP |
+| **Lineare** | P — Khachiyan / Karmarkar | NP-completo — decidibile |
+| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | Indecidibile — MRDP |
 
 Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo in basso a destra sfonda la barriera (lo stesso percorso del diagramma in apertura, in [Cosa ci serve](#cosa-ci-serve)). Riletto per assi:
 
