@@ -27,6 +27,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Costo algoritmico](teoria_costo.md)** — caso pessimo, ottimo, medio e ammortizzato con tecniche di calcolo.
 - **[Riduzioni](teoria_riduzioni.md)** — many-one, Turing, da SAT a Vertex Cover, teorema di Cook-Levin.
 - **[Auto-riferimento](teoria_autoriferimento.md)** — teorema di ricorsione, quine, teorema di Rice, Gödel machine, costo di NAS.
+- **[Ottimizzazione e decidibilità](teoria_ottimizzazione.md)** — PL, ILP, ottimizzazione polinomiale e decimo problema di Hilbert.
 
 
 ### Fondamenti
