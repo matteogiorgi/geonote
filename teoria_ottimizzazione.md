@@ -7,11 +7,11 @@ La sorpresa è dove cade il confine: non è la non linearità da sola a romperlo
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in **P** ([teoria_complessita.md §3](teoria_complessita.md#3-classe-p)).
 - **Programmazione lineare intera (ILP)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [teoria_complessita.md §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
-- **Ottimizzazione polinomiale sui reali** — si toglie la linearità: serve Tarski–Seidenberg per restare decidibili.
+- **Ottimizzazione polinomiale sui reali** — si toglie la linearità: serve Tarski–Seidenberg per restare decidibile.
 - **Ottimizzazione polinomiale sugli interi** — entrambe le generalizzazioni insieme: si sfonda la barriera della decidibilità, per il decimo problema di Hilbert.
 
 ```mermaid
@@ -22,12 +22,12 @@ flowchart LR
     NLPR -->|"+ interezza"| NLPZ
 ```
 
-Le due frecce che escono da LP sono, prese singolarmente, "gratuite": alzano la complessità ma non intaccano la decidibilità. È solo percorrendole entrambe — cioè arrivando in basso a destra — che il problema smette di avere un algoritmo che termina sempre.
+Le due frecce che escono da LP sono, prese singolarmente, "gratuite": alzano la complessità ma non intaccano la decidibilità. È solo percorrendole entrambe — cioè arrivando in basso a destra — che il problema smette di ammettere un algoritmo che termina sempre.
 
 
 
 
-## 1. Programmazione lineare, da zero
+## 1. Programmazione lineare
 
 ### 1.1 Definizione e forma standard
 
@@ -54,16 +54,11 @@ $$
 \end{aligned}
 $$
 
-L'insieme dei punti ammissibili è un poligono nel piano; il suo bordo è tracciato dalle due rette di vincolo e dagli assi. I vertici sono:
+L'insieme dei punti ammissibili è un poligono nel piano, delimitato dalle due rette di vincolo e dagli assi; i suoi 4 vertici sono $(0,0)$, $(4,0)$, $(0,3)$ e $(3,\,1.5)$, con $5x+4y$ che vale rispettivamente $0$, $20$, $12$ e $\mathbf{21}$.
 
-| Vertice | $5x + 4y$ |
-|---|---|
-| $(0,0)$ | $0$ |
-| $(4,0)$ | $20$ |
-| $(0,3)$ | $12$ |
-| $(3,\,1.5)$ | $\mathbf{21}$ |
+<img class="shot-img" src="img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di LP, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
 
-$(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$, e dà il massimo.
+$(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le curve di livello di $5x+4y$ toccano il poliedro per l'ultima volta, e dà il massimo.
 
 ### 1.3 Geometria: perché basta guardare i vertici
 
@@ -296,7 +291,7 @@ Nei tre casi precedenti (§1–§3) la decidibilità poggiava sempre su un **bou
 | **Lineare** | **P** — Khachiyan / Karmarkar | **NP-completo** — decidibile |
 | **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | **Indecidibile** — MRDP |
 
-Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo in basso a destra sfonda la barriera (lo stesso percorso del diagramma nella [Mappa](#mappa-cosa-serve-per-cosa) in apertura). Riletto per assi:
+Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo in basso a destra sfonda la barriera (lo stesso percorso del diagramma in apertura, in [Cosa ci serve](#cosa-ci-serve)). Riletto per assi:
 
 - **Da reale a intero**, caso lineare: da P a NP-completo — più difficile, ancora decidibile.
 - **Da lineare a polinomiale**, caso reale: da P a 2-EXP — molto più costoso, ancora decidibile.
