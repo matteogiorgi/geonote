@@ -1,4 +1,4 @@
-# Geonote
+# Geonote — Appunti e problemi
 
 Raccolta work in progress (†) di note teoriche pensate come riferimento rapido e materiale di ripasso. Gli appunti spaziano dai fondamenti dei linguaggi di programmazione (sistemi di tipi, OOP, closure) alla teoria della computazione (riduzioni, classi di complessità, costo algoritmico) e qualche richiamo di matematica e statistica.
 
