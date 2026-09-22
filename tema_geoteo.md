@@ -1,12 +1,13 @@
 # Ereditare lo stile da `geoteo.net`
 
-Questo repository non definisce un proprio tema: la GitHub-Page generata da *Jekyll* richiama stile, favicon, configurazione *MathJax* e rendering *Mermaid* direttamente da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare *CSS* o *JS* localmente.
+Questo repository non definisce un proprio tema: la GitHub-Page generata da *Jekyll* eredita layout, stile, favicon, configurazione *MathJax* e rendering *Mermaid* da `geoteo.net`. Il layout arriva come tema remoto (`jekyll-remote-theme`) dal repository `matteogiorgi/matteogiorgi.github.io`, mentre *CSS* e *JS* sono richiamati via URL da `geoteo.net`. In questo modo lo stile resta centralizzato e coerente tra tutti i repository che lo adottano, senza duplicare in locale né il layout né *CSS* o *JS*.
 
 
 
 
 ## 1. Cosa fa il tema
 
+- **Layout condiviso**: `_layouts/default.html` vive solo in `matteogiorgi/matteogiorgi.github.io`; a ogni build `jekyll-remote-theme` lo scarica e lo applica come se fosse un tema installato in locale.
 - **CSS condiviso**: `https://geoteo.net/static/style.css`, incluse le variabili per la modalità chiara/scura.
 - **Toggle tema**: un pulsante in pagina alterna `data-theme="light"`/`"dark"` su `<html>` e salva la scelta in `localStorage`.
 - **Favicon dinamica**: al cambio di tema viene ricaricata un'icona diversa (`favicon.svg` / `favicon-dark.svg`) da `geoteo.net`, con query string dedicata per forzare il refresh della cache del browser.
@@ -19,180 +20,79 @@ Questo repository non definisce un proprio tema: la GitHub-Page generata da *Jek
 
 ## 2. Passi per replicarlo in un altro repository
 
-### 2.1 Copiare il layout
+### 2.1 Configurazione
 
-Crea `_layouts/default.html` nella directory di root con il seguente contenuto, effettuerà tutti i richiami a `geoteo.net` (non serve altro codice di stile):
+Crea `_config.yml` nella directory di root con il seguente contenuto:
 
-{% raw %}
-```html
-<!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: 'en-US' }}">
-    <head>
-        <meta charset="UTF-8">
-        <script>
-            (function () {
-                window.applyTheme = function () {
-                    var t = localStorage.getItem('theme');
-                    if (t) document.documentElement.setAttribute('data-theme', t);
-                    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
-                    // The query string is load-bearing: browsers cache the tab
-                    // favicon per page URL and often won't re-fetch it on reload
-                    // just because the icon link's href changed, so each theme needs
-                    // a genuinely distinct URL to force a fresh icon.
-                    var src = dark
-                        ? 'https://geoteo.net/static/favicon-dark.svg?theme=dark'
-                        : 'https://geoteo.net/static/favicon.svg?theme=light';
-                    var old = document.getElementById('favicon');
-                    if (old) old.remove();
-                    var icon = document.createElement('link');
-                    icon.id = 'favicon';
-                    icon.rel = 'icon';
-                    icon.type = 'image/svg+xml';
-                    icon.href = src;
-                    document.head.appendChild(icon);
-                };
-                applyTheme();
-                window.addEventListener('pageshow', function (e) {
-                    if (e.persisted) applyTheme();
-                });
-            })();
-        </script>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% seo %}
-        <link rel="stylesheet" href="https://geoteo.net/static/style.css">
-        <script src="https://geoteo.net/static/mathjax-config.js"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script type="module" src="https://geoteo.net/static/mermaid-render.js"></script>
-    </head>
-    <body>
-        <button id="theme-toggle" type="button" class="theme-toggle" aria-label="Toggle dark mode">
-            <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                <mask id="moon-mask">
-                <rect width="24" height="24" fill="white"/>
-                <circle cx="15" cy="9" r="7" fill="black"/>
-                </mask>
-                <circle cx="12" cy="12" r="9" fill="currentColor" mask="url(#moon-mask)"/>
-            </svg>
-            <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/>
-                <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
-                <line x1="4" y1="12" x2="2" y2="12"/><line x1="22" y1="12" x2="20" y2="12"/>
-                <line x1="5.6" y1="5.6" x2="4.2" y2="4.2"/><line x1="19.8" y1="19.8" x2="18.4" y2="18.4"/>
-                <line x1="5.6" y1="18.4" x2="4.2" y2="19.8"/><line x1="19.8" y1="4.2" x2="18.4" y2="5.6"/>
-            </svg>
-        </button>
-        <div class="container-lg px-3 my-5 markdown-body">
-            <main>
-                {{ content }}
-            </main>
-            <p class="gh-footer">
-                <a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> powered by <a href="https://geoteo.net">Geoteo</a>
-            </p>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
-        <script>anchors.add();</script>
-        <script>
-            (function () {
-                document.querySelectorAll('.markdown-body pre').forEach(function (pre) {
-                    var code = pre.querySelector('code');
-                    if (!code) return;
-                    var wrap = document.createElement('div');
-                    wrap.className = 'code-block-wrap';
-                    pre.parentNode.insertBefore(wrap, pre);
-                    wrap.appendChild(pre);
-                    var toolbar = document.createElement('div');
-                    toolbar.className = 'code-toolbar';
-                    var langWrapper = pre.closest('[class*="language-"]');
-                    var langMatch = langWrapper && langWrapper.className.match(/language-(\S+)/);
-                    if (langMatch && langMatch[1] !== 'plaintext') {
-                        var label = document.createElement('span');
-                        label.className = 'code-lang';
-                        label.textContent = langMatch[1];
-                        toolbar.appendChild(label);
-                    }
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'copy-btn';
-                    btn.setAttribute('aria-label', 'Copy code');
-                    btn.innerHTML =
-                        '<svg class="icon-copy" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' +
-                        '<path fill="currentColor" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/>' +
-                        '<path fill="currentColor" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/>' +
-                        '</svg>' +
-                        '<svg class="icon-check" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' +
-                        '<path fill="currentColor" d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/>' +
-                        '</svg>';
-                    btn.addEventListener('click', function () {
-                        navigator.clipboard.writeText(code.textContent).then(function () {
-                            btn.classList.add('copied');
-                            btn.setAttribute('aria-label', 'Copied!');
-                            setTimeout(function () {
-                                btn.classList.remove('copied');
-                                btn.setAttribute('aria-label', 'Copy code');
-                            }, 1500);
-                        }).catch(function () {});
-                    });
-                    toolbar.appendChild(btn);
-                    wrap.appendChild(toolbar);
-                });
-            })();
-        </script>
-        <script>
-            (function () {
-                var btn = document.getElementById('theme-toggle');
-                btn.addEventListener('click', function () {
-                    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', next);
-                    localStorage.setItem('theme', next);
-                    window.applyTheme();
-                });
-            })();
-        </script>
-    </body>
-</html>
+```yaml
+remote_theme: matteogiorgi/matteogiorgi.github.io
+plugins:
+  - jekyll-seo-tag
 ```
-{% endraw %}
+
+- `remote_theme` sostituisce la copia locale di `_layouts/default.html`: a ogni build viene scaricato il repository `matteogiorgi/matteogiorgi.github.io` e ne viene applicata la cartella `_layouts`. Se nel repository esiste ancora un `_layouts/default.html` locale, ha la precedenza su quello remoto: va quindi rimosso.
+- `plugins` attiva `jekyll-seo-tag`, richiesto dal tag `{% raw %}{% seo %}{% endraw %}` usato nel layout (vedi [§2.3](#23-nessun-gemfile)).
 
 
-### 2.2 (Opzionale) `_config.yml`
+### 2.2 (Opzionale) Apici nelle formule
 
-Se il repo contiene formule matematiche con apici (es. `f'`, `f''`), aggiungi il file `_config.yml` nella directory di root con il seguente contenuto:
+Se il repo contiene formule matematiche con apici (es. `f'`, `f''`), aggiungi a `_config.yml`:
 
 ```yaml
 kramdown:
-    # straight quotes required by MathJax for f' f'' etc. inside $...$
-    smart_quotes: ["apos", "apos", "quot", "quot"]
+  # apici dritti richiesti da MathJax per f' f'' ecc. dentro $...$
+  smart_quotes: ["apos", "apos", "quot", "quot"]
 ```
 
-Non è necessario per ereditare lo stile grafico, ma evita che *Kramdown* converta gli apici dritti in apici tipografici dentro `$...$`.
+Non è necessario per ereditare lo stile grafico, ma evita che *Kramdown* converta gli apici dritti in apici tipografici dentro `$...$`. Questa parte resta locale perché un tema remoto porta con sé solo file (`_layouts`, `_includes`, `_sass`, `assets`), non impostazioni di configurazione.
 
 
-### 2.3 Nessun Gemfile o plugin da installare
+### 2.3 Nessun Gemfile
 
-Il tag `{% raw %}{% seo %}{% endraw %}`, usato nel layout, richiede `jekyll-seo-tag` che è già incluso di default nella gem `github-pages` con cui GitHub-Pages compila i siti. Non serve un `Gemfile` né dichiarare plugin: basta che il repository sia una normale build *Jekyll*.
+`jekyll-remote-theme` e `jekyll-seo-tag` fanno parte della gem `github-pages` con cui GitHub-Pages compila i siti, quindi non serve un `Gemfile`. Serve però dichiararli nel modo giusto:
+
+- `jekyll-remote-theme` viene attivato in automatico quando `_config.yml` contiene `remote_theme`;
+- `jekyll-seo-tag` **non** è attivo di default: senza un tema dichiarato funzionerebbe solo perché GitHub-Pages applica il tema predefinito `jekyll-theme-primer`, che se lo porta dietro. Con `remote_theme` va dichiarato in `plugins`, altrimenti la build rischia di fallire con `Unknown tag 'seo'`.
 
 
 ### 2.4 Abilitare GitHub-Pages
 
-Nelle impostazioni del repository: *Settings $\to$ Pages $\to$ Build and deployment $\to$ Deploy from a branch*, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* usando il layout copiato al [§2.1](#21-copiare-il-layout).
+Nelle impostazioni del repository: *Settings $\to$ Pages $\to$ Build and deployment $\to$ Deploy from a branch*, selezionando il branch (es. `main`) e la cartella root (`/`). Al primo push, GitHub compila il sito con *Jekyll* scaricando il layout da `matteogiorgi/matteogiorgi.github.io`, come descritto al [§2.1](#21-configurazione).
 
 
 
 
 ## 3. Cosa è condiviso con `geoteo.net` e cosa resta locale
 
-Tutto ciò che riguarda il tema (colori, favicon, toggle) è condiviso; tutto ciò che riguarda il rendering di una pagina markdown vive solo nei repository con GitHub-Pages, perché `geoteo.net` non ne ha bisogno.
+Tutto ciò che riguarda il tema (layout, colori, favicon, toggle) è condiviso e vive in un solo posto, `matteogiorgi/matteogiorgi.github.io`; tutto ciò che riguarda il rendering di una pagina markdown vive solo nei repository con GitHub-Pages, perché `geoteo.net` non ne ha bisogno.
 
-**Condiviso con `geoteo.net`** (fa parte del layout/tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
+**Condiviso con `geoteo.net`** (fa parte del tema base, replicato apposta anche in `haunt.scm`, generatore della home page):
 
 - tema chiaro/scuro, font, colori;
-- switch chiaro/scuro, incluso il fix per bfcache/reload visto al [§2.1](#21-copiare-il-layout);
+- switch chiaro/scuro, incluso il fix per bfcache/reload;
 - `.badge-link` sui repository con GitHub-Pages — nativo di `geoteo.net`.
 
-**Non presente su `geoteo.net`** (funzionalità legate al *rendering del contenuto Markdown*):
+**Non presente su `geoteo.net`** (funzionalità legate al *rendering del contenuto Markdown*, presenti in `_layouts/default.html` ma non usate dalla home page):
 
 - bottone "powered by Geoteo" / link al repo in fondo pagina (`.gh-footer`);
 - bottone di copia ed etichetta del linguaggio nei blocchi di codice — `geoteo.net` non ha blocchi di codice nel suo contenuto;
 - tabelle responsive, blockquote, liste ristilizzate, overflow delle formule *MathJax* — tutto scoped su `.markdown-body`, classe non presente nella home page;
-- *MathJax*/*Mermaid* stessi non sono caricati su `geoteo.net` (gli script vengono aggiunti solo nei layout *Jekyll* dei repository).
+- *MathJax*/*Mermaid* stessi non sono caricati su `geoteo.net` (gli script sono inclusi solo nel layout *Jekyll*).
+
+`_layouts/default.html` si trova nella root di `matteogiorgi/matteogiorgi.github.io`, fuori da `docs/`: la home page viene pubblicata da `docs/`, quindi il layout non interferisce con il sito generato da *Haunt*.
+
+
+
+
+## 4. Aggiornare il tema per tutti i repository
+
+Per cambiare il layout di *tutti* i repository che lo ereditano basta modificare `_layouts/default.html` in `matteogiorgi/matteogiorgi.github.io` e fare push.
+
+La modifica però **non** si propaga da sola: ogni repository scarica il tema remoto solo quando viene ricompilato, cioè al suo prossimo push. Per applicarla subito a un repository senza modificarne i contenuti, basta forzare una nuova build con un commit vuoto:
+
+```sh
+git commit --allow-empty -m "rebuild with updated theme"
+git push
+```
+
+Le modifiche a `style.css`, `mathjax-config.js` e `mermaid-render.js` invece sono immediate, perché questi file vengono richiamati via URL da `geoteo.net` a ogni caricamento della pagina, non durante la build.
