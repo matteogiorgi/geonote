@@ -9,8 +9,8 @@ La sorpresa è dove cade il confine: non è la non linearità da sola a romperlo
 
 ## Cosa ci serve
 
-- **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in P ([Classi di complessità §3](teoria_complessita.md#3-classe-p)).
-- **Programmazione lineare intera (ILP)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [Classi di complessità §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
+- **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in P ([teoria_complessita §3](teoria_complessita.md#3-classe-p)).
+- **Programmazione lineare intera (ILP)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
 - **Ottimizzazione polinomiale sui reali** — si toglie la linearità: serve Tarski–Seidenberg per restare decidibile.
 - **Ottimizzazione polinomiale sugli interi** — entrambe le generalizzazioni insieme: si sfonda la barriera della decidibilità, per il decimo problema di Hilbert.
 
@@ -100,7 +100,7 @@ func migliorVertice(candidati []vertice) vertice {
 - Il **simplesso** (Dantzig, 1947) cammina di vertice in vertice migliorando l'obiettivo: rapidissimo in pratica, esponenziale nel caso peggiore.
 - L'**algoritmo dell'ellissoide** (Khachiyan, 1979) e i **metodi a punti interni** (Karmarkar, 1984) risolvono l'LP in tempo polinomiale.
 
-L'LP reale non solo termina sempre: sta in **P** ([Classi di complessità §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
+L'LP reale non solo termina sempre: sta in **P** ([teoria_complessita §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
 
 
 
@@ -153,7 +153,7 @@ func migliorSoluzioneIntera(xMax, yMax int) (x, y, val int) {
 
 ### 2.4 Complessità: difficile, non indecidibile
 
-L'ILP è **NP-completo** ([Classi di complessità §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [Riduzioni](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma decidibile. Curiosità sul confine: a numero fissato di variabili l'ILP torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
+L'ILP è **NP-completo** ([teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [teoria_riduzioni](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma decidibile. Curiosità sul confine: a numero fissato di variabili l'ILP torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
 
 > **Morale del Caso 1.** L'interezza, da sola, alza la complessità (da P a NP-completo) ma non tocca la decidibilità.
 
@@ -251,7 +251,7 @@ flowchart LR
 
 Di conseguenza non esiste alcun algoritmo che, data un'istanza qualsiasi di $\min_{x \in \mathbb{Z}^n} p(x)^2$, decida anche solo se l'ottimo è $0$ — a maggior ragione, nessuno per trovare il minimo in generale. Da notare: **non serve alcun vincolo**; già l'ottimizzazione *non vincolata* sugli interi basta a essere indecidibile, con un solo obiettivo polinomiale su $\mathbb{Z}^n$.
 
-Questa è la stessa barriera del problema della fermata ([Auto-riferimento §2.1](teoria_autoriferimento.md#21-il-problema-della-fermata)): lì nessun algoritmo decide se un programma termina, qui nessun algoritmo decide se un'equazione diofantea ha soluzione — entrambe conseguenze dello stesso fenomeno, l'esistenza di famiglie di domande per cui non c'è un criterio di arresto uniforme.
+Questa è la stessa barriera del problema della fermata ([teoria_autoriferimento §2.1](teoria_autoriferimento.md#21-il-problema-della-fermata)): lì nessun algoritmo decide se un programma termina, qui nessun algoritmo decide se un'equazione diofantea ha soluzione — entrambe conseguenze dello stesso fenomeno, l'esistenza di famiglie di domande per cui non c'è un criterio di arresto uniforme.
 
 
 ### 4.3 Un assaggio: la somma di tre cubi
@@ -309,7 +309,7 @@ Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo
 - **Da lineare a polinomiale**, caso reale: da P a 2-EXP — molto più costoso, ancora decidibile.
 - **Entrambi i passi insieme**: si esce dal decidibile.
 
-Il punto da portare a casa non è "il non lineare è difficile" né "gli interi sono difficili", ma che la **decidibilità** è una risorsa fragile: sopravvive a ciascuno dei due salti preso da solo, e cede solo alla loro composizione — un fenomeno di soglia dello stesso tipo di quello incontrato con il teorema di Rice ([Auto-riferimento §2.2](teoria_autoriferimento.md#22-il-teorema-di-rice)), dove è la combinazione di auto-riferimento e proprietà semantica, non l'uno o l'altra da soli, a rendere tutto indecidibile.
+Il punto da portare a casa non è "il non lineare è difficile" né "gli interi sono difficili", ma che la **decidibilità** è una risorsa fragile: sopravvive a ciascuno dei due salti preso da solo, e cede solo alla loro composizione — un fenomeno di soglia dello stesso tipo di quello incontrato con il teorema di Rice ([teoria_autoriferimento §2.2](teoria_autoriferimento.md#22-il-teorema-di-rice)), dove è la combinazione di auto-riferimento e proprietà semantica, non l'uno o l'altra da soli, a rendere tutto indecidibile.
 
 $$
 \underbrace{\min_{x\in\mathbb{R}^n} c^\top x}_{\text{P}}

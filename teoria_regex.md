@@ -2,7 +2,7 @@
 
 Una **espressione regolare** è un modo compatto per descrivere un *pattern* (uno schema) che vogliamo cercare all'interno di un testo. Invece di dire a parole "una sequenza di cifre, seguita da uno slash, seguita da altre due cifre…", lo scriviamo in modo formale e la macchina lo cerca per noi.
 
-Questa nota separa i **concetti** (validi ovunque) dalla **resa** in ciascun linguaggio, perché le regex sembrano uguali dappertutto ma cambiano il motore e il dialetto (*flavor*) della sintassi. Nove linguaggi ricorrono come illustrazioni: **C** e **Bash** per il mondo POSIX, **Java** e **JavaScript** per PCRE/ECMAScript, **Go** per RE2, **R** (vedi [Fondamenti _R_](fondamenti_r.md)) come ambiente con due flavor coesistenti, **Guile** (vedi [Fondamenti _Guile_](fondamenti_guile.md)) con l'approccio SRFI-115 a s-espressioni, e **OCaml**/**Haskell** come approfondimenti idiomatici.
+Questa nota separa i **concetti** (validi ovunque) dalla **resa** in ciascun linguaggio, perché le regex sembrano uguali dappertutto ma cambiano il motore e il dialetto (*flavor*) della sintassi. Nove linguaggi ricorrono come illustrazioni: **C** e **Bash** per il mondo POSIX, **Java** e **JavaScript** per PCRE/ECMAScript, **Go** per RE2, **R** (vedi [fondamenti_r](fondamenti_r.md)) come ambiente con due flavor coesistenti, **Guile** (vedi [fondamenti_guile](fondamenti_guile.md)) con l'approccio SRFI-115 a s-espressioni, e **OCaml**/**Haskell** come approfondimenti idiomatici.
 
 
 

@@ -12,9 +12,9 @@ $$
 
 Esempio: per $n = 6$ i primi 6 numeri della successione sono $[1, 1, 2, 3, 5, 8]$, quindi il risultato è $8$.
 
-> **Nota:** qui $n$ parte da $1$ (convenzione tipica dei problemi da colloquio). In [Fondamenti _Go_ §10](fondamenti_go.md#10-esempio-completo-numeri-di-fibonacci) la stessa successione è indicizzata da $0$ ($F(0)=0$); sono la stessa sequenza traslata di un indice, non due definizioni diverse.
+> **Nota:** qui $n$ parte da $1$ (convenzione tipica dei problemi da colloquio). In [fondamenti_go §10](fondamenti_go.md#10-esempio-completo-numeri-di-fibonacci) la stessa successione è indicizzata da $0$ ($F(0)=0$); sono la stessa sequenza traslata di un indice, non due definizioni diverse.
 
-Il problema è un buon veicolo per confrontare tre strategie che tornano utili in moltissimi altri problemi da colloquio e di programmazione competitiva: [ricorsione diretta](#1-soluzione-ricorsione-diretta--o2n), programmazione dinamica [*top-down*](#2-soluzione-programmazione-dinamica-top-down--memoization) e [*bottom-up*](#3-soluzione-programmazione-dinamica-bottom-up) (vedi [Classi di complessità §1](teoria_complessita.md#1-notazione-asintotica) per la notazione asintotica $O$ usata qui, e [Costo algoritmico §2](teoria_costo.md#2-caso-pessimo-worst-case) per il concetto di caso pessimo).
+Il problema è un buon veicolo per confrontare tre strategie che tornano utili in moltissimi altri problemi da colloquio e di programmazione competitiva: [ricorsione diretta](#1-soluzione-ricorsione-diretta--o2n), programmazione dinamica [*top-down*](#2-soluzione-programmazione-dinamica-top-down--memoization) e [*bottom-up*](#3-soluzione-programmazione-dinamica-bottom-up) (vedi [teoria_complessita §1](teoria_complessita.md#1-notazione-asintotica) per la notazione asintotica $O$ usata qui, e [teoria_costo §2](teoria_costo.md#2-caso-pessimo-worst-case) per il concetto di caso pessimo).
 
 
 
@@ -186,7 +186,7 @@ Anche qui `fibonacci` va dichiarata prima di essere assegnata, per lo stesso mot
 >             (hash-set! cache n v)
 >             v)))))
 > ```
-> Vedi [Fondamenti _Guile_ §7](fondamenti_guile.md#7-funzioni-di-ordine-superiore) per `let` e le funzioni come valori di prima classe.
+> Vedi [fondamenti_guile §7](fondamenti_guile.md#7-funzioni-di-ordine-superiore) per `let` e le funzioni come valori di prima classe.
 
 Con la memoization, ogni valore $F(k)$ viene calcolato una sola volta; le chiamate successive per lo stesso $k$ tornano immediatamente dalla cache senza ricorrere ulteriormente:
 
@@ -223,7 +223,7 @@ func fibonacciIterativo(n int) int {
 
 Complessità $O(n)$ in tempo e $O(1)$ in spazio, senza overhead di chiamate a funzione: in pratica è la versione più veloce delle tre, oltre che la più semplice da leggere.
 
-> Questa è la stessa idea (e quasi lo stesso codice, a meno dell'indicizzazione) della versione iterativa già mostrata in [Fondamenti _Go_ §10](fondamenti_go.md#10-esempio-completo-numeri-di-fibonacci), che include anche la forma chiusa di Binet per calcolare $F(n)$ senza iterare.
+> Questa è la stessa idea (e quasi lo stesso codice, a meno dell'indicizzazione) della versione iterativa già mostrata in [fondamenti_go §10](fondamenti_go.md#10-esempio-completo-numeri-di-fibonacci), che include anche la forma chiusa di Binet per calcolare $F(n)$ senza iterare.
 
 
 

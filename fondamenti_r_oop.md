@@ -1,8 +1,8 @@
 # Tipi R e programmazione a oggetti (S3, S4, R6)
 
-Questa nota approfondisce due argomenti solo accennati in [Fondamenti _R_](fondamenti_r.md): il sistema di tipi di R visto dal lato pratico (predicati, contratti, coercizioni) e i suoi **sistemi a oggetti** — R, a differenza della maggior parte dei linguaggi, non ne ha uno solo. Tratta per esteso **S3** (informale), **S4** (formale, con *multiple dispatch*) e un cenno a **R6**/Reference Classes (mutabile, incapsulato). Chiude con una sezione di buone pratiche con esempi completi.
+Questa nota approfondisce due argomenti solo accennati in [fondamenti_r](fondamenti_r.md): il sistema di tipi di R visto dal lato pratico (predicati, contratti, coercizioni) e i suoi **sistemi a oggetti** — R, a differenza della maggior parte dei linguaggi, non ne ha uno solo. Tratta per esteso **S3** (informale), **S4** (formale, con *multiple dispatch*) e un cenno a **R6**/Reference Classes (mutabile, incapsulato). Chiude con una sezione di buone pratiche con esempi completi.
 
-Per l'inquadramento teorico di R nello spettro dei sistemi di tipi (dinamico, debole, coercizioni gerarchiche automatiche) vedi [Sistemi di tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r); questa nota non ripete quella teoria, la mette in pratica.
+Per l'inquadramento teorico di R nello spettro dei sistemi di tipi (dinamico, debole, coercizioni gerarchiche automatiche) vedi [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r); questa nota non ripete quella teoria, la mette in pratica.
 
 
 
@@ -38,7 +38,7 @@ str(df) # struttura completa, utile per l'ispezione interattiva
 
 ## 2. Contratti e validazione: difendersi dal dinamismo
 
-Come in ogni linguaggio dinamico e debole ([Sistemi di tipi §8](teoria_tipi.md#8-forte-vs-debole-applicato)), la disciplina sui tipi va reintrodotta a mano ai margini del codice. `stopifnot()` è l'idioma più diretto:
+Come in ogni linguaggio dinamico e debole ([teoria_tipi §8](teoria_tipi.md#8-forte-vs-debole-applicato)), la disciplina sui tipi va reintrodotta a mano ai margini del codice. `stopifnot()` è l'idioma più diretto:
 
 ```r
 dividi <- function(a, b) {
@@ -82,7 +82,7 @@ area_rettangolo <- function(base, altezza) {
 
 ## 3. La gerarchia di coercizione in pratica
 
-`c()` e le altre funzioni vettoriali coercono automaticamente verso il tipo "più espressivo" nella gerarchia `logical < integer < double < character` — già vista in [Sistemi di tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r):
+`c()` e le altre funzioni vettoriali coercono automaticamente verso il tipo "più espressivo" nella gerarchia `logical < integer < double < character` — già vista in [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r):
 
 ```r
 c(1, TRUE, "a") # -> character: c("1", "TRUE", "a"), coercizione silenziosa
@@ -134,7 +134,7 @@ area(nuovo_rettangolo(3, 4)) # => 12, senza aver modificato area.cerchio
 
 ### `NextMethod()`: estendere invece di sostituire
 
-Come `next-method` in GOOPS ([I tipi _Guile_ e GOOPS §7](fondamenti_guile_oop.md#7-ereditarietà)), `NextMethod()` richiama l'implementazione della classe "genitrice" nella catena di classi di un oggetto:
+Come `next-method` in GOOPS ([fondamenti_guile_oop §7](fondamenti_guile_oop.md#7-ereditarietà)), `NextMethod()` richiama l'implementazione della classe "genitrice" nella catena di classi di un oggetto:
 
 ```r
 stampa_animale <- function(x) UseMethod("stampa_animale")
@@ -158,7 +158,7 @@ Qui `class(cane)` è un **vettore** `c("cane", "default")`: R prova prima `stamp
 
 ## 5. S4: il sistema formale
 
-**S4** (`setClass`, `setGeneric`, `setMethod`) aggiunge ciò che S3 non garantisce: **slot tipizzati**, **validità** verificata alla creazione, e — la sua caratteristica più distintiva — **multiple dispatch** reale, come GOOPS ([I tipi _Guile_ e GOOPS §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)).
+**S4** (`setClass`, `setGeneric`, `setMethod`) aggiunge ciò che S3 non garantisce: **slot tipizzati**, **validità** verificata alla creazione, e — la sua caratteristica più distintiva — **multiple dispatch** reale, come GOOPS ([fondamenti_guile_oop §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)).
 
 ```r
 setClass("Cerchio", representation(raggio = "numeric"))
@@ -188,7 +188,7 @@ new("Cerchio", raggio = -1)
 
 ### Multiple dispatch
 
-Lo stesso esempio "cosa succede quando due forme si scontrano" già visto per GOOPS ([I tipi _Guile_ e GOOPS §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) si scrive in modo quasi identico in S4 — il metodo scelto dipende dalla classe *di entrambi* gli argomenti:
+Lo stesso esempio "cosa succede quando due forme si scontrano" già visto per GOOPS ([fondamenti_guile_oop §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) si scrive in modo quasi identico in S4 — il metodo scelto dipende dalla classe *di entrambi* gli argomenti:
 
 ```r
 setClass("Rettangolo", representation(base = "numeric", altezza = "numeric"))
@@ -301,7 +301,7 @@ c2$count # => 1: la modifica tramite c1 è visibile anche da c2
 | **S4** | Serve un contratto formale — slot tipizzati, validità verificata alla creazione, *multiple dispatch* reale — tipico di pacchetti con gerarchie di tipi correlati (es. Bioconductor) |
 | **R6 / Reference Classes** | Serve stato mutabile con identità e incapsulamento in stile OOP classico, non la semantica a copia del resto di R |
 
-La progressione è la stessa vista per Guile ([I tipi _Guile_ e GOOPS §8](fondamenti_guile_oop.md#8-goops-vs-il-resto-del-linguaggio-quando-usarlo)): iniziare con la soluzione più leggera (qui, S3) e salire di formalità solo quando il problema lo richiede esplicitamente.
+La progressione è la stessa vista per Guile ([fondamenti_guile_oop §8](fondamenti_guile_oop.md#8-goops-vs-il-resto-del-linguaggio-quando-usarlo)): iniziare con la soluzione più leggera (qui, S3) e salire di formalità solo quando il problema lo richiede esplicitamente.
 
 
 
@@ -397,7 +397,7 @@ collide_manuale <- function(a, b) {
 - **Advanced R** (Hadley Wickham), capitoli su S3, S4, R6: <https://adv-r.hadley.nz/oo.html>
 - **Documentazione S4**: `?setClass`, `?setGeneric`, `?setMethod` in R
 - **Pacchetto R6**: <https://r6.r-lib.org/>
-- Vedi anche [Fondamenti _R_](fondamenti_r.md) per la sintassi di base del linguaggio, [Sistemi di tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r) per l'inquadramento teorico e [I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md) per il confronto diretto con GOOPS.
+- Vedi anche [fondamenti_r](fondamenti_r.md) per la sintassi di base del linguaggio, [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r) per l'inquadramento teorico e [fondamenti_guile_oop](fondamenti_guile_oop.md) per il confronto diretto con GOOPS.
 
 > **Nota sulla versione**: gli esempi fanno riferimento alla serie corrente di R. Verifica sempre
 > la versione installata con `R.version.string` e, per R6, la versione del pacchetto con `packageVersion("R6")`.

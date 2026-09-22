@@ -2,7 +2,7 @@
 
 «Un programma può riscrivere se stesso?» è una domanda che sembra una sola, ma ne nasconde due con difficoltà agli antipodi. La prima è **espressiva**: esiste un programma capace di produrre una versione modificata del proprio codice? La seconda è **epistemica**: quel programma può *sapere* che la modifica è un miglioramento, o anche solo che ne preserva il comportamento?
 
-Il modello di calcolo resta quello standard — la macchina di Turing di [Classi di complessità §2](teoria_complessita.md#2-il-modello-di-calcolo-macchina-di-turing) — ma l'asse cambia: non più "quante risorse servono per risolvere questo problema" (il tema di quella nota), bensì "cosa è calcolabile in linea di principio", cioè teoria della **computabilità**. Ed è su quell'asse che le due domande finiscono su versanti opposti: la prima ha risposta in un teorema a costo quasi nullo, la seconda sbatte contro un muro di indecidibilità che nessuna quantità di ingegneria aggira. Il resto della nota segue questa faglia fino alla sua controparte pratica — il costo, misurato in GPU-giorni, di lasciare che un sistema modifichi davvero se stesso — e infine a un'applicazione diretta: cosa, di preciso, tutto questo dice (e non dice) sull'idea che un'IA capace di riscriversi porti a una crescita di capacità inarrestabile.
+Il modello di calcolo resta quello standard — la macchina di Turing di [teoria_complessita §2](teoria_complessita.md#2-il-modello-di-calcolo-macchina-di-turing) — ma l'asse cambia: non più "quante risorse servono per risolvere questo problema" (il tema di quella nota), bensì "cosa è calcolabile in linea di principio", cioè teoria della **computabilità**. Ed è su quell'asse che le due domande finiscono su versanti opposti: la prima ha risposta in un teorema a costo quasi nullo, la seconda sbatte contro un muro di indecidibilità che nessuna quantità di ingegneria aggira. Il resto della nota segue questa faglia fino alla sua controparte pratica — il costo, misurato in GPU-giorni, di lasciare che un sistema modifichi davvero se stesso — e infine a un'applicazione diretta: cosa, di preciso, tutto questo dice (e non dice) sull'idea che un'IA capace di riscriversi porti a una crescita di capacità inarrestabile.
 
 
 
@@ -80,7 +80,7 @@ $$
 
 $\blacksquare$
 
-La dimostrazione ricicla la diagonale $\varphi_x(x)$ che nel [§2.1](#21-il-problema-della-fermata) demolisce la decidibilità: qui la stessa costruzione, invece di produrre una contraddizione, produce un punto fisso — la stessa mossa usata due volte per scopi opposti, un parallelo diretto con il trucco $\varepsilon/2^n$ di [Teoria della misura §4](teoria_misura.md#4-misura-esterna-di-lebesgue), riusato lì per la non numerabilità di $\mathbb{R}$ e per la subadditività della misura esterna.
+La dimostrazione ricicla la diagonale $\varphi_x(x)$ che nel [§2.1](#21-il-problema-della-fermata) demolisce la decidibilità: qui la stessa costruzione, invece di produrre una contraddizione, produce un punto fisso — la stessa mossa usata due volte per scopi opposti, un parallelo diretto con il trucco $\varepsilon/2^n$ di [teoria_misura §4](teoria_misura.md#4-misura-esterna-di-lebesgue), riusato lì per la non numerabilità di $\mathbb{R}$ e per la subadditività della misura esterna.
 
 
 ### 1.3 La forma con accesso al codice sorgente
@@ -114,7 +114,7 @@ Il caso $g(e,x) = e$ ("restituisci il tuo sorgente, ignora l'input") è realizza
  '(lambda (x) (list x (list 'quote x))))
 ```
 
-Valutando l'espressione, `x` è legato al dato `(lambda (x) (list x (list 'quote x)))`, e il corpo `(list x (list 'quote x))` ricostruisce, come **S-espressione**, l'espressione di partenza. L'uguaglianza è a livello di *dato*, non di stringa stampata: il reader espande `'e` in `(quote e)`, quindi `(list 'quote x)` produce esattamente il ramo quotato del sorgente. È la stessa **omoiconicità** — codice e dati con la stessa rappresentazione — introdotta in [Fondamenti _Guile_ §2](fondamenti_guile.md#2-la-sintassi-le-s-espressioni) a rendere possibile la costruzione, senza bisogno di un parser separato.
+Valutando l'espressione, `x` è legato al dato `(lambda (x) (list x (list 'quote x)))`, e il corpo `(list x (list 'quote x))` ricostruisce, come **S-espressione**, l'espressione di partenza. L'uguaglianza è a livello di *dato*, non di stringa stampata: il reader espande `'e` in `(quote e)`, quindi `(list 'quote x)` produce esattamente il ramo quotato del sorgente. È la stessa **omoiconicità** — codice e dati con la stessa rappresentazione — introdotta in [fondamenti_guile §2](fondamenti_guile.md#2-la-sintassi-le-s-espressioni) a rendere possibile la costruzione, senza bisogno di un parser separato.
 
 Verifica a runtime, confrontando il risultato di `eval` sull'espressione quotata con l'espressione stessa:
 
@@ -141,7 +141,7 @@ Il quine è il punto fisso del teorema di ricorsione reso tangibile: $f = \mathr
 
 *Dimostrazione.* Se un programma $d$ decidesse $K$, si potrebbe costruire da $d$ un programma $c$ che, su input $x$, entra in loop se $d$ dice che $\varphi_x(x)\!\downarrow$ e termina subito altrimenti — cioè $\varphi_c(x)\!\downarrow \iff \varphi_x(x)\!\uparrow$. Applicando $c$ a se stesso: $\varphi_c(c)\!\downarrow \iff \varphi_c(c)\!\uparrow$, contraddizione. $\blacksquare$
 
-È lo stesso schema diagonale usato in [Teoria della misura §1](teoria_misura.md#1-insiemi-numerabili-e-più-che-numerabili) per dimostrare che $\mathbb{R}$ non è numerabile: si costruisce un oggetto ($c$ qui, $y$ lì) tarato apposta per differire, in almeno un punto, da ogni elemento di un'ipotetica enumerazione o di un'ipotetica decisione.
+È lo stesso schema diagonale usato in [teoria_misura §1](teoria_misura.md#1-insiemi-numerabili-e-più-che-numerabili) per dimostrare che $\mathbb{R}$ non è numerabile: si costruisce un oggetto ($c$ qui, $y$ lì) tarato apposta per differire, in almeno un punto, da ogni elemento di un'ipotetica enumerazione o di un'ipotetica decisione.
 
 
 ### 2.2 Il teorema di Rice
@@ -158,7 +158,7 @@ $$
 
 Decidere $b_x \in I_\mathcal{P}$ significherebbe decidere se $\varphi_x(x)\!\downarrow$: ma questo è esattamente il problema della fermata, indecidibile per il [§2.1](#21-il-problema-della-fermata). $\blacksquare$
 
-> È, testualmente, una **riduzione** many-one dal problema della fermata a $I_\mathcal{P}$, nello stesso senso di [Riduzioni §2](teoria_riduzioni.md#2-riduzione-many-one-riduzione-di-karp) — con una differenza di famiglia: qui $x \mapsto b_x$ deve solo essere **calcolabile**, non calcolabile in tempo polinomiale. È il lusso che si può permettere la teoria della computabilità e non quella della complessità (dove le stesse catene di riduzioni, si veda il progetto [karp](https://geoteo.net/karp/), devono restare entro un budget polinomiale): non "quanto costa trasformare l'istanza", ma "si può trasformare, punto".
+> È, testualmente, una **riduzione** many-one dal problema della fermata a $I_\mathcal{P}$, nello stesso senso di [teoria_riduzioni §2](teoria_riduzioni.md#2-riduzione-many-one-riduzione-di-karp) — con una differenza di famiglia: qui $x \mapsto b_x$ deve solo essere **calcolabile**, non calcolabile in tempo polinomiale. È il lusso che si può permettere la teoria della computabilità e non quella della complessità (dove le stesse catene di riduzioni, si veda il progetto [karp](https://geoteo.net/karp/), devono restare entro un budget polinomiale): non "quanto costa trasformare l'istanza", ma "si può trasformare, punto".
 
 
 ### 2.3 Le proprietà indecidibili di una riscrittura
