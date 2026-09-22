@@ -232,7 +232,7 @@ $C$ è **tanto numeroso quanto $\boldsymbol{\mathbb{R}}$** (non numerabile) ma *
 
 ### 6.3 Verifica numerica in R
 
-Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo (vedi [fondamenti_r.md §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per sintassi e specifiche):
+Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo (vedi [Fondamenti _R_ §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per sintassi e specifiche):
 
 ```r
 cantor_intervalli <- function(n) {

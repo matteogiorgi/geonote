@@ -1,8 +1,8 @@
 # Tipi Go e programmazione a oggetti
 
-Questa nota approfondisce un argomento solo accennato in [fondamenti_go.md §7](fondamenti_go.md#7-struct-metodi-e-interfacce): il sistema di tipi di Go visto dal lato pratico (asserzioni, contratti a compile-time) e lo stile "a oggetti" del linguaggio — che non ha né classi né ereditarietà classica, ma **struct**, **interfacce implicite** ed **embedding**. È il confronto più istruttivo delle tre note sull'argomento proprio perché Go è l'unico dei tre linguaggi a essere *staticamente* tipato: molte domande che in [fondamenti_guile_oop.md](fondamenti_guile_oop.md) e [fondamenti_r_oop.md](fondamenti_r_oop.md) si risolvono a runtime, qui il compilatore le chiude prima ancora di eseguire una riga.
+Questa nota approfondisce un argomento solo accennato in [Fondamenti _Go_ §7](fondamenti_go.md#7-struct-metodi-e-interfacce): il sistema di tipi di Go visto dal lato pratico (asserzioni, contratti a compile-time) e lo stile "a oggetti" del linguaggio — che non ha né classi né ereditarietà classica, ma **struct**, **interfacce implicite** ed **embedding**. È il confronto più istruttivo delle tre note sull'argomento proprio perché Go è l'unico dei tre linguaggi a essere *staticamente* tipato: molte domande che in [I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md) e [I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md) si risolvono a runtime, qui il compilatore le chiude prima ancora di eseguire una riga.
 
-Per l'inquadramento teorico di Go nello spettro dei sistemi di tipi (statico, forte, sottotipaggio strutturale) vedi [teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale) e [teoria_tipi.md §18](teoria_tipi.md#18-tabella-comparativa); questa nota non ripete quella teoria, la mette in pratica.
+Per l'inquadramento teorico di Go nello spettro dei sistemi di tipi (statico, forte, sottotipaggio strutturale) vedi [Sistemi di tipi §10](teoria_tipi.md#10-nominale-vs-strutturale) e [Sistemi di tipi §18](teoria_tipi.md#18-tabella-comparativa); questa nota non ripete quella teoria, la mette in pratica.
 
 
 
@@ -25,7 +25,7 @@ s := x.(string) // PANIC a runtime: forma a un valore, usarla solo
                 // quando si è certi del tipo (es. subito dopo un controllo)
 ```
 
-Il **type switch** generalizza l'idea a più casi, ed è l'equivalente Go del `cond` con predicati di Scheme ([fondamenti_guile_oop.md §1](fondamenti_guile_oop.md#1-predicati-di-tipo)) o dell'`is.*`/`inherits()` di R ([fondamenti_r_oop.md §1](fondamenti_r_oop.md#1-predicati-e-ispezione-di-tipo)):
+Il **type switch** generalizza l'idea a più casi, ed è l'equivalente Go del `cond` con predicati di Scheme ([I tipi _Guile_ e GOOPS §1](fondamenti_guile_oop.md#1-predicati-di-tipo)) o dell'`is.*`/`inherits()` di R ([I tipi _R_ e S3/S4/R6 §1](fondamenti_r_oop.md#1-predicati-e-ispezione-di-tipo)):
 
 ```go
 func descrivi(x any) string {
@@ -57,7 +57,7 @@ reflect.TypeOf(42).Kind() // => reflect.Int
 
 ## 2. Contratti: interfacce verificate dal compilatore
 
-Nei linguaggi dinamici delle altre due note, un "contratto" è una condizione controllata a runtime con `assert` (Guile) o `stopifnot()` (R), perché non c'è altro momento in cui controllarla. In Go il contratto principale — "questo tipo si comporta come richiesto" — è verificato **staticamente**, ed è precisamente il sottotipaggio strutturale di [teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale): un tipo soddisfa un'interfaccia avendo i metodi giusti, senza dichiararlo, e il compilatore rifiuta il programma se manca anche un solo metodo.
+Nei linguaggi dinamici delle altre due note, un "contratto" è una condizione controllata a runtime con `assert` (Guile) o `stopifnot()` (R), perché non c'è altro momento in cui controllarla. In Go il contratto principale — "questo tipo si comporta come richiesto" — è verificato **staticamente**, ed è precisamente il sottotipaggio strutturale di [Sistemi di tipi §10](teoria_tipi.md#10-nominale-vs-strutturale): un tipo soddisfa un'interfaccia avendo i metodi giusti, senza dichiararlo, e il compilatore rifiuta il programma se manca anche un solo metodo.
 
 L'idioma per rendere quel controllo esplicito e immediato, invece di scoprirlo alla prima chiamata che lo richiede, è l'**asserzione di interfaccia a compile-time**: una dichiarazione a costo zero a runtime (`_` scarta il valore) che esiste solo per far fallire la build se il contratto si rompe.
 
@@ -85,14 +85,14 @@ func nuovoUtente(nome string, eta int) (*Utente, error) {
 }
 ```
 
-Lo stesso principio del *fail fast* di [fondamenti_guile_oop.md §2](fondamenti_guile_oop.md#2-contratti-e-asserzioni-difendersi-dal-dinamismo) e [fondamenti_r_oop.md §2](fondamenti_r_oop.md#2-contratti-e-validazione-difendersi-dal-dinamismo): controllare al punto di ingresso pubblico, con un messaggio che nomina la funzione, invece di lasciare che l'errore riemerga altrove — vedi anche [fondamenti_go.md §8](fondamenti_go.md#8-gestione-degli-errori) per gli errori come valori in generale.
+Lo stesso principio del *fail fast* di [I tipi _Guile_ e GOOPS §2](fondamenti_guile_oop.md#2-contratti-e-asserzioni-difendersi-dal-dinamismo) e [I tipi _R_ e S3/S4/R6 §2](fondamenti_r_oop.md#2-contratti-e-validazione-difendersi-dal-dinamismo): controllare al punto di ingresso pubblico, con un messaggio che nomina la funzione, invece di lasciare che l'errore riemerga altrove — vedi anche [Fondamenti _Go_ §8](fondamenti_go.md#8-gestione-degli-errori) per gli errori come valori in generale.
 
 
 
 
 ## 3. Struct types: dati come tipi prodotto
 
-Una `struct` è l'unico modo che Go offre per raggruppare campi con nome sotto un solo tipo — l'analogo dei *record type* di Scheme ([fondamenti_guile_oop.md §4](fondamenti_guile_oop.md#4-record-types-dati-strutturati-senza-oop)) e delle liste con `class` di R ([fondamenti_r_oop.md §4](fondamenti_r_oop.md#4-s3-il-sistema-informale)), ma verificata a compile-time invece che per convenzione.
+Una `struct` è l'unico modo che Go offre per raggruppare campi con nome sotto un solo tipo — l'analogo dei *record type* di Scheme ([I tipi _Guile_ e GOOPS §4](fondamenti_guile_oop.md#4-record-types-dati-strutturati-senza-oop)) e delle liste con `class` di R ([I tipi _R_ e S3/S4/R6 §4](fondamenti_r_oop.md#4-s3-il-sistema-informale)), ma verificata a compile-time invece che per convenzione.
 
 ```go
 type Punto struct{ X, Y float64 }
@@ -101,7 +101,7 @@ p := Punto{X: 3, Y: 4}
 p.X // => 3
 ```
 
-Una struct è, alla lettera, il **tipo prodotto** dell'algebra dei tipi vista in [teoria_tipi.md §4](teoria_tipi.md#4-lalgebra-dei-tipi): il numero di valori distinti che `Punto` può assumere è il prodotto delle cardinalità dei suoi campi,
+Una struct è, alla lettera, il **tipo prodotto** dell'algebra dei tipi vista in [Sistemi di tipi §4](teoria_tipi.md#4-lalgebra-dei-tipi): il numero di valori distinti che `Punto` può assumere è il prodotto delle cardinalità dei suoi campi,
 
 $$
 |\texttt{struct}\{\texttt{X A};\ \texttt{Y B}\}| = |A| \times |B|
@@ -118,7 +118,7 @@ p2.X = 99
 fmt.Println(p1.X) // => 1, invariato: p1 e p2 non condividono nulla
 ```
 
-Per ottenere identità condivisa e mutazione visibile da più punti — il comportamento di default delle istanze GOOPS ([fondamenti_guile_oop.md §5](fondamenti_guile_oop.md#5-goops-classi-e-istanze)) e di R6 ([fondamenti_r_oop.md §6](fondamenti_r_oop.md#6-r6-e-reference-classes-oggetti-mutabili-e-incapsulati)) — serve un puntatore esplicito, `*Punto`: è la stessa distinzione **copy vs reference semantics** discussa per R6 contro S3/S4, resa qui visibile nella firma del tipo invece che nella scelta di un pacchetto.
+Per ottenere identità condivisa e mutazione visibile da più punti — il comportamento di default delle istanze GOOPS ([I tipi _Guile_ e GOOPS §5](fondamenti_guile_oop.md#5-goops-classi-e-istanze)) e di R6 ([I tipi _R_ e S3/S4/R6 §6](fondamenti_r_oop.md#6-r6-e-reference-classes-oggetti-mutabili-e-incapsulati)) — serve un puntatore esplicito, `*Punto`: è la stessa distinzione **copy vs reference semantics** discussa per R6 contro S3/S4, resa qui visibile nella firma del tipo invece che nella scelta di un pacchetto.
 
 ```go
 func (p *Punto) Sposta(dx, dy float64) {
@@ -132,7 +132,7 @@ func (p *Punto) Sposta(dx, dy float64) {
 
 ## 4. Interfacce: polimorfismo strutturale
 
-Un'interfaccia elenca solo un insieme di metodi; un tipo la soddisfa **implicitamente**, avendo quei metodi, senza mai scrivere qualcosa come `implements` — il caso di scuola del sottotipaggio strutturale in [teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale), qui applicato allo stesso esempio ricorrente delle altre due note (cerchio, rettangolo, area):
+Un'interfaccia elenca solo un insieme di metodi; un tipo la soddisfa **implicitamente**, avendo quei metodi, senza mai scrivere qualcosa come `implements` — il caso di scuola del sottotipaggio strutturale in [Sistemi di tipi §10](teoria_tipi.md#10-nominale-vs-strutturale), qui applicato allo stesso esempio ricorrente delle altre due note (cerchio, rettangolo, area):
 
 ```go
 type Forma interface{ Area() float64 }
@@ -148,7 +148,7 @@ for _, f := range forme {
 }
 ```
 
-Aggiungere una nuova forma non tocca `Forma` né le implementazioni esistenti — la stessa **estensibilità aperta** ottenuta in GOOPS con un nuovo `define-method` ([fondamenti_guile_oop.md §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) o in R con un nuovo metodo S3/S4, solo raggiunta qui tramite un nuovo tipo concreto e i suoi metodi, verificati a compile-time invece che a runtime.
+Aggiungere una nuova forma non tocca `Forma` né le implementazioni esistenti — la stessa **estensibilità aperta** ottenuta in GOOPS con un nuovo `define-method` ([I tipi _Guile_ e GOOPS §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) o in R con un nuovo metodo S3/S4, solo raggiunta qui tramite un nuovo tipo concreto e i suoi metodi, verificati a compile-time invece che a runtime.
 
 Le interfacce si **compongono** elencandone altre invece di ripetere i metodi, il modo idiomatico di costruire un'interfaccia più ampia da pezzi piccoli:
 
@@ -211,7 +211,7 @@ flowchart TD
 
 </div>
 
-L'embedding multiplo qui gioca lo stesso ruolo dei **mixin** in GOOPS ([fondamenti_guile_oop.md §7](fondamenti_guile_oop.md#7-ereditarietà)): `Colorata` è pensata per aggiungere una singola capacità componibile, non per vivere in cima a una gerarchia rigida.
+L'embedding multiplo qui gioca lo stesso ruolo dei **mixin** in GOOPS ([I tipi _Guile_ e GOOPS §7](fondamenti_guile_oop.md#7-ereditarietà)): `Colorata` è pensata per aggiungere una singola capacità componibile, non per vivere in cima a una gerarchia rigida.
 
 
 ### La differenza che conta: niente dispatch virtuale
@@ -228,14 +228,14 @@ descrivi(cc) // usa CerchioColorato.Descrivi, MA se un metodo di Forma
              // chiamasse internamente Descrivi(), userebbe sempre Forma.Descrivi
 ```
 
-A differenza di `next-method` in GOOPS ([fondamenti_guile_oop.md §7](fondamenti_guile_oop.md#estendere-invece-di-sostituire-next-method)) e di `NextMethod()`/`callNextMethod()` in R ([fondamenti_r_oop.md §4](fondamenti_r_oop.md#4-s3-il-sistema-informale), [§5](fondamenti_r_oop.md#5-s4-il-sistema-formale)) — che partecipano entrambi a una vera catena di dispatch risolta a runtime sulla classe dell'oggetto — qui `cc.Forma.Descrivi()` è solo una chiamata di metodo ordinaria su un campo, decisa a compile-time. **Buona pratica:** trattare l'embedding come composizione di dati e comportamento riusabile, mai come un modo per simulare il polimorfismo per sottotipo dell'OOP classica.
+A differenza di `next-method` in GOOPS ([I tipi _Guile_ e GOOPS §7](fondamenti_guile_oop.md#estendere-invece-di-sostituire-next-method)) e di `NextMethod()`/`callNextMethod()` in R ([I tipi _R_ e S3/S4/R6 §4](fondamenti_r_oop.md#4-s3-il-sistema-informale), [§5](fondamenti_r_oop.md#5-s4-il-sistema-formale)) — che partecipano entrambi a una vera catena di dispatch risolta a runtime sulla classe dell'oggetto — qui `cc.Forma.Descrivi()` è solo una chiamata di metodo ordinaria su un campo, decisa a compile-time. **Buona pratica:** trattare l'embedding come composizione di dati e comportamento riusabile, mai come un modo per simulare il polimorfismo per sottotipo dell'OOP classica.
 
 
 
 
 ## 6. Multiple dispatch: quello che Go non ha
 
-Un metodo Go fa dispatch su un solo argomento: il *receiver*. Per far dipendere un comportamento dalla combinazione di **due** tipi — lo stesso problema "cosa succede quando due forme si scontrano" già visto per GOOPS ([fondamenti_guile_oop.md §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) e per S4 ([fondamenti_r_oop.md §5](fondamenti_r_oop.md#5-s4-il-sistema-formale)) — Go non offre alcun meccanismo nativo: bisogna smistare a mano con un type switch annidato.
+Un metodo Go fa dispatch su un solo argomento: il *receiver*. Per far dipendere un comportamento dalla combinazione di **due** tipi — lo stesso problema "cosa succede quando due forme si scontrano" già visto per GOOPS ([I tipi _Guile_ e GOOPS §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch)) e per S4 ([I tipi _R_ e S3/S4/R6 §5](fondamenti_r_oop.md#5-s4-il-sistema-formale)) — Go non offre alcun meccanismo nativo: bisogna smistare a mano con un type switch annidato.
 
 ```go
 func collide(a, b Forma) {
@@ -256,7 +256,7 @@ func collide(a, b Forma) {
 }
 ```
 
-La differenza rispetto a GOOPS e S4 non è di sintassi ma di **estensibilità**: in `collide?`/`collide` di quelle due note, aggiungere una forma significa aggiungere un `define-method`/`setMethod` senza toccare nulla che già esiste. Qui, aggiungere `Triangolo` significa riaprire e modificare `collide` stessa, con un numero di casi che cresce quadraticamente col numero di forme — esattamente il costo che [fondamenti_guile_oop.md §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch) descrive per un linguaggio a dispatch singolo, reso qui ancora più esplicito dall'assenza totale di dispatch multiplo nativo.
+La differenza rispetto a GOOPS e S4 non è di sintassi ma di **estensibilità**: in `collide?`/`collide` di quelle due note, aggiungere una forma significa aggiungere un `define-method`/`setMethod` senza toccare nulla che già esiste. Qui, aggiungere `Triangolo` significa riaprire e modificare `collide` stessa, con un numero di casi che cresce quadraticamente col numero di forme — esattamente il costo che [I tipi _Guile_ e GOOPS §6](fondamenti_guile_oop.md#6-metodi-generici-e-dispatch) descrive per un linguaggio a dispatch singolo, reso qui ancora più esplicito dall'assenza totale di dispatch multiplo nativo.
 
 Il workaround classico dell'OOP a dispatch singolo per questo esatto problema è il ***visitor pattern***: invece di far decidere a una funzione esterna la combinazione di tipi, si delega la seconda metà della decisione a un metodo su ciascun tipo concreto (`a.CollideWith(b)`, con overload per ogni tipo di `b`) — più verboso da scrivere, ma riporta il punto di estensione dentro l'interfaccia invece che in una funzione centrale da riaprire a ogni nuovo caso.
 
@@ -283,7 +283,7 @@ Somma([]int{1, 2, 3})      // => 6
 Somma([]float64{1.5, 2.5}) // => 4.0
 ```
 
-Come [teoria_tipi.md §13](teoria_tipi.md#13-polimorfismo-nei-linguaggi) anticipa: Go implementa i generics con **monomorfizzazione**, generando a compile-time una versione specializzata di `Somma` per ogni tipo concreto effettivamente usato (`Somma[int]`, `Somma[float64]`, ...) — l'opposto della *type erasure* di Java, che condivide un solo bytecode e cancella l'informazione di tipo dopo il controllo. Il prezzo che Go paga è la dimensione del binario; il vantaggio è che a runtime non c'è dispatch generico da pagare, il compilatore ha già scelto il codice giusto.
+Come [Sistemi di tipi §13](teoria_tipi.md#13-polimorfismo-nei-linguaggi) anticipa: Go implementa i generics con **monomorfizzazione**, generando a compile-time una versione specializzata di `Somma` per ogni tipo concreto effettivamente usato (`Somma[int]`, `Somma[float64]`, ...) — l'opposto della *type erasure* di Java, che condivide un solo bytecode e cancella l'informazione di tipo dopo il controllo. Il prezzo che Go paga è la dimensione del binario; il vantaggio è che a runtime non c'è dispatch generico da pagare, il compilatore ha già scelto il codice giusto.
 
 **Buona pratica:** generics per l'omogeneità di tipo su dati (una `Somma` che funziona su qualunque numero, ma resta *lo stesso* numero per tutta la chiamata); interfacce per il polimorfismo di comportamento (`Forma`, dove `Cerchio` e `Rettangolo` restano tipi diversi nella stessa chiamata a `Area()`). I due meccanismi rispondono a domande diverse e si usano spesso insieme, non l'uno al posto dell'altro.
 
@@ -402,7 +402,7 @@ func Somma[T ~int | ~float64](valori []T) T {
 - **Effective Go, sezione Interfaces and other types**: <https://go.dev/doc/effective_go#interfaces_and_types>
 - **Proposta e design dei generics**: <https://go.dev/doc/tutorial/generics>
 - **Specifica del linguaggio**: <https://go.dev/ref/spec>
-- Vedi anche [fondamenti_go.md](fondamenti_go.md) per la sintassi di base del linguaggio, [teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale) per l'inquadramento teorico del sottotipaggio strutturale, e [fondamenti_guile_oop.md](fondamenti_guile_oop.md)/[fondamenti_r_oop.md](fondamenti_r_oop.md) per il confronto diretto con GOOPS e S3/S4/R6.
+- Vedi anche [Fondamenti _Go_](fondamenti_go.md) per la sintassi di base del linguaggio, [Sistemi di tipi §10](teoria_tipi.md#10-nominale-vs-strutturale) per l'inquadramento teorico del sottotipaggio strutturale, e [I tipi _Guile_ e GOOPS](fondamenti_guile_oop.md)/[I tipi _R_ e S3/S4/R6](fondamenti_r_oop.md) per il confronto diretto con GOOPS e S3/S4/R6.
 
 > **Nota sulla versione**: gli esempi con generics richiedono **Go 1.18** o successivo. Verifica sempre
 > la versione installata con `go version`.

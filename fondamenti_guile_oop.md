@@ -1,8 +1,8 @@
 # Tipi Guile e programmazione a oggetti (GOOPS)
 
-Questa nota approfondisce due argomenti già accennati in [fondamenti_guile.md](fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
+Questa nota approfondisce due argomenti già accennati in [Fondamenti _Guile_](fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
 
-Per l'inquadramento teorico di Guile nello spettro dei sistemi di tipi (dinamico ma forte, *latent typing*, nessuna coercizione silenziosa) vedi [teoria_tipi.md §8](teoria_tipi.md#8-forte-vs-debole-applicato); questa nota non ripete quella teoria, la mette in pratica.
+Per l'inquadramento teorico di Guile nello spettro dei sistemi di tipi (dinamico ma forte, *latent typing*, nessuna coercizione silenziosa) vedi [Sistemi di tipi §8](teoria_tipi.md#8-forte-vs-debole-applicato); questa nota non ripete quella teoria, la mette in pratica.
 
 
 
@@ -19,7 +19,7 @@ Guile non ha annotazioni di tipo: ogni valore porta il proprio tipo con sé a ru
 (null? '())       ; => #t
 ```
 
-Per sapere a quale classe GOOPS appartiene un valore (vedi [§6](#6-goops-classi-e-istanze)), `class-of` è l'equivalente "a runtime" di un `typeof`:
+Per sapere a quale classe GOOPS appartiene un valore (vedi [§5](#5-goops-classi-e-istanze)), `class-of` è l'equivalente "a runtime" di un `typeof`:
 
 ```scheme
 (class-of 42)      ; => #<class <integer>>
@@ -66,7 +66,7 @@ Lo stesso pattern si generalizza in un piccolo helper riutilizzabile, utile quan
   (* base altezza))
 ```
 
-Questo è il modo idiomatico in cui Guile compensa l'assenza di un type-checker statico ([§8 di teoria_tipi.md](teoria_tipi.md#8-forte-vs-debole-applicato) chiama questa proprietà "forte": Guile non coercisce mai silenziosamente, quindi un controllo esplicito come questo è ciò che sostituisce, a runtime, la verifica che altri linguaggi farebbero a compile-time).
+Questo è il modo idiomatico in cui Guile compensa l'assenza di un type-checker statico ([§8 di Sistemi di tipi](teoria_tipi.md#8-forte-vs-debole-applicato) chiama questa proprietà "forte": Guile non coercisce mai silenziosamente, quindi un controllo esplicito come questo è ciò che sostituisce, a runtime, la verifica che altri linguaggi farebbero a compile-time).
 
 
 
@@ -116,7 +116,7 @@ Prima di arrivare a GOOPS, Scheme offre un meccanismo più leggero per dati stru
 
 A differenza di una lista o di un vettore posizionale (`(list 3 4)`, dove l'ordine dei campi va ricordato a memoria), un record dà accessori nominati generati automaticamente e un predicato di tipo dedicato (`punto?`), a un costo sintattico minimo.
 
-**Buona pratica:** per dati puramente strutturati — senza bisogno di ereditarietà, di più implementazioni intercambiabili o di dispatch su più tipi — un record è quasi sempre la scelta giusta, più semplice di una classe GOOPS. GOOPS entra in gioco solo quando serve qualcosa che un record da solo non offre: vedi [§9](#9-goops-vs-il-resto-del-linguaggio-quando-usarlo).
+**Buona pratica:** per dati puramente strutturati — senza bisogno di ereditarietà, di più implementazioni intercambiabili o di dispatch su più tipi — un record è quasi sempre la scelta giusta, più semplice di una classe GOOPS. GOOPS entra in gioco solo quando serve qualcosa che un record da solo non offre: vedi [§8](#8-goops-vs-il-resto-del-linguaggio-quando-usarlo).
 
 
 
@@ -160,7 +160,7 @@ Opzioni comuni per uno slot:
 
 ## 6. Metodi generici e dispatch
 
-A differenza di un linguaggio a oggetti "classico" dove i metodi appartengono a una classe, in GOOPS un **metodo generico** è una funzione a sé, e le classi degli argomenti scelgono quale implementazione eseguire — lo stesso `define-method` visto in [fondamenti_guile.md §12](fondamenti_guile.md#12-programmazione-a-oggetti-goops):
+A differenza di un linguaggio a oggetti "classico" dove i metodi appartengono a una classe, in GOOPS un **metodo generico** è una funzione a sé, e le classi degli argomenti scelgono quale implementazione eseguire — lo stesso `define-method` visto in [Fondamenti _Guile_ §12](fondamenti_guile.md#12-programmazione-a-oggetti-goops):
 
 ```scheme
 (define-class <cerchio> ()
@@ -182,7 +182,7 @@ A differenza di un linguaggio a oggetti "classico" dove i metodi appartengono a 
 (area (make <rettangolo> #:base 3 #:altezza 4))  ; => 12
 ```
 
-Il vantaggio rispetto a un `cond` con predicati ([§1](#1-predicati-di-tipo)) è l'**estensibilità aperta**: aggiungere una nuova forma non richiede toccare il codice esistente, basta definire una nuova classe e un nuovo `define-method` per `area` — lo stesso principio *open/closed* che in Go si ottiene con le interfacce strutturali ([teoria_tipi.md §10](teoria_tipi.md#10-nominale-vs-strutturale)), qui realizzato tramite dispatch a runtime sulla classe dell'argomento invece che a compile-time sulla forma del tipo.
+Il vantaggio rispetto a un `cond` con predicati ([§1](#1-predicati-di-tipo)) è l'**estensibilità aperta**: aggiungere una nuova forma non richiede toccare il codice esistente, basta definire una nuova classe e un nuovo `define-method` per `area` — lo stesso principio *open/closed* che in Go si ottiene con le interfacce strutturali ([Sistemi di tipi §10](teoria_tipi.md#10-nominale-vs-strutturale)), qui realizzato tramite dispatch a runtime sulla classe dell'argomento invece che a compile-time sulla forma del tipo.
 
 
 ### Multiple dispatch: il tratto distintivo di GOOPS
@@ -268,7 +268,7 @@ Questo pattern — chiamare `next-method` per *estendere* un comportamento invec
 
 ## 8. GOOPS vs il resto del linguaggio: quando usarlo
 
-Scheme è un linguaggio funzionale prima ancora che a oggetti, e l'idioma più comune per incapsulare stato resta la **chiusura** (vedi [teoria_chiusure.md §7](teoria_chiusure.md#7-stato-mutabile-incapsulato): "una chiusura è un oggetto con un solo metodo e uno stato privato"). GOOPS non sostituisce questo stile, lo affianca per i casi in cui serve qualcosa che chiusure e record non danno da soli:
+Scheme è un linguaggio funzionale prima ancora che a oggetti, e l'idioma più comune per incapsulare stato resta la **chiusura** (vedi [Closure §7](teoria_chiusure.md#7-stato-mutabile-incapsulato): "una chiusura è un oggetto con un solo metodo e uno stato privato"). GOOPS non sostituisce questo stile, lo affianca per i casi in cui serve qualcosa che chiusure e record non danno da soli:
 
 - **serve dispatch su più tipi**, come nell'esempio di `collide?` al [§6](#6-metodi-generici-e-dispatch) — impossibile da esprimere pulitamente con una singola chiusura;
 - **serve estensibilità aperta**: aggiungere comportamento a un tipo esistente senza toccarne il codice (nuovi `define-method` su generici già esistenti);
@@ -356,7 +356,7 @@ Se invece serve solo incapsulare uno stato privato dietro un'interfaccia minima 
 - **Manuale GOOPS**: <https://www.gnu.org/software/guile/manual/html_node/GOOPS.html>
 - **SRFI-9 (record types)**: <https://srfi.schemers.org/srfi-9/srfi-9.html>
 - **Manuale di riferimento Guile**: <https://www.gnu.org/software/guile/manual/>
-- Vedi anche [fondamenti_guile.md](fondamenti_guile.md) per la sintassi di base del linguaggio e [teoria_tipi.md](teoria_tipi.md) per l'inquadramento teorico del sistema di tipi di Guile nel confronto tra linguaggi.
+- Vedi anche [Fondamenti _Guile_](fondamenti_guile.md) per la sintassi di base del linguaggio e [Sistemi di tipi](teoria_tipi.md) per l'inquadramento teorico del sistema di tipi di Guile nel confronto tra linguaggi.
 
 > **Nota sulla versione**: gli esempi fanno riferimento alla serie **Guile 3.0.x**. Verifica sempre
 > il manuale della versione installata con `guile --version`.

@@ -2,7 +2,7 @@
 
 Ogni linguaggio di programmazione fa una scommessa su *quanto* e *quando* controllare che le operazioni su un dato abbiano senso — sommare due numeri, invocare un metodo, indicizzare una lista. Quella scommessa è il suo **sistema di tipi**, ed è una delle decisioni di design più profonde e più visibili di un linguaggio: attraversa la sintassi, il modo in cui si manifestano i bug, le prestazioni, perfino lo stile con cui si pensa un programma prima ancora di scriverlo.
 
-Questa nota non è organizzata linguaggio per linguaggio, ma per assi: statico/dinamico, forte/debole, inferenza, nominale/strutturale, gestione del "niente", tipi somma, polimorfismo, soundness. Ogni asse è per lo più ortogonale agli altri — il primo mito da smontare, ripreso nel [§3](#3-vocabolario-e-assi-ortogonali), è che "statico" implichi "forte" o che "dinamico" implichi "debole": non è così. Otto linguaggi ricorrono come illustrazioni lungo questi assi — **C**, **Go**, **OCaml**, **Haskell**, **Java**, **Guile** (Scheme, vedi [fondamenti_guile.md](fondamenti_guile.md)), **JavaScript** e **R** (vedi [fondamenti_r.md](fondamenti_r.md)) — scelti non per completezza ma perché ciascuno drammatizza al meglio uno o più assi; **Bash** compare come *cameo* fuori tabella nel [§17](#17-box--bash-il-pavimento), il "pavimento" dello spettro dove il concetto stesso di tipo quasi scompare.
+Questa nota non è organizzata linguaggio per linguaggio, ma per assi: statico/dinamico, forte/debole, inferenza, nominale/strutturale, gestione del "niente", tipi somma, polimorfismo, soundness. Ogni asse è per lo più ortogonale agli altri — il primo mito da smontare, ripreso nel [§3](#3-vocabolario-e-assi-ortogonali), è che "statico" implichi "forte" o che "dinamico" implichi "debole": non è così. Otto linguaggi ricorrono come illustrazioni lungo questi assi — **C**, **Go**, **OCaml**, **Haskell**, **Java**, **Guile** (Scheme, vedi [Fondamenti _Guile_](fondamenti_guile.md)), **JavaScript** e **R** (vedi [Fondamenti _R_](fondamenti_r.md)) — scelti non per completezza ma perché ciascuno drammatizza al meglio uno o più assi; **Bash** compare come *cameo* fuori tabella nel [§17](#17-box--bash-il-pavimento), il "pavimento" dello spettro dove il concetto stesso di tipo quasi scompare.
 
 La prima parte ([§1](#1-cosè-un-tipo)–[§6](#6-giudizi-di-tipo-e-soundness)) tratta la teoria senza legarla a un linguaggio specifico; la seconda ([§7](#7-statico-vs-dinamico-applicato)–[§17](#17-box--bash-il-pavimento)) applica ogni asse ai linguaggi scelti, con lo stesso schema per ciascuna scelta di design: perché è stata adottata, come è implementata, quali vantaggi e svantaggi comporta, come si usa al meglio.
 
@@ -446,7 +446,7 @@ Il vantaggio è un riuso enorme di codice attraverso famiglie di tipi altrimenti
 
 ## 16. Un caso anomalo: i sistemi a oggetti di R
 
-R non illustra un asse pulito quanto gli altri, ma è un caso di studio prezioso per due ragioni indipendenti dal resto della nota (si veda anche [fondamenti_r.md](fondamenti_r.md)).
+R non illustra un asse pulito quanto gli altri, ma è un caso di studio prezioso per due ragioni indipendenti dal resto della nota (si veda anche [Fondamenti _R_](fondamenti_r.md)).
 
 La prima è che R ha quattro sistemi a oggetti coesistenti — S3, S4, Reference Classes (R5) e il pacchetto `R6` — invece di uno solo. S3 è informale: un oggetto è un valore qualunque con un attributo `class`, e il dispatch avviene per convenzione di nome (`print.miaclasse` viene chiamata automaticamente da `print()` su un oggetto con `class(x) == "miaclasse"`):
 

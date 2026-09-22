@@ -1,6 +1,6 @@
 # Problema: il matching di espressioni regolari
 
-Data una stringa $s$ e un pattern $p$, determinare se $p$ combacia con **tutta** $s$ (match totale, non ricerca parziale — vedi [teoria_regex.md §4.2](teoria_regex.md#42-match-totale-vs-ricerca-parziale)). Il pattern è costruito con solo due operatori, sottoinsieme minimo della sintassi vista in [teoria_regex.md §3](teoria_regex.md#3-sintassi-i-mattoni):
+Data una stringa $s$ e un pattern $p$, determinare se $p$ combacia con **tutta** $s$ (match totale, non ricerca parziale — vedi [Regex §4.2](teoria_regex.md#42-match-totale-vs-ricerca-parziale)). Il pattern è costruito con solo due operatori, sottoinsieme minimo della sintassi vista in [Regex §3](teoria_regex.md#3-sintassi-i-mattoni):
 
 - `.` combacia con un carattere qualsiasi;
 - `*` fa sì che il carattere che lo precede (non l'intero pattern che lo precede) venga applicato zero o più volte.
@@ -12,7 +12,7 @@ Esempi:
 - `"ac"` combacia con `"ab*c"` (zero ripetizioni di `b`) e con `"a.*c"`;
 - `"abcd"` combacia con `"a.*d"`.
 
-> **Nota:** a differenza di [teoria_regex.md](teoria_regex.md), che tratta le regex come oggetto già disponibile in ogni linguaggio (motore compilato, funzioni di libreria), qui l'obiettivo è **implementare da zero il motore stesso** — sia pure per un sottoinsieme minuscolo della sintassi. È lo stesso spirito di [problema_fibonacci.md](problema_fibonacci.md) e [problema_bst.md](problema_bst.md): una definizione ricorsiva naturale, resa via via più efficiente con la programmazione dinamica.
+> **Nota:** a differenza di [Regex](teoria_regex.md), che tratta le regex come oggetto già disponibile in ogni linguaggio (motore compilato, funzioni di libreria), qui l'obiettivo è **implementare da zero il motore stesso** — sia pure per un sottoinsieme minuscolo della sintassi. È lo stesso spirito di [Risolvere Fibonacci](problema_fibonacci.md) e [Numero di BST](problema_bst.md): una definizione ricorsiva naturale, resa via via più efficiente con la programmazione dinamica.
 
 Come per gli altri due problemi, la scomposizione ricorsiva è la chiave: si ragiona sul primo carattere di $s$ e sul primo *token* di $p$ (dove un token è un carattere letterale, `.`, oppure uno dei due seguito da `*`), e si delega il resto a una chiamata sul suffisso di entrambi.
 
@@ -42,7 +42,7 @@ func parseRegex(regex string) ([]string, error) {
 }
 ```
 
-Restituire un errore invece di andare in panico è lo stile idiomatico visto in [fondamenti_go.md §8](fondamenti_go.md#8-gestione-degli-errori); qui basta propagarlo al chiamante.
+Restituire un errore invece di andare in panico è lo stile idiomatico visto in [Fondamenti _Go_ §8](fondamenti_go.md#8-gestione-degli-errori); qui basta propagarlo al chiamante.
 
 Serve poi un secondo helper che confronta un singolo carattere (o l'assenza di carattere, a fine stringa) con un token privo di `*`:
 
@@ -97,7 +97,7 @@ func regexMatch(s, regex string) bool {
 }
 ```
 
-Il ramo `a*`/`.*` è l'unico punto in cui la funzione genera più di una chiamata: da qui nasce la stessa esplosione combinatoria vista in [problema_fibonacci.md §1](problema_fibonacci.md#1-soluzione-ricorsione-diretta--o2n). Per vederlo, ecco il trace di `regexMatch("aab", "aa*b")` (tokens `["a", "a*", "b"]`), che restituisce `true`:
+Il ramo `a*`/`.*` è l'unico punto in cui la funzione genera più di una chiamata: da qui nasce la stessa esplosione combinatoria vista in [Risolvere Fibonacci §1](problema_fibonacci.md#1-soluzione-ricorsione-diretta--o2n). Per vederlo, ecco il trace di `regexMatch("aab", "aa*b")` (tokens `["a", "a*", "b"]`), che restituisce `true`:
 
 <div markdown="1" align="center">
 
@@ -112,9 +112,9 @@ flowchart TD
 
 </div>
 
-Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [teoria_costo.md §2](teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = \|s\|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [teoria_regex.md §4.5](teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
+Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [Costo algoritmico §2](teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = \|s\|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [Regex §4.5](teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
 
-> **Curiosità:** il sottoinsieme di sintassi usato qui (`.` e `*`) è già valido come regex "vera" in quasi ogni flavor (vedi [teoria_regex.md §6](teoria_regex.md#6-i-flavor-perché-la-stessa-regex-non-funziona-ovunque)). Si può quindi delegare lo stesso confronto a un motore reale, ancorando con `^...$` per pretendere un match totale invece che parziale:
+> **Curiosità:** il sottoinsieme di sintassi usato qui (`.` e `*`) è già valido come regex "vera" in quasi ogni flavor (vedi [Regex §6](teoria_regex.md#6-i-flavor-perché-la-stessa-regex-non-funziona-ovunque)). Si può quindi delegare lo stesso confronto a un motore reale, ancorando con `^...$` per pretendere un match totale invece che parziale:
 > ```r
 > regex_match_motore_vero <- function(s, regex) grepl(paste0("^", regex, "$"), s)
 > regex_match_motore_vero("aab", "aa*b") # TRUE, come regexMatch("aab", "aa*b")
@@ -126,7 +126,7 @@ Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a con
 
 ## 2. Soluzione: programmazione dinamica top-down — memoization
 
-Anche qui, come per [problema_fibonacci.md §2](problema_fibonacci.md#2-soluzione-programmazione-dinamica-top-down--memoization) e [problema_bst.md §2](problema_bst.md#2-soluzione-programmazione-dinamica-top-down--memoization), la stessa coppia `(iString, iRegex)` viene ricalcolata più volte da rami diversi dell'albero di ricorsione (si veda `match(1,1)` nel trace sopra, raggiungibile anche passando da un'altra sequenza di scelte con un pattern leggermente diverso). La differenza rispetto ai due problemi precedenti è che la chiave da mettere in cache non è un singolo intero ma una coppia: basta però che sia comparabile, quindi il [`Memoize` generico](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile) funziona senza modifiche usando come chiave uno `struct` di due campi:
+Anche qui, come per [Risolvere Fibonacci §2](problema_fibonacci.md#2-soluzione-programmazione-dinamica-top-down--memoization) e [Numero di BST §2](problema_bst.md#2-soluzione-programmazione-dinamica-top-down--memoization), la stessa coppia `(iString, iRegex)` viene ricalcolata più volte da rami diversi dell'albero di ricorsione (si veda `match(1,1)` nel trace sopra, raggiungibile anche passando da un'altra sequenza di scelte con un pattern leggermente diverso). La differenza rispetto ai due problemi precedenti è che la chiave da mettere in cache non è un singolo intero ma una coppia: basta però che sia comparabile, quindi il [`Memoize` generico](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile) funziona senza modifiche usando come chiave uno `struct` di due campi:
 
 ```go
 type posizione struct {
@@ -168,14 +168,14 @@ func regexMatchMemo(s, regex string) bool {
 
 Le combinazioni possibili di `(iString, iRegex)` sono al più $(n+1)(m+1)$, quindi la memoization riduce la complessità da $O(2^{n+m})$ a $O(n \cdot m)$ in tempo; lo spazio è anch'esso $O(n \cdot m)$ (cache più stack di ricorsione).
 
-> **Approfondimento in _Guile_:** il `memoize` visto in [problema_fibonacci.md §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile) funziona qui altrettanto bene, ma senza bisogno di definire uno `struct` apposito: basta usare come chiave una coppia `(cons i-string i-regex)`, perché le hash-table di Guile confrontano le chiavi per struttura (`equal?`) e non per identità:
+> **Approfondimento in _Guile_:** il `memoize` visto in [Risolvere Fibonacci §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile) funziona qui altrettanto bene, ma senza bisogno di definire uno `struct` apposito: basta usare come chiave una coppia `(cons i-string i-regex)`, perché le hash-table di Guile confrontano le chiavi per struttura (`equal?`) e non per identità:
 > ```scheme
 > (define match
 >   (memoize (lambda (chiave)
 >              (esegui-match (car chiave) (cdr chiave)))))
 > (match (cons 0 0))
 > ```
-> È lo stesso vantaggio della tipizzazione dinamica già notato in [problema_fibonacci.md §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile): Go richiede di dichiarare in anticipo la forma della chiave, Guile no.
+> È lo stesso vantaggio della tipizzazione dinamica già notato in [Risolvere Fibonacci §2](problema_fibonacci.md#un-memoize-generico-e-riutilizzabile): Go richiede di dichiarare in anticipo la forma della chiave, Guile no.
 
 
 
@@ -219,9 +219,9 @@ func regexMatchIterativo(s, regex string) bool {
 }
 ```
 
-Quando `iString == n`, `prefix` è `""` e `matchNoStar` restituisce sempre `false`: l'accesso a `dp[iString+1][...]` nel ramo di consumo non viene mai valutato, perché `&&` in Go è a corto circuito e si ferma al primo operando falso — proprio come già sfruttato in [teoria_chiusure.md](teoria_chiusure.md) per la valutazione lazy delle espressioni booleane. Non serve quindi nessun controllo esplicito sui bordi della tabella.
+Quando `iString == n`, `prefix` è `""` e `matchNoStar` restituisce sempre `false`: l'accesso a `dp[iString+1][...]` nel ramo di consumo non viene mai valutato, perché `&&` in Go è a corto circuito e si ferma al primo operando falso — proprio come già sfruttato in [Closure](teoria_chiusure.md) per la valutazione lazy delle espressioni booleane. Non serve quindi nessun controllo esplicito sui bordi della tabella.
 
-Stessa complessità della memoization — $O(n \cdot m)$ in tempo e spazio — ma senza stack di ricorsione, esattamente come [problema_bst.md §3](problema_bst.md#3-soluzione-programmazione-dinamica-bottom-up) rispetto alla sua versione memoizzata.
+Stessa complessità della memoization — $O(n \cdot m)$ in tempo e spazio — ma senza stack di ricorsione, esattamente come [Numero di BST §3](problema_bst.md#3-soluzione-programmazione-dinamica-bottom-up) rispetto alla sua versione memoizzata.
 
 
 
@@ -234,4 +234,4 @@ Stessa complessità della memoization — $O(n \cdot m)$ in tempo e spazio — m
 | [DP top-down (memoization)](#2-soluzione-programmazione-dinamica-top-down--memoization) | $O(n \cdot m)$ | $O(n \cdot m)$ | Stessa struttura ricorsiva, ma ogni coppia calcolata una sola volta |
 | [DP bottom-up](#3-soluzione-programmazione-dinamica-bottom-up) | $O(n \cdot m)$ | $O(n \cdot m)$ | Stessa complessità della memoization, senza stack di ricorsione |
 
-Lo schema è identico a quello di [problema_fibonacci.md §4](problema_fibonacci.md#4-confronto) e [problema_bst.md §5](problema_bst.md#5-confronto): la ricorsione diretta traduce la definizione del problema nel modo più diretto possibile, ma ricalcola gli stessi sottoproblemi; la memoization elimina la ricomputazione senza cambiare la forma del codice; la versione bottom-up arriva alla stessa complessità evitando del tutto lo stack di ricorsione, al prezzo di dover capire in anticipo l'ordine — qui a ritroso — in cui riempire la tabella.
+Lo schema è identico a quello di [Risolvere Fibonacci §4](problema_fibonacci.md#4-confronto) e [Numero di BST §5](problema_bst.md#5-confronto): la ricorsione diretta traduce la definizione del problema nel modo più diretto possibile, ma ricalcola gli stessi sottoproblemi; la memoization elimina la ricomputazione senza cambiare la forma del codice; la versione bottom-up arriva alla stessa complessità evitando del tutto lo stack di ricorsione, al prezzo di dover capire in anticipo l'ordine — qui a ritroso — in cui riempire la tabella.

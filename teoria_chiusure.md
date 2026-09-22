@@ -125,7 +125,7 @@ L'esempio guida che segue in ogni linguaggio è il più semplice possibile per q
 
 ## 8. Scheme (Guile) — l'origine, binding mutabile nudo
 
-Le chiusure lessicali nascono qui: sono la primitiva su cui Scheme è costruito, non un'aggiunta successiva (vedi [fondamenti_guile.md §4](fondamenti_guile.md#4-definizioni-e-funzioni) per `define` e `lambda`). Il binding è mutabile direttamente con `set!`, senza bisogno di alcuna indirezione:
+Le chiusure lessicali nascono qui: sono la primitiva su cui Scheme è costruito, non un'aggiunta successiva (vedi [Fondamenti _Guile_ §4](fondamenti_guile.md#4-definizioni-e-funzioni) per `define` e `lambda`). Il binding è mutabile direttamente con `set!`, senza bisogno di alcuna indirezione:
 
 ```scheme
 (define (crea-contatore)
@@ -192,7 +192,7 @@ Il contributo concettuale più profondo di Haskell, però, non è `IORef`: è ch
 
 ## 11. R — closure pervasiva, lazy eval, `<<-`
 
-In R quasi **ogni** funzione è, tecnicamente, una closure: ogni funzione porta con sé l'ambiente (*environment*) in cui è stata definita, ed è proprio lo scope lessicale — introdotto in R rispetto al vecchio S, che usava scope dinamico — a renderlo possibile (vedi [fondamenti_r.md §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per la sintassi di base delle funzioni). Il binding *è* mutabile, ma non con `<-` (che nell'ambiente della funzione interna creerebbe una nuova variabile locale, ombreggiando quella esterna): serve il **super-assignment** `<<-`, che risale la catena degli ambienti fino a trovare (o creare, al top level) il binding da modificare.
+In R quasi **ogni** funzione è, tecnicamente, una closure: ogni funzione porta con sé l'ambiente (*environment*) in cui è stata definita, ed è proprio lo scope lessicale — introdotto in R rispetto al vecchio S, che usava scope dinamico — a renderlo possibile (vedi [Fondamenti _R_ §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per la sintassi di base delle funzioni). Il binding *è* mutabile, ma non con `<-` (che nell'ambiente della funzione interna creerebbe una nuova variabile locale, ombreggiando quella esterna): serve il **super-assignment** `<<-`, che risale la catena degli ambienti fino a trovare (o creare, al top level) il binding da modificare.
 
 ```r
 crea_contatore <- function() {
@@ -217,7 +217,7 @@ Vale la pena una riga sulla **lazy evaluation**: gli argomenti di una funzione R
 
 ## 12. Go — loop-capture e semantica che cambia nel tempo
 
-Go è mainstream, imperativo, con garbage collector — la combinazione che rende le chiusure "gratuite" da usare senza dover pensare all'*extent* del [§4](#4-extent-vs-scope--lupward-funarg-problem): il compilatore, tramite *escape analysis*, decide da solo se una variabile catturata va promossa sullo heap. Il binding è mutabile direttamente, come in Scheme (vedi anche [fondamenti_go.md §5](fondamenti_go.md#5-funzioni)):
+Go è mainstream, imperativo, con garbage collector — la combinazione che rende le chiusure "gratuite" da usare senza dover pensare all'*extent* del [§4](#4-extent-vs-scope--lupward-funarg-problem): il compilatore, tramite *escape analysis*, decide da solo se una variabile catturata va promossa sullo heap. Il binding è mutabile direttamente, come in Scheme (vedi anche [Fondamenti _Go_ §5](fondamenti_go.md#5-funzioni)):
 
 ```go
 func contatore() func() int {
