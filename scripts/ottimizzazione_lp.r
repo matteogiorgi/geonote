@@ -1,5 +1,5 @@
 # Genera img/ottimizzazione_lp.png: la regione ammissibile dell'esempio di
-# LP (teoria_ottimizzazione.md, §1.2) con i suoi 4 vertici e tre curve di
+# LP (teoria_computazione/teoria_ottimizzazione.md, §1.2) con i suoi 4 vertici e tre curve di
 # livello di 5x+4y, per mostrare visivamente perche' l'ottimo cade sul
 # vertice (3, 1.5) dove la curva di livello tocca il poliedro per l'ultima
 # volta (§1.3).

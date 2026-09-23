@@ -1,6 +1,6 @@
 # Genera img/autoriferimento_nas.png: costo di ricerca (in GPU-giorni,
 # scala log) di quattro metodi di neural architecture search
-# (teoria_autoriferimento.md, §4.3). Valori dalla tabella comparativa di
+# (teoria_computazione/teoria_autoriferimento.md, §4.3). Valori dalla tabella comparativa di
 # Liu, Simonyan, Yang (DARTS, ICLR 2019): NASNet-A (Zoph et al. 2018,
 # ricerca RL), AmoebaNet-A (Real et al. 2019, ricerca evolutiva), ENAS
 # (Pham et al. 2018, weight-sharing), DARTS (rilassazione differenziabile).

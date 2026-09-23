@@ -104,9 +104,9 @@ flowchart LR
     test["test"] --> deploy
 ```
 
-`lint` e `test` non hanno `needs` tra loro: girano in parallelo, su due runner distinti; `deploy` dichiara `needs: [lint, test]` e parte solo quando **entrambi** sono terminati con successo. L'insieme dei job con le loro dipendenze forma un **DAG**, esattamente come i grafi di dipendenza visti per le riduzioni tra problemi in [teoria_riduzioni](teoria_riduzioni.md): qui i nodi sono job invece di problemi, e gli archi sono "deve finire prima di" invece di "si riduce a".
+`lint` e `test` non hanno `needs` tra loro: girano in parallelo, su due runner distinti; `deploy` dichiara `needs: [lint, test]` e parte solo quando **entrambi** sono terminati con successo. L'insieme dei job con le loro dipendenze forma un **DAG**, esattamente come i grafi di dipendenza visti per le riduzioni tra problemi in [teoria_riduzioni](../teoria_computazione/teoria_riduzioni.md): qui i nodi sono job invece di problemi, e gli archi sono "deve finire prima di" invece di "si riduce a".
 
-È un parallelismo diverso da quello delle **goroutine** di [fondamenti_go §9](fondamenti_go.md#9-concorrenza-goroutine-e-canali): le goroutine condividono lo stesso processo e comunicano su canali *in-memory*; i job di Actions girano su runner isolati e comunicano solo scambiandosi *artifact* (file), mai stato in memoria — il modello CSP di Go ("condividi la memoria comunicando" su un canale) non si applica qui, perché non c'è memoria da condividere in primo luogo.
+È un parallelismo diverso da quello delle **goroutine** di [fondamenti_go §9](../fondamenti/fondamenti_go.md#9-concorrenza-goroutine-e-canali): le goroutine condividono lo stesso processo e comunicano su canali *in-memory*; i job di Actions girano su runner isolati e comunicano solo scambiandosi *artifact* (file), mai stato in memoria — il modello CSP di Go ("condividi la memoria comunicando" su un canale) non si applica qui, perché non c'è memoria da condividere in primo luogo.
 
 
 
@@ -152,9 +152,9 @@ nell'esempio sopra, $\|J\| = 2 \times 3 = 6$ job indipendenti (GitHub impone un 
     key: pip-${{ hashFiles('requirements.txt') }}
 ```
 
-Concettualmente è la stessa idea della **memoization top-down** vista in [problema_fibonacci §2](problema_fibonacci.md): lì si evita di ricalcolare `fib(k)` se il risultato per quel `k` è già in tabella; qui si evita di reinstallare le dipendenze se il loro hash (`hashFiles('requirements.txt')`, che gioca il ruolo di chiave della tabella dei risultati) non è cambiato rispetto a un run precedente. In entrambi i casi la chiave è ciò che rende sicuro saltare il lavoro: se l'input cambia, cambia la chiave, e il "ricalcolo" (qui: `pip install`) riparte da zero.
+Concettualmente è la stessa idea della **memoization top-down** vista in [problema_fibonacci §2](../programmazione_dinamica/problema_fibonacci.md): lì si evita di ricalcolare `fib(k)` se il risultato per quel `k` è già in tabella; qui si evita di reinstallare le dipendenze se il loro hash (`hashFiles('requirements.txt')`, che gioca il ruolo di chiave della tabella dei risultati) non è cambiato rispetto a un run precedente. In entrambi i casi la chiave è ciò che rende sicuro saltare il lavoro: se l'input cambia, cambia la chiave, e il "ricalcolo" (qui: `pip install`) riparte da zero.
 
-La stessa idea si legge anche in chiave di **costo ammortizzato** ([teoria_costo §5.1](teoria_costo.md#51-metodo-aggregato--esempio-vettore-dinamico)): il primo run su una cache fredda paga il costo pieno dell'installazione (l'analogo di un ridimensionamento del vettore dinamico), i run successivi con cache calda pagano solo il costo di un lookup — su una sequenza lunga di run, il costo medio per run tende a un valore molto più basso del caso pessimo di un singolo run a freddo.
+La stessa idea si legge anche in chiave di **costo ammortizzato** ([teoria_costo §5.1](../teoria_computazione/teoria_costo.md#51-metodo-aggregato--esempio-vettore-dinamico)): il primo run su una cache fredda paga il costo pieno dell'installazione (l'analogo di un ridimensionamento del vettore dinamico), i run successivi con cache calda pagano solo il costo di un lookup — su una sequenza lunga di run, il costo medio per run tende a un valore molto più basso del caso pessimo di un singolo run a freddo.
 
 Gli **artifact** (`actions/upload-artifact` / `download-artifact`) risolvono un problema diverso: non la ripetizione nel tempo, ma il trasferimento di file *tra job dello stesso run* (es. il job `build` produce un eseguibile, il job `deploy` lo scarica) — è il meccanismo usato anche per pubblicare pagine statiche, vedi [§7](#7-caso-di-studio-pubblicare-sphinx-con-github-actions).
 
@@ -174,7 +174,7 @@ permissions:
 
 - **`contents: read`**: il job può solo leggere il repository (checkout), non scrivere (niente push, niente release) — sufficiente per una build.
 - **`pages: write`**: consente al job di pubblicare su GitHub Pages.
-- **`id-token: write`**: consente al job di richiedere un token **OIDC** di breve durata, verificato da GitHub e scambiato con un provider esterno (o con lo stesso GitHub Pages) — l'alternativa moderna a incollare un *secret* di lunga durata nelle impostazioni del repository. È lo stesso principio per cui, in [teoria_tipi](teoria_tipi.md), un tipo più ristretto è preferibile a uno più permissivo quando possibile: meno privilegio disponibile, meno danno possibile in caso di workflow compromesso.
+- **`id-token: write`**: consente al job di richiedere un token **OIDC** di breve durata, verificato da GitHub e scambiato con un provider esterno (o con lo stesso GitHub Pages) — l'alternativa moderna a incollare un *secret* di lunga durata nelle impostazioni del repository. È lo stesso principio per cui, in [teoria_tipi](../teoria_linguaggi/teoria_tipi.md), un tipo più ristretto è preferibile a uno più permissivo quando possibile: meno privilegio disponibile, meno danno possibile in caso di workflow compromesso.
 
 I **secrets** (`${{ secrets.NOME }}`) sono invece valori cifrati e persistenti configurati nelle impostazioni del repository/organizzazione — usati quando serve davvero un credenziale di lungo periodo che l'OIDC non può sostituire (es. una API key di terze parti).
 
@@ -266,7 +266,7 @@ flowchart LR
 
 Punti da notare, richiamando le sezioni precedenti:
 
-- **`-W`** in `sphinx-build -W` promuove ogni *warning* di Sphinx a errore: la build fallisce rumorosamente invece di pubblicare una documentazione con link rotti o riferimenti incrociati mancanti — analogo, in spirito, ai contratti "falliscono rumorosamente" discussi per S4 in [fondamenti_r_oop §5](fondamenti_r_oop.md#5-s4-il-sistema-formale).
+- **`-W`** in `sphinx-build -W` promuove ogni *warning* di Sphinx a errore: la build fallisce rumorosamente invece di pubblicare una documentazione con link rotti o riferimenti incrociati mancanti — analogo, in spirito, ai contratti "falliscono rumorosamente" discussi per S4 in [fondamenti_r_oop §5](../teoria_linguaggi/fondamenti_r_oop.md#5-s4-il-sistema-formale).
 - `pip install -e . --no-build-isolation` installa il pacchetto in modalità *editable*: Sphinx importa `nn_option_pricing` per estrarne i docstring, quindi deve trovarlo installato nello stesso ambiente della build.
 - `environment: github-pages` sul job `deploy` è ciò che abilita lo scambio OIDC del [§6](#6-permessi-secrets-e-oidc): senza un *environment* dichiarato, `id-token: write` da solo non basta a ottenere un token verificabile da `actions/deploy-pages`.
 - `needs: build` è l'unico arco del DAG: nessuna matrice, nessun parallelismo da sfruttare — un caso degenere ma comune di [§3](#3-il-grafo-dei-job-needs-e-parallelismo), utile proprio perché mostra la forma più semplice possibile del pattern "prepara, poi pubblica".

@@ -80,7 +80,7 @@ $$
 
 $\blacksquare$
 
-La dimostrazione ricicla la diagonale $\varphi_x(x)$ che nel [§2.1](#21-il-problema-della-fermata) demolisce la decidibilità: qui la stessa costruzione, invece di produrre una contraddizione, produce un punto fisso — la stessa mossa usata due volte per scopi opposti, un parallelo diretto con il trucco $\varepsilon/2^n$ di [teoria_misura §4](teoria_misura.md#4-misura-esterna-di-lebesgue), riusato lì per la non numerabilità di $\mathbb{R}$ e per la subadditività della misura esterna.
+La dimostrazione ricicla la diagonale $\varphi_x(x)$ che nel [§2.1](#21-il-problema-della-fermata) demolisce la decidibilità: qui la stessa costruzione, invece di produrre una contraddizione, produce un punto fisso — la stessa mossa usata due volte per scopi opposti, un parallelo diretto con il trucco $\varepsilon/2^n$ di [teoria_misura §4](../matematica_statistica/teoria_misura.md#4-misura-esterna-di-lebesgue), riusato lì per la non numerabilità di $\mathbb{R}$ e per la subadditività della misura esterna.
 
 
 ### 1.3 La forma con accesso al codice sorgente
@@ -114,7 +114,7 @@ Il caso $g(e,x) = e$ ("restituisci il tuo sorgente, ignora l'input") è realizza
  '(lambda (x) (list x (list 'quote x))))
 ```
 
-Valutando l'espressione, `x` è legato al dato `(lambda (x) (list x (list 'quote x)))`, e il corpo `(list x (list 'quote x))` ricostruisce, come **S-espressione**, l'espressione di partenza. L'uguaglianza è a livello di *dato*, non di stringa stampata: il reader espande `'e` in `(quote e)`, quindi `(list 'quote x)` produce esattamente il ramo quotato del sorgente. È la stessa **omoiconicità** — codice e dati con la stessa rappresentazione — introdotta in [fondamenti_guile §2](fondamenti_guile.md#2-la-sintassi-le-s-espressioni) a rendere possibile la costruzione, senza bisogno di un parser separato.
+Valutando l'espressione, `x` è legato al dato `(lambda (x) (list x (list 'quote x)))`, e il corpo `(list x (list 'quote x))` ricostruisce, come **S-espressione**, l'espressione di partenza. L'uguaglianza è a livello di *dato*, non di stringa stampata: il reader espande `'e` in `(quote e)`, quindi `(list 'quote x)` produce esattamente il ramo quotato del sorgente. È la stessa **omoiconicità** — codice e dati con la stessa rappresentazione — introdotta in [fondamenti_guile §2](../fondamenti/fondamenti_guile.md#2-la-sintassi-le-s-espressioni) a rendere possibile la costruzione, senza bisogno di un parser separato.
 
 Verifica a runtime, confrontando il risultato di `eval` sull'espressione quotata con l'espressione stessa:
 
@@ -141,7 +141,7 @@ Il quine è il punto fisso del teorema di ricorsione reso tangibile: $f = \mathr
 
 *Dimostrazione.* Se un programma $d$ decidesse $K$, si potrebbe costruire da $d$ un programma $c$ che, su input $x$, entra in loop se $d$ dice che $\varphi_x(x)\!\downarrow$ e termina subito altrimenti — cioè $\varphi_c(x)\!\downarrow \iff \varphi_x(x)\!\uparrow$. Applicando $c$ a se stesso: $\varphi_c(c)\!\downarrow \iff \varphi_c(c)\!\uparrow$, contraddizione. $\blacksquare$
 
-È lo stesso schema diagonale usato in [teoria_misura §1](teoria_misura.md#1-insiemi-numerabili-e-più-che-numerabili) per dimostrare che $\mathbb{R}$ non è numerabile: si costruisce un oggetto ($c$ qui, $y$ lì) tarato apposta per differire, in almeno un punto, da ogni elemento di un'ipotetica enumerazione o di un'ipotetica decisione.
+È lo stesso schema diagonale usato in [teoria_misura §1](../matematica_statistica/teoria_misura.md#1-insiemi-numerabili-e-più-che-numerabili) per dimostrare che $\mathbb{R}$ non è numerabile: si costruisce un oggetto ($c$ qui, $y$ lì) tarato apposta per differire, in almeno un punto, da ogni elemento di un'ipotetica enumerazione o di un'ipotetica decisione.
 
 
 ### 2.2 Il teorema di Rice
@@ -252,7 +252,7 @@ Il gradiente esterno $\nabla_\theta$ agisce su un'espressione che contiene già 
 
 La ricerca di architetture (*neural architecture search*, NAS) è il caso in cui l'asimmetria genera-valida si vede più chiaramente, perché nel tempo si è **ristretta** di tre ordini di grandezza. La NAS basata su reinforcement learning proposta da Zoph e Le (2017) valuta ogni candidata addestrandola da zero: la ricerca completa richiede centinaia di GPU per settimane. Le tecniche a **weight-sharing** (ENAS) e le rilassazioni **differenziabili** su un'unica supernet (DARTS, Liu, Simonyan, Yang 2019) esistono precisamente per evitare di pagare un addestramento completo per ogni candidata proposta.
 
-<img class="shot-img" src="img/autoriferimento_nas.png" alt="Costo di ricerca in GPU-giorni per quattro metodi di NAS, in scala logaritmica" />
+<img class="shot-img" src="../img/autoriferimento_nas.png" alt="Costo di ricerca in GPU-giorni per quattro metodi di NAS, in scala logaritmica" />
 
 I quattro punti riprendono la tabella comparativa di Liu et al. (2019): NASNet-A (ricerca RL) e AmoebaNet-A (ricerca evolutiva) restano nell'ordine delle migliaia di GPU-giorni — un costo dominato quasi per intero dal *validare* ogni candidata con un addestramento vero; ENAS e DARTS, condividendo i pesi fra le candidate durante la ricerca, riportano lo stesso problema a poche unità di GPU-giorno. La generazione di una candidata non è mai stata il collo di bottiglia: è sempre stata la validazione a dominare il conto, ed è sulla validazione che le tecniche moderne hanno agito.
 

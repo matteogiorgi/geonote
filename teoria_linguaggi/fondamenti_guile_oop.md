@@ -1,6 +1,6 @@
 # Tipi Guile e programmazione a oggetti (GOOPS)
 
-Questa nota approfondisce due argomenti già accennati in [fondamenti_guile](fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
+Questa nota approfondisce due argomenti già accennati in [fondamenti_guile](../fondamenti/fondamenti_guile.md): il sistema di tipi di Guile visto dal lato pratico (predicati, contratti, la torre numerica) e **GOOPS**, il sistema a oggetti di Scheme, trattato qui per esteso — classi, ereditarietà, metodi generici, *multiple dispatch*. Chiude una sezione di buone pratiche con esempi completi.
 
 Per l'inquadramento teorico di Guile nello spettro dei sistemi di tipi (dinamico ma forte, *latent typing*, nessuna coercizione silenziosa) vedi [teoria_tipi §8](teoria_tipi.md#8-forte-vs-debole-applicato); questa nota non ripete quella teoria, la mette in pratica.
 
@@ -160,7 +160,7 @@ Opzioni comuni per uno slot:
 
 ## 6. Metodi generici e dispatch
 
-A differenza di un linguaggio a oggetti "classico" dove i metodi appartengono a una classe, in GOOPS un **metodo generico** è una funzione a sé, e le classi degli argomenti scelgono quale implementazione eseguire — lo stesso `define-method` visto in [fondamenti_guile §12](fondamenti_guile.md#12-programmazione-a-oggetti-goops):
+A differenza di un linguaggio a oggetti "classico" dove i metodi appartengono a una classe, in GOOPS un **metodo generico** è una funzione a sé, e le classi degli argomenti scelgono quale implementazione eseguire — lo stesso `define-method` visto in [fondamenti_guile §12](../fondamenti/fondamenti_guile.md#12-programmazione-a-oggetti-goops):
 
 ```scheme
 (define-class <cerchio> ()
@@ -356,7 +356,7 @@ Se invece serve solo incapsulare uno stato privato dietro un'interfaccia minima 
 - **Manuale GOOPS**: <https://www.gnu.org/software/guile/manual/html_node/GOOPS.html>
 - **SRFI-9 (record types)**: <https://srfi.schemers.org/srfi-9/srfi-9.html>
 - **Manuale di riferimento Guile**: <https://www.gnu.org/software/guile/manual/>
-- Vedi anche [fondamenti_guile](fondamenti_guile.md) per la sintassi di base del linguaggio e [teoria_tipi](teoria_tipi.md) per l'inquadramento teorico del sistema di tipi di Guile nel confronto tra linguaggi.
+- Vedi anche [fondamenti_guile](../fondamenti/fondamenti_guile.md) per la sintassi di base del linguaggio e [teoria_tipi](teoria_tipi.md) per l'inquadramento teorico del sistema di tipi di Guile nel confronto tra linguaggi.
 
 > **Nota sulla versione**: gli esempi fanno riferimento alla serie **Guile 3.0.x**. Verifica sempre
 > il manuale della versione installata con `guile --version`.

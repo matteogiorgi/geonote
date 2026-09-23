@@ -93,7 +93,7 @@ $$
 T(n) = 3\,T(n-1), \qquad n \ge 3, \qquad T(2) = 5
 $$
 
-quindi $T(n) = \Theta(3^n)$ (vedi [teoria_complessita §1](teoria_complessita.md#1-notazione-asintotica) per la notazione $\Theta$): molto peggio della crescita del risultato stesso, che è "solo" $\Theta(4^n / n^{1.5})$ — i numeri di Catalan, discussi più sotto.
+quindi $T(n) = \Theta(3^n)$ (vedi [teoria_complessita §1](../teoria_computazione/teoria_complessita.md#1-notazione-asintotica) per la notazione $\Theta$): molto peggio della crescita del risultato stesso, che è "solo" $\Theta(4^n / n^{1.5})$ — i numeri di Catalan, discussi più sotto.
 
 
 
@@ -173,7 +173,7 @@ func countBSTClosedForm(n int) int {
 
 Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato intermedio `binom(2n, n)` sta in un `int`. Su una piattaforma a 64 bit `int` di Go arriva fino a $2^{63}-1 \approx 9.22 \times 10^{18}$: `binom(2n, n)` lo supera già a $n = 34$, mentre $C_{34}$ da solo ci starebbe ancora comodamente — si esaurisce lo spazio due passi prima del necessario, perché la divisione per $n+1$ avviene solo alla fine.
 
-> **Approfondimento in _Guile_:** gli interi di Guile sono a precisione arbitraria per costruzione, come il fattoriale di 30 già visto in [fondamenti_guile §5](fondamenti_guile.md#5-ricorsione): lo stesso calcolo, riscritto in Scheme, non ha bisogno di alcuna attenzione particolare all'overflow.
+> **Approfondimento in _Guile_:** gli interi di Guile sono a precisione arbitraria per costruzione, come il fattoriale di 30 già visto in [fondamenti_guile §5](../fondamenti/fondamenti_guile.md#5-ricorsione): lo stesso calcolo, riscritto in Scheme, non ha bisogno di alcuna attenzione particolare all'overflow.
 > ```scheme
 > (define (binom n k)
 >   (let loop ((i 0) (r 1))
@@ -184,14 +184,14 @@ Complessità $O(n)$ in tempo, $O(1)$ in spazio — ma solo finché il risultato 
 > (catalan 40)  ; => 2622127042276492108820, ben oltre il limite di un int64
 > ```
 
-> **Approfondimento in _R_:** R ha il coefficiente binomiale pronto nella libreria standard (`choose`) ed è vettorizzato: si calcolano tutti i numeri di Catalan da $0$ a $n$ con un'unica chiamata, senza scrivere un ciclo esplicito (vedi [fondamenti_r](fondamenti_r.md) per la sintassi).
+> **Approfondimento in _R_:** R ha il coefficiente binomiale pronto nella libreria standard (`choose`) ed è vettorizzato: si calcolano tutti i numeri di Catalan da $0$ a $n$ con un'unica chiamata, senza scrivere un ciclo esplicito (vedi [fondamenti_r](../fondamenti/fondamenti_r.md) per la sintassi).
 > ```r
 > catalan <- function(n) choose(2 * n, n) / (n + 1)
 > catalan(0:10)
 > # [1]     1     1     2     5    14    42   132   429  1430  4862 16796
 > ```
 
-> **Approfondimento in _C_:** a differenza di Go, che ha il garbage collector (vedi [fondamenti_go §1](fondamenti_go.md#1-caratteristiche-principali)), in C la tabella della soluzione bottom-up va allocata e liberata esplicitamente.
+> **Approfondimento in _C_:** a differenza di Go, che ha il garbage collector (vedi [fondamenti_go §1](../fondamenti/fondamenti_go.md#1-caratteristiche-principali)), in C la tabella della soluzione bottom-up va allocata e liberata esplicitamente.
 > ```c
 > long long count_bst(int n) {
 >     long long *conteggio = malloc((n + 1) * sizeof(long long));

@@ -214,7 +214,7 @@ Ma $\sum_n \mu(V)$ vale $0$ se $\mu(V) = 0$, oppure $+\infty$ se $\mu(V) > 0$: i
 
 **Costruzione.** $C_0 = [0,1]$. Da $C_n$ si ottiene $C_{n+1}$ rimuovendo il terzo centrale aperto da ciascuno dei $2^n$ intervalli di $C_n$. L'**insieme di Cantor** è $C = \bigcap_{n=0}^{\infty} C_n$.
 
-<img class="shot-img" src="img/misura_cantor.png" alt="Le prime sei iterazioni della costruzione dell'insieme di Cantor" />
+<img class="shot-img" src="../img/misura_cantor.png" alt="Le prime sei iterazioni della costruzione dell'insieme di Cantor" />
 
 **Misura nulla.** $C_n$ è unione di $2^n$ intervalli chiusi di lunghezza $3^{-n}$, quindi $\mu(C_n) = (2/3)^n$. Poiché $C_n \supseteq C_{n+1}$ e $\mu(C_0) = 1 < \infty$, per continuità dall'alto ([§2](#2-spazi-con-misura))
 
@@ -232,7 +232,7 @@ $C$ è **tanto numeroso quanto $\boldsymbol{\mathbb{R}}$** (non numerabile) ma *
 
 ### 6.3 Verifica numerica in R
 
-Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo (vedi [fondamenti_r §3](fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per sintassi e specifiche):
+Verifichiamo numericamente in R la convergenza $\mu(C_n) \to 0$, costruendo esplicitamente gli intervalli superstiti a ogni passo (vedi [fondamenti_r §3](../fondamenti/fondamenti_r.md#3-controllo-di-flusso-e-funzioni) per sintassi e specifiche):
 
 ```r
 cantor_intervalli <- function(n) {
@@ -341,7 +341,7 @@ $$
 
 ## 9. Lebesgue contro Riemann: quando coincidono i due integrali
 
-<img class="shot-img" src="img/misura_riemann_lebesgue.png" alt="Riemann partiziona il dominio in strisce verticali, Lebesgue partiziona il codominio in livelli orizzontali" />
+<img class="shot-img" src="../img/misura_riemann_lebesgue.png" alt="Riemann partiziona il dominio in strisce verticali, Lebesgue partiziona il codominio in livelli orizzontali" />
 
 ### 9.1 La funzione di Dirichlet, di nuovo
 

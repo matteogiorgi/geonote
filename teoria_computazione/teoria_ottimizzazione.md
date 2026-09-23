@@ -57,7 +57,7 @@ $$
 
 L'insieme dei punti ammissibili è un poligono nel piano, delimitato dalle due rette di vincolo e dagli assi; i suoi 4 vertici sono $(0,0)$, $(4,0)$, $(0,3)$ e $(3,\,1.5)$, con $5x+4y$ che vale rispettivamente $0$, $20$, $12$ e $\mathbf{21}$.
 
-<img class="shot-img" src="img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di LP, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
+<img class="shot-img" src="../img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di LP, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
 
 $(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le curve di livello di $5x+4y$ toccano il poliedro per l'ultima volta, e dà il massimo.
 

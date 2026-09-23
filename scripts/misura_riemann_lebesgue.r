@@ -1,5 +1,5 @@
 # Genera img/misura_riemann_lebesgue.png: l'idea che distingue i due
-# integrali (teoria_misura.md, §9) — Riemann partiziona il dominio in
+# integrali (matematica_statistica/teoria_misura.md, §9) — Riemann partiziona il dominio in
 # strisce verticali, Lebesgue partiziona il codominio in livelli
 # orizzontali e misura la controimmagine di ciascun livello.
 

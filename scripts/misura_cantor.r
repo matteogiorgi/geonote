@@ -1,5 +1,5 @@
 # Genera img/misura_cantor.png: le prime iterazioni della costruzione
-# dell'insieme di Cantor (teoria_misura.md, §6), una riga per livello.
+# dell'insieme di Cantor (matematica_statistica/teoria_misura.md, §6), una riga per livello.
 
 cantor_intervalli <- function(n) {
     intervalli <- matrix(c(0, 1), ncol = 2)

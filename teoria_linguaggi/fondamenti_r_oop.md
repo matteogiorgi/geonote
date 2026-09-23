@@ -1,6 +1,6 @@
 # Tipi R e programmazione a oggetti (S3, S4, R6)
 
-Questa nota approfondisce due argomenti solo accennati in [fondamenti_r](fondamenti_r.md): il sistema di tipi di R visto dal lato pratico (predicati, contratti, coercizioni) e i suoi **sistemi a oggetti** — R, a differenza della maggior parte dei linguaggi, non ne ha uno solo. Tratta per esteso **S3** (informale), **S4** (formale, con *multiple dispatch*) e un cenno a **R6**/Reference Classes (mutabile, incapsulato). Chiude con una sezione di buone pratiche con esempi completi.
+Questa nota approfondisce due argomenti solo accennati in [fondamenti_r](../fondamenti/fondamenti_r.md): il sistema di tipi di R visto dal lato pratico (predicati, contratti, coercizioni) e i suoi **sistemi a oggetti** — R, a differenza della maggior parte dei linguaggi, non ne ha uno solo. Tratta per esteso **S3** (informale), **S4** (formale, con *multiple dispatch*) e un cenno a **R6**/Reference Classes (mutabile, incapsulato). Chiude con una sezione di buone pratiche con esempi completi.
 
 Per l'inquadramento teorico di R nello spettro dei sistemi di tipi (dinamico, debole, coercizioni gerarchiche automatiche) vedi [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r); questa nota non ripete quella teoria, la mette in pratica.
 
@@ -397,7 +397,7 @@ collide_manuale <- function(a, b) {
 - **Advanced R** (Hadley Wickham), capitoli su S3, S4, R6: <https://adv-r.hadley.nz/oo.html>
 - **Documentazione S4**: `?setClass`, `?setGeneric`, `?setMethod` in R
 - **Pacchetto R6**: <https://r6.r-lib.org/>
-- Vedi anche [fondamenti_r](fondamenti_r.md) per la sintassi di base del linguaggio, [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r) per l'inquadramento teorico e [fondamenti_guile_oop](fondamenti_guile_oop.md) per il confronto diretto con GOOPS.
+- Vedi anche [fondamenti_r](../fondamenti/fondamenti_r.md) per la sintassi di base del linguaggio, [teoria_tipi §16](teoria_tipi.md#16-un-caso-anomalo-i-sistemi-a-oggetti-di-r) per l'inquadramento teorico e [fondamenti_guile_oop](fondamenti_guile_oop.md) per il confronto diretto con GOOPS.
 
 > **Nota sulla versione**: gli esempi fanno riferimento alla serie corrente di R. Verifica sempre
 > la versione installata con `R.version.string` e, per R6, la versione del pacchetto con `packageVersion("R6")`.

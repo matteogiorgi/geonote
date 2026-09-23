@@ -1,6 +1,6 @@
 # Tipi Go e programmazione a oggetti
 
-Questa nota approfondisce un argomento solo accennato in [fondamenti_go §7](fondamenti_go.md#7-struct-metodi-e-interfacce): il sistema di tipi di Go visto dal lato pratico (asserzioni, contratti a compile-time) e lo stile "a oggetti" del linguaggio — che non ha né classi né ereditarietà classica, ma **struct**, **interfacce implicite** ed **embedding**. È il confronto più istruttivo delle tre note sull'argomento proprio perché Go è l'unico dei tre linguaggi a essere *staticamente* tipato: molte domande che in [fondamenti_guile_oop](fondamenti_guile_oop.md) e [fondamenti_r_oop](fondamenti_r_oop.md) si risolvono a runtime, qui il compilatore le chiude prima ancora di eseguire una riga.
+Questa nota approfondisce un argomento solo accennato in [fondamenti_go §7](../fondamenti/fondamenti_go.md#7-struct-metodi-e-interfacce): il sistema di tipi di Go visto dal lato pratico (asserzioni, contratti a compile-time) e lo stile "a oggetti" del linguaggio — che non ha né classi né ereditarietà classica, ma **struct**, **interfacce implicite** ed **embedding**. È il confronto più istruttivo delle tre note sull'argomento proprio perché Go è l'unico dei tre linguaggi a essere *staticamente* tipato: molte domande che in [fondamenti_guile_oop](fondamenti_guile_oop.md) e [fondamenti_r_oop](fondamenti_r_oop.md) si risolvono a runtime, qui il compilatore le chiude prima ancora di eseguire una riga.
 
 Per l'inquadramento teorico di Go nello spettro dei sistemi di tipi (statico, forte, sottotipaggio strutturale) vedi [teoria_tipi §10](teoria_tipi.md#10-nominale-vs-strutturale) e [teoria_tipi §18](teoria_tipi.md#18-tabella-comparativa); questa nota non ripete quella teoria, la mette in pratica.
 
@@ -85,7 +85,7 @@ func nuovoUtente(nome string, eta int) (*Utente, error) {
 }
 ```
 
-Lo stesso principio del *fail fast* di [fondamenti_guile_oop §2](fondamenti_guile_oop.md#2-contratti-e-asserzioni-difendersi-dal-dinamismo) e [fondamenti_r_oop §2](fondamenti_r_oop.md#2-contratti-e-validazione-difendersi-dal-dinamismo): controllare al punto di ingresso pubblico, con un messaggio che nomina la funzione, invece di lasciare che l'errore riemerga altrove — vedi anche [fondamenti_go §8](fondamenti_go.md#8-gestione-degli-errori) per gli errori come valori in generale.
+Lo stesso principio del *fail fast* di [fondamenti_guile_oop §2](fondamenti_guile_oop.md#2-contratti-e-asserzioni-difendersi-dal-dinamismo) e [fondamenti_r_oop §2](fondamenti_r_oop.md#2-contratti-e-validazione-difendersi-dal-dinamismo): controllare al punto di ingresso pubblico, con un messaggio che nomina la funzione, invece di lasciare che l'errore riemerga altrove — vedi anche [fondamenti_go §8](../fondamenti/fondamenti_go.md#8-gestione-degli-errori) per gli errori come valori in generale.
 
 
 
@@ -402,7 +402,7 @@ func Somma[T ~int | ~float64](valori []T) T {
 - **Effective Go, sezione Interfaces and other types**: <https://go.dev/doc/effective_go#interfaces_and_types>
 - **Proposta e design dei generics**: <https://go.dev/doc/tutorial/generics>
 - **Specifica del linguaggio**: <https://go.dev/ref/spec>
-- Vedi anche [fondamenti_go](fondamenti_go.md) per la sintassi di base del linguaggio, [teoria_tipi §10](teoria_tipi.md#10-nominale-vs-strutturale) per l'inquadramento teorico del sottotipaggio strutturale, e [fondamenti_guile_oop](fondamenti_guile_oop.md)/[fondamenti_r_oop](fondamenti_r_oop.md) per il confronto diretto con GOOPS e S3/S4/R6.
+- Vedi anche [fondamenti_go](../fondamenti/fondamenti_go.md) per la sintassi di base del linguaggio, [teoria_tipi §10](teoria_tipi.md#10-nominale-vs-strutturale) per l'inquadramento teorico del sottotipaggio strutturale, e [fondamenti_guile_oop](fondamenti_guile_oop.md)/[fondamenti_r_oop](fondamenti_r_oop.md) per il confronto diretto con GOOPS e S3/S4/R6.
 
 > **Nota sulla versione**: gli esempi con generics richiedono **Go 1.18** o successivo. Verifica sempre
 > la versione installata con `go version`.

@@ -1,6 +1,6 @@
 # Problema: il matching di espressioni regolari
 
-Data una stringa $s$ e un pattern $p$, determinare se $p$ combacia con **tutta** $s$ (match totale, non ricerca parziale — vedi [teoria_regex §4.2](teoria_regex.md#42-match-totale-vs-ricerca-parziale)). Il pattern è costruito con solo due operatori, sottoinsieme minimo della sintassi vista in [teoria_regex §3](teoria_regex.md#3-sintassi-i-mattoni):
+Data una stringa $s$ e un pattern $p$, determinare se $p$ combacia con **tutta** $s$ (match totale, non ricerca parziale — vedi [teoria_regex §4.2](../teoria_linguaggi/teoria_regex.md#42-match-totale-vs-ricerca-parziale)). Il pattern è costruito con solo due operatori, sottoinsieme minimo della sintassi vista in [teoria_regex §3](../teoria_linguaggi/teoria_regex.md#3-sintassi-i-mattoni):
 
 - `.` combacia con un carattere qualsiasi;
 - `*` fa sì che il carattere che lo precede (non l'intero pattern che lo precede) venga applicato zero o più volte.
@@ -12,7 +12,7 @@ Esempi:
 - `"ac"` combacia con `"ab*c"` (zero ripetizioni di `b`) e con `"a.*c"`;
 - `"abcd"` combacia con `"a.*d"`.
 
-> **Nota:** a differenza di [teoria_regex](teoria_regex.md), che tratta le regex come oggetto già disponibile in ogni linguaggio (motore compilato, funzioni di libreria), qui l'obiettivo è **implementare da zero il motore stesso** — sia pure per un sottoinsieme minuscolo della sintassi. È lo stesso spirito di [problema_fibonacci](problema_fibonacci.md) e [problema_bst](problema_bst.md): una definizione ricorsiva naturale, resa via via più efficiente con la programmazione dinamica.
+> **Nota:** a differenza di [teoria_regex](../teoria_linguaggi/teoria_regex.md), che tratta le regex come oggetto già disponibile in ogni linguaggio (motore compilato, funzioni di libreria), qui l'obiettivo è **implementare da zero il motore stesso** — sia pure per un sottoinsieme minuscolo della sintassi. È lo stesso spirito di [problema_fibonacci](problema_fibonacci.md) e [problema_bst](problema_bst.md): una definizione ricorsiva naturale, resa via via più efficiente con la programmazione dinamica.
 
 Come per gli altri due problemi, la scomposizione ricorsiva è la chiave: si ragiona sul primo carattere di $s$ e sul primo *token* di $p$ (dove un token è un carattere letterale, `.`, oppure uno dei due seguito da `*`), e si delega il resto a una chiamata sul suffisso di entrambi.
 
@@ -42,7 +42,7 @@ func parseRegex(regex string) ([]string, error) {
 }
 ```
 
-Restituire un errore invece di andare in panico è lo stile idiomatico visto in [fondamenti_go §8](fondamenti_go.md#8-gestione-degli-errori); qui basta propagarlo al chiamante.
+Restituire un errore invece di andare in panico è lo stile idiomatico visto in [fondamenti_go §8](../fondamenti/fondamenti_go.md#8-gestione-degli-errori); qui basta propagarlo al chiamante.
 
 Serve poi un secondo helper che confronta un singolo carattere (o l'assenza di carattere, a fine stringa) con un token privo di `*`:
 
@@ -112,9 +112,9 @@ flowchart TD
 
 </div>
 
-Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [teoria_costo §2](teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = \|s\|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [teoria_regex §4.5](teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
+Il ramo di salto viene sempre tentato per primo: solo se fallisce si prova a consumare un carattere. Con pattern come `"a*a*a*a*a*a*xyq"` (esempio classico, lo stesso che compare nella traccia del problema) il numero di combinazioni di zero/una ripetizione per ciascuna stella cresce esponenzialmente: nel caso pessimo (vedi [teoria_costo §2](../teoria_computazione/teoria_costo.md#2-caso-pessimo-worst-case)) la complessità è $O(2^{n+m})$, dove $n = \|s\|$ e $m$ è il numero di token — la stessa classe di fenomeno del *catastrophic backtracking* discusso in [teoria_regex §4.5](../teoria_linguaggi/teoria_regex.md#45-catastrophic-backtracking-e-redos): non a caso, i motori regex "veri" a backtracking soffrono esattamente di questo problema.
 
-> **Curiosità:** il sottoinsieme di sintassi usato qui (`.` e `*`) è già valido come regex "vera" in quasi ogni flavor (vedi [teoria_regex §6](teoria_regex.md#6-i-flavor-perché-la-stessa-regex-non-funziona-ovunque)). Si può quindi delegare lo stesso confronto a un motore reale, ancorando con `^...$` per pretendere un match totale invece che parziale:
+> **Curiosità:** il sottoinsieme di sintassi usato qui (`.` e `*`) è già valido come regex "vera" in quasi ogni flavor (vedi [teoria_regex §6](../teoria_linguaggi/teoria_regex.md#6-i-flavor-perché-la-stessa-regex-non-funziona-ovunque)). Si può quindi delegare lo stesso confronto a un motore reale, ancorando con `^...$` per pretendere un match totale invece che parziale:
 > ```r
 > regex_match_motore_vero <- function(s, regex) grepl(paste0("^", regex, "$"), s)
 > regex_match_motore_vero("aab", "aa*b") # TRUE, come regexMatch("aab", "aa*b")
@@ -219,7 +219,7 @@ func regexMatchIterativo(s, regex string) bool {
 }
 ```
 
-Quando `iString == n`, `prefix` è `""` e `matchNoStar` restituisce sempre `false`: l'accesso a `dp[iString+1][...]` nel ramo di consumo non viene mai valutato, perché `&&` in Go è a corto circuito e si ferma al primo operando falso — proprio come già sfruttato in [teoria_chiusure](teoria_chiusure.md) per la valutazione lazy delle espressioni booleane. Non serve quindi nessun controllo esplicito sui bordi della tabella.
+Quando `iString == n`, `prefix` è `""` e `matchNoStar` restituisce sempre `false`: l'accesso a `dp[iString+1][...]` nel ramo di consumo non viene mai valutato, perché `&&` in Go è a corto circuito e si ferma al primo operando falso — proprio come già sfruttato in [teoria_chiusure](../teoria_linguaggi/teoria_chiusure.md) per la valutazione lazy delle espressioni booleane. Non serve quindi nessun controllo esplicito sui bordi della tabella.
 
 Stessa complessità della memoization — $O(n \cdot m)$ in tempo e spazio — ma senza stack di ricorsione, esattamente come [problema_bst §3](problema_bst.md#3-soluzione-programmazione-dinamica-bottom-up) rispetto alla sua versione memoizzata.
 
