@@ -88,11 +88,29 @@ Tutto ciò che riguarda il tema (layout, colori, favicon, toggle) è condiviso e
 
 Per cambiare il layout di *tutti* i repository che lo ereditano basta modificare `_layouts/default.html` in `matteogiorgi/matteogiorgi.github.io` e fare push.
 
-La modifica però **non** si propaga da sola: ogni repository scarica il tema remoto solo quando viene ricompilato, cioè al suo prossimo push. Per applicarla subito a un repository senza modificarne i contenuti, basta forzare una nuova build con un commit vuoto:
-
-```sh
-git commit --allow-empty -m "rebuild with updated theme"
-git push
-```
+Un tema remoto viene scaricato solo quando un repository viene ricompilato, quindi di per sé la modifica arriverebbe a ciascuno solo al suo push successivo. Per questo `matteogiorgi/matteogiorgi.github.io` contiene il workflow `.github/workflows/rebuild-themed-pages.yml`, che ricompila automaticamente tutti i repository che ereditano il tema.
 
 Le modifiche a `style.css`, `mathjax-config.js` e `mermaid-render.js` invece sono immediate, perché questi file vengono richiamati via URL da `geoteo.net` a ogni caricamento della pagina, non durante la build.
+
+
+### 4.1 Come funziona il workflow
+
+Il workflow parte a ogni push su `main` che modifica `_layouts/` (o `_includes/`) e fa due cose:
+
+1. **Scoperta**: elenca i repository non archiviati con GitHub-Pages attivo e ne legge il `_config.yml`; quelli che contengono `remote_theme: matteogiorgi/matteogiorgi.github.io` ereditano il tema. Non c'è una lista da mantenere: un nuovo repository configurato come al [§2.1](#21-configurazione) viene incluso da solo.
+2. **Rebuild**: per ciascuno di questi chiede a GitHub una nuova build di GitHub-Pages, tramite l'API `POST /repos/{owner}/{repo}/pages/builds`. L'effetto è lo stesso di un push, ma senza aggiungere commit ai repository.
+
+Si può anche lanciare a mano da *Actions $\to$ Rebuild themed Pages $\to$ Run workflow*, per esempio per verificare che funzioni.
+
+
+### 4.2 Il token `PAGES_REBUILD_TOKEN`
+
+Il token che GitHub-Actions assegna in automatico a un workflow (`GITHUB_TOKEN`) vale solo per il repository in cui il workflow gira: basta per leggere i `_config.yml` degli altri repository (pubblici), ma non per avviarne la build. Per questo serve un *fine-grained personal access token*, salvato come secret `PAGES_REBUILD_TOKEN` in `matteogiorgi/matteogiorgi.github.io`, con:
+
+- **Repository access**: *All repositories*, così un nuovo repository che eredita il tema funziona senza aggiornare il token;
+- **Permissions**: solo *Pages: Read and write*, quindi il token può avviare build di GitHub-Pages ma non leggere né modificare codice, issue o impostazioni;
+- **Expiration**: un anno.
+
+Per crearlo: *Settings $\to$ Developer settings $\to$ Personal access tokens $\to$ Fine-grained tokens $\to$ Generate new token*. Per salvarlo: nel repository `matteogiorgi/matteogiorgi.github.io`, *Settings $\to$ Secrets and variables $\to$ Actions $\to$ New repository secret*.
+
+Quando il token scade il workflow fallisce (lo si vede nella tab *Actions* e GitHub manda una mail): basta rigenerarlo con *Regenerate token*, che mantiene le stesse impostazioni, e aggiornare il valore del secret.
