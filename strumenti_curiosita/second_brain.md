@@ -179,7 +179,8 @@ Il modo più rapido per partire è lo script [`init.sh`](https://github.com/matt
 Per usare lo script basta scaricare la sua cartella, non l'intero repository:
 
 ```sh
-git clone --depth 1 --filter=blob:none --no-checkout https://github.com/matteogiorgi/geonote.git brain-init
+git clone --depth 1 --filter=blob:none --no-checkout \
+    https://github.com/matteogiorgi/geonote.git brain-init
 cd brain-init
 git sparse-checkout set --no-cone /scripts/second_brain/
 git checkout
