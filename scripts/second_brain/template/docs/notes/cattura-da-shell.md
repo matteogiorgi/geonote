@@ -44,18 +44,39 @@ triage.
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
 #
-# L'archivio è quello che contiene lo script; se lo script non sta in un
-# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
+# L'archivio è quello in cui ci si trova (la cartella corrente o una che
+# la contiene); fuori da un archivio, quello che contiene lo script; se
+# lo script non sta in un archivio (un link simbolico messo altrove),
+# quello in $BRAIN.
 
 set -eu
 
-root="$(dirname "$0")/.."
-[ -d "$root/inbox" ] || root="${BRAIN:-}"
-dir="$root/inbox"
-if [ -z "$root" ] || [ ! -d "$dir" ]; then
-    echo "capture: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+# un archivio ha AGENTS.md, inbox/ e notes/
+is_archive() {
+    [ -f "$1/AGENTS.md" ] && [ -d "$1/inbox" ] && [ -d "$1/notes" ]
+}
+
+root=''
+d=$(pwd -P)
+while :; do
+    if is_archive "$d"; then
+        root=$d
+        break
+    fi
+    [ "$d" != / ] || break
+    d=$(dirname "$d")
+done
+if [ -z "$root" ] && is_archive "$(dirname "$0")/.."; then
+    root="$(dirname "$0")/.."
+fi
+if [ -z "$root" ] && [ -n "${BRAIN:-}" ] && is_archive "$BRAIN"; then
+    root=$BRAIN
+fi
+if [ -z "$root" ]; then
+    echo "capture: archivio non trovato (né qui, né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
+dir="$root/inbox"
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
 
 if [ $# -gt 0 ]; then
@@ -87,10 +108,11 @@ Il nome del file unisce data, ora e PID, così due catture nello stesso
 secondo non si sovrascrivono. Un appunto vuoto (editor chiuso senza
 salvare, pipe senza output) non lascia file.
 
-L'archivio è quello che contiene lo script; solo se lo script non sta
-in un archivio (per esempio è un link simbolico messo altrove) si usa
-`$BRAIN`. Così, con più archivi, ognuno usa i propri script. Se non
-trova un archivio, lo script si ferma con un errore invece di creare
+L'archivio è quello in cui ci si trova (la cartella corrente o una che
+la contiene); fuori da un archivio, quello che contiene lo script; se
+lo script non sta in un archivio, quello in `$BRAIN`. Così, con più
+archivi, `capture` lanciato dentro uno di essi scrive lì. Se non trova
+un archivio, lo script si ferma con un errore invece di creare
 un'inbox nel posto sbagliato.
 
 ## Installazione

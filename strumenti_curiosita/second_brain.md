@@ -533,14 +533,36 @@ I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano
 #!/bin/sh
 # links: elenca link rotti e note orfane dell'archivio
 #
-# L'archivio è quello che contiene lo script; se lo script non sta in un
-# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
+# L'archivio è quello in cui ci si trova (la cartella corrente o una che
+# la contiene); fuori da un archivio, quello che contiene lo script; se
+# lo script non sta in un archivio (un link simbolico messo altrove),
+# quello in $BRAIN.
 
 set -eu
-root="$(dirname "$0")/.."
-[ -d "$root/notes" ] || root="${BRAIN:-}"
-if [ -z "$root" ] || [ ! -d "$root/notes" ]; then
-    echo "links: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+
+# un archivio ha AGENTS.md, inbox/ e notes/
+is_archive() {
+    [ -f "$1/AGENTS.md" ] && [ -d "$1/inbox" ] && [ -d "$1/notes" ]
+}
+
+root=''
+d=$(pwd -P)
+while :; do
+    if is_archive "$d"; then
+        root=$d
+        break
+    fi
+    [ "$d" != / ] || break
+    d=$(dirname "$d")
+done
+if [ -z "$root" ] && is_archive "$(dirname "$0")/.."; then
+    root="$(dirname "$0")/.."
+fi
+if [ -z "$root" ] && [ -n "${BRAIN:-}" ] && is_archive "$BRAIN"; then
+    root=$BRAIN
+fi
+if [ -z "$root" ]; then
+    echo "links: archivio non trovato (né qui, né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
 cd "$root"
@@ -572,7 +594,7 @@ for f in $notes; do
 done
 ```
 
-Come `capture` (§6.2), lavora sull'archivio che contiene lo script, o su `$BRAIN` se lo script non sta in un archivio. Legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
+Come `capture` (§6.2), trova da solo l'archivio su cui lavorare: quello in cui ci si trova, poi quello che contiene lo script, poi `$BRAIN`. Legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
 
 ```
 rotto:  notes/sola.md -> ../notes/nonc.md
@@ -610,18 +632,39 @@ Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra 
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
 #
-# L'archivio è quello che contiene lo script; se lo script non sta in un
-# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
+# L'archivio è quello in cui ci si trova (la cartella corrente o una che
+# la contiene); fuori da un archivio, quello che contiene lo script; se
+# lo script non sta in un archivio (un link simbolico messo altrove),
+# quello in $BRAIN.
 
 set -eu
 
-root="$(dirname "$0")/.."
-[ -d "$root/inbox" ] || root="${BRAIN:-}"
-dir="$root/inbox"
-if [ -z "$root" ] || [ ! -d "$dir" ]; then
-    echo "capture: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+# un archivio ha AGENTS.md, inbox/ e notes/
+is_archive() {
+    [ -f "$1/AGENTS.md" ] && [ -d "$1/inbox" ] && [ -d "$1/notes" ]
+}
+
+root=''
+d=$(pwd -P)
+while :; do
+    if is_archive "$d"; then
+        root=$d
+        break
+    fi
+    [ "$d" != / ] || break
+    d=$(dirname "$d")
+done
+if [ -z "$root" ] && is_archive "$(dirname "$0")/.."; then
+    root="$(dirname "$0")/.."
+fi
+if [ -z "$root" ] && [ -n "${BRAIN:-}" ] && is_archive "$BRAIN"; then
+    root=$BRAIN
+fi
+if [ -z "$root" ]; then
+    echo "capture: archivio non trovato (né qui, né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
+dir="$root/inbox"
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
 
 if [ $# -gt 0 ]; then
@@ -650,7 +693,7 @@ Lo script sceglie il modo d'uso in base a cosa riceve:
 
 Alcuni dettagli:
 
-- l'archivio è quello che contiene lo script (`bin/..`, riconosciuto dalla presenza di `inbox/`): con più archivi, ognuno usa i propri script. Solo se lo script non sta in un archivio, per esempio un link simbolico messo in `~/.local/bin`, si usa `$BRAIN`. Se non trova un archivio da nessuna parte, lo script si ferma con un errore invece di creare di nascosto un'inbox nel posto sbagliato;
+- l'archivio è, nell'ordine: quello in cui ci si trova, cioè la cartella corrente o una che la contiene; fuori da un archivio, quello che contiene lo script (`bin/..`); se lo script non sta in un archivio, per esempio un link simbolico messo in `~/.local/bin`, quello in `$BRAIN`. Una cartella conta come archivio se ha `AGENTS.md`, `inbox/` e `notes/`. Se non trova un archivio da nessuna parte, lo script si ferma con un errore invece di creare di nascosto un'inbox nel posto sbagliato;
 - il nome unisce data, ora e **PID** (`$$`): due catture nello stesso secondo, da processi diversi, non si sovrascrivono;
 - un appunto vuoto (editor chiuso senza salvare, pipe senza output) **non lascia file**, grazie al test `-s` (file esistente e non vuoto);
 - `set -eu` ferma lo script al primo errore o alla prima variabile non definita, invece di proseguire in silenzio;
@@ -659,14 +702,14 @@ Alcuni dettagli:
 
 ### 6.3 Installazione ed esempi
 
-Per usare `capture` da qualunque terminale basta aggiungere `bin/` al `PATH`. Conviene anche esportare `BRAIN`: rende esplicito dove sta l'archivio, e serve all'adattatore per Vim (§7.1). `init.sh` (§2.1) aggiunge da sé queste righe in fondo a `~/.profile`; a mano, vanno nel profilo della shell:
+Per usare `capture` da qualunque terminale basta aggiungere `bin/` al `PATH`. Conviene anche esportare `BRAIN`: serve all'adattatore per Vim (§7.1) e agli script lanciati tramite un link simbolico (§6.2). `init.sh` (§2.1) aggiunge da sé queste righe in fondo a `~/.profile`; a mano, vanno nel profilo della shell:
 
 ```sh
 export BRAIN="$HOME/brain"
 PATH="$BRAIN/bin:$PATH"
 ```
 
-Con più archivi, `BRAIN` e `PATH` indicano quello predefinito: `capture` lanciato per nome scrive lì, e l'adattatore per Vim si applica a quello. Gli altri si usano con il percorso dei loro script, per esempio `~/lavoro/brain/bin/capture`, o con un alias.
+Con più archivi, `BRAIN` e `PATH` indicano quello predefinito, ma gli archivi restano equivalenti: `capture` e `links` lanciati dentro un archivio lavorano su quello, e solo lanciati da fuori usano il predefinito, perché per nome si lancia la copia nel suo `bin/`, che è nel `PATH`. Quindi `cd ~/lavoro/brain && capture "idea"` scrive nell'inbox di `~/lavoro/brain`, mentre `capture "idea"` da una cartella qualsiasi scrive in quello predefinito. Solo l'adattatore per Vim resta legato a `$BRAIN` (§7.1).
 
 Il profilo si legge al login: per usarlo subito nella shell corrente basta `. ~/.profile`. Se al login la shell legge un altro file, come `~/.bash_profile` per bash o `~/.zprofile` per zsh, le righe vanno lì. Se l'archivio è stato creato a mano, gli script vanno anche resi eseguibili:
 

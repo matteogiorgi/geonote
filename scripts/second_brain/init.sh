@@ -138,7 +138,7 @@ step() {
 echo
 echo "Fatto. Prossimi passi:"
 [ -z "$added" ] || step "rifare il login, o caricare subito il profilo: . ~/.profile"
-[ -z "$other" ] || step "archivio non predefinito, i suoi script si lanciano con il percorso: $dest/bin/capture"
+[ -z "$other" ] || step "archivio non predefinito: capture e links lo usano quando li si lancia da dentro la sua cartella"
 if [ -n "$vim" ]; then
     step "nel vimrc: execute 'source' \$BRAIN . '/editors/vim/brain.vim'"
     step "con tmux, in ~/.tmux.conf: set -g focus-events on"

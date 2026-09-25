@@ -1,14 +1,36 @@
 #!/bin/sh
 # links: elenca link rotti e note orfane dell'archivio
 #
-# L'archivio è quello che contiene lo script; se lo script non sta in un
-# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
+# L'archivio è quello in cui ci si trova (la cartella corrente o una che
+# la contiene); fuori da un archivio, quello che contiene lo script; se
+# lo script non sta in un archivio (un link simbolico messo altrove),
+# quello in $BRAIN.
 
 set -eu
-root="$(dirname "$0")/.."
-[ -d "$root/notes" ] || root="${BRAIN:-}"
-if [ -z "$root" ] || [ ! -d "$root/notes" ]; then
-    echo "links: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+
+# un archivio ha AGENTS.md, inbox/ e notes/
+is_archive() {
+    [ -f "$1/AGENTS.md" ] && [ -d "$1/inbox" ] && [ -d "$1/notes" ]
+}
+
+root=''
+d=$(pwd -P)
+while :; do
+    if is_archive "$d"; then
+        root=$d
+        break
+    fi
+    [ "$d" != / ] || break
+    d=$(dirname "$d")
+done
+if [ -z "$root" ] && is_archive "$(dirname "$0")/.."; then
+    root="$(dirname "$0")/.."
+fi
+if [ -z "$root" ] && [ -n "${BRAIN:-}" ] && is_archive "$BRAIN"; then
+    root=$BRAIN
+fi
+if [ -z "$root" ]; then
+    echo "links: archivio non trovato (né qui, né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
 cd "$root"
