@@ -197,7 +197,17 @@ Lo script segue le stesse regole che il sistema dà all'agente:
 - **non tocca nulla fuori dall'archivio**: le righe da aggiungere al profilo della shell (§6.3) le stampa, non le scrive;
 - **non fa commit**: crea il repository con `git init` se manca, mette un `.gitkeep` nelle cartelle vuote (git traccia file, non directory) e rende eseguibili gli script di `bin/`, ma il primo commit resta all'utente, come ogni altro.
 
-I file in `template/` sono i testi completi di ciò che i §4–§7 descrivono: `AGENTS.md`, i tre workflow, i comandi di Claude Code, gli script `capture` e `links`, l'adattatore per Vim. Sono un punto di partenza, non una versione definitiva: `AGENTS.md` va completato con ciò che l'agente deve sapere del proprio archivio, e tutti i file si correggono nel tempo (§9).
+I file in `template/` sono i testi completi di ciò che i §4–§7 descrivono: `AGENTS.md`, i tre workflow, i comandi di Claude Code, gli script `capture` e `links`, l'adattatore per Vim. Sono un punto di partenza, non una versione definitiva, e vanno corretti nel tempo (§9).
+
+Dopo lo script restano alcuni passi che `init.sh` non fa da sé, perché toccano file fuori dall'archivio o, come il commit e la revisione di `AGENTS.md`, spettano all'utente. Lo script li elenca alla fine del suo output, con i percorsi già compilati:
+
+1. **Profilo della shell** — esportare `BRAIN` e aggiungere `bin/` al `PATH`, poi aprire una shell nuova (§6.3).
+2. **Vim**, con `--vim` — caricare l'adattatore dal `vimrc` e, se si usa tmux, attivare `focus-events` (§7.1).
+3. **Claude Code**, con `--claude` — lanciarlo dentro la cartella dell'archivio, così legge `CLAUDE.md` e offre `/triage`, `/ask` e `/connect` (§4.5).
+4. **`AGENTS.md`** — rileggerlo e completarlo con ciò che l'agente deve sapere del proprio archivio (§4.3). Funziona anche così com'è: è un raffinamento, non un requisito per partire.
+5. **Primo commit** — `git add -A && git commit`.
+
+Da quel momento il ciclo del §8 può partire: `capture` per la prima idea, `triage` per smistarla.
 
 Senza lo script, lo stesso scheletro si crea a mano:
 
@@ -208,7 +218,7 @@ cd brain && git init
 find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \;
 ```
 
-e poi si scrivono `AGENTS.md`, i workflow e gli adattatori seguendo i §4–§7.
+e poi si scrivono `AGENTS.md`, i workflow, gli script di `bin/` e gli adattatori seguendo i §4–§7.
 
 
 
@@ -339,7 +349,7 @@ con uguaglianza solo se in una sessione si usano tutti i workflow. Il vantaggio 
 
 Contiene, in quest'ordine:
 
-1. **Scopo** — due righe su cosa è l'archivio e a chi serve.
+1. **Scopo** — poche righe su cosa è l'archivio e a chi serve.
 2. **Struttura** — le cartelle e a cosa serve ciascuna.
 3. **Formato** — un riassunto operativo delle regole del §3, con rimando alla nota sul formato come fonte completa.
 4. **Regole ferme** — ciò che l'agente non fa mai.
@@ -500,7 +510,7 @@ I collegamenti aggiunti vanno **in entrambe le direzioni**: se si aggiunge $(u, 
 
 `connect` è il più prudente dei tre: presenta i risultati e **aspetta conferma** prima di modificare, non corregge da solo i link rotti (propone la correzione, magari indicando un file con nome simile) e non crea note per colmare lacune (le segnala). Il motivo è che tocca molte note in una volta, e un collegamento sbagliato è più difficile da notare di una nota sbagliata. Meglio pochi collegamenti significativi che molti deboli.
 
-I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano" del §4.4 si può spingere fino a uno script POSIX che li fa senza agente. È `bin/links`, creato da `init.sh` (§2.1), e il workflow `connect` lo usa per i primi due passi:
+I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano" del §4.4 si può spingere fino a uno script POSIX che li fa senza agente. È `bin/links`, creato da `init.sh` (§2.1), e il workflow `connect` può usarlo per i primi due passi:
 
 ```sh
 #!/bin/sh

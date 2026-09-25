@@ -101,17 +101,42 @@ else
     echo "git: non installato, repository non creato" >&2
 fi
 
+# prossimi passi, secondo le opzioni scelte
+n=0
+step() {
+    n=$((n + 1))
+    printf '\n  %d. %s\n' "$n" "$1"
+}
+
+echo
+echo "Fatto. Prossimi passi:"
+
+step "nel profilo della shell (~/.profile, ~/.bashrc, ...), poi aprire una shell nuova:"
 cat <<EOF
-
-Fatto. Prossimi passi:
-
-  1. nel profilo della shell (~/.profile, ~/.bashrc, ...):
 
        export BRAIN="$dest"
        PATH="\$BRAIN/bin:\$PATH"
+EOF
 
-  2. rileggere AGENTS.md e completarlo con ciò che l'agente deve sapere
-  3. primo commit:
+if [ -n "$vim" ]; then
+    step "nel vimrc, per caricare l'adattatore:"
+    cat <<'EOF'
+
+       execute 'source' $BRAIN . '/editors/vim/brain.vim'
+
+     e, se si usa tmux, in ~/.tmux.conf:
+
+       set -g focus-events on
+EOF
+fi
+
+if [ -n "$claude" ]; then
+    step "lanciare Claude Code dentro l'archivio: legge CLAUDE.md e offre /triage, /ask e /connect"
+fi
+
+step "rileggere AGENTS.md e completarlo con ciò che l'agente deve sapere"
+step "primo commit:"
+cat <<EOF
 
        cd "$dest" && git add -A && git commit -m "Archivio iniziale"
 EOF
