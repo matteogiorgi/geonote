@@ -25,20 +25,26 @@ Tutti i file di `inbox/`, esclusi i file nascosti.
    - **Chiedere**: se l'appunto è ambiguo, troppo breve per capirne il
      senso, o potrebbe andare in più posti, non decidere: mettilo nella
      lista delle domande.
-4. Per ogni nota creata o modificata, cerca note correlate e aggiungi i
+4. Se il contenuto viene da una fonte (un libro, una lezione, un file
+   passato dall'utente), compila `source` nella nota.
+5. Per ogni nota creata o modificata, cerca note correlate e aggiungi i
    collegamenti in entrambe le direzioni, nella sezione `## Collegamenti`
    o nel testo dove il riferimento è naturale.
-5. Sposta ogni appunto smistato in `archive/inbox/`, con lo stesso nome.
-   Gli appunti in attesa di risposta restano in `inbox/`.
+6. Sposta ogni appunto smistato in `archive/inbox/`, con lo stesso nome.
+   Gli appunti in attesa di risposta restano in `inbox/`. Un file che
+   non è testo (un PDF, un'immagine) non va in `archive/inbox/`: lascialo
+   dov'è e segnalalo nel riepilogo.
 
 ## Output
 
-Un riepilogo in tre parti:
+Un riepilogo in tre parti, più una quarta se serve:
 
 - appunti smistati: per ciascuno, la nota creata o integrata;
 - collegamenti aggiunti: coppie di note;
 - domande: per ogni appunto rimasto in `inbox/`, cosa serve sapere per
-  smistarlo.
+  smistarlo;
+- fonti non di testo: quali file l'utente deve conservare fuori
+  dall'archivio.
 
 ## Vincoli
 

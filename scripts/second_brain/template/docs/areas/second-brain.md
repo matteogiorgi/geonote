@@ -43,6 +43,7 @@ brain/
 ├── archive/           # note ritirate: qui non si cancella, si sposta
 │   └── inbox/         # appunti originali già smistati
 ├── workflows/         # procedure in prosa, leggibili da persone e agenti
+├── answers/           # risposte di ask salvate su richiesta, fuori da git
 ├── bin/               # script POSIX: capture, links
 ├── editors/           # adattatori editor (vim/, ...)
 └── .claude/

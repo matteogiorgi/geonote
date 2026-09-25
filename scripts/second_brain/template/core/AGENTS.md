@@ -20,6 +20,8 @@ qui sotto.
 - `archive/`: note ritirate; `archive/inbox/` per gli appunti originali
   già smistati.
 - `workflows/`: procedure da eseguire su richiesta.
+- `answers/`: risposte del workflow `ask` salvate su richiesta, escluse
+  da git. Non sono note: non cercarci e non linkarle.
 - `bin/`: script di supporto (`capture`, `links`). Puoi eseguirli, non
   modificarli.
 - `editors/`, `CLAUDE.md`, `.claude/` e altri file di configurazione
@@ -35,6 +37,10 @@ sintesi:
   `archive/inbox/`: `title`, `tags` (lista, minuscolo, kebab-case,
   ASCII), `created` (AAAA-MM-GG).
   Facoltativi: `updated`, `source`. Nessun altro campo.
+- `source`: quando il contenuto viene da una fonte (libro, articolo,
+  lezione, file passato dall'utente), descrivila in modo da poterla
+  ritrovare: autore, titolo, capitolo, URL o data della lezione. Mai un
+  percorso di file.
 - Un solo titolo di livello 1, uguale a `title`; sezioni di livello 2.
 - Link Markdown relativi al file corrente, con estensione:
   `[testo](altra-nota.md)`, `[testo](../areas/nota.md)`. Mai wikilink,
@@ -50,6 +56,8 @@ sintesi:
 - Non cancellare mai file: sposta in `archive/`.
 - Non creare link verso note inesistenti.
 - Non modificare file fuori da questa cartella.
+- Non copiare nell'archivio file che non sono testo (PDF, immagini,
+  audio): il loro contenuto va nelle note, gli originali restano fuori.
 - Non modificare file di configurazione degli strumenti senza richiesta
   esplicita.
 - Non fare commit: lascia le modifiche da rivedere con `git diff`.

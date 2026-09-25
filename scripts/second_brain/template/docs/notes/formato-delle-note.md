@@ -48,6 +48,12 @@ Campi facoltativi, solo quando servono: `updated` (data dell'ultima
 revisione sostanziale), `source` (libro, articolo, lezione da cui viene
 il contenuto).
 
+`source` è una descrizione che permette di ritrovare la fonte (autore,
+titolo, capitolo, URL, data della lezione), non un percorso di file. Il
+file della fonte non entra nell'archivio: se è reperibile altrove basta
+il riferimento, se è insostituibile (appunti propri, foto della lavagna)
+si conserva fuori, con un normale backup.
+
 Nessun altro campo senza aggiornare prima questa nota.
 
 ## Link

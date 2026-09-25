@@ -11,7 +11,7 @@ Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: ri
 
 - **Nucleo e adattatori** — il principio architetturale: cosa sta nel nucleo, cosa è un adattatore ([§1](#1-il-principio-nucleo-e-adattatori)).
 - **Struttura delle cartelle** — dove vive ogni cosa, con le note tenute piatte, e come crearla con `init.sh` ([§2](#2-la-struttura-dellarchivio)).
-- **Formato delle note** — le convenzioni rigide: nomi, frontmatter, link relativi, estensioni ammesse ([§3](#3-il-formato-delle-note)).
+- **Formato delle note** — le convenzioni rigide: nomi, frontmatter, link relativi, estensioni ammesse, fonti ([§3](#3-il-formato-delle-note)).
 - **`AGENTS.md` e `workflows/`** — le istruzioni per gli agenti, scritte in un file neutro e in prosa ([§4](#4-istruzioni-agent-agnostiche)).
 - **Triage, ask, connect** — le tre procedure con cui l'agente lavora sull'archivio ([§5](#5-i-tre-workflow)).
 - **Cattura** — lo script POSIX che fa entrare le idee nel sistema senza editor né agente ([§6](#6-la-cattura-da-shell)).
@@ -139,24 +139,26 @@ brain/
 ├── archive/           # note ritirate: qui non si cancella, si sposta
 │   └── inbox/         # appunti originali già smistati
 ├── workflows/         # procedure in prosa, leggibili da persone e agenti
+├── answers/           # risposte di ask salvate su richiesta, fuori da git
 ├── bin/               # script POSIX (capture, links)
 ├── editors/           # adattatori editor (vim/, ...)
 └── .claude/
     └── commands/      # adattatori: ogni comando rimanda a un workflow
 ```
 
-| Cartella     | Contenuto                               | Livello    | Formato imposto        |
-|--------------|-----------------------------------------|------------|------------------------|
-| `inbox/`     | appunti grezzi                          | nucleo     | no (nome a timestamp)  |
-| `notes/`     | note atomiche, destinazione predefinita | nucleo     | sì                     |
-| `projects/`  | note legate a qualcosa con una fine     | nucleo     | sì                     |
-| `areas/`     | responsabilità continue                 | nucleo     | sì                     |
-| `journal/`   | note giornaliere                        | nucleo     | sì (`AAAA-MM-GG.md`)   |
-| `archive/`   | note ritirate e appunti già smistati    | nucleo     | quello d'origine       |
-| `workflows/` | procedure                               | nucleo     | struttura fissa (§4.4) |
-| `bin/`       | script                                  | nucleo     | shell POSIX            |
-| `editors/`   | configurazioni per editor               | adattatore | quello dell'editor     |
-| `.claude/`   | comandi per Claude Code                 | adattatore | quello dell'agente     |
+| Cartella     | Contenuto                                     | Livello      | Formato imposto        |
+|--------------|-----------------------------------------------|--------------|------------------------|
+| `inbox/`     | appunti grezzi                                | nucleo       | no (nome a timestamp)  |
+| `notes/`     | note atomiche, destinazione predefinita       | nucleo       | sì                     |
+| `projects/`  | note legate a qualcosa con una fine           | nucleo       | sì                     |
+| `areas/`     | responsabilità continue                       | nucleo       | sì                     |
+| `journal/`   | note giornaliere                              | nucleo       | sì (`AAAA-MM-GG.md`)   |
+| `archive/`   | note ritirate e appunti già smistati          | nucleo       | quello d'origine       |
+| `workflows/` | procedure                                     | nucleo       | struttura fissa (§4.4) |
+| `answers/`   | risposte di `ask` salvate su richiesta (§5.2) | fuori da git | Markdown               |
+| `bin/`       | script                                        | nucleo       | shell POSIX            |
+| `editors/`   | configurazioni per editor                     | adattatore   | quello dell'editor     |
+| `.claude/`   | comandi per Claude Code                       | adattatore   | quello dell'agente     |
 
 La divisione `projects/` / `areas/` / `archive/` riprende il metodo *PARA* (*Projects, Areas, Resources, Archive*) di Tiago Forte, semplificato: le "risorse" diventano `notes/`, e si aggiungono `inbox/` e `journal/`.
 
@@ -167,12 +169,12 @@ Le note dentro `notes/` stanno **tutte allo stesso livello**, senza sottocartell
 
 Il modo più rapido per partire è lo script [`init.sh`](https://github.com/matteogiorgi/geonote/tree/main/scripts/second_brain), che sta in `scripts/second_brain/` di questo repository insieme ai modelli dei file. I modelli, in `template/`, sono divisi in livelli che ricalcano la separazione fra nucleo e adattatori:
 
-| Livello  | Opzione    | Cosa crea                                                                                 |
-|----------|------------|-------------------------------------------------------------------------------------------|
-| `core`   | sempre     | le cartelle, `AGENTS.md`, `workflows/` (triage, ask, connect), `bin/capture`, `bin/links` |
-| `claude` | `--claude` | `CLAUDE.md` e `.claude/commands/` (`/triage`, `/ask`, `/connect`)                         |
-| `vim`    | `--vim`    | `editors/vim/brain.vim`                                                                   |
-| `docs`   | `--docs`   | `areas/second-brain.md` e quattro note in `notes/` che documentano il sistema             |
+| Livello  | Opzione    | Cosa crea                                                                                               |
+|----------|------------|---------------------------------------------------------------------------------------------------------|
+| `core`   | sempre     | le cartelle, `AGENTS.md`, `.gitignore`, `workflows/` (triage, ask, connect), `bin/capture`, `bin/links` |
+| `claude` | `--claude` | `CLAUDE.md` e `.claude/commands/` (`/triage`, `/ask`, `/connect`)                                       |
+| `vim`    | `--vim`    | `editors/vim/brain.vim`                                                                                 |
+| `docs`   | `--docs`   | `areas/second-brain.md` e quattro note in `notes/` che documentano il sistema                           |
 
 `--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è obbligatoria e può stare ovunque. Si possono creare più archivi indipendenti, ognuno nella sua cartella: il primo diventa quello predefinito (§6.3).
 
@@ -302,6 +304,20 @@ Il testo va a capo a mano intorno alle **72 colonne**, come un messaggio di comm
 Con le 72 colonne, invece, la stessa correzione allunga la riga, e riportarla entro il margine può far scorrere il resto del paragrafo e sporcare il diff su più righe. La scelta qui è per le 72 colonne, più leggibili come testo; è una delle decisioni da prendere prima di scrivere la prima nota, perché cambiarla dopo tocca tutto l'archivio.
 
 
+### 3.6 Fonti
+
+Molto contenuto arriva da una fonte: un libro, un articolo, una lezione, il PDF dei propri appunti passato all'agente. La nota indica la fonte nel campo `source`, con una **descrizione** che permette di ritrovarla, non con un percorso di file, perché i percorsi cambiano:
+
+```yaml
+source: appunti di lezione, Metodi stocastici, 25/09/2026
+```
+
+Il file della fonte invece **non entra nell'archivio**. Nel nucleo va solo testo, e git gestisce male i binari: un PDF non ha un diff leggibile, e ogni sua versione resta nella storia per sempre, così in pochi anni il repository diventa pesante da clonare e da spostare. Cosa farne dipende dalla fonte:
+
+- **reperibile altrove** (un libro, il PDF del docente, una pagina web): basta il riferimento in `source`, il file si può buttare;
+- **insostituibile** (i propri appunti di lezione, la foto di una lavagna, una registrazione): si conserva fuori dall'archivio, per esempio in `~/Documents/fonti/<corso>/`, con un normale backup. La nota è una sintesi, e l'originale serve per controllare una formula o un passaggio che il triage può aver riformulato male.
+
+
 
 
 ## 4. Istruzioni agent-agnostiche
@@ -353,6 +369,8 @@ Le regole ferme sono il cuore del file:
 - Non cancellare mai file: sposta in `archive/`.
 - Non creare link verso note inesistenti.
 - Non modificare file fuori da questa cartella.
+- Non copiare nell'archivio file che non sono testo (PDF, immagini,
+  audio): il loro contenuto va nelle note, gli originali restano fuori.
 - Non modificare file di configurazione degli strumenti senza richiesta
   esplicita.
 - Non fare commit: lascia le modifiche da rivedere con `git diff`.
@@ -438,11 +456,11 @@ sequenceDiagram
 
 Si parte con tre workflow, non con venti: uno per far entrare le idee nell'archivio, uno per ritrovarle, uno per tenere sana la rete dei collegamenti.
 
-| Workflow  | Scopo                                  | Modifica file          | Chiede conferma                         |
-|-----------|----------------------------------------|------------------------|-----------------------------------------|
-| `triage`  | svuotare `inbox/` in note vere         | sì                     | no, ma fa domande sugli appunti ambigui |
-| `ask`     | rispondere usando le note come fonte   | no, sola lettura       | no                                      |
-| `connect` | link rotti, note orfane, link mancanti | sì, solo dopo conferma | sempre, prima di modificare             |
+| Workflow  | Scopo                                  | Modifica file                      | Chiede conferma                         |
+|-----------|----------------------------------------|------------------------------------|-----------------------------------------|
+| `triage`  | svuotare `inbox/` in note vere         | sì                                 | no, ma fa domande sugli appunti ambigui |
+| `ask`     | rispondere usando le note come fonte   | no (solo `answers/`, su richiesta) | no                                      |
+| `connect` | link rotti, note orfane, link mancanti | sì, solo dopo conferma             | sempre, prima di modificare             |
 
 
 ### 5.1 Triage
@@ -463,9 +481,9 @@ flowchart TD
     LNK --> ARC["Sposta l'originale<br/>in archive/inbox/"]
 ```
 
-Gli originali finiscono in `archive/inbox/` e non in `archive/`, per non mescolare appunti grezzi e note ritirate; gli appunti in attesa di risposta restano in `inbox/`. L'output è un riepilogo in tre parti: appunti smistati con la nota di destinazione, collegamenti aggiunti, domande aperte.
+Gli originali finiscono in `archive/inbox/` e non in `archive/`, per non mescolare appunti grezzi e note ritirate; gli appunti in attesa di risposta restano in `inbox/`. Se in `inbox/` finisce comunque un file che non è testo, come un PDF, il triage non lo archivia: lo segnala, perché l'utente lo conservi fuori dall'archivio (§3.6). L'output è un riepilogo: appunti smistati con la nota di destinazione, collegamenti aggiunti, domande aperte e, se ce ne sono, fonti da conservare fuori.
 
-I vincoli impediscono le derive più comuni: l'agente **riformula ma non aggiunge** informazioni che non c'erano; un appunto di una sola riga senza contesto non diventa una nota nuova; `title` e nome del file descrivono il contenuto, non la data o l'origine dell'appunto.
+Quando un appunto viene da una fonte, l'agente la indica nel campo `source` della nota. I vincoli impediscono le derive più comuni: l'agente **riformula ma non aggiunge** informazioni che non c'erano; un appunto di una sola riga senza contesto non diventa una nota nuova; `title` e nome del file descrivono il contenuto, non la data o l'origine dell'appunto.
 
 
 ### 5.2 Ask
@@ -477,12 +495,16 @@ I vincoli impediscono le derive più comuni: l'agente **riformula ma non aggiung
 3. leggere per intero le note rilevanti e seguirne i collegamenti **per un livello**;
 4. comporre la risposta a partire da ciò che dicono le note.
 
-Tre scelte lo rendono affidabile. È **in sola lettura**: non crea, modifica né sposta file. **Separa** esplicitamente ciò che dicono le note dalla conoscenza generale dell'agente, che può comparire solo in una parte dichiarata come tale. E **cita** ogni affermazione con il percorso della nota da cui viene (`notes/processi-poisson-composti.md`), segnalando anche le **lacune** (cosa manca per rispondere bene) e le **contraddizioni** (note che dicono cose incompatibili): spesso sono la parte più utile della risposta.
+Tre scelte lo rendono affidabile. È **in sola lettura**: non crea, modifica né sposta note. **Separa** esplicitamente ciò che dicono le note dalla conoscenza generale dell'agente, che può comparire solo in una parte dichiarata come tale. E **cita** ogni affermazione con il percorso della nota da cui viene (`notes/processi-poisson-composti.md`), segnalando anche le **lacune** (cosa manca per rispondere bene) e le **contraddizioni** (note che dicono cose incompatibili): spesso sono la parte più utile della risposta.
+
+**Formule, diagrammi e codice.** Molte interfacce di chat non disegnano la matematica: il pannello di Claude Code in VS Code, per esempio, mostra `$$...$$` come testo grezzo, e il Markdown tratta i backslash come escape, così `\,` diventa `,` e la formula non si legge nemmeno come sorgente. Per questo, in chat, `ask` mette le formule in blocchi di codice `latex` (quelle brevi dentro il testo in codice inline), i diagrammi in blocchi `mermaid` e il codice in blocchi con il nome del linguaggio: il sorgente resta intatto e leggibile, anche se non viene disegnato.
+
+Quando serve vedere tutto disegnato, si chiede di **salvare la risposta**: l'agente la scrive anche in `answers/AAAA-MM-GG-argomento.md` (argomento in kebab-case, come i nomi del §3.1), in Markdown normale, da aprire con l'anteprima di VS Code (la matematica è integrata, Mermaid richiede l'estensione *Markdown Preview Mermaid Support*) o da convertire in PDF con pandoc. Un `.gitignore` esclude `answers/` da git: le risposte sono usa e getta, e ciò che vale la pena tenere si cattura in `inbox/` come un appunto qualsiasi. È l'unico file che `ask` scrive.
 
 
 ### 5.3 Connect
 
-`connect` lavora sul **grafo dei collegamenti**. Sia $V$ l'insieme di tutte le note dell'archivio, `archive/` compreso, e $E \subseteq V \times V$ l'insieme dei link che partono da note fuori da `archive/`, con $(u, v) \in E$ se la nota $u$ contiene un link a $v$: una nota ritirata non tiene in vita nessuno. Il controllo riguarda un **ambito** $S \subseteq V$ indicato dall'utente (una nota, una cartella, un tag, o l'intero archivio escluso `archive/`), e cerca tre cose:
+`connect` lavora sul **grafo dei collegamenti**. Sia $V$ l'insieme di tutte le note dell'archivio, `archive/` compreso, e $E \subseteq V \times V$ l'insieme dei link che partono da note fuori da `archive/`, con $(u, v) \in E$ se la nota $u$ contiene un link a $v$: una nota ritirata non tiene in vita nessuno. Il controllo riguarda un **ambito** $S \subseteq V$ indicato dall'utente (una nota, una cartella, un tag, o tutte le note fuori da `archive/`), e cerca tre cose:
 
 - **link rotti**: link in una nota $u \in S$ verso un percorso $t$ con $t \notin V$, cioè verso un file che non esiste;
 - **note orfane**: note $v \in S$ che nessun'altra nota linka, cioè con grado entrante nullo,
@@ -565,7 +587,7 @@ Per lo stesso motivo la cattura non dipende né dall'editor né dall'agente: dev
 
 > **Un file di testo che compare in `inbox/` è un appunto.**
 
-Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra via che deposita un file in `inbox/` (una sincronizzazione dal telefono, un'email salvata, un file copiato a mano) è una cattura valida, e si aggiunge senza toccare il resto del sistema. I file in `inbox/` sono esentati dal formato: niente frontmatter, nome a timestamp. Diventano note vere solo dopo il triage.
+Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra via che deposita un file in `inbox/` (una sincronizzazione dal telefono, un'email salvata, un file copiato a mano) è una cattura valida, e si aggiunge senza toccare il resto del sistema. I file in `inbox/` sono esentati dal formato: niente frontmatter, nome a timestamp. Diventano note vere solo dopo il triage. Il materiale che non è testo, come il PDF di una lezione, si passa invece direttamente all'agente: il contenuto finisce nelle note, l'originale resta fuori dall'archivio (§3.6).
 
 
 ### 6.2 Lo script
@@ -790,19 +812,21 @@ Infine, un consiglio che vale più di ogni convenzione: **partire con la struttu
 
 ## 10. Riepilogo delle scelte
 
-| Scelta                             | Alternativa scartata              | Motivo                                                                |
-|------------------------------------|-----------------------------------|-----------------------------------------------------------------------|
-| link relativi con estensione       | `[[wikilink]]`                    | Markdown puro: GitHub, pandoc, `gf` li capiscono senza estensioni     |
-| nomi ASCII in kebab-case           | nomi liberi con spazi e accenti   | sicuri in shell, uguali su ogni file system                           |
-| note piatte in `notes/`            | sottocartelle per argomento       | un'idea ha più argomenti; una nota che non si sposta non rompe i link |
-| frontmatter di tre campi           | metadati ricchi                   | ogni campo è da mantenere su tutto l'archivio                         |
-| a capo a 72 colonne                | una frase per riga                | leggibile come testo; diff un po' meno puliti                         |
-| `AGENTS.md` + `workflows/`         | `CLAUDE.md` + `.claude/commands/` | le istruzioni sono nucleo, non proprietà di un agente                 |
-| workflow in prosa                  | configurazione strutturata        | la prosa la capiscono tutti gli agenti, e la può seguire una persona  |
-| l'agente non committa              | commit automatici                 | la revisione del diff è il meccanismo con cui il sistema migliora     |
-| in caso di dubbio l'agente chiede  | l'agente decide                   | le note nel posto sbagliato sono le più difficili da scovare          |
-| cattura come contratto su `inbox/` | cattura dentro un'app             | nuove vie d'ingresso senza toccare il resto                           |
-| script in shell POSIX              | Python, Node, ...                 | niente da installare, funzionerà ancora fra dieci anni                |
+| Scelta                                       | Alternativa scartata              | Motivo                                                                |
+|----------------------------------------------|-----------------------------------|-----------------------------------------------------------------------|
+| link relativi con estensione                 | `[[wikilink]]`                    | Markdown puro: GitHub, pandoc, `gf` li capiscono senza estensioni     |
+| nomi ASCII in kebab-case                     | nomi liberi con spazi e accenti   | sicuri in shell, uguali su ogni file system                           |
+| note piatte in `notes/`                      | sottocartelle per argomento       | un'idea ha più argomenti; una nota che non si sposta non rompe i link |
+| frontmatter di tre campi                     | metadati ricchi                   | ogni campo è da mantenere su tutto l'archivio                         |
+| a capo a 72 colonne                          | una frase per riga                | leggibile come testo; diff un po' meno puliti                         |
+| `AGENTS.md` + `workflows/`                   | `CLAUDE.md` + `.claude/commands/` | le istruzioni sono nucleo, non proprietà di un agente                 |
+| workflow in prosa                            | configurazione strutturata        | la prosa la capiscono tutti gli agenti, e la può seguire una persona  |
+| l'agente non committa                        | commit automatici                 | la revisione del diff è il meccanismo con cui il sistema migliora     |
+| in caso di dubbio l'agente chiede            | l'agente decide                   | le note nel posto sbagliato sono le più difficili da scovare          |
+| cattura come contratto su `inbox/`           | cattura dentro un'app             | nuove vie d'ingresso senza toccare il resto                           |
+| script in shell POSIX                        | Python, Node, ...                 | niente da installare, funzionerà ancora fra dieci anni                |
+| fonti binarie fuori dall'archivio            | PDF e immagini nel repository     | nel nucleo solo testo; git gestisce male i binari                     |
+| risposte salvate in `answers/`, fuori da git | risposte salvate in `inbox/`      | usa e getta; ciò che vale si cattura in `inbox/`                      |
 
 Dietro tutte c'è la stessa ragione: gli strumenti cambiano più in fretta delle idee, e gli agenti AI in particolare cambiano ogni pochi mesi, mentre testo semplice e git durano decenni. Separare nucleo e adattatori significa che il valore accumulato (le note, le convenzioni, le procedure) non resta ostaggio dello strumento del momento.
 

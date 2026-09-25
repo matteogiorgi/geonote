@@ -49,6 +49,8 @@ Il nucleo minimo, da riportare in `AGENTS.md`:
 - Non cancellare note: spostarle in `archive/`.
 - Non creare link verso note inesistenti.
 - Non modificare file fuori dall'archivio.
+- Non copiare nell'archivio file che non sono testo: il loro contenuto va
+  nelle note, gli originali restano fuori.
 - Non modificare gli adattatori senza richiesta esplicita.
 - Non fare commit: lasciare le modifiche da rivedere con `git diff`.
 - In caso di dubbio su dove va una nota o come chiamarla, chiedere invece

@@ -30,8 +30,25 @@ La domanda dell'utente.
 - Se ci sono, le lacune: cosa manca nell'archivio per rispondere bene.
 - Se ci sono, le contraddizioni: note che dicono cose incompatibili.
 
+Molte interfacce di chat non disegnano la matematica e trattano i
+backslash come escape (`\,` diventa `,`). Per questo, nella risposta in
+chat:
+
+- formule LaTeX in blocchi di codice `latex`; quelle brevi dentro il
+  testo in codice inline;
+- diagrammi in blocchi `mermaid`;
+- codice in blocchi con il nome del linguaggio.
+
+Se l'utente chiede di salvare la risposta, scrivila anche in
+`answers/AAAA-MM-GG-argomento.md` (argomento in kebab-case, solo ASCII;
+crea la cartella se manca), in Markdown normale: matematica tra `$...$`
+e `$$...$$`, diagrammi in blocchi `mermaid`, codice in blocchi con il
+linguaggio. In chat basta un breve riassunto e il percorso del file.
+
 ## Vincoli
 
 - Sola lettura: questo workflow non modifica, crea né sposta file.
+  L'unica eccezione è il file in `answers/`, e solo se l'utente chiede
+  di salvare la risposta.
 - Non attribuire alle note ciò che non dicono. Una parafrasi deve restare
   fedele; nel dubbio, cita la frase.

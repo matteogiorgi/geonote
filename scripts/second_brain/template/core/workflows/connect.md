@@ -8,7 +8,8 @@ citarsi e non lo fanno, note isolate e link rotti.
 ## Input
 
 L'ambito indicato dall'utente: una nota, una cartella o un tag. Se non
-è indicato, tutto l'archivio escluso `archive/`.
+è indicato, tutte le note fuori da `archive/` (`answers/` non contiene
+note).
 
 ## Passi
 
