@@ -19,6 +19,13 @@ Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: ri
 - **Uso e manutenzione** — il ciclo quotidiano e le revisioni periodiche ([§8](#8-uso-quotidiano)–[§9](#9-manutenzione)).
 
 ```mermaid
+---
+config:
+  flowchart:
+    subGraphTitleMargin:
+      top: 8
+      bottom: 8
+---
 flowchart LR
     subgraph adattatori_editor["Adattatori editor"]
         vim["editors/vim/"]
@@ -364,16 +371,23 @@ Domanda: $ARGUMENTS
 e analogamente `triage.md` (senza argomenti) e `connect.md` (con `Ambito: $ARGUMENTS`). I comandi sono una comodità: in loro assenza basta chiedere all'agente di eseguire il workflow per nome.
 
 ```mermaid
+---
+config:
+  fontSize: 13.6
+  sequence:
+    width: 135
+    actorMargin: 20
+---
 sequenceDiagram
     participant U as Utente
-    participant C as /ask (adattatore)
+    participant C as /ask<br/>(adattatore)
     participant A as AGENTS.md
-    participant W as workflows/ask.md
+    participant W as workflows/<br/>ask.md
     participant N as note
     Note over A: letto all'avvio<br/>tramite CLAUDE.md
-    U->>C: /ask cosa so dei processi di Poisson?
+    U->>C: /ask cosa so dei<br/>processi di Poisson?
     C->>W: "esegui workflows/ask.md"<br/>+ domanda
-    W->>N: cerca, legge, segue i link
+    W->>N: cerca, legge,<br/>segue i link
     N-->>U: risposta con citazioni,<br/>lacune, contraddizioni
 ```
 
@@ -648,17 +662,24 @@ Il ciclo ha quattro tempi, e solo il secondo richiede un agente:
 4. **Rivedere** con `git diff` ciò che l'agente ha modificato, poi committare.
 
 ```mermaid
+---
+config:
+  fontSize: 13.6
+  sequence:
+    width: 135
+    actorMargin: 20
+---
 sequenceDiagram
     participant U as Utente
     participant I as inbox/
     participant A as Agente
     participant N as Note
     participant G as git
-    U->>I: capture "idea" (più volte al giorno)
+    U->>I: capture "idea"<br/>(più volte al giorno)
     U->>A: triage
     A->>I: legge tutti gli appunti
-    A->>N: integra / crea note, aggiunge link
-    A->>I: sposta gli originali in archive/inbox/
+    A->>N: integra / crea note,<br/>aggiunge link
+    A->>I: sposta gli originali<br/>in archive/inbox/
     A-->>U: riepilogo + domande
     U->>G: git diff (revisione)
     U->>G: git commit
