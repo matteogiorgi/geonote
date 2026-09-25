@@ -1,6 +1,6 @@
 # Un second brain agnostico: note, editor e agenti
 
-Un **second brain** è un archivio personale di note in cui raccogliere, collegare e ritrovare idee. Quello descritto qui è fatto solo di file di testo, per lo più *Markdown*, versionati con *git*: un editor qualsiasi serve a leggerle e scriverle, un agente AI (per esempio *Claude Code*) serve a smistarle, collegarle e interrogarle. Nessun database, nessuna app proprietaria, nessun formato che richieda un programma specifico per essere letto.
+Un **second brain** è un archivio personale di note in cui raccogliere, collegare e ritrovare idee. Quello descritto qui è fatto solo di file di testo, per lo più *Markdown*, versionati con *git*: un editor qualsiasi serve a leggere e scrivere le note, un agente AI (per esempio *Claude Code*) a smistarle, collegarle e interrogarle. Nessun database, nessuna app proprietaria, nessun formato che richieda un programma specifico per essere letto.
 
 Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: rispetto all'editor (Vim, VS Code o altro, senza che nulla cambi) e rispetto all'agente (Claude Code oggi, un altro domani). La soluzione è la stessa su entrambi gli assi: un **nucleo** di testo semplice che contiene tutto ciò che ha valore, e degli **adattatori** sottili e sostituibili che collegano il nucleo a uno strumento. Il resto della nota costruisce il sistema a partire da questo principio: il formato delle note, le istruzioni per gli agenti, le procedure (*workflow*), la cattura da shell, e infine come si usa e si mantiene nel tempo.
 
@@ -10,7 +10,7 @@ Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: ri
 ## Cosa ci serve
 
 - **Nucleo e adattatori** — il principio architetturale: cosa sta nel nucleo, cosa è un adattatore, e il test che separa i due ([§1](#1-il-principio-nucleo-e-adattatori)).
-- **Struttura delle cartelle** — dove vive ogni cosa, con le note tenute piatte ([§2](#2-la-struttura-dellarchivio)).
+- **Struttura delle cartelle** — dove vive ogni cosa, con le note tenute piatte, e come crearla con `init.sh` ([§2](#2-la-struttura-dellarchivio)).
 - **Formato delle note** — le convenzioni rigide: nomi, frontmatter, link relativi, estensioni ammesse ([§3](#3-il-formato-delle-note)).
 - **`AGENTS.md` e `workflows/`** — le istruzioni per gli agenti, scritte in un file neutro e in prosa ([§4](#4-istruzioni-agent-agnostiche)).
 - **Triage, ask, connect** — le tre procedure con cui l'agente lavora sull'archivio ([§5](#5-i-tre-workflow)).
@@ -29,13 +29,13 @@ config:
 flowchart LR
     subgraph adattatori_editor["Adattatori editor"]
         vim["editors/vim/"]
-        vscode["editors/vscode/"]
+        vscode["impostazioni<br/>di VS Code"]
     end
     subgraph nucleo["Nucleo (testo semplice + git)"]
         note["notes/ projects/<br/>areas/ journal/"]
         agents["AGENTS.md"]
         wf["workflows/"]
-        bin["bin/capture"]
+        bin["bin/<br/>capture, links"]
     end
     subgraph adattatori_agente["Adattatori agente"]
         claude["CLAUDE.md<br/>.claude/commands/"]
@@ -139,8 +139,8 @@ brain/
 ├── archive/           # note ritirate: qui non si cancella, si sposta
 │   └── inbox/         # appunti originali già smistati
 ├── workflows/         # procedure in prosa, leggibili da persone e agenti
-├── bin/               # script POSIX (capture, ...)
-├── editors/           # adattatori editor (vim/, vscode/, ...)
+├── bin/               # script POSIX (capture, links)
+├── editors/           # adattatori editor (vim/, ...)
 └── .claude/
     └── commands/      # adattatori: ogni comando rimanda a un workflow
 ```
@@ -162,20 +162,43 @@ La divisione `projects/` / `areas/` / `archive/` riprende il metodo *PARA* (*Pro
 
 Le note dentro `notes/` stanno **tutte allo stesso livello**, senza sottocartelle per argomento. La struttura la danno i tag e i link, non le directory, per due ragioni: un'idea può appartenere a più argomenti mentre una cartella la costringe in uno solo, e una nota che non si sposta non rompe i link relativi che puntano a lei.
 
-Per inizializzare l'archivio:
+
+### 2.1 Creare l'archivio con `init.sh`
+
+Il modo più rapido per partire è lo script [`init.sh`](https://github.com/matteogiorgi/geonote/tree/main/scripts/second_brain), che sta in `scripts/second_brain/` di questo repository insieme ai modelli dei file. I modelli, in `template/`, sono divisi in livelli che ricalcano la separazione fra nucleo e adattatori:
+
+| Livello  | Opzione    | Cosa crea                                                                                 |
+|----------|------------|-------------------------------------------------------------------------------------------|
+| `core`   | sempre     | le cartelle, `AGENTS.md`, `workflows/` (triage, ask, connect), `bin/capture`, `bin/links` |
+| `claude` | `--claude` | `CLAUDE.md` e `.claude/commands/` (`/triage`, `/ask`, `/connect`)                         |
+| `vim`    | `--vim`    | `editors/vim/brain.vim`                                                                   |
+| `docs`   | `--docs`   | `areas/second-brain.md` e quattro note in `notes/` che documentano il sistema             |
+
+`--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è l'argomento, oppure `$BRAIN`, oppure `~/brain`:
+
+```sh
+git clone https://github.com/matteogiorgi/geonote.git
+geonote/scripts/second_brain/init.sh --claude --vim ~/brain
+```
+
+Lo script segue le stesse regole che il sistema dà all'agente:
+
+- **non sovrascrive mai**: un file che esiste già viene saltato e segnalato. Si può quindi rilanciare in ogni momento, per esempio per aggiungere un adattatore a un archivio già avviato (`init.sh --docs ~/brain`);
+- **non tocca nulla fuori dall'archivio**: le righe da aggiungere al profilo della shell (§6.3) le stampa, non le scrive;
+- **non fa commit**: crea il repository con `git init` se manca, mette un `.gitkeep` nelle cartelle vuote (git traccia file, non directory) e rende eseguibili gli script di `bin/`, ma il primo commit resta all'utente, come ogni altro.
+
+I file in `template/` sono i testi completi di ciò che i §4–§7 descrivono: `AGENTS.md`, i tre workflow, i comandi di Claude Code, gli script `capture` e `links`, l'adattatore per Vim. Sono un punto di partenza, non una versione definitiva: `AGENTS.md` va completato con ciò che l'agente deve sapere del proprio archivio, e tutti i file si correggono nel tempo (§9).
+
+Senza lo script, lo stesso scheletro si crea a mano:
 
 ```sh
 mkdir -p brain/inbox brain/notes brain/projects brain/areas \
-    brain/journal brain/archive/inbox brain/workflows brain/bin \
-    brain/editors/vim brain/.claude/commands
+    brain/journal brain/archive/inbox brain/workflows brain/bin
 cd brain && git init
-```
-
-Le cartelle vuote vanno tenute in git con un file `.gitkeep`, perché git traccia file e non directory:
-
-```sh
 find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \;
 ```
+
+e poi si scrivono `AGENTS.md`, i workflow e gli adattatori seguendo i §4–§7.
 
 
 
@@ -326,7 +349,7 @@ Le regole ferme sono il cuore del file:
   esplicita.
 - Non fare commit: lascia le modifiche da rivedere con `git diff`.
 - Non inventare contenuto: le note riportano ciò che è negli appunti o
-  che è stato chiesto esplicitamente di scrivere.
+  che l'utente ha chiesto di scrivere.
 - In caso di dubbio su dove va una nota, come chiamarla o se unirla a
   un'altra, chiedi invece di decidere.
 ```
@@ -469,13 +492,16 @@ I collegamenti aggiunti vanno **in entrambe le direzioni**: se si aggiunge $(u, 
 
 `connect` è il più prudente dei tre: presenta i risultati e **aspetta conferma** prima di modificare, non corregge da solo i link rotti (propone la correzione, magari indicando un file con nome simile) e non crea note per colmare lacune (le segnala). Il motivo è che tocca molte note in una volta, e un collegamento sbagliato è più difficile da notare di una nota sbagliata. Meglio pochi collegamenti significativi che molti deboli.
 
-I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano" del §4.4 si può spingere fino a uno script POSIX che li fa senza agente:
+I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano" del §4.4 si può spingere fino a uno script POSIX che li fa senza agente. È `bin/links`, creato da `init.sh` (§2.1), e il workflow `connect` lo usa per i primi due passi:
 
 ```sh
 #!/bin/sh
 # links: elenca link rotti e note orfane dell'archivio
+#
+# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+
 set -eu
-cd "${BRAIN:-$HOME/brain}"
+cd "${BRAIN:-$(dirname "$0")/..}"
 root=$(pwd -P)
 seen=$(mktemp)
 trap 'rm -f "$seen"' EXIT
@@ -504,7 +530,7 @@ for f in $notes; do
 done
 ```
 
-Lo script legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
+Come `capture` (§6.2), lavora sull'archivio `$BRAIN` o, se la variabile non è definita, su quello che contiene lo script. Legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
 
 ```
 rotto:  notes/sola.md -> ../notes/nonc.md
@@ -535,17 +561,22 @@ Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra 
 
 ```sh
 #!/bin/sh
-# capture: scrive un appunto grezzo in $BRAIN/inbox
+# capture: scrive un appunto grezzo nell'inbox dell'archivio
 #
 # uso:
 #   capture "testo dell'appunto"
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
+#
+# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
 
 set -eu
 
-dir="${BRAIN:-$HOME/brain}/inbox"
-mkdir -p "$dir"
+dir="${BRAIN:-$(dirname "$0")/..}/inbox"
+if [ ! -d "$dir" ]; then
+    echo "capture: $dir non esiste (BRAIN è giusta?)" >&2
+    exit 1
+fi
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
 
 if [ $# -gt 0 ]; then
@@ -574,6 +605,7 @@ Lo script sceglie il modo d'uso in base a cosa riceve:
 
 Alcuni dettagli:
 
+- l'archivio è `$BRAIN` se definita, altrimenti quello che contiene lo script (`bin/..`), quindi `BRAIN` non è indispensabile. Serve però se lo script viene chiamato tramite un link simbolico messo in un'altra cartella: in quel caso `bin/..` indica la cartella del link, non l'archivio. Se `inbox/` non esiste, lo script si ferma con un errore invece di creare di nascosto un'inbox nel posto sbagliato;
 - il nome unisce data, ora e **PID** (`$$`): due catture nello stesso secondo, da processi diversi, non si sovrascrivono;
 - un appunto vuoto (editor chiuso senza salvare, pipe senza output) **non lascia file**, grazie al test `-s` (file esistente e non vuoto);
 - `set -eu` ferma lo script al primo errore o alla prima variabile non definita, invece di proseguire in silenzio;
@@ -582,17 +614,17 @@ Alcuni dettagli:
 
 ### 6.3 Installazione ed esempi
 
-Nel profilo della shell (`~/.profile`, `~/.bashrc`, ...):
+Per usare `capture` da qualunque terminale basta aggiungere `bin/` al `PATH`. Conviene anche esportare `BRAIN`: rende esplicito dove sta l'archivio, e serve all'adattatore per Vim (§7.1). Entrambe le righe vanno nel profilo della shell (`~/.profile`, `~/.bashrc`, ...), e `init.sh` (§2.1) le stampa già con il percorso giusto:
 
 ```sh
 export BRAIN="$HOME/brain"
 PATH="$BRAIN/bin:$PATH"
 ```
 
-poi, in una shell nuova, si rende eseguibile lo script:
+Se l'archivio è stato creato a mano e non con `init.sh`, gli script vanno anche resi eseguibili (in una shell nuova, perché `$BRAIN` sia già definita):
 
 ```sh
-chmod +x "$BRAIN/bin/capture"
+chmod +x "$BRAIN/bin/capture" "$BRAIN/bin/links"
 ```
 
 Da quel momento si cattura da qualunque terminale:
@@ -768,6 +800,7 @@ Dietro tutte c'è la stessa ragione: gli strumenti cambiano più in fretta delle
 - **Architettura esagonale**: l'articolo originale di Alistair Cockburn, <https://alistair.cockburn.us/hexagonal-architecture/>
 - **Metodo PARA**: Tiago Forte, *Building a Second Brain* (2022)
 - **Shell POSIX**: la specifica del linguaggio di comando, <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html>
+- **Script e modelli**: `init.sh` e i file di partenza dell'archivio (§2.1), <https://github.com/matteogiorgi/geonote/tree/main/scripts/second_brain>
 - **Semantic line breaks**: l'alternativa "una frase per riga" del §3.5, <https://sembr.org>
 - Vedi anche [tema_geoteo](tema_geoteo.md) per lo stesso principio di "una sola fonte, consumatori sottili" applicato allo stile di questo repository, e [azioni_github](azioni_github.md) per automatizzare controlli come lo script `links` a ogni push.
 

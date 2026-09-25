@@ -1,0 +1,33 @@
+#!/bin/sh
+# capture: scrive un appunto grezzo nell'inbox dell'archivio
+#
+# uso:
+#   capture "testo dell'appunto"
+#   comando | capture
+#   capture                  (da terminale: apre $EDITOR)
+#
+# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+
+set -eu
+
+dir="${BRAIN:-$(dirname "$0")/..}/inbox"
+if [ ! -d "$dir" ]; then
+    echo "capture: $dir non esiste (BRAIN è giusta?)" >&2
+    exit 1
+fi
+f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
+
+if [ $# -gt 0 ]; then
+    printf '%s\n' "$*" >"$f"
+elif [ -t 0 ]; then
+    "${EDITOR:-vi}" "$f"
+else
+    cat >"$f"
+fi
+
+# niente appunti vuoti
+if [ ! -s "$f" ]; then
+    rm -f "$f"
+    echo "capture: appunto vuoto, nulla salvato" >&2
+    exit 1
+fi

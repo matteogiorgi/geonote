@@ -1,0 +1,33 @@
+#!/bin/sh
+# links: elenca link rotti e note orfane dell'archivio
+#
+# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+
+set -eu
+cd "${BRAIN:-$(dirname "$0")/..}"
+root=$(pwd -P)
+seen=$(mktemp)
+trap 'rm -f "$seen"' EXIT
+
+# note da controllare, e note da cui leggere i link
+notes=$(find notes projects areas -name '*.md' 2>/dev/null | sort)
+sources=$(find notes projects areas journal -name '*.md' 2>/dev/null | sort)
+
+for f in $sources; do
+    # ignora blocchi di codice recintati e codice inline
+    awk '/^```/ { c = !c; next } !c' "$f" | sed 's/`[^`]*`//g' |
+        grep -o '](\([^)]*\))' | sed 's/^](//; s/)$//; s/#.*//' |
+        while read -r t; do
+            case $t in *://* | '') continue ;; esac
+            d=$(cd "$(dirname "$f")/$(dirname "$t")" 2>/dev/null && pwd -P) || d=
+            if [ -n "$d" ] && [ -e "$d/$(basename "$t")" ]; then
+                echo "${d#"$root"/}/$(basename "$t")" >>"$seen"
+            else
+                echo "rotto:  $f -> $t"
+            fi
+        done
+done
+
+for f in $notes; do
+    grep -qxF "$f" "$seen" || echo "orfana: $f"
+done
