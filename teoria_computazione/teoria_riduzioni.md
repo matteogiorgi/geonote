@@ -5,7 +5,7 @@ Le **riduzioni** sono lo strumento con cui si confronta la difficoltà di due pr
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Riduzione many-one (Karp)** — la più usata per confrontare problemi decisionali; è alla base della catena di riduzioni che dimostra NP-completezza.
 - **Riduzione Turing (Cook)** — più generale, usa $B$ come "oracolo" chiamabile più volte.

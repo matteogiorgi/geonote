@@ -5,7 +5,7 @@ Quando si dice che un algoritmo "costa" $O(n^2)$ ci si sta in realtà riferendo 
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Caso pessimo** — la garanzia più forte e la più usata: un limite che vale *sempre*, qualunque sia l'input.
 - **Caso ottimo** — utile soprattutto come termine di paragone o per algoritmi "adattivi" che sfruttano input già favorevoli (es. array già ordinati o quasi ordinati).

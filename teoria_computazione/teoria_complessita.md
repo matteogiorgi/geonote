@@ -5,7 +5,7 @@ La **teoria della complessità computazionale** classifica i problemi in base al
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Notazione asintotica** ($O$, $\Omega$, $\Theta$) — per parlare di crescita del tempo/spazio ignorando le costanti.
 - **Macchina di Turing (deterministica e non deterministica)** — il modello formale su cui si definiscono le classi.

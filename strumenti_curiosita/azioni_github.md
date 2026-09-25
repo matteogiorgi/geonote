@@ -5,7 +5,7 @@
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Eventi (`on`)** — *quando* un workflow parte: push, pull request, orario fisso (`schedule`), avvio manuale (`workflow_dispatch`).
 - **Job (`jobs`)** — *cosa* gira, isolato: ogni job ha il proprio runner (VM pulita), i job comunicano solo tramite artifact, mai tramite memoria condivisa.

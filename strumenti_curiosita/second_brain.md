@@ -1,13 +1,13 @@
 # Un second brain agnostico: note, editor e agenti
 
-Un **second brain** è un archivio personale di note in cui raccogliere, collegare e ritrovare idee. Quello descritto qui è fatto di sole cartelle di file *Markdown* versionate con *git*: un editor qualsiasi serve a leggerle e scriverle, un agente AI (per esempio *Claude Code*) serve a smistarle, collegarle e interrogarle. Nessun database, nessuna app proprietaria, nessun formato che richieda un programma specifico per essere letto.
+Un **second brain** è un archivio personale di note in cui raccogliere, collegare e ritrovare idee. Quello descritto qui è fatto solo di file di testo, per lo più *Markdown*, versionati con *git*: un editor qualsiasi serve a leggerle e scriverle, un agente AI (per esempio *Claude Code*) serve a smistarle, collegarle e interrogarle. Nessun database, nessuna app proprietaria, nessun formato che richieda un programma specifico per essere letto.
 
 Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: rispetto all'editor (Vim, VS Code o altro, senza che nulla cambi) e rispetto all'agente (Claude Code oggi, un altro domani). La soluzione è la stessa su entrambi gli assi: un **nucleo** di testo semplice che contiene tutto ciò che ha valore, e degli **adattatori** sottili e sostituibili che collegano il nucleo a uno strumento. Il resto della nota costruisce il sistema a partire da questo principio: il formato delle note, le istruzioni per gli agenti, le procedure (*workflow*), la cattura da shell, e infine come si usa e si mantiene nel tempo.
 
 
 
 
-## Mappa: cosa serve per cosa
+## Cosa ci serve
 
 - **Nucleo e adattatori** — il principio architetturale: cosa sta nel nucleo, cosa è un adattatore, e il test che separa i due ([§1](#1-il-principio-nucleo-e-adattatori)).
 - **Struttura delle cartelle** — dove vive ogni cosa, con le note tenute piatte ([§2](#2-la-struttura-dellarchivio)).
@@ -66,16 +66,16 @@ Un sistema che deve sopravvivere ai propri strumenti va diviso in due parti. Il 
 
 Criterio pratico: **una cosa appartiene al nucleo se ha ancora senso dopo aver disinstallato ogni editor e ogni agente**.
 
-| Nucleo                                    | Adattatori                                  |
-|-------------------------------------------|---------------------------------------------|
-| le note, nel loro formato                 | `CLAUDE.md` (una riga: `@AGENTS.md`)        |
-| la struttura delle cartelle               | `.claude/commands/*.md` (una riga ciascuno) |
-| `AGENTS.md`, le istruzioni per gli agenti | `editors/vim/brain.vim`                     |
-| `workflows/`, le procedure in prosa       | impostazioni ed estensioni di VS Code       |
-| `bin/`, script in shell POSIX             | hook di un agente che chiamano `bin/`       |
-| la storia in git                          | cache e indici di qualsiasi strumento       |
+| Nucleo                                    | Adattatori                                |
+|-------------------------------------------|-------------------------------------------|
+| le note, nel loro formato                 | `CLAUDE.md` (una riga: `@AGENTS.md`)      |
+| la struttura delle cartelle               | `.claude/commands/*.md` (una o due righe) |
+| `AGENTS.md`, le istruzioni per gli agenti | `editors/vim/brain.vim`                   |
+| `workflows/`, le procedure in prosa       | impostazioni ed estensioni di VS Code     |
+| `bin/`, script in shell POSIX             | hook di un agente che chiamano `bin/`     |
+| la storia in git                          | cache e indici di qualsiasi strumento     |
 
-Lo stesso principio regge, su scala diversa, l'eredità del tema descritta in [tema_geoteo](tema_geoteo.md): lo stile vive in un solo posto, e ogni repository vi si collega con una riga di `_config.yml`.
+Lo stesso principio regge, su scala diversa, l'eredità del tema descritta in [tema_geoteo](tema_geoteo.md): lo stile vive in un solo posto, e ogni repository vi si collega con poche righe di `_config.yml`.
 
 
 ### 1.2 Le quattro regole di un adattatore
@@ -92,7 +92,7 @@ La seconda è quella che si rompe più facilmente. Un caso tipico sono le funzio
 
 ### 1.3 Perché conviene: il problema m × n
 
-Con $m$ editor e $n$ agenti, se ogni coppia deve accordarsi su un formato (un editor che scrive wikilink, un agente che deve saperli interpretare, un indice proprietario che solo un certo plugin sa leggere), le integrazioni da mantenere crescono come il prodotto; con un formato comune nel mezzo, ogni strumento si collega una volta sola al nucleo:
+Editor e agenti non parlano fra loro: condividono i file. Ma se ogni strumento scrive in un formato proprio (un editor che produce wikilink, un indice proprietario che solo un certo plugin sa leggere), ogni agente deve saper leggere il formato di ogni editor, e viceversa. Con $m$ editor e $n$ agenti, nel caso peggiore le compatibilità da garantire crescono come il prodotto; con un formato comune nel mezzo, ogni strumento si collega una volta sola al nucleo:
 
 $$
 \underbrace{m \cdot n}_{\text{accoppiamento diretto}} \qquad \longrightarrow \qquad \underbrace{m + n}_{\text{nucleo comune}}
@@ -100,7 +100,7 @@ $$
 
 È la stessa riduzione che il *Language Server Protocol* ha portato negli editor di codice: invece di un plugin per ogni coppia (editor, linguaggio), un server per linguaggio e un client per editor.
 
-Il guadagno più concreto, però, è sul costo di un cambio di strumento. Siano $N$ le note nell'archivio. Senza nucleo, abbandonare uno strumento significa migrare le note dal suo formato: un costo che cresce con l'archivio, $O(N)$, e che aumenta ogni giorno che si usa il sistema. Con il nucleo, cambiare strumento significa scrivere un adattatore, di dimensione indipendente da $N$:
+Il guadagno più concreto, però, è sul costo di un cambio di strumento. Siano $N$ le note nell'archivio. Se lo strumento che si abbandona usava un formato proprio, bisogna migrare le note: un costo che cresce con l'archivio, $O(N)$, e che aumenta ogni giorno che si usa il sistema. Con il nucleo, cambiare strumento significa scrivere un adattatore, di dimensione indipendente da $N$:
 
 $$
 C_{\text{cambio}}(N) = O(1) \quad \text{rispetto a } N
@@ -114,11 +114,13 @@ In altre parole, provare uno strumento nuovo costa un adattatore, non una migraz
 Si eliminano mentalmente `CLAUDE.md`, `.claude/`, `editors/` e ogni altro adattatore. Si può ancora **catturare**, **leggere**, **cercare**, **collegare** e **versionare** le note con `cat`, `grep`, un editor qualsiasi e `git`? Se sì, il confine è tracciato bene.
 
 ```sh
-cat notes/processo-poisson.md           # leggere
-grep -rl 'poisson' notes/ projects/     # cercare
-grep -rl '(processo-poisson.md)' notes/ # backlink: chi linka questa nota
-git log --oneline -- notes/             # storia
+cat notes/processo-poisson.md                                         # leggere
+grep -rli 'poisson' notes/ projects/ areas/ journal/                  # cercare
+grep -rl '[(/]processo-poisson\.md)' notes/ projects/ areas/ journal/ # backlink
+git log --oneline -- notes/                                           # storia
 ```
+
+Il pattern dei backlink accetta davanti al nome del file sia `(` sia `/`: così trova `(processo-poisson.md)`, scritto da una nota nella stessa cartella, e `(../notes/processo-poisson.md)`, scritto da una nota in `projects/`, `areas/` o `journal/`, ma non `(composto-processo-poisson.md)`, che è un'altra nota.
 
 
 
@@ -151,7 +153,7 @@ brain/
 | `areas/`     | responsabilità continue                 | nucleo     | sì                     |
 | `journal/`   | note giornaliere                        | nucleo     | sì (`AAAA-MM-GG.md`)   |
 | `archive/`   | note ritirate e appunti già smistati    | nucleo     | quello d'origine       |
-| `workflows/` | procedure                               | nucleo     | struttura fissa (§4.3) |
+| `workflows/` | procedure                               | nucleo     | struttura fissa (§4.4) |
 | `bin/`       | script                                  | nucleo     | shell POSIX            |
 | `editors/`   | configurazioni per editor               | adattatore | quello dell'editor     |
 | `.claude/`   | comandi per Claude Code                 | adattatore | quello dell'agente     |
@@ -169,7 +171,11 @@ mkdir -p brain/inbox brain/notes brain/projects brain/areas \
 cd brain && git init
 ```
 
-Le cartelle vuote vanno tenute in git con un file `.gitkeep`, perché git traccia file e non directory.
+Le cartelle vuote vanno tenute in git con un file `.gitkeep`, perché git traccia file e non directory:
+
+```sh
+find . -type d -empty -not -path './.git/*' -exec touch {}/.gitkeep \;
+```
 
 
 
@@ -191,7 +197,7 @@ Nomi così sono sicuri in qualsiasi shell senza virgolette, uguali su ogni file 
 
 ### 3.2 Frontmatter
 
-Ogni nota fuori da `inbox/` inizia con un blocco YAML di tre campi obbligatori:
+Ogni nota inizia con un blocco YAML di tre campi obbligatori; ne sono esenti solo gli appunti grezzi, in `inbox/` e in `archive/inbox/`:
 
 ```yaml
 ---
@@ -223,14 +229,14 @@ si collega alla [nota indice](../areas/second-brain.md).
 
 I `[[wikilink]]` sono più comodi da scrivere, ma sono un'estensione: funzionano solo dove qualcuno li ha implementati. I link relativi invece sono Markdown puro.
 
-|                                 | `[testo](nota.md)`                            | `[[nota]]`            |
-|---------------------------------|-----------------------------------------------|-----------------------|
-| Rendering su GitHub             | link funzionante                              | testo letterale       |
-| Conversione con *pandoc*        | link funzionante                              | testo letterale       |
-| Vim, senza plugin               | `gf` apre il file                             | serve configurazione  |
-| Viewer Markdown generico        | link funzionante                              | testo letterale       |
-| Ricerca dei backlink con `grep` | `grep '(nota.md)'`                            | `grep '\[\[nota\]\]'` |
-| Costo di scrittura              | qualche carattere in più, scritto dall'agente | minimo                |
+|                                 | `[testo](nota.md)`                            | `[[nota]]`               |
+|---------------------------------|-----------------------------------------------|--------------------------|
+| Rendering su GitHub             | link funzionante                              | testo letterale          |
+| Conversione con *pandoc*        | link funzionante                              | testo letterale          |
+| Vim, senza plugin               | `gf` apre il file                             | serve configurazione     |
+| Viewer Markdown generico        | link funzionante                              | testo letterale          |
+| Ricerca dei backlink con `grep` | `grep -r '[(/]nota\.md)'`                     | `grep -r '\[\[nota\]\]'` |
+| Costo di scrittura              | qualche carattere in più, scritto dall'agente | minimo                   |
 
 Tre regole completano il quadro.
 
@@ -245,15 +251,15 @@ Tre regole completano il quadro.
 
 - Un solo titolo di livello 1, uguale a `title`; sezioni di livello 2; il livello 3 solo se davvero necessario.
 - **Una sola idea per nota**: se servono due titoli di livello 1, sono due note.
-- Quando la nota contiene una scelta, chiude con una sezione `## Perché` che la motiva: la motivazione sta accanto a ciò che giustifica e non si perde quando si riorganizza.
-- Chiude sempre con `## Collegamenti`, anche breve.
+- Quando la nota contiene una scelta, una sezione `## Perché` la motiva: la motivazione sta accanto a ciò che giustifica e non si perde quando si riorganizza.
+- L'ultima sezione è sempre `## Collegamenti`, anche breve; se c'è `## Perché`, viene subito prima.
 
 Oltre a CommonMark sono ammesse solo estensioni diffuse e **leggibili anche come testo grezzo**: blocchi di codice recintati con il linguaggio, tabelle in stile GitHub per dati brevi, e matematica LaTeX tra `$...$` e `$$...$$`. La matematica non è CommonMark, ma la supportano pandoc, GitHub e i visualizzatori con *KaTeX* o *MathJax*, e il sorgente resta leggibile: un compromesso consapevole, perché per appunti di probabilità e statistica rinunciarvi costerebbe più della portabilità guadagnata.
 
 
 ### 3.5 A capo: 72 colonne o una frase per riga
 
-Il testo va a capo a mano intorno alle **72 colonne**, come un messaggio di commit, così che si legga comodamente nel terminale anche senza visualizzatore. L'alternativa seria è **una frase per riga** (*semantic line breaks*), che dà diff ancora più puliti quando un agente riscrive un paragrafo:
+Il testo va a capo a mano intorno alle **72 colonne**, come un messaggio di commit, così che si legga comodamente nel terminale anche senza visualizzatore. L'alternativa seria è **una frase per riga** (*semantic line breaks*), che dà diff ancora più puliti quando un agente riscrive un paragrafo: correggere una frase tocca una riga sola.
 
 ```diff
  Il processo di Poisson conta eventi che arrivano a tasso costante.
@@ -262,7 +268,7 @@ Il testo va a capo a mano intorno alle **72 colonne**, come un messaggio di comm
  La somma di processi indipendenti è ancora di Poisson.
 ```
 
-Con le 72 colonne la stessa modifica può far scorrere l'intero paragrafo e sporcare il diff su più righe. La scelta qui è per le 72 colonne, più leggibili come testo; è una delle decisioni da prendere prima di scrivere la prima nota, perché cambiarla dopo tocca tutto l'archivio.
+Con le 72 colonne, invece, la stessa correzione allunga la riga, e riportarla entro il margine può far scorrere il resto del paragrafo e sporcare il diff su più righe. La scelta qui è per le 72 colonne, più leggibili come testo; è una delle decisioni da prendere prima di scrivere la prima nota, perché cambiarla dopo tocca tutto l'archivio.
 
 
 
@@ -281,7 +287,7 @@ La soluzione è dividerle su **due livelli**, entrambi in file neutri:
 
 ### 4.2 Perché due livelli: il costo del contesto
 
-Tutto ciò che l'agente legge all'avvio occupa la sua finestra di contesto in ogni sessione, anche quando non serve. Sia $A$ il file letto sempre, $W$ l'insieme dei workflow e $W_s \subseteq W$ quelli usati nella sessione $s$. Con un file unico che contiene tutto, il costo in contesto per sessione è
+Tutto ciò che l'agente legge all'avvio occupa la sua finestra di contesto in ogni sessione, anche quando non serve. Sia $A$ il file letto sempre, $W$ l'insieme dei workflow e $W_s \subseteq W$ quelli usati nella sessione $s$; per un file $f$, $\|f\|$ è la sua lunghezza in token. Con un file unico che contiene tutto, il costo in contesto per sessione è
 
 $$
 C_{\text{unico}} = |A| + \sum_{w \in W} |w|
@@ -370,6 +376,8 @@ Domanda: $ARGUMENTS
 
 e analogamente `triage.md` (senza argomenti) e `connect.md` (con `Ambito: $ARGUMENTS`). I comandi sono una comodità: in loro assenza basta chiedere all'agente di eseguire il workflow per nome.
 
+Il diagramma mostra il percorso completo di una richiesta: gli adattatori (`CLAUDE.md` e il comando `/ask`) servono solo a far arrivare l'agente ai file del nucleo, ed è l'agente a fare tutto il lavoro.
+
 ```mermaid
 ---
 config:
@@ -381,15 +389,15 @@ config:
 ---
 sequenceDiagram
     participant U as Utente
-    participant C as /ask<br/>(adattatore)
+    participant G as Agente
     participant A as AGENTS.md
     participant W as workflows/<br/>ask.md
     participant N as note
-    Note over A: letto all'avvio<br/>tramite CLAUDE.md
-    U->>C: /ask cosa so dei<br/>processi di Poisson?
-    C->>W: "esegui workflows/ask.md"<br/>+ domanda
-    W->>N: cerca, legge,<br/>segue i link
-    N-->>U: risposta con citazioni,<br/>lacune, contraddizioni
+    G->>A: all'avvio legge<br/>(tramite CLAUDE.md)
+    U->>G: /ask cosa so dei<br/>processi di Poisson?
+    G->>W: legge la procedura<br/>(comando /ask)
+    G->>N: cerca, legge,<br/>segue i link
+    G-->>U: risposta con citazioni,<br/>lacune, contraddizioni
 ```
 
 **Test dell'agnosticità.** Si apre una sessione con un agente diverso da quello abituale, o senza adattatori, e gli si chiede di eseguire un workflow dopo aver letto solo `AGENTS.md`. Se il risultato è comparabile, le istruzioni sono davvero agnostiche.
@@ -401,11 +409,11 @@ sequenceDiagram
 
 Si parte con tre workflow, non con venti: uno per far entrare le idee nell'archivio, uno per ritrovarle, uno per tenere sana la rete dei collegamenti.
 
-| Workflow  | Scopo                                  | Modifica file          | Chiede conferma             |
-|-----------|----------------------------------------|------------------------|-----------------------------|
-| `triage`  | svuotare `inbox/` in note vere         | sì                     | solo sugli appunti ambigui  |
-| `ask`     | rispondere usando le note come fonte   | no, sola lettura       | no                          |
-| `connect` | link rotti, note orfane, link mancanti | sì, solo dopo conferma | sempre, prima di modificare |
+| Workflow  | Scopo                                  | Modifica file          | Chiede conferma                         |
+|-----------|----------------------------------------|------------------------|-----------------------------------------|
+| `triage`  | svuotare `inbox/` in note vere         | sì                     | no, ma fa domande sugli appunti ambigui |
+| `ask`     | rispondere usando le note come fonte   | no, sola lettura       | no                                      |
+| `connect` | link rotti, note orfane, link mancanti | sì, solo dopo conferma | sempre, prima di modificare             |
 
 
 ### 5.1 Triage
@@ -440,22 +448,22 @@ I vincoli impediscono le derive più comuni: l'agente **riformula ma non aggiung
 3. leggere per intero le note rilevanti e seguirne i collegamenti **per un livello**;
 4. comporre la risposta a partire da ciò che dicono le note.
 
-Tre scelte lo rendono affidabile. È **in sola lettura**: non crea, modifica né sposta file. **Separa** esplicitamente ciò che dicono le note dalla conoscenza generale dell'agente, che può comparire solo in una parte dichiarata come tale. E **cita** ogni affermazione con il percorso della nota da cui viene (`notes/processi-poisson.md`), segnalando anche le **lacune** (cosa manca per rispondere bene) e le **contraddizioni** (note che dicono cose incompatibili): spesso sono la parte più utile della risposta.
+Tre scelte lo rendono affidabile. È **in sola lettura**: non crea, modifica né sposta file. **Separa** esplicitamente ciò che dicono le note dalla conoscenza generale dell'agente, che può comparire solo in una parte dichiarata come tale. E **cita** ogni affermazione con il percorso della nota da cui viene (`notes/processi-poisson-composti.md`), segnalando anche le **lacune** (cosa manca per rispondere bene) e le **contraddizioni** (note che dicono cose incompatibili): spesso sono la parte più utile della risposta.
 
 
 ### 5.3 Connect
 
-`connect` lavora sul **grafo dei collegamenti**. Sia $V$ l'insieme delle note e $E \subseteq V \times V$ l'insieme dei link, con $(u, v) \in E$ se la nota $u$ contiene un link a $v$. Il workflow cerca tre cose, nell'ambito indicato (una nota, una cartella, un tag, o l'intero archivio escluso `archive/`):
+`connect` lavora sul **grafo dei collegamenti**. Sia $V$ l'insieme di tutte le note dell'archivio, `archive/` compreso, e $E \subseteq V \times V$ l'insieme dei link che partono da note fuori da `archive/`, con $(u, v) \in E$ se la nota $u$ contiene un link a $v$: una nota ritirata non tiene in vita nessuno. Il controllo riguarda un **ambito** $S \subseteq V$ indicato dall'utente (una nota, una cartella, un tag, o l'intero archivio escluso `archive/`), e cerca tre cose:
 
-- **link rotti**: link in una nota $u$ verso un percorso $t$ con $t \notin V$;
-- **note orfane**: note che nessuno linka, cioè con grado entrante nullo,
+- **link rotti**: link in una nota $u \in S$ verso un percorso $t$ con $t \notin V$, cioè verso un file che non esiste;
+- **note orfane**: note $v \in S$ che nessun'altra nota linka, cioè con grado entrante nullo,
 
   $$
-  \deg^-(v) = \big|\lbrace u \in V : (u, v) \in E \rbrace\big| = 0
+  \deg^-(v) = \big|\lbrace u \in V : u \neq v,\ (u, v) \in E \rbrace\big| = 0
   $$
 
-  con `journal/` esclusa dal controllo, perché le note giornaliere sono per natura punti d'ingresso;
-- **collegamenti mancanti**: coppie $(u, v) \notin E$ di note che trattano gli stessi concetti. Qui il criterio è volutamente severo: si propone un link solo se una delle due note aiuta davvero a capire l'altra. Condividere un tag, cioè $T(u) \cap T(v) \neq \emptyset$, **non basta**.
+  con `journal/` esclusa dal controllo, perché le note giornaliere sono per natura punti d'ingresso (i link che *partono* dal journal, invece, contano);
+- **collegamenti mancanti**: coppie $(u, v) \notin E$ di note che trattano gli stessi concetti. Qui il criterio è volutamente severo: si propone un link solo se una delle due note aiuta davvero a capire l'altra. Condividere un tag, cioè $T(u) \cap T(v) \neq \emptyset$ con $T(u)$ l'insieme dei tag di $u$, **non basta**.
 
 I collegamenti aggiunti vanno **in entrambe le direzioni**: se si aggiunge $(u, v)$ si aggiunge anche $(v, u)$, così la relazione si scopre da qualunque delle due note si parta.
 
@@ -472,9 +480,11 @@ root=$(pwd -P)
 seen=$(mktemp)
 trap 'rm -f "$seen"' EXIT
 
+# note da controllare, e note da cui leggere i link
 notes=$(find notes projects areas -name '*.md' 2>/dev/null | sort)
+sources=$(find notes projects areas journal -name '*.md' 2>/dev/null | sort)
 
-for f in $notes; do
+for f in $sources; do
     # ignora blocchi di codice recintati e codice inline
     awk '/^```/ { c = !c; next } !c' "$f" | sed 's/`[^`]*`//g' |
         grep -o '](\([^)]*\))' | sed 's/^](//; s/)$//; s/#.*//' |
@@ -494,7 +504,7 @@ for f in $notes; do
 done
 ```
 
-Per ogni link, lo script risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
+Lo script legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
 
 ```
 rotto:  notes/sola.md -> ../notes/nonc.md
@@ -572,24 +582,26 @@ Alcuni dettagli:
 
 ### 6.3 Installazione ed esempi
 
-```sh
-chmod +x "$BRAIN/bin/capture"
-```
-
-e nel profilo della shell (`~/.profile`, `~/.bashrc`, ...):
+Nel profilo della shell (`~/.profile`, `~/.bashrc`, ...):
 
 ```sh
 export BRAIN="$HOME/brain"
 PATH="$BRAIN/bin:$PATH"
 ```
 
+poi, in una shell nuova, si rende eseguibile lo script:
+
+```sh
+chmod +x "$BRAIN/bin/capture"
+```
+
 Da quel momento si cattura da qualunque terminale:
 
 ```sh
 capture "rivedere la dimostrazione della proprietà di Markov forte"
-xclip -o | capture          # il contenuto degli appunti di X
-man 1 sh | col -b | capture # una pagina di manuale intera
-capture                     # apre l'editor per un appunto lungo
+xclip -o -selection clipboard | capture # il contenuto della clipboard di X
+man 1 sh | col -b | capture             # una pagina di manuale intera
+capture                                 # apre l'editor per un appunto lungo
 ```
 
 Da un editor basta mandare il testo allo script. In Vim, `:'<,'>w !capture` cattura la selezione visuale: è un adattatore di una riga, comodo, ma lo script non ne sa nulla.
@@ -604,7 +616,7 @@ Tutto ciò che è specifico di un editor sta in `editors/` o direttamente nei pr
 
 ### 7.1 Vim
 
-Il setup più naturale è **tmux con due pannelli**: Vim da una parte, l'agente dall'altra, entrambi nella cartella dell'archivio. L'adattatore `editors/vim/brain.vim` è di poche righe:
+Il setup più naturale è **tmux con due pannelli**: Vim da una parte, l'agente dall'altra, entrambi nella cartella dell'archivio. Perché Vim si accorga di quando si torna sul suo pannello, tmux deve inoltrargli gli eventi di focus, con `set -g focus-events on` in `~/.tmux.conf`. L'adattatore `editors/vim/brain.vim` è di poche righe:
 
 ```vim
 " Adattatore Vim per il second brain.
@@ -624,29 +636,29 @@ augroup END
 " '.', cioe' la cartella del file corrente, e i link includono '.md'.
 ```
 
-- **`autoread` + `checktime`**: `autoread` da solo ricarica un file modificato all'esterno solo quando Vim se ne accorge; gli autocomandi forzano il controllo quando si torna sulla finestra, si cambia buffer o si resta fermi. È ciò che serve quando l'agente riscrive una nota aperta nell'altro pannello.
+- **`autoread` + `checktime`**: `autoread` da solo ricarica un file modificato all'esterno solo quando Vim se ne accorge; gli autocomandi forzano il controllo quando si torna sulla finestra (`FocusGained`, che dentro tmux richiede `focus-events`), si cambia buffer (`BufEnter`) o si resta fermi per `'updatetime'` millisecondi (`CursorHold`). È ciò che serve quando l'agente riscrive una nota aperta nell'altro pannello.
 - **`textwidth=72`**: applica la convenzione del §3.5 solo alle note dell'archivio, non a tutti i file Markdown.
 - **`gf` sui link**: è qui che i link relativi ripagano la scelta del §3.3. Con il cursore su `processo-poisson.md` dentro `[...](processo-poisson.md)`, `gf` apre il file, perché `'path'` contiene `.` (la cartella del file corrente) e il nome include già l'estensione. Con i wikilink servirebbero `'suffixesadd'` e un `'path'` che elenca tutte le cartelle.
-- **Backlink**: `:grep '(processo-poisson.md)' **/*.md` popola la *quickfix list* con tutte le note che linkano quella corrente (con `'grepprg'` impostato su *ripgrep*, se disponibile, è istantaneo).
+- **Backlink**: `:grep -r '[(/]processo-poisson\.md)' .` popola la *quickfix list* con tutte le note che linkano quella corrente, qualunque sia la loro cartella (§1.4). Se `'grepprg'` è impostato su *ripgrep*, che è già ricorsivo, basta `:grep '[(/]processo-poisson\.md)'`; attenzione a non passargli `-r`, che per ripgrep significa *replace*.
 
 Anche il pannello dell'agente può comportarsi come Vim: Claude Code offre una modalità di editing con keybinding in stile vi per il prompt.
 
 
 ### 7.2 VS Code
 
-In VS Code l'agente sta in un pannello accanto all'editor tramite l'estensione di Claude Code, che mostra le modifiche come **diff inline**. Per le note basta l'anteprima Markdown integrata, più un'estensione che renda la matematica con KaTeX (per esempio *Markdown All in One*). Le estensioni per i wikilink e il grafo delle note, come *Foam*, sono comode ma vanno configurate per **non** generare wikilink, altrimenti l'editor inizierebbe a scrivere un formato che il nucleo non ammette.
+In VS Code l'agente sta in un pannello accanto all'editor tramite l'estensione di Claude Code, che mostra le modifiche dell'agente nel **visualizzatore di diff** di VS Code. Per le note basta l'anteprima Markdown integrata, che dalla versione 1.72 mostra anche la matematica tra `$...$` e `$$...$$` con KaTeX (impostazione `markdown.math.enabled`), senza estensioni. Le estensioni per i wikilink e il grafo delle note, come *Foam*, sono comode ma vanno configurate per **non** generare wikilink, altrimenti l'editor inizierebbe a scrivere un formato che il nucleo non ammette.
 
 
 ### 7.3 Cosa si perde, cosa resta
 
 La portabilità ha un prezzo: alcune comodità restano legate a uno strumento e non migrano.
 
-| Comodità                    | Dove                 | Sostituto agnostico                               |
-|-----------------------------|----------------------|---------------------------------------------------|
-| diff inline delle modifiche | estensione VS Code   | `git diff` dopo ogni sessione                     |
-| grafo dei collegamenti      | Foam e simili        | workflow `connect`, script `links` (§5.3)         |
-| completamento dei link      | estensioni editor    | lo scrive l'agente; `gf` e il completamento file  |
-| anteprima della matematica  | estensioni con KaTeX | il sorgente LaTeX; `pandoc` per un PDF al bisogno |
+| Comodità                         | Dove                 | Sostituto agnostico                                                         |
+|----------------------------------|----------------------|-----------------------------------------------------------------------------|
+| diff delle modifiche dell'agente | estensione VS Code   | `git diff` dopo ogni sessione                                               |
+| grafo dei collegamenti           | Foam e simili        | workflow `connect`, script `links` (§5.3)                                   |
+| completamento dei link           | estensioni editor    | lo scrive l'agente; in Vim il completamento dei nomi file (`Ctrl-X Ctrl-F`) |
+| anteprima della matematica       | anteprima di VS Code | il sorgente LaTeX; `pandoc` per un PDF al bisogno                           |
 
 Si accettano come comodità dell'adattatore, **a patto che nessuna diventi indispensabile** per usare il sistema. Il grafo visuale in particolare è più decorativo che utile: la parte sostanziale, cioè scoprire i collegamenti mancanti, la copre `connect`.
 
@@ -655,12 +667,14 @@ Si accettano come comodità dell'adattatore, **a patto che nessuna diventi indis
 
 ## 8. Uso quotidiano
 
-Il ciclo ha quattro tempi, e solo il secondo richiede un agente:
+Il ciclo ha quattro tempi, e solo il secondo e il terzo richiedono un agente:
 
 1. **Catturare** senza pensare: `capture "idea"`, o un file nuovo in `inbox/`. Nessuna decisione su dove va o come si chiama.
 2. **Smistare** una volta al giorno con `triage`: l'agente assegna frontmatter, nome, destinazione e collegamenti, e fa le domande sugli appunti ambigui.
 3. **Interrogare** con `ask` quando serve ritrovare qualcosa: l'agente risponde solo dalle note e cita i file.
 4. **Rivedere** con `git diff` ciò che l'agente ha modificato, poi committare.
+
+Il diagramma segue un giro di smistamento, cioè i passi 1, 2 e 4:
 
 ```mermaid
 ---
@@ -675,7 +689,7 @@ sequenceDiagram
     participant U as Utente
     participant I as inbox/
     participant A as Agente
-    participant N as Note
+    participant N as note
     participant G as git
     U->>I: capture "idea"<br/>(più volte al giorno)
     U->>A: triage
@@ -696,20 +710,20 @@ git diff --stat # quante note ha toccato
 git add -A && git commit -m "triage: 4 appunti smistati, 2 note nuove"
 ```
 
-Se una modifica non convince, `git restore` la annulla: è questo che rende accettabile lasciare all'agente la riscrittura delle note.
+Se una modifica non convince, `git restore <file>` riporta un file già tracciato all'ultimo commit, e `git restore .` fa lo stesso per tutti. Le note *nuove* create dall'agente invece non sono ancora tracciate, quindi `git restore` non le tocca: compaiono in `git status` come *untracked* (`git clean -n` le elenca) e si tolgono a parte. È questa reversibilità che rende accettabile lasciare all'agente la riscrittura delle note.
 
 
 
 
 ## 9. Manutenzione
 
-| Frequenza               | Attività                                                                                                |
-|-------------------------|---------------------------------------------------------------------------------------------------------|
-| ogni giorno             | `triage`; revisione del diff; commit                                                                    |
-| ogni settimana          | inbox a zero; scorrere `git log --since='1 week ago'`; lanciare `connect`                               |
-| ogni mese               | spostare in `archive/` i progetti chiusi; cercare note orfane; rileggere e correggere `AGENTS.md`       |
-| quando si cambia editor | scrivere un nuovo adattatore in `editors/`                                                              |
-| quando si cambia agente | scrivere il suo file di avvio (che rimanda ad `AGENTS.md`) e i suoi comandi (che rimandano ai workflow) |
+| Frequenza               | Attività                                                                                                                                                   |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ogni giorno             | `triage`; revisione del diff; commit                                                                                                                       |
+| ogni settimana          | inbox a zero; scorrere `git log --since='1 week ago'`; lanciare `connect`                                                                                  |
+| ogni mese               | spostare in `archive/` i progetti chiusi; rivedere i tag (unificare i sinonimi, eliminare quelli usati una volta sola); rileggere e correggere `AGENTS.md` |
+| quando si cambia editor | scrivere un nuovo adattatore in `editors/`                                                                                                                 |
+| quando si cambia agente | scrivere il suo file di avvio (che rimanda ad `AGENTS.md`) e i suoi comandi (che rimandano ai workflow)                                                    |
 
 Due regole valgono come **allarme architetturale**:
 
@@ -748,8 +762,8 @@ Dietro tutte c'è la stessa ragione: gli strumenti cambiano più in fretta delle
 ## 11. Documentazione e risorse
 
 - **`AGENTS.md`**: la convenzione aperta per le istruzioni agli agenti, <https://agents.md>
-- **Claude Code, memoria e import con `@`**: <https://docs.claude.com/en/docs/claude-code/memory>
-- **Claude Code, comandi slash personalizzati**: <https://docs.claude.com/en/docs/claude-code/slash-commands>
+- **Claude Code, memoria e import con `@`**: <https://code.claude.com/docs/en/memory>
+- **Claude Code, comandi slash personalizzati**: <https://code.claude.com/docs/en/slash-commands>
 - **CommonMark**: la specifica del Markdown usato per le note, <https://commonmark.org>
 - **Architettura esagonale**: l'articolo originale di Alistair Cockburn, <https://alistair.cockburn.us/hexagonal-architecture/>
 - **Metodo PARA**: Tiago Forte, *Building a Second Brain* (2022)
