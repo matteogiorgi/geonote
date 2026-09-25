@@ -49,6 +49,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 
 - **[Geoteo _CSS_](strumenti_curiosita/tema_geoteo.md)** — come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 - **[GitHub Actions](strumenti_curiosita/azioni_github.md)** — workflow YAML, eventi, DAG di job, matrix, cache e permessi/OIDC.
+- **[Second brain](strumenti_curiosita/second_brain.md)** — archivio di note agnostico: nucleo e adattatori, formato, `AGENTS.md`, workflow, cattura.
 
 
 
