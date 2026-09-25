@@ -1,2 +1,9 @@
 # risposte salvate da ask: usa e getta, fuori da git
 answers/
+
+# in inbox/ git traccia solo il testo: i file non di testo (PDF,
+# immagini, ...) li legge il triage, poi si conservano fuori dall'archivio
+inbox/*
+!inbox/*.md
+!inbox/*.txt
+!inbox/.gitkeep

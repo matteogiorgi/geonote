@@ -17,8 +17,11 @@ qui sotto.
 - `areas/`: note su responsabilità continue (studio, carriera, questo
   archivio).
 - `journal/`: note giornaliere, `AAAA-MM-GG.md`.
-- `archive/`: note ritirate; `archive/inbox/` per gli appunti originali
-  già smistati.
+- `archive/`: note ritirate, nella stessa sottocartella d'origine
+  (`archive/projects/...`); `archive/inbox/` per gli appunti originali
+  già smistati. Per ritirare una nota, spostala mantenendo la
+  sottocartella, aggiorna i suoi link relativi e quelli delle note che la
+  citano.
 - `workflows/`: procedure da eseguire su richiesta.
 - `answers/`: risposte del workflow `ask` salvate su richiesta, escluse
   da git. Non sono note: non cercarci e non linkarle.

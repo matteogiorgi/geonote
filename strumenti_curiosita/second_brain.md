@@ -164,6 +164,13 @@ La divisione `projects/` / `areas/` / `archive/` riprende il metodo *PARA* (*Pro
 
 Le note dentro `notes/` stanno **tutte allo stesso livello**, senza sottocartelle per argomento. La struttura la danno i tag e i link, non le directory, per due ragioni: un'idea può appartenere a più argomenti mentre una cartella la costringe in uno solo, e una nota che non si sposta non rompe i link relativi che puntano a lei.
 
+**Cosa finisce in `archive/`.** La cartella raccoglie due cose diverse, che hanno in comune solo il principio per cui nulla si cancella:
+
+- **`archive/inbox/`** contiene gli appunti grezzi già smistati. Ce li sposta il triage (§5.1), con lo stesso nome, dopo averne portato il contenuto nelle note: servono a controllare che nel passaggio non si sia perso niente. Ci arrivano solo i file di testo passati da `inbox/`; una fonte data direttamente all'agente, o un PDF, non ci finisce mai (§3.6).
+- **Il resto di `archive/`** contiene le note *ritirate*: note vere che non servono più al lavoro attivo, come un progetto concluso, un'area abbandonata o una nota superata da un'altra. Una nota solo incompleta o sbagliata non si ritira: si corregge. Il ritiro si decide nella revisione mensile (§9), e può farlo l'agente su richiesta.
+
+Una nota ritirata mantiene la cartella d'origine: `projects/esame.md` diventa `archive/projects/esame.md`, così `archive/` rispecchia la struttura dell'archivio, e `archive/inbox/` ne è un caso particolare. Lo spostamento cambia i percorsi relativi: i link che partono dalla nota guadagnano un `../` (`../notes/x.md` diventa `../../notes/x.md`), e quelli che puntano a lei dalle note attive vanno aggiornati al nuovo percorso, o tolti se il riferimento non serve più. Quelli dimenticati li segnala `connect` come link rotti (§5.3).
+
 
 ### 2.1 Creare l'archivio con `init.sh`
 
@@ -240,13 +247,13 @@ created: 2026-09-25
 ---
 ```
 
-| Campo     | Obbligatorio | Formato                                             |
-|-----------|--------------|-----------------------------------------------------|
-| `title`   | sì           | titolo leggibile, con accenti e maiuscole           |
-| `tags`    | sì           | lista YAML, minuscolo, kebab-case, ASCII            |
-| `created` | sì           | data ISO 8601 (`AAAA-MM-GG`)                        |
-| `updated` | no           | data dell'ultima revisione *sostanziale*            |
-| `source`  | no           | libro, articolo o lezione da cui viene il contenuto |
+| Campo     | Obbligatorio | Formato                                      |
+|-----------|--------------|----------------------------------------------|
+| `title`   | sì           | titolo leggibile, con accenti e maiuscole    |
+| `tags`    | sì           | lista YAML, minuscolo, kebab-case, ASCII     |
+| `created` | sì           | data ISO 8601 (`AAAA-MM-GG`)                 |
+| `updated` | no           | data dell'ultima revisione *sostanziale*     |
+| `source`  | no           | descrizione della fonte del contenuto (§3.6) |
 
 Nessun altro campo senza prima aggiornare la nota sul formato. Ogni campo in più è un campo da mantenere su centinaia di note; tre bastano per ordinare, filtrare e datare.
 
@@ -315,7 +322,7 @@ source: appunti di lezione, Metodi stocastici, 25/09/2026
 Il file della fonte invece **non entra nell'archivio**. Nel nucleo va solo testo, e git gestisce male i binari: un PDF non ha un diff leggibile, e ogni sua versione resta nella storia per sempre, così in pochi anni il repository diventa pesante da clonare e da spostare. Cosa farne dipende dalla fonte:
 
 - **reperibile altrove** (un libro, il PDF del docente, una pagina web): basta il riferimento in `source`, il file si può buttare;
-- **insostituibile** (i propri appunti di lezione, la foto di una lavagna, una registrazione): si conserva fuori dall'archivio, per esempio in `~/Documents/fonti/<corso>/`, con un normale backup. La nota è una sintesi, e l'originale serve per controllare una formula o un passaggio che il triage può aver riformulato male.
+- **insostituibile** (i propri appunti di lezione, la foto di una lavagna, una registrazione): si conserva fuori dall'archivio, per esempio in `~/Documents/fonti/<corso>/`, con un normale backup. La nota è una sintesi, e l'originale serve per controllare una formula o un passaggio che l'agente può aver riformulato male.
 
 
 
@@ -481,7 +488,7 @@ flowchart TD
     LNK --> ARC["Sposta l'originale<br/>in archive/inbox/"]
 ```
 
-Gli originali finiscono in `archive/inbox/` e non in `archive/`, per non mescolare appunti grezzi e note ritirate; gli appunti in attesa di risposta restano in `inbox/`. Se in `inbox/` finisce comunque un file che non è testo, come un PDF, il triage non lo archivia: lo segnala, perché l'utente lo conservi fuori dall'archivio (§3.6). L'output è un riepilogo: appunti smistati con la nota di destinazione, collegamenti aggiunti, domande aperte e, se ce ne sono, fonti da conservare fuori.
+Gli originali finiscono in `archive/inbox/` e non in `archive/`, per non mescolare appunti grezzi e note ritirate; gli appunti in attesa di risposta restano in `inbox/`. Se in `inbox/` finisce comunque un file che non è testo, come un PDF, il triage ne legge il contenuto come per gli altri appunti, ma non lo archivia: lo segnala, perché l'utente lo sposti fuori dall'archivio (§3.6) prima del triage successivo, che altrimenti lo leggerebbe di nuovo. L'output è un riepilogo: appunti smistati con la nota di destinazione, collegamenti aggiunti, domande aperte e, se ce ne sono, fonti da conservare fuori.
 
 Quando un appunto viene da una fonte, l'agente la indica nel campo `source` della nota. I vincoli impediscono le derive più comuni: l'agente **riformula ma non aggiunge** informazioni che non c'erano; un appunto di una sola riga senza contesto non diventa una nota nuova; `title` e nome del file descrivono il contenuto, non la data o l'origine dell'appunto.
 
@@ -587,7 +594,7 @@ Per lo stesso motivo la cattura non dipende né dall'editor né dall'agente: dev
 
 > **Un file di testo che compare in `inbox/` è un appunto.**
 
-Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra via che deposita un file in `inbox/` (una sincronizzazione dal telefono, un'email salvata, un file copiato a mano) è una cattura valida, e si aggiunge senza toccare il resto del sistema. I file in `inbox/` sono esentati dal formato: niente frontmatter, nome a timestamp. Diventano note vere solo dopo il triage. Il materiale che non è testo, come il PDF di una lezione, si passa invece direttamente all'agente: il contenuto finisce nelle note, l'originale resta fuori dall'archivio (§3.6).
+Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra via che deposita un file in `inbox/` (una sincronizzazione dal telefono, un'email salvata, un file copiato a mano) è una cattura valida, e si aggiunge senza toccare il resto del sistema. I file in `inbox/` sono esentati dal formato: niente frontmatter, nome a timestamp. Diventano note vere solo dopo il triage. Il materiale che non è testo, come il PDF di una lezione, conviene passarlo direttamente all'agente: il contenuto finisce nelle note, l'originale resta fuori dall'archivio (§3.6). Se invece finisce in `inbox/`, per esempio perché arriva da una sincronizzazione, il triage lo legge come gli altri appunti, e dopo va spostato fuori dall'archivio (§5.1). Il `.gitignore` creato da `init.sh` fa sì che in `inbox/` git tracci solo i file di testo (`.md` e `.txt`): così un commit fatto prima di spostare il PDF fuori dall'archivio non lo include.
 
 
 ### 6.2 Lo script
@@ -789,13 +796,13 @@ Se una modifica non convince, `git restore <file>` riporta un file già tracciat
 
 ## 9. Manutenzione
 
-| Frequenza               | Attività                                                                                                                                                   |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ogni giorno             | `triage`; revisione del diff; commit                                                                                                                       |
-| ogni settimana          | inbox a zero; scorrere `git log --since='1 week ago'`; lanciare `connect`                                                                                  |
-| ogni mese               | spostare in `archive/` i progetti chiusi; rivedere i tag (unificare i sinonimi, eliminare quelli usati una volta sola); rileggere e correggere `AGENTS.md` |
-| quando si cambia editor | scrivere un nuovo adattatore in `editors/` o nei propri dotfile                                                                                            |
-| quando si cambia agente | scrivere il suo file di avvio (che rimanda ad `AGENTS.md`) e i suoi comandi (che rimandano ai workflow)                                                    |
+| Frequenza               | Attività                                                                                                                                                                  |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ogni giorno             | `triage`; revisione del diff; commit                                                                                                                                      |
+| ogni settimana          | inbox a zero; scorrere `git log --since='1 week ago'`; lanciare `connect`                                                                                                 |
+| ogni mese               | ritirare in `archive/` le note che non servono più (§2); rivedere i tag (unificare i sinonimi, eliminare quelli usati una volta sola); rileggere e correggere `AGENTS.md` |
+| quando si cambia editor | scrivere un nuovo adattatore in `editors/` o nei propri dotfile                                                                                                           |
+| quando si cambia agente | scrivere il suo file di avvio (che rimanda ad `AGENTS.md`) e i suoi comandi (che rimandano ai workflow)                                                                   |
 
 Due regole valgono come **allarme architetturale**:
 

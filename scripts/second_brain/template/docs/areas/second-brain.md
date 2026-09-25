@@ -86,9 +86,9 @@ adattatori.
 **Ogni settimana**: inbox a zero; scorrere `git log` della settimana;
 lanciare `connect` per trovare collegamenti mancanti.
 
-**Ogni mese**: spostare in `archive/` i progetti chiusi; rivedere i
-tag (unificare i sinonimi, eliminare quelli usati una volta sola);
-rileggere `AGENTS.md` e correggere le istruzioni che l'agente ha
+**Ogni mese**: ritirare in `archive/` le note che non servono più;
+rivedere i tag (unificare i sinonimi, eliminare quelli usati una volta
+sola); rileggere `AGENTS.md` e correggere le istruzioni che l'agente ha
 frainteso nel mese.
 
 **Quando cambio editor**: scrivo un nuovo adattatore in `editors/`. Nulla

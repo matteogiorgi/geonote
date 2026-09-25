@@ -7,7 +7,9 @@ dell'archivio, nel formato corretto e collegato al resto.
 
 ## Input
 
-Tutti i file di `inbox/`, esclusi i file nascosti.
+Tutti i file di `inbox/`, esclusi i file nascosti. Anche i file che non
+sono testo (PDF, immagini): leggine il contenuto come per gli altri
+appunti.
 
 ## Passi
 
@@ -43,8 +45,8 @@ Un riepilogo in tre parti, più una quarta se serve:
 - collegamenti aggiunti: coppie di note;
 - domande: per ogni appunto rimasto in `inbox/`, cosa serve sapere per
   smistarlo;
-- fonti non di testo: quali file l'utente deve conservare fuori
-  dall'archivio.
+- fonti non di testo: quali file l'utente deve spostare fuori
+  dall'archivio prima del prossimo triage, che altrimenti li rileggerebbe.
 
 ## Vincoli
 
