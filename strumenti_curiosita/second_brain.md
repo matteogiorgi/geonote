@@ -9,7 +9,7 @@ Il vincolo che dà forma a tutto il resto è l'**agnosticità**, su due assi: ri
 
 ## Cosa ci serve
 
-- **Nucleo e adattatori** — il principio architetturale: cosa sta nel nucleo, cosa è un adattatore, e il test che separa i due ([§1](#1-il-principio-nucleo-e-adattatori)).
+- **Nucleo e adattatori** — il principio architetturale: cosa sta nel nucleo, cosa è un adattatore ([§1](#1-il-principio-nucleo-e-adattatori)).
 - **Struttura delle cartelle** — dove vive ogni cosa, con le note tenute piatte, e come crearla con `init.sh` ([§2](#2-la-struttura-dellarchivio)).
 - **Formato delle note** — le convenzioni rigide: nomi, frontmatter, link relativi, estensioni ammesse ([§3](#3-il-formato-delle-note)).
 - **`AGENTS.md` e `workflows/`** — le istruzioni per gli agenti, scritte in un file neutro e in prosa ([§4](#4-istruzioni-agent-agnostiche)).
@@ -362,15 +362,13 @@ Due regole meritano una motivazione esplicita.
 
 ### 4.4 I workflow
 
-Ogni file in `workflows/` descrive una procedura in **prosa imperativa**, sempre con la stessa struttura:
+Ogni file in `workflows/` descrive una procedura in **prosa imperativa**, sempre con le stesse sezioni, in quest'ordine:
 
-| Sezione   | Contenuto                                              |
-|-----------|--------------------------------------------------------|
-| `Scopo`   | a cosa serve, in una o due righe                       |
-| `Input`   | su cosa lavora (file, cartelle, argomenti dell'utente) |
-| `Passi`   | la procedura, numerata                                 |
-| `Output`  | cosa restituisce alla fine                             |
-| `Vincoli` | cosa non deve fare                                     |
+1. **Scopo** — a cosa serve, in una o due righe.
+2. **Input** — su cosa lavora: file, cartelle, argomenti dell'utente.
+3. **Passi** — la procedura, numerata.
+4. **Output** — cosa restituisce alla fine.
+5. **Vincoli** — cosa non deve fare.
 
 Due regole per scriverli:
 
