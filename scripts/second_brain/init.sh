@@ -132,47 +132,17 @@ fi
 n=0
 step() {
     n=$((n + 1))
-    printf '\n  %d. %s\n' "$n" "$1"
+    printf '  %d. %s\n' "$n" "$1"
 }
 
 echo
 echo "Fatto. Prossimi passi:"
-
-if [ -n "$added" ]; then
-    step "rifare il login, o caricare subito il profilo nella shell corrente:"
-    cat <<'EOF'
-
-       . ~/.profile
-EOF
-fi
-
-if [ -n "$other" ]; then
-    step "questo archivio non è quello predefinito (\$BRAIN): i suoi script si lanciano con il percorso, per esempio:"
-    cat <<EOF
-
-       $dest/bin/capture "un'idea"
-EOF
-fi
-
+[ -z "$added" ] || step "rifare il login, o caricare subito il profilo: . ~/.profile"
+[ -z "$other" ] || step "archivio non predefinito, i suoi script si lanciano con il percorso: $dest/bin/capture"
 if [ -n "$vim" ]; then
-    step "nel vimrc, per caricare l'adattatore:"
-    cat <<'EOF'
-
-       execute 'source' $BRAIN . '/editors/vim/brain.vim'
-
-     e, se si usa tmux, in ~/.tmux.conf:
-
-       set -g focus-events on
-EOF
+    step "nel vimrc: execute 'source' \$BRAIN . '/editors/vim/brain.vim'"
+    step "con tmux, in ~/.tmux.conf: set -g focus-events on"
 fi
-
-if [ -n "$claude" ]; then
-    step "lanciare Claude Code dentro l'archivio: legge CLAUDE.md e offre /triage, /ask e /connect"
-fi
-
+[ -z "$claude" ] || step "lanciare Claude Code dentro l'archivio: legge CLAUDE.md e offre /triage, /ask e /connect"
 step "rileggere AGENTS.md e completarlo con ciò che l'agente deve sapere"
-step "primo commit:"
-cat <<EOF
-
-       cd "$dest" && git add -A && git commit -m "Archivio iniziale"
-EOF
+step "primo commit: cd \"$dest\" && git add -A && git commit -m \"Archivio iniziale\""
