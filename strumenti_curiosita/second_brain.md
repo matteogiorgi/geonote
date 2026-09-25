@@ -375,8 +375,9 @@ e analogamente `triage.md` (senza argomenti) e `connect.md` (con `Ambito: $ARGUM
 config:
   fontSize: 13.6
   sequence:
-    width: 135
-    actorMargin: 20
+    width: 140
+    actorMargin: 35
+    diagramMarginX: 15
 ---
 sequenceDiagram
     participant U as Utente
@@ -666,8 +667,9 @@ Il ciclo ha quattro tempi, e solo il secondo richiede un agente:
 config:
   fontSize: 13.6
   sequence:
-    width: 135
-    actorMargin: 20
+    width: 140
+    actorMargin: 35
+    diagramMarginX: 15
 ---
 sequenceDiagram
     participant U as Utente
