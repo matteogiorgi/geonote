@@ -44,13 +44,16 @@ triage.
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
 #
-# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+# L'archivio è quello che contiene lo script; se lo script non sta in un
+# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
 
 set -eu
 
-dir="${BRAIN:-$(dirname "$0")/..}/inbox"
-if [ ! -d "$dir" ]; then
-    echo "capture: $dir non esiste (BRAIN è giusta?)" >&2
+root="$(dirname "$0")/.."
+[ -d "$root/inbox" ] || root="${BRAIN:-}"
+dir="$root/inbox"
+if [ -z "$root" ] || [ ! -d "$dir" ]; then
+    echo "capture: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
@@ -84,20 +87,25 @@ Il nome del file unisce data, ora e PID, così due catture nello stesso
 secondo non si sovrascrivono. Un appunto vuoto (editor chiuso senza
 salvare, pipe senza output) non lascia file.
 
-L'archivio è `$BRAIN` se definita, altrimenti quello che contiene lo
-script. Se `inbox/` non esiste, lo script si ferma con un errore invece
-di crearne una nel posto sbagliato.
+L'archivio è quello che contiene lo script; solo se lo script non sta
+in un archivio (per esempio è un link simbolico messo altrove) si usa
+`$BRAIN`. Così, con più archivi, ognuno usa i propri script. Se non
+trova un archivio, lo script si ferma con un errore invece di creare
+un'inbox nel posto sbagliato.
 
 ## Installazione
 
-Nel profilo della shell:
+`init.sh` aggiunge queste righe in fondo a `~/.profile`; a mano, vanno
+nel profilo della shell:
 
 ```sh
 export BRAIN="$HOME/brain"
 PATH="$BRAIN/bin:$PATH"
 ```
 
-Se l'archivio non è stato creato con `init.sh`, poi, in una shell nuova:
+Il profilo si legge al login; per la shell corrente basta
+`. ~/.profile`. Se l'archivio non è stato creato con `init.sh`, lo
+script va anche reso eseguibile:
 
 ```sh
 chmod +x "$BRAIN/bin/capture"

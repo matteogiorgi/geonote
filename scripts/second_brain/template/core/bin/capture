@@ -6,13 +6,16 @@
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
 #
-# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+# L'archivio è quello che contiene lo script; se lo script non sta in un
+# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
 
 set -eu
 
-dir="${BRAIN:-$(dirname "$0")/..}/inbox"
-if [ ! -d "$dir" ]; then
-    echo "capture: $dir non esiste (BRAIN è giusta?)" >&2
+root="$(dirname "$0")/.."
+[ -d "$root/inbox" ] || root="${BRAIN:-}"
+dir="$root/inbox"
+if [ -z "$root" ] || [ ! -d "$dir" ]; then
+    echo "capture: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"

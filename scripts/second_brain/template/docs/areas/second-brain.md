@@ -60,16 +60,10 @@ init.sh --claude --vim --docs ~/brain
 
 Il nucleo (cartelle, `AGENTS.md`, `workflows/`, `bin/`) viene creato
 sempre; `--claude`, `--vim` e `--docs` aggiungono gli adattatori per
-Claude Code, quello per Vim e queste note di documentazione. Dopo,
-seguendo i passi che lo script stampa alla fine:
-
-1. esportare `BRAIN` e aggiungere `bin/` al `PATH` nel profilo della
-   shell, come in [cattura da shell](../notes/cattura-da-shell.md);
-2. con `--vim`, caricare `editors/vim/brain.vim` dal `vimrc`;
-3. con `--claude`, lanciare Claude Code dentro l'archivio;
-4. completare `AGENTS.md` con le informazioni sull'archivio che l'agente
-   deve sapere;
-5. fare il primo commit.
+Claude Code, quello per Vim e queste note di documentazione. Se è il
+primo archivio, in fondo a `~/.profile` aggiunge `BRAIN` e `PATH` (vedi
+[cattura da shell](../notes/cattura-da-shell.md)); gli altri passi, come
+il primo commit, li elenca alla fine del suo output.
 
 Senza lo script si procede a mano con gli stessi passi: creare le
 cartelle e `git init`, scrivere `AGENTS.md` e i workflow, poi gli

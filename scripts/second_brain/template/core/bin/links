@@ -1,10 +1,17 @@
 #!/bin/sh
 # links: elenca link rotti e note orfane dell'archivio
 #
-# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+# L'archivio è quello che contiene lo script; se lo script non sta in un
+# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
 
 set -eu
-cd "${BRAIN:-$(dirname "$0")/..}"
+root="$(dirname "$0")/.."
+[ -d "$root/notes" ] || root="${BRAIN:-}"
+if [ -z "$root" ] || [ ! -d "$root/notes" ]; then
+    echo "links: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+    exit 1
+fi
+cd "$root"
 root=$(pwd -P)
 seen=$(mktemp)
 trap 'rm -f "$seen"' EXIT

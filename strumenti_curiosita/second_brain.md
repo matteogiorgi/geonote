@@ -174,40 +174,27 @@ Il modo più rapido per partire è lo script [`init.sh`](https://github.com/matt
 | `vim`    | `--vim`    | `editors/vim/brain.vim`                                                                   |
 | `docs`   | `--docs`   | `areas/second-brain.md` e quattro note in `notes/` che documentano il sistema             |
 
-`--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è l'argomento, oppure `$BRAIN`, oppure `~/brain`.
+`--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è obbligatoria e può stare ovunque. Si possono creare più archivi indipendenti, ognuno nella sua cartella: il primo diventa quello predefinito (§6.3).
 
 Per usare lo script basta scaricare la sua cartella, non l'intero repository:
 
 ```sh
-git clone --depth 1 --filter=blob:none --no-checkout \
-    https://github.com/matteogiorgi/geonote.git
-cd geonote
+git clone --depth 1 --filter=blob:none --no-checkout https://github.com/matteogiorgi/geonote.git brain-init
+cd brain-init
 git sparse-checkout set --no-cone /scripts/second_brain/
 git checkout
 scripts/second_brain/init.sh --claude --vim ~/brain
 ```
 
-> **Cosa fanno le opzioni.** Il clone scarica solo `scripts/second_brain/` (poche centinaia di KB) invece dell'intero repository. `--depth 1` salta la storia dei commit. `--filter=blob:none` e `--no-checkout` rimandano il download del contenuto dei file al `checkout`. `sparse-checkout` limita quel checkout alla sola cartella dello script: la barra iniziale ancora il pattern alla radice del repository, e `--no-cone` evita che git estragga anche i file che stanno nella radice, come farebbe per default.
+Una volta creato l'archivio, la cartella `brain-init/` si può cancellare, perché l'archivio non ne dipende; oppure si tiene, per rilanciare lo script in seguito.
 
-Una volta creato l'archivio, la cartella `geonote/` si può cancellare, perché l'archivio non ne dipende; oppure si tiene, per rilanciare lo script in seguito.
+Lo script è conservativo:
 
-Lo script segue le stesse regole che il sistema dà all'agente:
-
-- **non sovrascrive mai**: un file che esiste già viene saltato e segnalato. Si può quindi rilanciare in ogni momento, per esempio per aggiungere un adattatore a un archivio già avviato (`init.sh --docs ~/brain`);
-- **non tocca nulla fuori dall'archivio**: le righe da aggiungere al profilo della shell (§6.3) le stampa, non le scrive;
+- **non sovrascrive mai**: un file che esiste già viene saltato e segnalato, quindi lo si può rilanciare, per esempio per aggiungere un adattatore a un archivio già avviato (`init.sh --docs ~/brain`);
+- **fuori dall'archivio tocca solo `~/.profile`**: per il primo archivio ci aggiunge in fondo `BRAIN` e `PATH` (§6.3); se il profilo indica già un archivio predefinito, lo lascia com'è;
 - **non fa commit**: crea il repository con `git init` se manca, mette un `.gitkeep` nelle cartelle vuote (git traccia file, non directory) e rende eseguibili gli script di `bin/`, ma il primo commit resta all'utente, come ogni altro.
 
 I file in `template/` sono i testi completi di ciò che i §4–§7 descrivono: `AGENTS.md`, i tre workflow, i comandi di Claude Code, gli script `capture` e `links`, l'adattatore per Vim. Sono un punto di partenza, non una versione definitiva, e vanno corretti nel tempo (§9).
-
-Dopo lo script restano alcuni passi che `init.sh` non fa da sé, perché toccano file fuori dall'archivio o, come il commit e la revisione di `AGENTS.md`, spettano all'utente. Lo script li elenca alla fine del suo output, con i percorsi già compilati:
-
-1. **Profilo della shell** — esportare `BRAIN` e aggiungere `bin/` al `PATH`, poi aprire una shell nuova (§6.3).
-2. **Vim**, con `--vim` — caricare l'adattatore dal `vimrc` e, se si usa tmux, attivare `focus-events` (§7.1).
-3. **Claude Code**, con `--claude` — lanciarlo dentro la cartella dell'archivio, così legge `CLAUDE.md` e offre `/triage`, `/ask` e `/connect` (§4.5).
-4. **`AGENTS.md`** — rileggerlo e completarlo con ciò che l'agente deve sapere del proprio archivio (§4.3). Funziona anche così com'è: è un raffinamento, non un requisito per partire.
-5. **Primo commit** — `git add -A && git commit`.
-
-Da quel momento il ciclo del §8 può partire: `capture` per la prima idea, `triage` per smistarla.
 
 Senza lo script, lo stesso scheletro si crea a mano:
 
@@ -516,10 +503,17 @@ I primi due controlli sono puramente meccanici, e il criterio "eseguibile a mano
 #!/bin/sh
 # links: elenca link rotti e note orfane dell'archivio
 #
-# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+# L'archivio è quello che contiene lo script; se lo script non sta in un
+# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
 
 set -eu
-cd "${BRAIN:-$(dirname "$0")/..}"
+root="$(dirname "$0")/.."
+[ -d "$root/notes" ] || root="${BRAIN:-}"
+if [ -z "$root" ] || [ ! -d "$root/notes" ]; then
+    echo "links: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
+    exit 1
+fi
+cd "$root"
 root=$(pwd -P)
 seen=$(mktemp)
 trap 'rm -f "$seen"' EXIT
@@ -548,7 +542,7 @@ for f in $notes; do
 done
 ```
 
-Come `capture` (§6.2), lavora sull'archivio `$BRAIN` o, se la variabile non è definita, su quello che contiene lo script. Legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
+Come `capture` (§6.2), lavora sull'archivio che contiene lo script, o su `$BRAIN` se lo script non sta in un archivio. Legge i link da tutte le note fuori da `archive/`, `journal/` compreso. Per ogni link risolve il percorso relativo alla cartella della nota che lo contiene: se il file esiste ne registra il percorso normalizzato (un arco del grafo), altrimenti segnala il link rotto. Alla fine, ogni nota di `notes/`, `projects/` o `areas/` che non compare tra le destinazioni registrate ha $\deg^-(v) = 0$. Lo script tratta come ambito l'intero archivio e non esclude i link di una nota verso se stessa, che sono comunque rari; i cicli `for` sui nomi dei file funzionano perché il formato (§3.1) li vuole senza spazi. I link dentro i blocchi di codice sono esempi, non collegamenti, e vengono ignorati. L'output ha questa forma:
 
 ```
 rotto:  notes/sola.md -> ../notes/nonc.md
@@ -586,13 +580,16 @@ Lo script che segue è solo il modo più comodo di rispettarlo. Qualsiasi altra 
 #   comando | capture
 #   capture                  (da terminale: apre $EDITOR)
 #
-# L'archivio è $BRAIN se definita, altrimenti quello che contiene lo script.
+# L'archivio è quello che contiene lo script; se lo script non sta in un
+# archivio (per esempio è un link simbolico messo altrove), è $BRAIN.
 
 set -eu
 
-dir="${BRAIN:-$(dirname "$0")/..}/inbox"
-if [ ! -d "$dir" ]; then
-    echo "capture: $dir non esiste (BRAIN è giusta?)" >&2
+root="$(dirname "$0")/.."
+[ -d "$root/inbox" ] || root="${BRAIN:-}"
+dir="$root/inbox"
+if [ -z "$root" ] || [ ! -d "$dir" ]; then
+    echo "capture: archivio non trovato (né accanto allo script, né in \$BRAIN)" >&2
     exit 1
 fi
 f="$dir/$(date +%Y%m%d-%H%M%S)-$$.md"
@@ -623,7 +620,7 @@ Lo script sceglie il modo d'uso in base a cosa riceve:
 
 Alcuni dettagli:
 
-- l'archivio è `$BRAIN` se definita, altrimenti quello che contiene lo script (`bin/..`), quindi `BRAIN` non è indispensabile. Serve però se lo script viene chiamato tramite un link simbolico messo in un'altra cartella: in quel caso `bin/..` indica la cartella del link, non l'archivio. Se `inbox/` non esiste, lo script si ferma con un errore invece di creare di nascosto un'inbox nel posto sbagliato;
+- l'archivio è quello che contiene lo script (`bin/..`, riconosciuto dalla presenza di `inbox/`): con più archivi, ognuno usa i propri script. Solo se lo script non sta in un archivio, per esempio un link simbolico messo in `~/.local/bin`, si usa `$BRAIN`. Se non trova un archivio da nessuna parte, lo script si ferma con un errore invece di creare di nascosto un'inbox nel posto sbagliato;
 - il nome unisce data, ora e **PID** (`$$`): due catture nello stesso secondo, da processi diversi, non si sovrascrivono;
 - un appunto vuoto (editor chiuso senza salvare, pipe senza output) **non lascia file**, grazie al test `-s` (file esistente e non vuoto);
 - `set -eu` ferma lo script al primo errore o alla prima variabile non definita, invece di proseguire in silenzio;
@@ -632,14 +629,16 @@ Alcuni dettagli:
 
 ### 6.3 Installazione ed esempi
 
-Per usare `capture` da qualunque terminale basta aggiungere `bin/` al `PATH`. Conviene anche esportare `BRAIN`: rende esplicito dove sta l'archivio, e serve all'adattatore per Vim (§7.1). Entrambe le righe vanno nel profilo della shell (`~/.profile`, `~/.bashrc`, ...), e `init.sh` (§2.1) le stampa già con il percorso giusto:
+Per usare `capture` da qualunque terminale basta aggiungere `bin/` al `PATH`. Conviene anche esportare `BRAIN`: rende esplicito dove sta l'archivio, e serve all'adattatore per Vim (§7.1). `init.sh` (§2.1) aggiunge da sé queste righe in fondo a `~/.profile`; a mano, vanno nel profilo della shell:
 
 ```sh
 export BRAIN="$HOME/brain"
 PATH="$BRAIN/bin:$PATH"
 ```
 
-Se l'archivio è stato creato a mano e non con `init.sh`, gli script vanno anche resi eseguibili (in una shell nuova, perché `$BRAIN` sia già definita):
+Con più archivi, `BRAIN` e `PATH` indicano quello predefinito: `capture` lanciato per nome scrive lì, e l'adattatore per Vim si applica a quello. Gli altri si usano con il percorso dei loro script, per esempio `~/lavoro/brain/bin/capture`, o con un alias.
+
+Il profilo si legge al login: per usarlo subito nella shell corrente basta `. ~/.profile`. Se al login la shell legge un altro file, come `~/.bash_profile` per bash o `~/.zprofile` per zsh, le righe vanno lì. Se l'archivio è stato creato a mano, gli script vanno anche resi eseguibili:
 
 ```sh
 chmod +x "$BRAIN/bin/capture" "$BRAIN/bin/links"

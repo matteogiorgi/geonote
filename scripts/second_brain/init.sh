@@ -2,11 +2,13 @@
 # init.sh: crea un archivio second brain, o completa uno esistente
 #
 # uso:
-#   init.sh [--claude] [--vim] [--docs] [--all] [cartella]
+#   init.sh [--claude] [--vim] [--docs] [--all] cartella
 #
 # Il nucleo (cartelle, AGENTS.md, workflows/, bin/) viene creato sempre;
 # le opzioni aggiungono gli adattatori e le note di documentazione.
-# La cartella predefinita è $BRAIN, o ~/brain se BRAIN non è definita.
+# La cartella è obbligatoria e può stare ovunque: si possono creare più
+# archivi. Il primo diventa quello predefinito: in fondo a ~/.profile lo
+# script aggiunge BRAIN e PATH, se BRAIN non c'è già.
 # Nessun file esistente viene sovrascritto: rilanciare lo script è
 # sempre sicuro.
 
@@ -14,7 +16,7 @@ set -eu
 
 usage() {
     cat <<EOF
-uso: $(basename "$0") [opzioni] [cartella]
+uso: $(basename "$0") [opzioni] cartella
 
   --claude   adattatore per Claude Code (CLAUDE.md, .claude/commands/)
   --vim      adattatore per Vim (editors/vim/brain.vim)
@@ -22,7 +24,7 @@ uso: $(basename "$0") [opzioni] [cartella]
   --all      tutte le opzioni precedenti
   -h         mostra questo aiuto
 
-cartella: dove creare l'archivio (predefinita: \$BRAIN, poi ~/brain)
+cartella: dove creare l'archivio (obbligatoria; se ne possono creare più d'uno)
 EOF
 }
 
@@ -50,10 +52,10 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
-[ $# -le 1 ] || die "una sola cartella, per favore (vedi -h)"
+[ $# -eq 1 ] || die "serve una cartella, e una sola (vedi -h)"
 layers="core $claude $vim $docs"
 
-dest="${1:-${BRAIN:-$HOME/brain}}"
+dest=$1
 [ ! -e "$dest" ] || [ -d "$dest" ] || die "$dest esiste e non è una cartella"
 mkdir -p "$dest"
 dest=$(cd "$dest" && pwd -P)
@@ -101,6 +103,31 @@ else
     echo "git: non installato, repository non creato" >&2
 fi
 
+# il primo archivio diventa quello predefinito: BRAIN e PATH in ~/.profile
+profile="$HOME/.profile"
+added='' other=''
+if line=$(grep '^export BRAIN=' "$profile" 2>/dev/null); then
+    case $line in
+    *"\"$dest\""*) echo "profilo: questo è già l'archivio predefinito" ;;
+    *)
+        other=1
+        echo "profilo: $profile ha già un archivio predefinito, non toccato"
+        ;;
+    esac
+else
+    added=1
+    {
+        echo
+        echo "# second brain (aggiunto da init.sh)"
+        echo "export BRAIN=\"$dest\""
+        echo "PATH=\"\$BRAIN/bin:\$PATH\""
+    } >>"$profile"
+    echo "profilo: BRAIN e PATH aggiunti in fondo a $profile"
+fi
+if [ -e "$HOME/.bash_profile" ] || [ -e "$HOME/.bash_login" ]; then
+    echo "profilo: attenzione, al login bash legge ~/.bash_profile (o ~/.bash_login) e non ~/.profile" >&2
+fi
+
 # prossimi passi, secondo le opzioni scelte
 n=0
 step() {
@@ -111,12 +138,21 @@ step() {
 echo
 echo "Fatto. Prossimi passi:"
 
-step "nel profilo della shell (~/.profile, ~/.bashrc, ...), poi aprire una shell nuova:"
-cat <<EOF
+if [ -n "$added" ]; then
+    step "rifare il login, o caricare subito il profilo nella shell corrente:"
+    cat <<'EOF'
 
-       export BRAIN="$dest"
-       PATH="\$BRAIN/bin:\$PATH"
+       . ~/.profile
 EOF
+fi
+
+if [ -n "$other" ]; then
+    step "questo archivio non è quello predefinito (\$BRAIN): i suoi script si lanciano con il percorso, per esempio:"
+    cat <<EOF
+
+       $dest/bin/capture "un'idea"
+EOF
+fi
 
 if [ -n "$vim" ]; then
     step "nel vimrc, per caricare l'adattatore:"
