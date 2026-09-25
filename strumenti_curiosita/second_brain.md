@@ -174,12 +174,22 @@ Il modo più rapido per partire è lo script [`init.sh`](https://github.com/matt
 | `vim`    | `--vim`    | `editors/vim/brain.vim`                                                                   |
 | `docs`   | `--docs`   | `areas/second-brain.md` e quattro note in `notes/` che documentano il sistema             |
 
-`--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è l'argomento, oppure `$BRAIN`, oppure `~/brain`:
+`--all` attiva tutti i livelli, e `init.sh -h` li elenca. La cartella di destinazione è l'argomento, oppure `$BRAIN`, oppure `~/brain`.
+
+Per usare lo script basta scaricare la sua cartella, non l'intero repository:
 
 ```sh
-git clone https://github.com/matteogiorgi/geonote.git
-geonote/scripts/second_brain/init.sh --claude --vim ~/brain
+git clone --depth 1 --filter=blob:none --no-checkout \
+    https://github.com/matteogiorgi/geonote.git
+cd geonote
+git sparse-checkout set --no-cone /scripts/second_brain/
+git checkout
+scripts/second_brain/init.sh --claude --vim ~/brain
 ```
+
+> **Cosa fanno le opzioni.** Il clone scarica solo `scripts/second_brain/` (poche centinaia di KB) invece dell'intero repository. `--depth 1` salta la storia dei commit. `--filter=blob:none` e `--no-checkout` rimandano il download del contenuto dei file al `checkout`. `sparse-checkout` limita quel checkout alla sola cartella dello script: la barra iniziale ancora il pattern alla radice del repository, e `--no-cone` evita che git estragga anche i file che stanno nella radice, come farebbe per default.
+
+Una volta creato l'archivio, la cartella `geonote/` si può cancellare, perché l'archivio non ne dipende; oppure si tiene, per rilanciare lo script in seguito.
 
 Lo script segue le stesse regole che il sistema dà all'agente:
 
@@ -752,7 +762,7 @@ Se una modifica non convince, `git restore <file>` riporta un file già tracciat
 | ogni giorno             | `triage`; revisione del diff; commit                                                                                                                       |
 | ogni settimana          | inbox a zero; scorrere `git log --since='1 week ago'`; lanciare `connect`                                                                                  |
 | ogni mese               | spostare in `archive/` i progetti chiusi; rivedere i tag (unificare i sinonimi, eliminare quelli usati una volta sola); rileggere e correggere `AGENTS.md` |
-| quando si cambia editor | scrivere un nuovo adattatore in `editors/`                                                                                                                 |
+| quando si cambia editor | scrivere un nuovo adattatore in `editors/` o nei propri dotfile                                                                                            |
 | quando si cambia agente | scrivere il suo file di avvio (che rimanda ad `AGENTS.md`) e i suoi comandi (che rimandano ai workflow)                                                    |
 
 Due regole valgono come **allarme architetturale**:
