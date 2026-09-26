@@ -4,7 +4,3 @@ plugins:
 
 kramdown:
   smart_quotes: ["apos", "apos", "quot", "quot"]
-
-# modelli di file per scripts/second_brain/init.sh: non sono pagine del sito
-exclude:
-  - scripts/second_brain/template/
