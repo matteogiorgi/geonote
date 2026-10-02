@@ -432,8 +432,8 @@ func newtonKKT(z0 [3]float64) (z [3]float64, iterazioni int) {
 	return
 }
 
-// newtonKKT([3]float64{0.5, -0.6, 0.3}) → (0.707107, -0.707107, 0.5) in 6 iterazioni: il minimo
-// newtonKKT([3]float64{0.6, 0.8, 0})    → (0.707107, 0.707107, -0.5) in 6 iterazioni: un massimo
+// newtonKKT([3]float64{0.5, -0.6, 0.3}) -> (0.707107, -0.707107, 0.5) in 6 iterazioni: il minimo
+// newtonKKT([3]float64{0.6, 0.8, 0})    -> (0.707107, 0.707107, -0.5) in 6 iterazioni: un massimo
 ```
 
 `risolvi(A, b)` è una qualsiasi eliminazione di Gauss con pivoting parziale (con *gonum*, `mat.VecDense.SolveVec`): per un sistema $3 \times 3$ basta, mentre per sistemi grandi si usano fattorizzazioni pensate per matrici simmetriche indefinite, come $LDL^\top$. La convergenza è quadratica, come sempre per Newton vicino a una soluzione regolare. La seconda chiamata mostra però il limite del metodo: Newton cerca **punti stazionari** di $L$, non minimi, e converge a quello verso cui la porta il punto di partenza, che qui è un massimo. Va sempre affiancato a un controllo del secondo ordine ([§3](#3-condizioni-del-secondo-ordine)) o a una globalizzazione che privilegi la discesa di $f$.
@@ -533,12 +533,12 @@ func lagrangianaAumentata(rho float64, passi int) (x, lambda float64) {
 | $100$ | $-0.0099$ | $-0.990$ |
 | $1000$ | $-0.001$ | $-0.999$ |
 
-| Lagrangiana aumentata, $\rho = 10$ | $\lambda_k$ |
-|---|---|
-| 1 passo | $-0.909$ |
-| 2 passi | $-0.9917$ |
-| 5 passi | $-0.999994$ |
-| 10 passi | $-1.0000000000$ |
+Con la Lagrangiana aumentata, invece, $\rho = 10$ resta fisso e a ogni passo si aggiorna $\lambda$, partendo da $\lambda_0 = 0$:
+
+- dopo 1 passo, $\lambda_1 = -0.909$, lo stesso valore della penalità con $\rho = 10$;
+- dopo 2 passi, $\lambda_2 = -0.9917$;
+- dopo 5 passi, $\lambda_5 = -0.999994$;
+- dopo 10 passi, $\lambda_{10} = -1.0000000000$.
 
 Per avere tre cifre corrette, la penalità ha bisogno di $\rho = 1000$; la Lagrangiana aumentata, con $\rho = 10$ fisso, guadagna circa una cifra per passo (in questo esempio l'errore su $\lambda$ si riduce a ogni passo di un fattore $1 + \rho = 11$).
 
@@ -695,7 +695,7 @@ func subgradiente(passi int) (bound, migliore float64) {
 	return
 }
 
-// subgradiente(100) → bound 21.0089, migliore soluzione ammissibile 20
+// subgradiente(100) -> bound 21.0089, migliore soluzione ammissibile 20
 ```
 
 Dopo 100 passi il bound è $21.0089$, vicino al valore esatto $21$, e il sottoproblema ha già trovato l'ottimo intero $20$. La convergenza è lenta (il subgradiente non garantisce la discesa a ogni passo, e $q$ oscilla attorno al minimo), ma nella pratica basta un bound "buono abbastanza" per potare. L'aggiornamento di $u$ ha la stessa forma di quello di $\lambda$ nella Lagrangiana aumentata ([§7.2](#72-penalità-e-lagrangiana-aumentata)), senza termine quadratico.
