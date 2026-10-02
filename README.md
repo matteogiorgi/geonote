@@ -33,7 +33,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 ### Matematica e statistica
 
 - **[Teoria della misura](matematica_statistica/teoria_misura.md)** — insieme di Cantor, $\sigma$-algebre, misura e insieme di Vitali, integrale di Lebesgue.
-- **[Moltiplicatori di Lagrange](matematica_statistica/teoria_lagrange.md)** — teorema, KKT, dualità, metodi numerici, PL e rilassamento lagrangiano.
+- **[Ottimizzazione vincolata e dualità](matematica_statistica/teoria_lagrange.md)** — moltiplicatori di Lagrange, KKT, dualità, metodi numerici, PL e PLI.
 
 <!--
 - **[Metodi stocastici](matematica_statistica/teoria_metodi.md)** † — spazi di probabilità, variabili aleatorie, distribuzioni.

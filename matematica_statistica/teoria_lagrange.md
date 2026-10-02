@@ -1,4 +1,4 @@
-# Moltiplicatori di Lagrange
+# Ottimizzazione vincolata e dualità
 
 Minimizzare una funzione senza vincoli è, in linea di principio, semplice: si cercano i punti in cui il gradiente si annulla. Con un vincolo del tipo $g(x) = 0$ questa ricetta smette di funzionare: il minimo vincolato di solito *non* annulla il gradiente di $f$, perché il punto non è libero di muoversi in tutte le direzioni, ma solo lungo il vincolo. Il metodo dei moltiplicatori di Lagrange ripristina la ricetta a un prezzo modesto: si introduce una variabile in più, $\lambda$, per ogni vincolo, e il problema vincolato diventa la ricerca dei punti stazionari di una nuova funzione, la **Lagrangiana**.
 
@@ -154,7 +154,18 @@ Qui si usa la funzione implicita fino in fondo: vicino a $x^\ast$ il problema vi
 1. Vicino a $x^\ast$ i punti di $M$ sono tutti e soli quelli della forma $(\varphi(z), z)$, quindi $z^\ast$ è un minimo locale libero di $F(z) = f(\varphi(z), z)$.
 2. Allora $\nabla F(z^\ast) = 0$, cioè, per la regola della catena, $\nabla_z f + D\varphi^\top \nabla_y f = 0$.
 3. Si **definisce** $\lambda^\ast = -(\partial_y g)^{-\top} \nabla_y f$. Per costruzione $\nabla_y f + (\partial_y g)^\top \lambda^\ast = 0$: è il blocco di righe $y$ della tesi.
-4. Per il blocco $z$: $\nabla_z f + (\partial_z g)^\top \lambda^\ast = \nabla_z f - (\partial_z g)^\top (\partial_y g)^{-\top} \nabla_y f = \nabla_z f + D\varphi^\top \nabla_y f = 0$, per il passo 2.
+4. Per il blocco $z$, sostituendo $\lambda^\ast$ e ricordando che $D\varphi^\top = -(\partial_z g)^\top (\partial_y g)^{-\top}$:
+
+   $$
+   \begin{aligned}
+   \nabla_z f + (\partial_z g)^\top \lambda^\ast
+   &= \nabla_z f - (\partial_z g)^\top (\partial_y g)^{-\top} \nabla_y f \\
+   &= \nabla_z f + D\varphi^\top \nabla_y f \\
+   &= 0 ,
+   \end{aligned}
+   $$
+
+   dove l'ultima uguaglianza è il passo 2.
 5. I due blocchi insieme danno $\nabla f + J_g^\top \lambda^\ast = 0$. $\blacksquare$
 
 La formula del passo 3 dice da dove viene $\lambda^\ast$: usare le variabili dipendenti $y$ per tenere soddisfatto il vincolo ha un costo, e $\lambda^\ast$ ne misura la sensibilità. Il [§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra) rende precisa questa lettura.
@@ -183,7 +194,9 @@ La versione generale è il teorema di **Fritz John**: in un minimo locale esisto
 
 La stazionarietà non distingue minimi, massimi e selle, esattamente come $f'(x) = 0$ in una variabile. Serve la curvatura, ma va misurata con l'Hessiana di $L$, non di $f$: muovendosi su $M$ si segue un vincolo curvo, e la curvatura del vincolo conta quanto quella di $f$.
 
-> **Teorema 2.** Sia $x^\ast$ regolare con moltiplicatore $\lambda^\ast$ e sia $H = \nabla^2_{xx} L(x^\ast, \lambda^\ast) = \nabla^2 f(x^\ast) + \sum_i \lambda_i^\ast \nabla^2 g_i(x^\ast)$.
+> **Teorema 2.** Sia $x^\ast$ regolare con moltiplicatore $\lambda^\ast$ e sia
+>
+> $$H = \nabla^2_{xx} L(x^\ast, \lambda^\ast) = \nabla^2 f(x^\ast) + \sum_i \lambda_i^\ast \nabla^2 g_i(x^\ast) .$$
 >
 > - *Condizione necessaria.* Se $x^\ast$ è un minimo locale, allora $v^\top H v \ge 0$ per ogni $v \in T_{x^\ast}$.
 > - *Condizione sufficiente.* Se $\nabla_x L(x^\ast, \lambda^\ast) = 0$, $g(x^\ast) = 0$ e $v^\top H v > 0$ per ogni $v \in T_{x^\ast} \setminus \lbrace 0 \rbrace$, allora $x^\ast$ è un minimo locale stretto.
@@ -198,7 +211,13 @@ Il secondo termine sparisce perché $\nabla_x L = 0$: è per questo che si usa $
 
 La condizione sufficiente si dimostra per assurdo: se esistesse una successione di punti ammissibili $x_k \to x^\ast$ con $f(x_k) \le f(x^\ast)$, le direzioni normalizzate $(x_k - x^\ast)/\lVert x_k - x^\ast \rVert$ convergerebbero a un $v \in T_{x^\ast}$ con $v^\top H v \le 0$, contro l'ipotesi.
 
-Nell'esempio guida $H = \begin{pmatrix} 2\lambda & 1 \\ 1 & 2\lambda \end{pmatrix}$. Nel punto $(1/\sqrt{2}, -1/\sqrt{2})$, con $\lambda = 1/2$, lo spazio tangente è generato da $v = (1, 1)$ e $v^\top H v = 4 > 0$: minimo. Nel punto $(1/\sqrt{2}, 1/\sqrt{2})$, con $\lambda = -1/2$, $T$ è generato da $v = (1, -1)$ e $v^\top H v = -4 < 0$: massimo.
+Nell'esempio guida
+
+$$
+H = \begin{pmatrix} 2\lambda & 1 \\ 1 & 2\lambda \end{pmatrix} .
+$$
+
+Nel punto $(1/\sqrt{2}, -1/\sqrt{2})$, con $\lambda = 1/2$, lo spazio tangente è generato da $v = (1, 1)$ e $v^\top H v = 4 > 0$: minimo. Nel punto $(1/\sqrt{2}, 1/\sqrt{2})$, con $\lambda = -1/2$, $T$ è generato da $v = (1, -1)$ e $v^\top H v = -4 < 0$: massimo.
 
 
 ### 3.2 Il test pratico: l'Hessiana orlata
@@ -338,7 +357,13 @@ $$
 \min \; x^2 \qquad \text{s.t.} \qquad x = 1, \qquad L(x, \lambda) = x^2 + \lambda (x - 1).
 $$
 
-L'unico punto stazionario è $(1, -2)$ e l'Hessiana di $L$ in $(x, \lambda)$ è $\begin{pmatrix} 2 & 1 \\ 1 & 0 \end{pmatrix}$, con determinante $-1$: indefinita, quindi è una **sella**. Del resto $L$ è affine in $\lambda$, e una funzione affine non ha minimi.
+L'unico punto stazionario è $(1, -2)$, e lì l'Hessiana di $L$ in $(x, \lambda)$ è
+
+$$
+\nabla^2 L = \begin{pmatrix} 2 & 1 \\ 1 & 0 \end{pmatrix} ,
+$$
+
+con determinante $-1$: indefinita, quindi è una **sella**. Del resto $L$ è affine in $\lambda$, e una funzione affine non ha minimi.
 
 <img class="shot-img" src="../img/lagrange_sella.png" alt="A sinistra le curve di livello di L(x, λ) = x² + λ(x - 1) con la sella in (1, -2); a destra la funzione duale q(λ) = -λ²/4 - λ, concava, con massimo 1 in λ = -2" />
 
