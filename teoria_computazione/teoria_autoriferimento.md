@@ -285,8 +285,6 @@ Il *self-improvement* ricorsivo senza degradazione — riscritture in cascata ch
 
 - I. J. Good, «Speculations Concerning the First Ultraintelligent Machine», *Advances in Computers*, 6 (1965), 31–88 — l'*intelligence explosion hypothesis* discussa nel [§5](#5-applicazione-i-limiti-del-self-improvement-ricorsivo).
 - H. Rogers Jr., *Theory of Recursive Functions and Effective Computability*, MIT Press, 1987 — teorema s-m-n e teorema di ricorsione nella forma usata nel [§1](#1-il-lato-espressivo-riscriversi-è-gratis).
-- M. Sipser, *Introduction to the Theory of Computation*, 3ª ed., Cengage, 2013 — problema della fermata e teorema di Rice, con l'impostazione a riduzioni ripresa nel [§2](#2-il-lato-epistemico-perché-verificare-è-indecidibile).
-- H. G. Rice, «Classes of recursively enumerable sets and their decision problems», *Transactions of the AMS*, 74 (1953), 358–366.
 - J. Schmidhuber, «Gödel Machines: Fully Self-Referential Optimal Universal Self-Improvers», in *Artificial General Intelligence*, Springer, 2007 — costruzione, condizione di auto-riscrittura, ottimalità e limiti del [§3](#3-il-ponte-formale-la-gödel-machine).
 - C. Finn, P. Abbeel, S. Levine, «Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks», *ICML*, 2017 — MAML e il meta-gradiente del [§4.2](#42-il-livello-dei-pesi-il-meta-gradiente).
 - B. Zoph, Q. V. Le, «Neural Architecture Search with Reinforcement Learning», *ICLR*, 2017 — la NAS basata su RL del [§4.3](#43-il-livello-architettura-il-crollo-dei-costi-in-nas).

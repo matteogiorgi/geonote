@@ -49,7 +49,7 @@ con $f$ e $g_i$ di classe $C^1$. Si scrive $g = (g_1, \dots, g_m)$, si indica co
 Se il vincolo si risolve esplicitamente (per esempio $y = 10 - x$), lo si sostituisce in $f$ e si ottiene un problema libero in meno variabili. Spesso però questa strada è chiusa o scomoda:
 
 - il vincolo non si esplicita in forma chiusa (per esempio $x^3 + y^3 + xy = 1$);
-- si esplicita solo a pezzi: la circonferenza $x^2 + y^2 = 1$ richiede i due rami $y = \pm\sqrt{1 - x^2}$, e ciascuno è inutilizzabile in $x = \pm 1$;
+- si esplicita solo a pezzi: la circonferenza $x^2 + y^2 = 1$ richiede i due rami $y = \pm\sqrt{1 - x^2}$, e nessuno dei due è derivabile in $x = \pm 1$;
 - la sostituzione rompe la simmetria del problema e moltiplica i casi;
 - con molte variabili e molti vincoli diventa ingestibile.
 
@@ -64,7 +64,7 @@ Esempio guida per le prime sezioni: minimi e massimi di $f(x, y) = xy$ sulla cir
 
 L'osservazione chiave si legge nel punto $(1, 0)$, che non è un ottimo. Lì $\nabla g = (2, 0)$ è normale alla circonferenza, mentre $\nabla f = (y, x) = (0, 1)$ è tangente: muovendosi lungo il vincolo verso l'alto, $f$ cresce; verso il basso, decresce. Un punto in cui $\nabla f$ ha una componente tangente al vincolo non può quindi essere né un minimo né un massimo vincolato.
 
-In un ottimo, allora, $\nabla f$ non deve avere componenti tangenti: deve essere perpendicolare al vincolo, cioè parallelo a $\nabla g$. Scritto con il moltiplicatore,
+In un ottimo, allora, $\nabla f$ non deve avere componenti tangenti: deve essere perpendicolare al vincolo, cioè parallelo a $\nabla g$. Detto altrimenti, esiste un numero $\lambda$, il **moltiplicatore**, tale che
 
 $$
 \nabla f(x^\ast) + \lambda \, \nabla g(x^\ast) = 0 .
@@ -72,7 +72,7 @@ $$
 
 Geometricamente è una condizione di **tangenza**: la curva di livello di $f$ che passa per l'ottimo tocca il vincolo senza attraversarlo. Nella figura sono le iperboli $xy = \pm 1/2$.
 
-Per l'esempio, le equazioni sono $y + 2\lambda x = 0$, $x + 2\lambda y = 0$, $x^2 + y^2 = 1$. Sottraendo le prime due si ottiene $(y - x)(1 - 2\lambda) = 0$, e sommandole $(x + y)(1 + 2\lambda) = 0$; da qui $x = \pm y$ e i quattro punti stazionari:
+Per l'esempio, le equazioni sono $y + 2\lambda x = 0$, $x + 2\lambda y = 0$, $x^2 + y^2 = 1$. Sottraendo le prime due si ottiene $(y - x)(1 - 2\lambda) = 0$, e sommandole $(x + y)(1 + 2\lambda) = 0$. I fattori $y - x$ e $x + y$ non possono annullarsi entrambi (sarebbe l'origine, che non sta sul vincolo), quindi o $y = x$ e $\lambda = -1/2$, o $y = -x$ e $\lambda = 1/2$. Il vincolo dà i quattro punti stazionari:
 
 | Punto | $f$ | $\lambda$ | Tipo |
 |---|---|---|---|
@@ -84,7 +84,7 @@ Il segno di $\lambda$ si vede anche nella figura: nei massimi $\nabla f = -\lamb
 
 ### 1.4 Prima di tutto: il minimo esiste?
 
-Il teorema di Lagrange dà **condizioni necessarie**: dice dove cercare, non che ci sia qualcosa da trovare. Se il minimo non esiste, i punti stazionari possono essere tutt'altro.
+Il teorema di Lagrange dà **condizioni necessarie**: dice dove cercare, non che ci sia qualcosa da trovare. Se il minimo non esiste, il sistema di Lagrange può avere soluzioni lo stesso (massimi locali, selle), e scambiarle per il minimo è un errore.
 
 Il criterio più usato è Weierstrass: se $M$ è compatto (chiuso e limitato) e $f$ è continua, $f$ ha minimo e massimo su $M$. Circonferenze, sfere ed ellissi sono compatte; rette e iperboli no. Se $M$ non è limitato basta la **coercività**: se $f(x) \to +\infty$ quando $\lVert x \rVert \to \infty$ restando su $M$, il minimo esiste. Nell'esempio guida $M$ è la circonferenza, quindi minimo e massimo esistono e sono tra i quattro punti della tabella.
 
@@ -128,7 +128,7 @@ $$
 
 Sono $n + m$ equazioni in $n + m$ incognite: la derivata rispetto a $\lambda$ restituisce esattamente il vincolo. L'unicità di $\lambda^\ast$ viene dalla regolarità: le colonne di $J_g^\top$ sono indipendenti, quindi $J_g^\top \lambda = -\nabla f$ ha al più una soluzione.
 
-Il teorema vale identico per i massimi locali (basta applicarlo a $-f$) e, più in generale, i punti che lo soddisfano si dicono **punti stazionari vincolati**. Le due dimostrazioni che seguono arrivano allo stesso risultato da due lati diversi: la prima mostra *perché* è vero, la seconda *quanto vale* $\lambda^\ast$.
+Il teorema vale identico per i massimi locali (basta applicarlo a $-f$). I punti che soddisfano la condizione, siano minimi, massimi o né l'uno né l'altro, si dicono **punti stazionari vincolati**. Le due dimostrazioni che seguono arrivano allo stesso risultato da due lati diversi: la prima mostra *perché* è vero, la seconda *quanto vale* $\lambda^\ast$.
 
 
 ### 2.3 Prima dimostrazione: un fatto di ortogonalità
@@ -168,7 +168,7 @@ Qui si usa la funzione implicita fino in fondo: vicino a $x^\ast$ il problema vi
    dove l'ultima uguaglianza è il passo 2.
 5. I due blocchi insieme danno $\nabla f + J_g^\top \lambda^\ast = 0$. $\blacksquare$
 
-La formula del passo 3 dice da dove viene $\lambda^\ast$: usare le variabili dipendenti $y$ per tenere soddisfatto il vincolo ha un costo, e $\lambda^\ast$ ne misura la sensibilità. Il [§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra) rende precisa questa lettura.
+La formula del passo 3 dice da dove viene $\lambda^\ast$: confronta quanto varia $f$ con quanto varia $g$ quando si muovono le variabili dipendenti $y$, cioè misura quanto $f$ è sensibile al vincolo. Il [§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra) rende precisa questa lettura.
 
 
 ### 2.5 Quando la regolarità manca
@@ -183,7 +183,7 @@ Su $M$ vale $x = \lvert y \rvert^{2/3} \ge 0$, quindi il minimo è l'origine. L�
 
 La curva ha una cuspide nell'origine. Il nucleo di $J_g = (0, 0)$ è tutto $\mathbb{R}^2$, ma le direzioni lungo cui ci si può davvero muovere su $M$ sono solo quella di $(1, 0)$: lo "spazio tangente" calcolato con la Jacobiana non descrive più la geometria, e il passo 1 della prima dimostrazione cade.
 
-La versione generale è il teorema di **Fritz John**: in un minimo locale esistono $(\lambda_0, \lambda) \neq 0$ con $\lambda_0 \nabla f + J_g^\top \lambda = 0$. Nell'esempio funziona con $\lambda_0 = 0$, $\lambda = 1$, ma un'equazione in cui $f$ non compare non dà alcuna informazione su $f$. La regolarità serve esattamente a garantire $\lambda_0 \neq 0$ (e quindi, dividendo, $\lambda_0 = 1$). In pratica: i punti non regolari di $M$ vanno sempre esaminati a parte.
+La versione generale è il teorema di **Fritz John**: in un minimo locale esistono $(\lambda_0, \lambda) \neq 0$ con $\lambda_0 \nabla f + J_g^\top \lambda = 0$. Nell'esempio funziona con $\lambda_0 = 0$, $\lambda = 1$, ma un'equazione in cui $f$ non compare non dà alcuna informazione su $f$. La regolarità serve esattamente a garantire $\lambda_0 \neq 0$: allora si può dividere per $\lambda_0$, e si ritrova la forma di Lagrange con $\lambda_0 = 1$. In pratica: i punti non regolari di $M$ vanno sempre esaminati a parte.
 
 
 
@@ -194,14 +194,14 @@ La versione generale è il teorema di **Fritz John**: in un minimo locale esisto
 
 La stazionarietà non distingue minimi, massimi e selle, esattamente come $f'(x) = 0$ in una variabile. Serve la curvatura, ma va misurata con l'Hessiana di $L$, non di $f$: muovendosi su $M$ si segue un vincolo curvo, e la curvatura del vincolo conta quanto quella di $f$.
 
-> **Teorema 2.** Sia $x^\ast$ regolare con moltiplicatore $\lambda^\ast$ e sia
+> **Teorema 2.** Siano $f$ e $g$ di classe $C^2$, sia $x^\ast$ regolare con moltiplicatore $\lambda^\ast$ e sia
 >
 > $$H = \nabla^2_{xx} L(x^\ast, \lambda^\ast) = \nabla^2 f(x^\ast) + \sum_i \lambda_i^\ast \nabla^2 g_i(x^\ast) .$$
 >
 > - *Condizione necessaria.* Se $x^\ast$ è un minimo locale, allora $v^\top H v \ge 0$ per ogni $v \in T_{x^\ast}$.
 > - *Condizione sufficiente.* Se $\nabla_x L(x^\ast, \lambda^\ast) = 0$, $g(x^\ast) = 0$ e $v^\top H v > 0$ per ogni $v \in T_{x^\ast} \setminus \lbrace 0 \rbrace$, allora $x^\ast$ è un minimo locale stretto.
 
-*Dimostrazione (condizione necessaria).* Si prende la curva $\gamma$ del [§2.3](#23-prima-dimostrazione-un-fatto-di-ortogonalità), che ora (con $f, g \in C^2$) è di classe $C^2$, con $\gamma'(0) = v$. Il trucco è che su $M$ il vincolo vale zero, quindi $f$ e $L$ coincidono lungo la curva: $\psi(t) = f(\gamma(t)) = L(\gamma(t), \lambda^\ast)$. Derivando due volte la seconda espressione:
+*Dimostrazione (condizione necessaria).* Si prende la curva $\gamma$ del [§2.3](#23-prima-dimostrazione-un-fatto-di-ortogonalità), che ora (con $g \in C^2$) è di classe $C^2$, con $\gamma'(0) = v$. Il trucco è che su $M$ il vincolo vale zero, quindi $f$ e $L$ coincidono lungo la curva: $\psi(t) = f(\gamma(t)) = L(\gamma(t), \lambda^\ast)$. Derivando due volte la seconda espressione:
 
 $$
 \psi''(0) = \gamma'(0)^\top \, \nabla^2_{xx} L \, \gamma'(0) + \nabla_x L(x^\ast, \lambda^\ast) \cdot \gamma''(0) = v^\top H v .
@@ -209,7 +209,7 @@ $$
 
 Il secondo termine sparisce perché $\nabla_x L = 0$: è per questo che si usa $L$ e non $f$, dove il termine con $\gamma''(0)$, l'accelerazione imposta dalla curvatura del vincolo, resterebbe. Poiché $\psi$ ha un minimo in $0$, $\psi''(0) \ge 0$. $\blacksquare$
 
-La condizione sufficiente si dimostra per assurdo: se esistesse una successione di punti ammissibili $x_k \to x^\ast$ con $f(x_k) \le f(x^\ast)$, le direzioni normalizzate $(x_k - x^\ast)/\lVert x_k - x^\ast \rVert$ convergerebbero a un $v \in T_{x^\ast}$ con $v^\top H v \le 0$, contro l'ipotesi.
+La condizione sufficiente si dimostra per assurdo: se esistesse una successione di punti ammissibili $x_k \to x^\ast$ con $f(x_k) \le f(x^\ast)$, le direzioni normalizzate $(x_k - x^\ast)/\lVert x_k - x^\ast \rVert$ convergerebbero (a meno di sottosuccessioni) a un $v \in T_{x^\ast}$, $v \neq 0$, con $v^\top H v \le 0$, contro l'ipotesi.
 
 Nell'esempio guida
 
@@ -252,7 +252,7 @@ $$
 
 Derivando l'identità $g(x^\ast(c)) = c$ si ottiene $J_g D = I$, e quindi $\nabla_c f^\ast = -\lambda^\ast$. $\blacksquare$
 
-Letto in parole: allentare il vincolo $i$ di un'unità cambia l'ottimo di circa $-\lambda_i^\ast$. Per questo $\lambda_i^\ast$ è il **prezzo ombra** del vincolo, il massimo che converrebbe pagare per un'unità in più di "risorsa". In economia si usa spesso $L = f - \lambda^\top (g - c)$, che cambia il segno e dà $\nabla_c f^\ast = \lambda^\ast$: le due convenzioni sono equivalenti, purché non si mescolino.
+Letto in parole: spostare di un'unità il termine noto $c_i$ del vincolo $i$ cambia l'ottimo di circa $-\lambda_i^\ast$. Per questo $\lambda_i^\ast$ è il **prezzo ombra** del vincolo, il massimo che converrebbe pagare per un'unità in più di "risorsa". In economia si usa spesso $L = f - \lambda^\top (g - c)$, che cambia il segno e dà $\nabla_c f^\ast = \lambda^\ast$: le due convenzioni sono equivalenti, purché non si mescolino.
 
 
 ### 4.2 Un esempio visivo
@@ -267,7 +267,7 @@ Le equazioni $1 + 2\lambda x = 0$, $1 + 2\lambda y = 0$ danno $x = y = -1/(2\lam
 
 <img class="shot-img" src="../img/lagrange_sensitivita.png" alt="A sinistra le circonferenze x² + y² = c per quattro valori di c con il minimo di x + y; a destra il valore ottimo f*(c) = -√(2c) con la sua tangente in c = 1, di pendenza -λ*" />
 
-A sinistra, allargando il vincolo il minimo scivola lungo la bisettrice e la retta di livello tangente scende. A destra, la pendenza di $f^\ast$ in $c = 1$ è $-\lambda^\ast(1) = -1/\sqrt{2} \approx -0.707$. Un'osservazione utile per il seguito: qui $\nabla^2 f = 0$ non dice nulla sulla natura del punto, e tutta la curvatura di $H = 2\lambda^\ast I$ viene dal vincolo, come anticipato nel [§3.1](#31-la-curvatura-giusta-è-quella-di-l).
+A sinistra, allargando il vincolo il minimo scivola lungo la bisettrice e la retta di livello tangente scende. A destra, la pendenza di $f^\ast$ in $c = 1$ è $-\lambda^\ast(1) = -1/\sqrt{2} \approx -0.707$. Da notare anche che qui $\nabla^2 f = 0$ non dice nulla sulla natura del punto, e tutta la curvatura di $H = 2\lambda^\ast I$ viene dal vincolo, come anticipato nel [§3.1](#31-la-curvatura-giusta-è-quella-di-l).
 
 
 
@@ -276,7 +276,7 @@ A sinistra, allargando il vincolo il minimo scivola lungo la bisettrice e la ret
 
 ### 5.1 Le condizioni
 
-Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \le 0$ per $j = 1, \dots, p$, con Lagrangiana $L = f + \lambda^\top g + \mu^\top h$. Un vincolo $h_j$ è **attivo** in $x$ se $h_j(x) = 0$: solo i vincoli attivi "toccano" il punto, gli altri lasciano libertà di movimento in ogni direzione.
+Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \le 0$ per $j = 1, \dots, p$, con Lagrangiana $L = f + \lambda^\top g + \mu^\top h$. Un vincolo $h_j$ è **attivo** in $x$ se $h_j(x) = 0$: solo i vincoli attivi "toccano" il punto, gli altri, almeno localmente, lasciano libertà di movimento in ogni direzione.
 
 > **Teorema 4 (Karush–Kuhn–Tucker).** Se $x^\ast$ è un minimo locale e i gradienti dei $g_i$ e degli $h_j$ attivi in $x^\ast$ sono linearmente indipendenti, allora esistono $\lambda^\ast \in \mathbb{R}^m$ e $\mu^\ast \in \mathbb{R}^p$ tali che:
 >
@@ -288,7 +288,7 @@ Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \l
 Rispetto a Lagrange ci sono due novità, ed entrambe hanno una lettura immediata.
 
 - **La complementarità** dice che un vincolo non attivo ($h_j < 0$) ha moltiplicatore nullo: se il vincolo non tocca il punto, il punto non "sente" il vincolo, e il suo prezzo ombra è zero.
-- **Il segno $\mu \ge 0$** dice da che parte deve stare $\nabla f$. Con un solo vincolo attivo, $-\nabla f = \mu \nabla h$: la direzione di massima discesa di $f$ punta verso l'esterno della regione ammissibile ($\nabla h$ punta dove $h$ cresce, cioè fuori). Ogni direzione che rientra nella regione fa quindi salire $f$. Con $\mu < 0$ si potrebbe invece scendere entrando, e il punto non sarebbe un minimo.
+- **Il segno $\mu \ge 0$** dice da che parte deve stare $\nabla f$. Con un solo vincolo attivo e nessuna uguaglianza, $-\nabla f = \mu \nabla h$: la direzione di massima discesa di $f$ punta verso l'esterno della regione ammissibile ($\nabla h$ punta dove $h$ cresce, cioè fuori). Ogni direzione che rientra nella regione quindi, al primo ordine, non fa scendere $f$. Con $\mu < 0$ si potrebbe invece scendere entrando, e il punto non sarebbe un minimo.
 
 *Idea della dimostrazione.* Si ripete lo schema del [§2.3](#23-prima-dimostrazione-un-fatto-di-ortogonalità), ma ora le direzioni ammissibili non formano un sottospazio, bensì un cono: quello delle $d$ con $\nabla g_i \cdot d = 0$ e $\nabla h_j \cdot d \le 0$ per gli $h_j$ attivi. In un minimo nessuna di queste può essere di discesa ($\nabla f \cdot d < 0$). Il **lemma di Farkas** trasforma questa "assenza di direzioni" in un'affermazione di esistenza: $-\nabla f$ sta nel cono generato dai $\nabla h_j$ attivi, più una combinazione dei $\nabla g_i$. I coefficienti del cono sono i $\mu_j \ge 0$.
 
@@ -334,7 +334,7 @@ $$
 q(\lambda, \mu) = \inf_{x} \; L(x, \lambda, \mu), \qquad \mu \ge 0 ,
 $$
 
-con l'estremo inferiore su tutto $\mathbb{R}^n$, senza vincoli. Due fatti la rendono utile.
+con l'estremo inferiore su tutto $\mathbb{R}^n$, senza vincoli ($q$ può valere $-\infty$, e allora non dà informazioni). Due fatti la rendono utile.
 
 **$q$ è sempre concava**, anche se il problema non è convesso: per ogni $x$ fissato, $L$ è affine in $(\lambda, \mu)$, e un estremo inferiore di funzioni affini è concavo.
 
@@ -351,7 +351,7 @@ Ogni valore della funzione duale è quindi un bound inferiore al valore ottimo $
 
 ### 6.2 La Lagrangiana ha una sella, non un minimo
 
-Il teorema di Lagrange dice che $(x^\ast, \lambda^\ast)$ è un punto stazionario di $L$, ed è tentante concludere che sia un suo minimo. Non lo è. Esempio minimo:
+Il teorema di Lagrange dice che $(x^\ast, \lambda^\ast)$ è un punto stazionario di $L$, ed è tentante concludere che sia un suo minimo. Non lo è. L'esempio più semplice:
 
 $$
 \min \; x^2 \qquad \text{s.t.} \qquad x = 1, \qquad L(x, \lambda) = x^2 + \lambda (x - 1).
@@ -363,7 +363,7 @@ $$
 \nabla^2 L = \begin{pmatrix} 2 & 1 \\ 1 & 0 \end{pmatrix} ,
 $$
 
-con determinante $-1$: indefinita, quindi è una **sella**. Del resto $L$ è affine in $\lambda$, e una funzione affine non ha minimi.
+con determinante $-1$: indefinita, quindi è una **sella**. Del resto $L$ è affine in $\lambda$, e una funzione affine non costante non ha minimi.
 
 <img class="shot-img" src="../img/lagrange_sella.png" alt="A sinistra le curve di livello di L(x, λ) = x² + λ(x - 1) con la sella in (1, -2); a destra la funzione duale q(λ) = -λ²/4 - λ, concava, con massimo 1 in λ = -2" />
 
@@ -436,7 +436,7 @@ func newtonKKT(z0 [3]float64) (z [3]float64, iterazioni int) {
 // newtonKKT([3]float64{0.6, 0.8, 0})    → (0.707107, 0.707107, -0.5) in 6 iterazioni: un massimo
 ```
 
-`risolvi(A, b)` è una qualsiasi eliminazione di Gauss con pivoting parziale (con *gonum*, `mat.VecDense.SolveVec`). La convergenza è quadratica, come sempre per Newton vicino a una soluzione regolare. La seconda chiamata mostra però il limite del metodo: Newton cerca **punti stazionari** di $L$, non minimi, e converge a quello più vicino al punto di partenza, che qui è un massimo. Va sempre affiancato a un controllo del secondo ordine ([§3](#3-condizioni-del-secondo-ordine)) o a una globalizzazione che privilegi la discesa di $f$.
+`risolvi(A, b)` è una qualsiasi eliminazione di Gauss con pivoting parziale (con *gonum*, `mat.VecDense.SolveVec`): per un sistema $3 \times 3$ basta, mentre per sistemi grandi si usano fattorizzazioni pensate per matrici simmetriche indefinite, come $LDL^\top$. La convergenza è quadratica, come sempre per Newton vicino a una soluzione regolare. La seconda chiamata mostra però il limite del metodo: Newton cerca **punti stazionari** di $L$, non minimi, e converge a quello verso cui la porta il punto di partenza, che qui è un massimo. Va sempre affiancato a un controllo del secondo ordine ([§3](#3-condizioni-del-secondo-ordine)) o a una globalizzazione che privilegi la discesa di $f$.
 
 > **Approfondimento in _Guile_:** la parte noiosa del metodo, scrivere a mano $\nabla_x L$ e $g$, è meccanica, e in Scheme si automatizza in poche righe. Le espressioni sono liste (le S-espressioni di [fondamenti_guile §2](../fondamenti/fondamenti_guile.md#2-la-sintassi-le-s-espressioni)), quindi la derivata simbolica è un `match` sulla forma dell'espressione, una regola per ogni operatore.
 > ```scheme
@@ -540,7 +540,7 @@ func lagrangianaAumentata(rho float64, passi int) (x, lambda float64) {
 | 5 passi | $-0.999994$ |
 | 10 passi | $-1.0000000000$ |
 
-Per avere tre cifre corrette, la penalità ha bisogno di $\rho = 1000$; la Lagrangiana aumentata, con $\rho = 10$ fisso, guadagna circa una cifra per passo (l'errore su $\lambda$ si riduce di un fattore $1 + \rho = 11$).
+Per avere tre cifre corrette, la penalità ha bisogno di $\rho = 1000$; la Lagrangiana aumentata, con $\rho = 10$ fisso, guadagna circa una cifra per passo (in questo esempio l'errore su $\lambda$ si riduce a ogni passo di un fattore $1 + \rho = 11$).
 
 
 ### 7.3 Gradiente proiettato, SQP e punti interni
@@ -582,7 +582,7 @@ flowchart TD
 
 ## 8. Programmazione lineare e intera
 
-Nella PL i moltiplicatori diventano le **variabili duali**, e le KKT diventano le condizioni di ottimalità della PL. Nella PLI le KKT non hanno più senso (non ci sono gradienti su $\mathbb{Z}^n$), ma la Lagrangiana sopravvive come macchina per produrre bound. Si usa lo stesso esempio di [teoria_ottimizzazione §1.2](../teoria_computazione/teoria_ottimizzazione.md#12-un-esempio-numerico), in forma di massimo.
+Nella PL i moltiplicatori sono le **variabili duali**, e le KKT coincidono con le condizioni di ottimalità della PL. Nella PLI le KKT non hanno più senso (non ci sono gradienti su $\mathbb{Z}^n$), ma la Lagrangiana sopravvive come macchina per produrre bound. Si usa lo stesso esempio di [teoria_ottimizzazione §1.2](../teoria_computazione/teoria_ottimizzazione.md#12-un-esempio-numerico), in forma di massimo.
 
 
 ### 8.1 Il duale della PL dalla Lagrangiana
@@ -593,7 +593,7 @@ $$
 L(x, y) = c^\top x + y^\top (b - Ax) = b^\top y + (c - A^\top y)^\top x .
 $$
 
-Per $x$ ammissibile e $y \ge 0$ vale $c^\top x \le L(x, y)$, perché $y^\top (b - Ax) \ge 0$. Si prende ora l'estremo superiore su $x \ge 0$. Se una componente di $c - A^\top y$ è positiva, la si fa crescere senza limite e il sup è $+\infty$: un bound inutile. Altrimenti il sup è raggiunto in $x = 0$ e vale $b^\top y$. Il miglior bound così ottenibile è il **problema duale**:
+Per $x$ ammissibile e $y \ge 0$ vale $c^\top x \le L(x, y)$, perché $y^\top (b - Ax) \ge 0$. Si prende ora l'estremo superiore su $x \ge 0$. Se una componente $(c - A^\top y)&#95;j$ è positiva, si fa crescere senza limite la $x_j$ corrispondente e il sup è $+\infty$: un bound inutile. Altrimenti il sup è raggiunto in $x = 0$ e vale $b^\top y$. Il miglior bound così ottenibile è il **problema duale**:
 
 $$
 \min_y \; b^\top y \qquad \text{s.t.} \qquad A^\top y \ge c, \quad y \ge 0 ,
@@ -652,14 +652,14 @@ Per ogni $x$ ammissibile il termine aggiunto è $\ge 0$, quindi, esattamente com
 
 $q$ è il massimo di un numero finito di funzioni affini in $u$ (una per ogni punto di $X$), quindi è convessa e lineare a tratti: il minimo cade in un punto di rottura, qui $u^\ast = 1/2$, con $q(1/2) = 21$. Tre osservazioni:
 
-- **Il bound coincide con quello della PL**, e $u^\ast = 1/2$ è proprio il prezzo ombra $y_2^\ast$ del vincolo rilassato ([§8.2](#82-le-kkt-sullesempio)). Non è un caso. Per il teorema di **Geoffrion**, $\min_u q(u)$ è l'ottimo della PL su $\operatorname{conv}(X) \cap \lbrace x_1 + 2x_2 \le 6 \rbrace$; qui i vertici di $\lbrace 6x_1 + 4x_2 \le 24, \, x \ge 0 \rbrace$ sono già interi, quindi $\operatorname{conv}(X)$ è il poligono continuo e si ritrova il rilassamento della PL. Se invece $X$ non avesse vertici interi, il bound lagrangiano sarebbe strettamente migliore di quello continuo: è il caso in cui il rilassamento lagrangiano conviene davvero.
+- **Il bound coincide con quello della PL**, e $u^\ast = 1/2$ è proprio il prezzo ombra $y_2^\ast$ del vincolo rilassato ([§8.2](#82-le-kkt-sullesempio)). Non è un caso. Per il teorema di **Geoffrion**, $\min_u q(u)$ è l'ottimo della PL su $\operatorname{conv}(X) \cap \lbrace x_1 + 2x_2 \le 6 \rbrace$; qui i vertici di $\lbrace 6x_1 + 4x_2 \le 24, \, x \ge 0 \rbrace$ sono già interi, quindi $\operatorname{conv}(X)$ è il poligono continuo e si ritrova il rilassamento della PL. Se invece il poligono continuo avesse vertici non interi, $\operatorname{conv}(X)$ sarebbe strettamente più piccolo e il bound lagrangiano potrebbe essere strettamente migliore di quello continuo: è il caso in cui il rilassamento lagrangiano conviene davvero.
 - **Il duality gap è $21 - 20 = 1$.** Non si chiude: il problema non è convesso, e la dualità forte del [§6.1](#61-funzione-duale-dualità-debole-e-forte) non vale.
 - **Il sottoproblema produce candidati.** In $u = 1/2$ il massimo su $X$ è raggiunto in $(4, 0)$, $(2, 3)$ e $(0, 6)$. Il primo rispetta anche il vincolo rilassato: è l'ottimo intero. Nella pratica le soluzioni del sottoproblema, eventualmente "riparate" da un'euristica, danno soluzioni ammissibili, cioè bound inferiori.
 
 
 ### 8.5 Ottimizzare il duale: il subgradiente
 
-$q$ non è differenziabile nei punti di rottura, quindi niente gradiente. Al suo posto c'è il **subgradiente**: se $x_u$ è il massimo del sottoproblema in $u$, la quantità $s = 6 - x_1 - 2x_2$ (lo scarto del vincolo rilassato in $x_u$) soddisfa $q(u') \ge q(u) + s \, (u' - u)$ per ogni $u'$, e fa le veci della derivata. Il metodo del subgradiente scende lungo $-s$ e proietta su $u \ge 0$:
+$q$ non è differenziabile nei punti di rottura, quindi niente gradiente. Al suo posto c'è il **subgradiente**: se $x_u$ è un punto di massimo del sottoproblema in $u$, la quantità $s = 6 - x_1 - 2x_2$ (lo scarto del vincolo rilassato in $x_u$) soddisfa $q(u') \ge q(u) + s \, (u' - u)$ per ogni $u'$, e fa le veci della derivata. Il metodo del subgradiente scende lungo $-s$ e proietta su $u \ge 0$ (nel codice $x$ e $y$ stanno per $x_1$ e $x_2$):
 
 ```go
 // sottoproblema risolve max { (5-u)x + (4-2u)y : 6x + 4y ≤ 24, x, y interi ≥ 0 }
@@ -700,14 +700,14 @@ func subgradiente(passi int) (bound, migliore float64) {
 
 Dopo 100 passi il bound è $21.0089$, vicino al valore esatto $21$, e il sottoproblema ha già trovato l'ottimo intero $20$. La convergenza è lenta (il subgradiente non garantisce la discesa a ogni passo, e $q$ oscilla attorno al minimo), ma nella pratica basta un bound "buono abbastanza" per potare. L'aggiornamento di $u$ ha la stessa forma di quello di $\lambda$ nella Lagrangiana aumentata ([§7.2](#72-penalità-e-lagrangiana-aumentata)), senza termine quadratico.
 
-Dentro il branch & bound ([teoria_ottimizzazione §2.3](../teoria_computazione/teoria_ottimizzazione.md#23-perché-resta-decidibile)) $q$ fornisce il bound di ogni nodo, e le soluzioni riparate del sottoproblema forniscono gli incumbent. È lo schema di applicazioni classiche come il TSP con gli 1-alberi di Held–Karp, l'assegnamento generalizzato e la localizzazione di impianti.
+Dentro il branch & bound ([teoria_ottimizzazione §2.3](../teoria_computazione/teoria_ottimizzazione.md#23-perché-resta-decidibile)) $q$ fornisce il bound di ogni nodo, e le soluzioni riparate del sottoproblema forniscono gli *incumbent*, cioè le migliori soluzioni ammissibili trovate finora. È lo schema di applicazioni classiche come il TSP con gli 1-alberi di Held–Karp, l'assegnamento generalizzato e la localizzazione di impianti.
 
 
 
 
 ## 9. Esempi
 
-Cinque problemi in cui il metodo dà una forma chiusa e il moltiplicatore ha un significato preciso. Tutti seguono le convenzioni della nota: minimo, $L = f + \lambda^\top g$.
+Cinque problemi in cui il metodo dà una soluzione esplicita e il moltiplicatore ha un significato preciso. Tutti seguono le convenzioni della nota: minimo, $L = f + \lambda^\top g$.
 
 
 ### 9.1 Quoziente di Rayleigh e PCA
@@ -718,7 +718,7 @@ $$
 \nabla_x L = -2Ax + 2\lambda x = 0 \quad \Longrightarrow \quad Ax = \lambda x, \qquad x^\top A x = \lambda \, x^\top x = \lambda .
 $$
 
-I punti stazionari sono gli autovettori unitari, il moltiplicatore è l'autovalore, e il valore di $f$ in ciascuno è l'autovalore stesso: il massimo è $\lambda_{\max}$. Il secondo ordine lo conferma: su $T = x^\perp$ l'Hessiana è $2(\lambda I - A)$, semidefinita positiva solo se $\lambda$ è l'autovalore massimo. Con $A = \Sigma$, la matrice di covarianza dei dati, $x$ è la **prima componente principale** e $\lambda_{\max}$ la varianza che spiega; le componenti successive si trovano aggiungendo i vincoli di ortogonalità alle precedenti.
+I punti stazionari sono gli autovettori unitari, il moltiplicatore è l'autovalore, e il valore di $x^\top A x$ in ciascuno è l'autovalore stesso: il massimo è $\lambda_{\max}$. Il secondo ordine lo conferma: su $T = x^\perp$ l'Hessiana è $2(\lambda I - A)$, semidefinita positiva solo se $\lambda$ è l'autovalore massimo. Con $A = \Sigma$, la matrice di covarianza dei dati, $x$ è la **prima componente principale** e $\lambda_{\max}$ la varianza che spiega; le componenti successive si trovano aggiungendo i vincoli di ortogonalità alle precedenti.
 
 
 ### 9.2 Massima verosimiglianza della multinomiale
@@ -740,7 +740,7 @@ $$
 \log p_i + 1 + \alpha + \beta x_i = 0 \quad \Longrightarrow \quad p_i = \frac{e^{-\beta x_i} }{\sum_j e^{-\beta x_j} } .
 $$
 
-È la **distribuzione di Gibbs**: $\alpha$ si riassorbe nella normalizzazione, e $\beta$ (la "temperatura inversa") è fissato dal vincolo sulla media. Lo stesso calcolo nel continuo dà, su $[0, \infty)$ con media fissata, l'esponenziale, e su $\mathbb{R}$ con media e varianza fissate, la normale. È l'origine variazionale delle famiglie esponenziali: ogni vincolo sui momenti aggiunge un termine $\beta_k T_k(x)$ all'esponente.
+È la **distribuzione di Gibbs**: $\alpha$ si riassorbe nella normalizzazione, e $\beta$ (la "temperatura inversa") è fissato dal vincolo sulla media. Lo stesso calcolo nel continuo dà, su $[0, \infty)$ con media fissata, l'esponenziale, e su $\mathbb{R}$ con media e varianza fissate, la normale. È l'origine variazionale delle famiglie esponenziali: ogni vincolo del tipo $\mathbb{E}[T_k(X)] = m_k$ aggiunge un termine $-\beta_k T_k(x)$ all'esponente.
 
 
 ### 9.4 Portafoglio di Markowitz
@@ -758,7 +758,7 @@ w^\ast = \Sigma^{-1} \left( \frac{Ar - B}{\Delta} \, \mu + \frac{C - Br}{\Delta}
 \sigma^2(r) = w^{\ast\top} \Sigma w^\ast = \frac{A r^2 - 2Br + C}{\Delta} .
 $$
 
-La **frontiera efficiente** è una parabola nel piano $(\sigma^2, r)$. Per il [§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra), $-\lambda_1 = \partial (\sigma^2 / 2) / \partial r = (Ar - B)/\Delta$ è il costo marginale, in varianza, di un punto di rendimento in più. Se si vietano le vendite allo scoperto ($w \ge 0$), la forma chiusa sparisce: servono le KKT del [§5](#5-vincoli-di-disuguaglianza-kkt) e un solutore di programmazione quadratica.
+I portafogli di varianza minima formano una parabola nel piano $(\sigma^2, r)$, e la sua metà superiore è la **frontiera efficiente**. Per il [§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra), $-\lambda_1 = \partial (\sigma^2 / 2) / \partial r = (Ar - B)/\Delta$ è il costo marginale, in varianza, di un punto di rendimento in più. Se si vietano le vendite allo scoperto ($w \ge 0$), la forma chiusa sparisce: servono le KKT del [§5](#5-vincoli-di-disuguaglianza-kkt) e un solutore di programmazione quadratica.
 
 > **Approfondimento in _R_:** le condizioni di Lagrange del problema sono *lineari* in $(w, \lambda_1, \lambda_2)$, quindi basta un `solve` sulla matrice KKT del [§7.1](#71-newton-sul-sistema-di-lagrange) per verificare la forma chiusa e la sensitività (vedi [fondamenti_r §2](../fondamenti/fondamenti_r.md#2-strutture-dati) per le matrici).
 > ```r
@@ -807,7 +807,7 @@ Con $\lambda$ per l'uguaglianza e $s \ge 0$ per i vincoli $-x \le 0$, la stazion
 - se $x_i > 0$, la complementarità dà $s_i = 0$, quindi $x_i = v_i - \lambda$;
 - se $x_i = 0$, allora $s_i = \lambda - v_i$, e $s_i \ge 0$ richiede $v_i \le \lambda$.
 
-I due casi si riassumono in $x_i = \max(v_i - \lambda, \, 0)$: si "abbassa" $v$ di una soglia $\lambda$ e si taglia a zero, con $\lambda$ scelto in modo che la somma faccia $1$. Ordinando $v$, la soglia si trova in $O(n \log n)$. Per esempio, con $v = (0.8, \, 0.6, \, -0.2)$ e due componenti positive, $(0.8 - \lambda) + (0.6 - \lambda) = 1$ dà $\lambda = 0.2$; la terza componente rispetta $v_3 = -0.2 \le 0.2$, e la proiezione è $x = (0.6, \, 0.4, \, 0)$. Il problema è convesso, quindi è l'unico ottimo. È la proiezione che usa il gradiente proiettato del [§7.3](#73-gradiente-proiettato-sqp-e-punti-interni) quando le variabili sono pesi o probabilità.
+I due casi si riassumono in $x_i = \max(v_i - \lambda, \, 0)$: si "abbassa" $v$ di una soglia $\lambda$ e si taglia a zero, con $\lambda$ scelto in modo che la somma faccia $1$. Ordinando $v$, la soglia si trova in $O(n \log n)$. Per esempio, con $v = (0.8, \, 0.6, \, -0.2)$ e due componenti positive, $(0.8 - \lambda) + (0.6 - \lambda) = 1$ dà $\lambda = 0.2$; la terza componente rispetta $v_3 = -0.2 \le 0.2$, e la proiezione è $x = (0.6, \, 0.4, \, 0)$. Il problema è strettamente convesso, quindi è l'unico ottimo. È la proiezione che usa il gradiente proiettato del [§7.3](#73-gradiente-proiettato-sqp-e-punti-interni) quando le variabili sono pesi o probabilità.
 
 
 
@@ -816,7 +816,7 @@ I due casi si riassumono in $x_i = \max(v_i - \lambda, \, 0)$: si "abbassa" $v$ 
 
 Quasi tutti gli errori con i moltiplicatori vengono da un'ipotesi data per scontata.
 
-1. **Esistenza.** Lagrange dà condizioni necessarie: senza compattezza o coercività il minimo può non esistere, e i punti stazionari non significano nulla ([§1.4](#14-prima-di-tutto-il-minimo-esiste)).
+1. **Esistenza.** Lagrange dà condizioni necessarie: senza compattezza o coercività il minimo può non esistere, e i punti stazionari possono non avere nulla a che fare con un minimo ([§1.4](#14-prima-di-tutto-il-minimo-esiste)).
 2. **Regolarità.** Senza LICQ il moltiplicatore può non esistere, come nella cuspide ([§2.5](#25-quando-la-regolarità-manca)). I punti in cui $J_g$ perde rango vanno esaminati a parte.
 3. **Stazionario non vuol dire minimo.** Servono il secondo ordine sullo spazio tangente o la convessità ([§3](#3-condizioni-del-secondo-ordine), [§5.3](#53-il-caso-convesso-le-kkt-bastano)). Newton converge volentieri a un massimo ([§7.1](#71-newton-sul-sistema-di-lagrange)).
 4. **Hessiana sbagliata.** Il test va fatto su $\nabla^2_{xx} L$, non su $\nabla^2 f$: la curvatura del vincolo entra tramite $\sum_i \lambda_i \nabla^2 g_i$ ([§3.1](#31-la-curvatura-giusta-è-quella-di-l), [§4.2](#42-un-esempio-visivo)).
@@ -835,8 +835,4 @@ Quasi tutti gli errori con i moltiplicatori vengono da un'ipotesi data per scont
 - D. P. Bertsekas, *Nonlinear Programming*, 3ª ed., Athena Scientific, 2016: teorema di Lagrange con le due dimostrazioni, condizioni del secondo ordine e sensitività ([§2](#2-il-teorema-dei-moltiplicatori)–[§4](#4-sensitività-il-moltiplicatore-come-prezzo-ombra)).
 - S. Boyd, L. Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004: KKT, condizione di Slater, dualità e metodi a barriera ([§5](#5-vincoli-di-disuguaglianza-kkt)–[§6](#6-dualità-lagrangiana), [§7.3](#73-gradiente-proiettato-sqp-e-punti-interni)).
 - J. Nocedal, S. J. Wright, *Numerical Optimization*, 2ª ed., Springer, 2006: Newton sul sistema KKT, penalità, Lagrangiana aumentata e SQP ([§7](#7-metodi-numerici-lagrange-e-le-alternative)).
-- H. W. Kuhn, A. W. Tucker, «Nonlinear Programming», *Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability*, 1951, 481–492: le condizioni del [§5.1](#51-le-condizioni).
 - A. M. Geoffrion, «Lagrangean Relaxation for Integer Programming», *Mathematical Programming Study*, 2 (1974), 82–114: il teorema sulla qualità del bound usato nel [§8.4](#84-pli-il-rilassamento-lagrangiano).
-- M. Held, R. M. Karp, «The Traveling-Salesman Problem and Minimum Spanning Trees», *Operations Research*, 18 (1970), 1138–1162: il rilassamento lagrangiano con gli 1-alberi citato nel [§8.5](#85-ottimizzare-il-duale-il-subgradiente).
-- H. Markowitz, «Portfolio Selection», *The Journal of Finance*, 7 (1952), 77–91: il problema del [§9.4](#94-portafoglio-di-markowitz).
-- E. T. Jaynes, «Information Theory and Statistical Mechanics», *Physical Review*, 106 (1957), 620–630: il principio di massima entropia del [§9.3](#93-massima-entropia).
