@@ -1,6 +1,6 @@
 # Ottimizzazione vincolata e dualità
 
-Minimizzare una funzione senza vincoli è, in linea di principio, semplice: si cercano i punti in cui il gradiente si annulla. Con un vincolo del tipo $g(x) = 0$ questa ricetta smette di funzionare: il minimo vincolato di solito *non* annulla il gradiente di $f$, perché il punto non è libero di muoversi in tutte le direzioni, ma solo lungo il vincolo. Il metodo dei **moltiplicatori di Lagrange** ripristina la ricetta a un prezzo modesto: si introduce una variabile in più per ogni vincolo ($\lambda$), e il problema vincolato diventa la ricerca dei punti stazionari di una nuova funzione: la Lagrangiana.
+Minimizzare una funzione senza vincoli è, in linea di principio, semplice: si cercano i punti in cui il gradiente si annulla. Con un vincolo del tipo $g(x) = 0$ questa ricetta smette di funzionare: il minimo vincolato di solito *non* annulla il gradiente di $f$, perché il punto non è libero di muoversi in tutte le direzioni, ma solo lungo il vincolo. Il metodo dei **moltiplicatori di Lagrange** ripristina la ricetta a un prezzo modesto: introduce una variabile ($\lambda$) in più per ogni vincolo e il problema vincolato si trasforma nella ricerca dei punti stazionari di una nuova funzione: la Lagrangiana.
 
 Il moltiplicatore non è però solo un artificio di calcolo. Misura quanto costa il vincolo (è il *prezzo ombra* dell'economia), genera il problema duale e, nel caso lineare, coincide con le variabili duali della programmazione lineare. Questa nota segue $\lambda$ attraverso tutti questi ruoli: dal teorema con le sue dimostrazioni, alla geometria, ai metodi numerici, fino alla PL e alla PLI già incontrate in [teoria_ottimizzazione](../teoria_computazione/teoria_ottimizzazione.md), di cui riusa lo stesso esempio numerico.
 
@@ -140,7 +140,7 @@ L'idea è quella del [§1.3](#13-lidea-in-un-ottimo-i-gradienti-sono-paralleli):
 1. **Ogni direzione tangente è la velocità di una curva su $\boldsymbol{M}$.** Sia $v \in T_{x^\ast}$, spezzato come $v = (v_y, v_z)$ secondo la partizione della funzione implicita. Si pone $z(t) = z^\ast + t\, v_z$ e $\gamma(t) = (\varphi(z(t)), z(t))$, per $t$ vicino a $0$. La curva sta in $M$ per costruzione, $\gamma(0) = x^\ast$ e $\gamma'(0) = (D\varphi \, v_z, v_z)$. Resta da vedere che $\gamma'(0) = v$: la condizione $J_g v = 0$ si scrive $\partial_y g \, v_y + \partial_z g \, v_z = 0$, cioè $v_y = -(\partial_y g)^{-1} \partial_z g \, v_z = D\varphi \, v_z$.
 2. **La derivata di $\boldsymbol{f}$ lungo la curva è nulla.** La funzione di una variabile $\psi(t) = f(\gamma(t))$ ha un minimo locale in $t = 0$, quindi $\psi'(0) = \nabla f(x^\ast) \cdot \gamma'(0) = \nabla f(x^\ast) \cdot v = 0$.
 3. **Ortogonalità.** Poiché $v \in T_{x^\ast}$ era arbitrario, $\nabla f(x^\ast) \perp \ker J_g(x^\ast)$, quindi $\nabla f(x^\ast) \in (\ker J_g)^\perp = \operatorname{Im} J_g^\top$.
-4. Esiste dunque $w \in \mathbb{R}^m$ con $\nabla f(x^\ast) = J_g^\top w$, e basta porre $\lambda^\ast = -w$. $\blacksquare$
+4. **$\boldsymbol{\exists\, w}$.** Per il passo 3 c'è un $w \in \mathbb{R}^m$ con $\nabla f(x^\ast) = J_g^\top w$, e basta porre $\lambda^\ast = -w$. $\blacksquare$
 
 Tolti i dettagli tecnici del passo 1, il teorema è tutto nel passo 3: il gradiente di $f$ deve essere ortogonale allo spazio tangente, e i vettori ortogonali allo spazio tangente sono esattamente le combinazioni dei $\nabla g_i$.
 
@@ -153,7 +153,7 @@ Qui si usa la funzione implicita fino in fondo: vicino a $x^\ast$ il problema vi
 
 1. Vicino a $x^\ast$ i punti di $M$ sono tutti e soli quelli della forma $(\varphi(z), z)$, quindi $z^\ast$ è un minimo locale libero di $F(z) = f(\varphi(z), z)$.
 2. Allora $\nabla F(z^\ast) = 0$, cioè, per la regola della catena, $\nabla_z f + D\varphi^\top \nabla_y f = 0$.
-3. Si **definisce** $\lambda^\ast = -(\partial_y g)^{-\top} \nabla_y f$. Per costruzione $\nabla_y f + (\partial_y g)^\top \lambda^\ast = 0$: è il blocco di righe $y$ della tesi.
+3. Si definisce $\lambda^\ast = -(\partial_y g)^{-\top} \nabla_y f$. Per costruzione $\nabla_y f + (\partial_y g)^\top \lambda^\ast = 0$: è il blocco di righe $y$ della tesi.
 4. Per il blocco $z$, sostituendo $\lambda^\ast$ e ricordando che $D\varphi^\top = -(\partial_z g)^\top (\partial_y g)^{-\top}$:
 
    $$
