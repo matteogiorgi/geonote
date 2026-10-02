@@ -1,6 +1,6 @@
 # Ottimizzazione vincolata e dualità
 
-Minimizzare una funzione senza vincoli è, in linea di principio, semplice: si cercano i punti in cui il gradiente si annulla. Con un vincolo del tipo $g(x) = 0$ questa ricetta smette di funzionare: il minimo vincolato di solito *non* annulla il gradiente di $f$, perché il punto non è libero di muoversi in tutte le direzioni, ma solo lungo il vincolo. Il metodo dei moltiplicatori di Lagrange ripristina la ricetta a un prezzo modesto: si introduce una variabile in più, $\lambda$, per ogni vincolo, e il problema vincolato diventa la ricerca dei punti stazionari di una nuova funzione, la **Lagrangiana**.
+Minimizzare una funzione senza vincoli è, in linea di principio, semplice: si cercano i punti in cui il gradiente si annulla. Con un vincolo del tipo $g(x) = 0$ questa ricetta smette di funzionare: il minimo vincolato di solito *non* annulla il gradiente di $f$, perché il punto non è libero di muoversi in tutte le direzioni, ma solo lungo il vincolo. Il metodo dei **moltiplicatori di Lagrange** ripristina la ricetta a un prezzo modesto: si introduce una variabile in più per ogni vincolo ($\lambda$), e il problema vincolato diventa la ricerca dei punti stazionari di una nuova funzione: la Lagrangiana.
 
 Il moltiplicatore non è però solo un artificio di calcolo. Misura quanto costa il vincolo (è il *prezzo ombra* dell'economia), genera il problema duale e, nel caso lineare, coincide con le variabili duali della programmazione lineare. Questa nota segue $\lambda$ attraverso tutti questi ruoli: dal teorema con le sue dimostrazioni, alla geometria, ai metodi numerici, fino alla PL e alla PLI già incontrate in [teoria_ottimizzazione](../teoria_computazione/teoria_ottimizzazione.md), di cui riusa lo stesso esempio numerico.
 
@@ -64,13 +64,13 @@ Esempio guida per le prime sezioni: minimi e massimi di $f(x, y) = xy$ sulla cir
 
 L'osservazione chiave si legge nel punto $(1, 0)$, che non è un ottimo. Lì $\nabla g = (2, 0)$ è normale alla circonferenza, mentre $\nabla f = (y, x) = (0, 1)$ è tangente: muovendosi lungo il vincolo verso l'alto, $f$ cresce; verso il basso, decresce. Un punto in cui $\nabla f$ ha una componente tangente al vincolo non può quindi essere né un minimo né un massimo vincolato.
 
-In un ottimo, allora, $\nabla f$ non deve avere componenti tangenti: deve essere perpendicolare al vincolo, cioè parallelo a $\nabla g$. Detto altrimenti, esiste un numero $\lambda$, il **moltiplicatore**, tale che
+In un ottimo, allora, $\nabla f$ non deve avere componenti tangenti: deve essere perpendicolare al vincolo, cioè parallelo a $\nabla g$. Detto altrimenti, esiste un numero $\lambda$, il moltiplicatore, tale che
 
 $$
 \nabla f(x^\ast) + \lambda \, \nabla g(x^\ast) = 0 .
 $$
 
-Geometricamente è una condizione di **tangenza**: la curva di livello di $f$ che passa per l'ottimo tocca il vincolo senza attraversarlo. Nella figura sono le iperboli $xy = \pm 1/2$.
+Geometricamente è una condizione di tangenza: la curva di livello di $f$ che passa per l'ottimo tocca il vincolo senza attraversarlo. Nella figura sono le iperboli $xy = \pm 1/2$.
 
 Per l'esempio, le equazioni sono $y + 2\lambda x = 0$, $x + 2\lambda y = 0$, $x^2 + y^2 = 1$. Sottraendo le prime due si ottiene $(y - x)(1 - 2\lambda) = 0$, e sommandole $(x + y)(1 + 2\lambda) = 0$. I fattori $y - x$ e $x + y$ non possono annullarsi entrambi (sarebbe l'origine, che non sta sul vincolo), quindi o $y = x$ e $\lambda = -1/2$, o $y = -x$ e $\lambda = 1/2$. Il vincolo dà i quattro punti stazionari:
 
@@ -84,9 +84,9 @@ Il segno di $\lambda$ si vede anche nella figura: nei massimi $\nabla f = -\lamb
 
 ### 1.4 Prima di tutto: il minimo esiste?
 
-Il teorema di Lagrange dà **condizioni necessarie**: dice dove cercare, non che ci sia qualcosa da trovare. Se il minimo non esiste, il sistema di Lagrange può avere soluzioni lo stesso (massimi locali, selle), e scambiarle per il minimo è un errore.
+Il teorema di Lagrange dà condizioni necessarie: dice dove cercare, non che ci sia qualcosa da trovare. Se il minimo non esiste, il sistema di Lagrange può avere soluzioni lo stesso (massimi locali, selle), e scambiarle per il minimo è un errore.
 
-Il criterio più usato è Weierstrass: se $M$ è compatto (chiuso e limitato) e $f$ è continua, $f$ ha minimo e massimo su $M$. Circonferenze, sfere ed ellissi sono compatte; rette e iperboli no. Se $M$ non è limitato basta la **coercività**: se $f(x) \to +\infty$ quando $\lVert x \rVert \to \infty$ restando su $M$, il minimo esiste. Nell'esempio guida $M$ è la circonferenza, quindi minimo e massimo esistono e sono tra i quattro punti della tabella.
+Il criterio più usato è Weierstrass: se $M$ è compatto (chiuso e limitato) e $f$ è continua, $f$ ha minimo e massimo su $M$. Circonferenze, sfere ed ellissi sono compatte; rette e iperboli no. Se $M$ non è limitato basta la coercività: se $f(x) \to +\infty$ quando $\lVert x \rVert \to \infty$ restando su $M$, il minimo esiste. Nell'esempio guida $M$ è la circonferenza, quindi minimo e massimo esistono e sono tra i quattro punti della tabella.
 
 
 
@@ -120,7 +120,7 @@ In un punto regolare il rango di $J_g$ è $m$, quindi esistono sempre $m$ colonn
 >
 > $$\nabla f(x^\ast) + \sum_{i=1}^{m} \lambda_i^\ast \, \nabla g_i(x^\ast) = 0, \qquad \text{cioè} \qquad \nabla f(x^\ast) + J_g(x^\ast)^\top \lambda^\ast = 0 .$$
 
-Con la **Lagrangiana** $L(x, \lambda) = f(x) + \lambda^\top g(x)$ il teorema si legge come una condizione di stazionarietà senza vincoli, in $n + m$ variabili:
+Con la Lagrangiana $L(x, \lambda) = f(x) + \lambda^\top g(x)$ il teorema si legge come una condizione di stazionarietà senza vincoli, in $n + m$ variabili:
 
 $$
 \nabla_x L(x^\ast, \lambda^\ast) = 0, \qquad \nabla_\lambda L(x^\ast, \lambda^\ast) = g(x^\ast) = 0 .
@@ -128,7 +128,7 @@ $$
 
 Sono $n + m$ equazioni in $n + m$ incognite: la derivata rispetto a $\lambda$ restituisce esattamente il vincolo. L'unicità di $\lambda^\ast$ viene dalla regolarità: le colonne di $J_g^\top$ sono indipendenti, quindi $J_g^\top \lambda = -\nabla f$ ha al più una soluzione.
 
-Il teorema vale identico per i massimi locali (basta applicarlo a $-f$). I punti che soddisfano la condizione, siano minimi, massimi o né l'uno né l'altro, si dicono **punti stazionari vincolati**. Le due dimostrazioni che seguono arrivano allo stesso risultato da due lati diversi: la prima mostra *perché* è vero, la seconda *quanto vale* $\lambda^\ast$.
+Il teorema vale identico per i massimi locali (basta applicarlo a $-f$). I punti che soddisfano la condizione, siano minimi, massimi o né l'uno né l'altro, si dicono *punti stazionari vincolati*. Le due dimostrazioni che seguono arrivano allo stesso risultato da due lati diversi: la prima mostra *perché* è vero, la seconda *quanto vale* $\lambda^\ast$.
 
 
 ### 2.3 Prima dimostrazione: un fatto di ortogonalità
@@ -137,8 +137,8 @@ L'idea è quella del [§1.3](#13-lidea-in-un-ottimo-i-gradienti-sono-paralleli):
 
 *Dimostrazione.*
 
-1. **Ogni direzione tangente è la velocità di una curva su $M$.** Sia $v \in T_{x^\ast}$, spezzato come $v = (v_y, v_z)$ secondo la partizione della funzione implicita. Si pone $z(t) = z^\ast + t\, v_z$ e $\gamma(t) = (\varphi(z(t)), z(t))$, per $t$ vicino a $0$. La curva sta in $M$ per costruzione, $\gamma(0) = x^\ast$ e $\gamma'(0) = (D\varphi \, v_z, v_z)$. Resta da vedere che $\gamma'(0) = v$: la condizione $J_g v = 0$ si scrive $\partial_y g \, v_y + \partial_z g \, v_z = 0$, cioè $v_y = -(\partial_y g)^{-1} \partial_z g \, v_z = D\varphi \, v_z$.
-2. **La derivata di $f$ lungo la curva è nulla.** La funzione di una variabile $\psi(t) = f(\gamma(t))$ ha un minimo locale in $t = 0$, quindi $\psi'(0) = \nabla f(x^\ast) \cdot \gamma'(0) = \nabla f(x^\ast) \cdot v = 0$.
+1. **Ogni direzione tangente è la velocità di una curva su $\boldsymbol{M}$.** Sia $v \in T_{x^\ast}$, spezzato come $v = (v_y, v_z)$ secondo la partizione della funzione implicita. Si pone $z(t) = z^\ast + t\, v_z$ e $\gamma(t) = (\varphi(z(t)), z(t))$, per $t$ vicino a $0$. La curva sta in $M$ per costruzione, $\gamma(0) = x^\ast$ e $\gamma'(0) = (D\varphi \, v_z, v_z)$. Resta da vedere che $\gamma'(0) = v$: la condizione $J_g v = 0$ si scrive $\partial_y g \, v_y + \partial_z g \, v_z = 0$, cioè $v_y = -(\partial_y g)^{-1} \partial_z g \, v_z = D\varphi \, v_z$.
+2. **La derivata di $\boldsymbol{f}$ lungo la curva è nulla.** La funzione di una variabile $\psi(t) = f(\gamma(t))$ ha un minimo locale in $t = 0$, quindi $\psi'(0) = \nabla f(x^\ast) \cdot \gamma'(0) = \nabla f(x^\ast) \cdot v = 0$.
 3. **Ortogonalità.** Poiché $v \in T_{x^\ast}$ era arbitrario, $\nabla f(x^\ast) \perp \ker J_g(x^\ast)$, quindi $\nabla f(x^\ast) \in (\ker J_g)^\perp = \operatorname{Im} J_g^\top$.
 4. Esiste dunque $w \in \mathbb{R}^m$ con $\nabla f(x^\ast) = J_g^\top w$, e basta porre $\lambda^\ast = -w$. $\blacksquare$
 
@@ -183,7 +183,7 @@ Su $M$ vale $x = \lvert y \rvert^{2/3} \ge 0$, quindi il minimo è l'origine. L�
 
 La curva ha una cuspide nell'origine. Il nucleo di $J_g = (0, 0)$ è tutto $\mathbb{R}^2$, ma le direzioni lungo cui ci si può davvero muovere su $M$ sono solo quella di $(1, 0)$: lo "spazio tangente" calcolato con la Jacobiana non descrive più la geometria, e il passo 1 della prima dimostrazione cade.
 
-La versione generale è il teorema di **Fritz John**: in un minimo locale esistono $(\lambda_0, \lambda) \neq 0$ con $\lambda_0 \nabla f + J_g^\top \lambda = 0$. Nell'esempio funziona con $\lambda_0 = 0$, $\lambda = 1$, ma un'equazione in cui $f$ non compare non dà alcuna informazione su $f$. La regolarità serve esattamente a garantire $\lambda_0 \neq 0$: allora si può dividere per $\lambda_0$, e si ritrova la forma di Lagrange con $\lambda_0 = 1$. In pratica: i punti non regolari di $M$ vanno sempre esaminati a parte.
+La versione generale è il **teorema di Fritz John**: in un minimo locale esistono $(\lambda_0, \lambda) \neq 0$ con $\lambda_0 \nabla f + J_g^\top \lambda = 0$. Nell'esempio funziona con $\lambda_0 = 0$, $\lambda = 1$, ma un'equazione in cui $f$ non compare non dà alcuna informazione su $f$. La regolarità serve esattamente a garantire $\lambda_0 \neq 0$: allora si può dividere per $\lambda_0$, e si ritrova la forma di Lagrange con $\lambda_0 = 1$. In pratica: i punti non regolari di $M$ vanno sempre esaminati a parte.
 
 
 
@@ -222,7 +222,7 @@ Nel punto $(1/\sqrt{2}, -1/\sqrt{2})$, con $\lambda = 1/2$, lo spazio tangente �
 
 ### 3.2 Il test pratico: l'Hessiana orlata
 
-Restringere $H$ a $T_{x^\ast}$ richiede una base dello spazio tangente. In alternativa si usa l'**Hessiana orlata**, che contiene già i gradienti dei vincoli. Nel caso $n = 2$, $m = 1$:
+Restringere $H$ a $T_{x^\ast}$ richiede una base dello spazio tangente. In alternativa si usa l'Hessiana orlata, che contiene già i gradienti dei vincoli. Nel caso $n = 2$, $m = 1$:
 
 $$
 B = \begin{pmatrix} 0 & g_x & g_y \\ g_x & L_{xx} & L_{xy} \\ g_y & L_{xy} & L_{yy} \end{pmatrix}, \qquad
@@ -276,7 +276,7 @@ A sinistra, allargando il vincolo il minimo scivola lungo la bisettrice e la ret
 
 ### 5.1 Le condizioni
 
-Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \le 0$ per $j = 1, \dots, p$, con Lagrangiana $L = f + \lambda^\top g + \mu^\top h$. Un vincolo $h_j$ è **attivo** in $x$ se $h_j(x) = 0$: solo i vincoli attivi "toccano" il punto, gli altri, almeno localmente, lasciano libertà di movimento in ogni direzione.
+Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \le 0$ per $j = 1, \dots, p$, con Lagrangiana $L = f + \lambda^\top g + \mu^\top h$. Un vincolo $h_j$ è attivo in $x$ se $h_j(x) = 0$: solo i vincoli attivi "toccano" il punto, gli altri, almeno localmente, lasciano libertà di movimento in ogni direzione.
 
 > **Teorema 4 (Karush–Kuhn–Tucker).** Se $x^\ast$ è un minimo locale e i gradienti dei $g_i$ e degli $h_j$ attivi in $x^\ast$ sono linearmente indipendenti, allora esistono $\lambda^\ast \in \mathbb{R}^m$ e $\mu^\ast \in \mathbb{R}^p$ tali che:
 >
@@ -288,7 +288,7 @@ Si aggiungono vincoli di disuguaglianza: $\min f(x)$ s.t. $g(x) = 0$, $h_j(x) \l
 Rispetto a Lagrange ci sono due novità, ed entrambe hanno una lettura immediata.
 
 - **La complementarità** dice che un vincolo non attivo ($h_j < 0$) ha moltiplicatore nullo: se il vincolo non tocca il punto, il punto non "sente" il vincolo, e il suo prezzo ombra è zero.
-- **Il segno $\mu \ge 0$** dice da che parte deve stare $\nabla f$. Con un solo vincolo attivo e nessuna uguaglianza, $-\nabla f = \mu \nabla h$: la direzione di massima discesa di $f$ punta verso l'esterno della regione ammissibile ($\nabla h$ punta dove $h$ cresce, cioè fuori). Ogni direzione che rientra nella regione quindi, al primo ordine, non fa scendere $f$. Con $\mu < 0$ si potrebbe invece scendere entrando, e il punto non sarebbe un minimo.
+- **Il segno $\boldsymbol{\mu \ge 0}$** dice da che parte deve stare $\nabla f$. Con un solo vincolo attivo e nessuna uguaglianza, $-\nabla f = \mu \nabla h$: la direzione di massima discesa di $f$ punta verso l'esterno della regione ammissibile ($\nabla h$ punta dove $h$ cresce, cioè fuori). Ogni direzione che rientra nella regione quindi, al primo ordine, non fa scendere $f$. Con $\mu < 0$ si potrebbe invece scendere entrando, e il punto non sarebbe un minimo.
 
 *Idea della dimostrazione.* Si ripete lo schema del [§2.3](#23-prima-dimostrazione-un-fatto-di-ortogonalità), ma ora le direzioni ammissibili non formano un sottospazio, bensì un cono: quello delle $d$ con $\nabla g_i \cdot d = 0$ e $\nabla h_j \cdot d \le 0$ per gli $h_j$ attivi. In un minimo nessuna di queste può essere di discesa ($\nabla f \cdot d < 0$). Il **lemma di Farkas** trasforma questa "assenza di direzioni" in un'affermazione di esistenza: $-\nabla f$ sta nel cono generato dai $\nabla h_j$ attivi, più una combinazione dei $\nabla g_i$. I coefficienti del cono sono i $\mu_j \ge 0$.
 
@@ -299,8 +299,8 @@ Esempio: $\min \, (x - a)^2 + (y - a)^2$ s.t. $h(x, y) = x + y - 2 \le 0$, cioè
 
 <img class="shot-img" src="../img/lagrange_kkt.png" alt="Due pannelli: con centro (2, 2) il minimo è (1, 1) sul bordo della regione x + y ≤ 2, con -grad f = 2 grad h; con centro (0.5, 0.5) il minimo libero è ammissibile e il vincolo non è attivo" />
 
-- **Con $a = 2$** il minimo libero $(2, 2)$ viola il vincolo, quindi il vincolo è attivo. Stazionarietà: $2(x - 2) + \mu = 0$ e $2(y - 2) + \mu = 0$, da cui $x = y = 2 - \mu/2$; il vincolo attivo $x + y = 2$ dà $\mu^\ast = 2 \ge 0$ e il punto $(1, 1)$. Nella figura $-\nabla f = (2, 2)$ è lungo il doppio di $\nabla h = (1, 1)$, nella stessa direzione: $\mu^\ast = 2$ si legge a occhio.
-- **Con $a = 0.5$** il minimo libero $(0.5, 0.5)$ è già ammissibile, con $h = -1 < 0$. La complementarità impone $\mu^\ast = 0$ e la stazionarietà si riduce a $\nabla f = 0$: il vincolo non ha alcun ruolo.
+- **Con $\boldsymbol{a = 2}$** il minimo libero $(2, 2)$ viola il vincolo, quindi il vincolo è attivo. Stazionarietà: $2(x - 2) + \mu = 0$ e $2(y - 2) + \mu = 0$, da cui $x = y = 2 - \mu/2$; il vincolo attivo $x + y = 2$ dà $\mu^\ast = 2 \ge 0$ e il punto $(1, 1)$. Nella figura $-\nabla f = (2, 2)$ è lungo il doppio di $\nabla h = (1, 1)$, nella stessa direzione: $\mu^\ast = 2$ si legge a occhio.
+- **Con $\boldsymbol{a = 0.5}$** il minimo libero $(0.5, 0.5)$ è già ammissibile, con $h = -1 < 0$. La complementarità impone $\mu^\ast = 0$ e la stazionarietà si riduce a $\nabla f = 0$: il vincolo non ha alcun ruolo.
 
 In entrambi i casi la difficoltà non è risolvere le equazioni, ma sapere *quali vincoli sono attivi*. Con $p$ disuguaglianze ci sono $2^p$ combinazioni possibili: è il nodo combinatorio che riemerge, ingigantito, nella PL ([§8.3](#83-perché-lagrange-classico-non-basta)).
 
@@ -334,9 +334,7 @@ $$
 q(\lambda, \mu) = \inf_{x} \; L(x, \lambda, \mu), \qquad \mu \ge 0 ,
 $$
 
-con l'estremo inferiore su tutto $\mathbb{R}^n$, senza vincoli ($q$ può valere $-\infty$, e allora non dà informazioni). Due fatti la rendono utile.
-
-**$q$ è sempre concava**, anche se il problema non è convesso: per ogni $x$ fissato, $L$ è affine in $(\lambda, \mu)$, e un estremo inferiore di funzioni affini è concavo.
+con l'estremo inferiore su tutto $\mathbb{R}^n$, senza vincoli ($q$ può valere $-\infty$, e allora non dà informazioni). Due fatti la rendono utile; $q$ è sempre concava, anche se il problema non è convesso: per ogni $x$ fissato, $L$ è affine in $(\lambda, \mu)$, e un estremo inferiore di funzioni affini è concavo.
 
 **Dualità debole.** Per ogni $x$ ammissibile e ogni $(\lambda, \mu)$ con $\mu \ge 0$:
 
@@ -363,13 +361,13 @@ $$
 \nabla^2 L = \begin{pmatrix} 2 & 1 \\ 1 & 0 \end{pmatrix} ,
 $$
 
-con determinante $-1$: indefinita, quindi è una **sella**. Del resto $L$ è affine in $\lambda$, e una funzione affine non costante non ha minimi.
+con determinante $-1$: indefinita, quindi è una sella. Del resto $L$ è affine in $\lambda$, e una funzione affine non costante non ha minimi.
 
 <img class="shot-img" src="../img/lagrange_sella.png" alt="A sinistra le curve di livello di L(x, λ) = x² + λ(x - 1) con la sella in (1, -2); a destra la funzione duale q(λ) = -λ²/4 - λ, concava, con massimo 1 in λ = -2" />
 
 La struttura giusta è quella della dualità: si minimizza in $x$ e si massimizza in $\lambda$. Per ogni $\lambda$ il minimo in $x$ è in $x = -\lambda/2$ (la curva tratteggiata a sinistra), e sostituendo si ottiene $q(\lambda) = -\lambda^2/4 - \lambda$. A destra, $q$ è concava e il suo massimo, $q(-2) = 1$, coincide con $f^\ast = 1$: dualità forte, raggiunta nel moltiplicatore $\lambda^\ast = -2$.
 
-In generale, per problemi convessi con dualità forte, $(x^\ast, \lambda^\ast, \mu^\ast)$ è un **punto di sella** di $L$:
+In generale, per problemi convessi con dualità forte, $(x^\ast, \lambda^\ast, \mu^\ast)$ è un punto di sella di $L$:
 
 $$
 L(x^\ast, \lambda, \mu) \;\le\; L(x^\ast, \lambda^\ast, \mu^\ast) \;\le\; L(x, \lambda^\ast, \mu^\ast) \qquad \text{per ogni } x \text{ e ogni } (\lambda, \mu \ge 0) .
@@ -436,7 +434,7 @@ func newtonKKT(z0 [3]float64) (z [3]float64, iterazioni int) {
 // newtonKKT([3]float64{0.6, 0.8, 0})    -> (0.707107, 0.707107, -0.5) in 6 iterazioni: un massimo
 ```
 
-`risolvi(A, b)` è una qualsiasi eliminazione di Gauss con pivoting parziale (con *gonum*, `mat.VecDense.SolveVec`): per un sistema $3 \times 3$ basta, mentre per sistemi grandi si usano fattorizzazioni pensate per matrici simmetriche indefinite, come $LDL^\top$. La convergenza è quadratica, come sempre per Newton vicino a una soluzione regolare. La seconda chiamata mostra però il limite del metodo: Newton cerca **punti stazionari** di $L$, non minimi, e converge a quello verso cui la porta il punto di partenza, che qui è un massimo. Va sempre affiancato a un controllo del secondo ordine ([§3](#3-condizioni-del-secondo-ordine)) o a una globalizzazione che privilegi la discesa di $f$.
+`risolvi(A, b)` è una qualsiasi eliminazione di Gauss con pivoting parziale (con *gonum*, `mat.VecDense.SolveVec`): per un sistema $3 \times 3$ basta, mentre per sistemi grandi si usano fattorizzazioni pensate per matrici simmetriche indefinite, come $LDL^\top$. La convergenza è quadratica, come sempre per Newton vicino a una soluzione regolare. La seconda chiamata mostra però il limite del metodo: Newton cerca punti stazionari di $L$, non minimi, e converge a quello verso cui la porta il punto di partenza, che qui è un massimo. Va sempre affiancato a un controllo del secondo ordine ([§3](#3-condizioni-del-secondo-ordine)) o a una globalizzazione che privilegi la discesa di $f$.
 
 > **Approfondimento in _Guile_:** la parte noiosa del metodo, scrivere a mano $\nabla_x L$ e $g$, è meccanica, e in Scheme si automatizza in poche righe. Le espressioni sono liste (le S-espressioni di [fondamenti_guile §2](../fondamenti/fondamenti_guile.md#2-la-sintassi-le-s-espressioni)), quindi la derivata simbolica è un `match` sulla forma dell'espressione, una regola per ogni operatore.
 > ```scheme
@@ -626,7 +624,7 @@ $y^\ast$ ha il significato del [§4](#4-sensitività-il-moltiplicatore-come-prez
 
 ### 8.3 Perché Lagrange classico non basta
 
-Nella PL il gradiente dell'obiettivo è $c$, costante e mai nullo: l'ottimo non è mai un punto stazionario interno, ma cade sul bordo, in un vertice ([teoria_ottimizzazione §1.3](../teoria_computazione/teoria_ottimizzazione.md#13-geometria-perché-basta-guardare-i-vertici)). Le KKT permettono di **verificare** un vertice, come nel paragrafo precedente, ma non dicono *quale* vertice: scegliere l'insieme dei vincoli attivi è un problema combinatorio, con un numero di vertici che può crescere esponenzialmente.
+Nella PL il gradiente dell'obiettivo è $c$, costante e mai nullo: l'ottimo non è mai un punto stazionario interno, ma cade sul bordo, in un vertice ([teoria_ottimizzazione §1.3](../teoria_computazione/teoria_ottimizzazione.md#13-geometria-perché-basta-guardare-i-vertici)). Le KKT permettono di verificare un vertice, come nel paragrafo precedente, ma non dicono *quale* vertice: scegliere l'insieme dei vincoli attivi è un problema combinatorio, con un numero di vertici che può crescere esponenzialmente.
 
 I due algoritmi classici si leggono come due strategie diverse per soddisfare le stesse tre condizioni:
 
@@ -640,26 +638,26 @@ Una differenza rispetto al caso liscio: il valore ottimo $z^\ast(b)$ è lineare 
 
 Si aggiunge il vincolo di interezza, come in [teoria_ottimizzazione §2.1](../teoria_computazione/teoria_ottimizzazione.md#21-lo-stesso-problema-un-vincolo-in-più): l'ottimo intero è $(4, 0)$ con valore $20$, mentre il rilassamento continuo dava $21$. Il problema è NP-completo in generale ([teoria_complessita §5](../teoria_computazione/teoria_complessita.md#5-np-completezza-e-np-difficoltà)), e un buon bound superiore è ciò che permette al branch & bound di potare.
 
-L'idea del **rilassamento lagrangiano** è spostare nell'obiettivo i vincoli "scomodi", con un moltiplicatore, e tenere quelli che lasciano un sottoproblema facile. Qui si rilassa $x_1 + 2x_2 \le 6$ con $u \ge 0$, e si tiene l'insieme $X = \lbrace x \in \mathbb{Z}^2 : 6x_1 + 4x_2 \le 24, \ x \ge 0 \rbrace$:
+L'idea del rilassamento lagrangiano è spostare nell'obiettivo i vincoli "scomodi", con un moltiplicatore, e tenere quelli che lasciano un sottoproblema facile. Qui si rilassa $x_1 + 2x_2 \le 6$ con $u \ge 0$, e si tiene l'insieme $X = \lbrace x \in \mathbb{Z}^2 : 6x_1 + 4x_2 \le 24, \ x \ge 0 \rbrace$:
 
 $$
 q(u) = \max_{x \in X} \; 5x_1 + 4x_2 + u \, (6 - x_1 - 2x_2) .
 $$
 
-Per ogni $x$ ammissibile il termine aggiunto è $\ge 0$, quindi, esattamente come nel [§8.1](#81-il-duale-della-pl-dalla-lagrangiana), **ogni $q(u)$ è un bound superiore** all'ottimo intero. Il miglior bound è $\min_{u \ge 0} q(u)$.
+Per ogni $x$ ammissibile il termine aggiunto è $\ge 0$, quindi, esattamente come nel [§8.1](#81-il-duale-della-pl-dalla-lagrangiana), ogni $q(u)$ è un bound superiore all'ottimo intero. Il miglior bound è $\min_{u \ge 0} q(u)$.
 
 <img class="shot-img" src="../img/lagrange_pli.png" alt="Bound lagrangiano q(u) in funzione del moltiplicatore u: lineare a tratti e convesso, con minimo 21 in u = 1/2, sopra l'ottimo intero 20; la differenza è il duality gap" />
 
 $q$ è il massimo di un numero finito di funzioni affini in $u$ (una per ogni punto di $X$), quindi è convessa e lineare a tratti: il minimo cade in un punto di rottura, qui $u^\ast = 1/2$, con $q(1/2) = 21$. Tre osservazioni:
 
-- **Il bound coincide con quello della PL**, e $u^\ast = 1/2$ è proprio il prezzo ombra $y_2^\ast$ del vincolo rilassato ([§8.2](#82-le-kkt-sullesempio)). Non è un caso. Per il teorema di **Geoffrion**, $\min_u q(u)$ è l'ottimo della PL su $\operatorname{conv}(X) \cap \lbrace x_1 + 2x_2 \le 6 \rbrace$; qui i vertici di $\lbrace 6x_1 + 4x_2 \le 24, \, x \ge 0 \rbrace$ sono già interi, quindi $\operatorname{conv}(X)$ è il poligono continuo e si ritrova il rilassamento della PL. Se invece il poligono continuo avesse vertici non interi, $\operatorname{conv}(X)$ sarebbe strettamente più piccolo e il bound lagrangiano potrebbe essere strettamente migliore di quello continuo: è il caso in cui il rilassamento lagrangiano conviene davvero.
-- **Il duality gap è $21 - 20 = 1$.** Non si chiude: il problema non è convesso, e la dualità forte del [§6.1](#61-funzione-duale-dualità-debole-e-forte) non vale.
+- **Il bound coincide con quello della PL**, e $u^\ast = 1/2$ è proprio il prezzo ombra $y_2^\ast$ del vincolo rilassato ([§8.2](#82-le-kkt-sullesempio)). Non è un caso. Per il **teorema di Geoffrion** ($\min_u q(u)$ è l'ottimo della PL su $\operatorname{conv}(X) \cap \lbrace x_1 + 2x_2 \le 6 \rbrace$), qui i vertici di $\lbrace 6x_1 + 4x_2 \le 24, \, x \ge 0 \rbrace$ sono già interi, quindi $\operatorname{conv}(X)$ è il poligono continuo e si ritrova il rilassamento della PL. Se invece il poligono continuo avesse vertici non interi, $\operatorname{conv}(X)$ sarebbe strettamente più piccolo e il bound lagrangiano potrebbe essere strettamente migliore di quello continuo: è il caso in cui il rilassamento lagrangiano conviene davvero.
+- **Il duality gap è $\boldsymbol{21 - 20 = 1}$.** Non si chiude: il problema non è convesso, e la dualità forte del [§6.1](#61-funzione-duale-dualità-debole-e-forte) non vale.
 - **Il sottoproblema produce candidati.** In $u = 1/2$ il massimo su $X$ è raggiunto in $(4, 0)$, $(2, 3)$ e $(0, 6)$. Il primo rispetta anche il vincolo rilassato: è l'ottimo intero. Nella pratica le soluzioni del sottoproblema, eventualmente "riparate" da un'euristica, danno soluzioni ammissibili, cioè bound inferiori.
 
 
 ### 8.5 Ottimizzare il duale: il subgradiente
 
-$q$ non è differenziabile nei punti di rottura, quindi niente gradiente. Al suo posto c'è il **subgradiente**: se $x_u$ è un punto di massimo del sottoproblema in $u$, la quantità $s = 6 - x_1 - 2x_2$ (lo scarto del vincolo rilassato in $x_u$) soddisfa $q(u') \ge q(u) + s \, (u' - u)$ per ogni $u'$, e fa le veci della derivata. Il metodo del subgradiente scende lungo $-s$ e proietta su $u \ge 0$ (nel codice $x$ e $y$ stanno per $x_1$ e $x_2$):
+$q$ non è differenziabile nei punti di rottura, quindi niente gradiente. Al suo posto c'è il subgradiente: se $x_u$ è un punto di massimo del sottoproblema in $u$, la quantità $s = 6 - x_1 - 2x_2$ (lo scarto del vincolo rilassato in $x_u$) soddisfa $q(u') \ge q(u) + s \, (u' - u)$ per ogni $u'$, e fa le veci della derivata. Il metodo del subgradiente scende lungo $-s$ e proietta su $u \ge 0$ (nel codice $x$ e $y$ stanno per $x_1$ e $x_2$):
 
 ```go
 // sottoproblema risolve max { (5-u)x + (4-2u)y : 6x + 4y ≤ 24, x, y interi ≥ 0 }
@@ -718,7 +716,7 @@ $$
 \nabla_x L = -2Ax + 2\lambda x = 0 \quad \Longrightarrow \quad Ax = \lambda x, \qquad x^\top A x = \lambda \, x^\top x = \lambda .
 $$
 
-I punti stazionari sono gli autovettori unitari, il moltiplicatore è l'autovalore, e il valore di $x^\top A x$ in ciascuno è l'autovalore stesso: il massimo è $\lambda_{\max}$. Il secondo ordine lo conferma: su $T = x^\perp$ l'Hessiana è $2(\lambda I - A)$, semidefinita positiva solo se $\lambda$ è l'autovalore massimo. Con $A = \Sigma$, la matrice di covarianza dei dati, $x$ è la **prima componente principale** e $\lambda_{\max}$ la varianza che spiega; le componenti successive si trovano aggiungendo i vincoli di ortogonalità alle precedenti.
+I punti stazionari sono gli autovettori unitari, il moltiplicatore è l'autovalore, e il valore di $x^\top A x$ in ciascuno è l'autovalore stesso: il massimo è $\lambda_{\max}$. Il secondo ordine lo conferma: su $T = x^\perp$ l'Hessiana è $2(\lambda I - A)$, semidefinita positiva solo se $\lambda$ è l'autovalore massimo. Con $A = \Sigma$, la matrice di covarianza dei dati, $x$ è la prima componente principale e $\lambda_{\max}$ la varianza che spiega; le componenti successive si trovano aggiungendo i vincoli di ortogonalità alle precedenti.
 
 
 ### 9.2 Massima verosimiglianza della multinomiale
