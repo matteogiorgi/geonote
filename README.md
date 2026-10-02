@@ -30,25 +30,28 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Ottimizzazione e decidibilità](teoria_computazione/teoria_ottimizzazione.md)** — PL, ILP, ottimizzazione polinomiale e decimo problema di Hilbert.
 
 
-### Fondamenti
-
-- **[Fondamenti _Go_](fondamenti/fondamenti_go.md)** — sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
-- **[Fondamenti _Guile_](fondamenti/fondamenti_guile.md)** — sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
-- **[Fondamenti _R_](fondamenti/fondamenti_r.md)** — elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
-
-
 ### Matematica e statistica
 
 - **[Teoria della misura](matematica_statistica/teoria_misura.md)** — insieme di Cantor, $\sigma$-algebre, misura e insieme di Vitali, integrale di Lebesgue.
+- **[Moltiplicatori di Lagrange](matematica_statistica/teoria_lagrange.md)** — teorema, KKT, dualità, metodi numerici, PL e rilassamento lagrangiano.
+<!--
 - **[Metodi stocastici](matematica_statistica/teoria_metodi.md)** † — spazi di probabilità, variabili aleatorie, distribuzioni.
 - **[Processi stocastici](matematica_statistica/teoria_processi.md)** † — catene di Markov, ergodicità, distribuzione stazionaria, processi di Poisson.
 - **[Inferenza statistica](matematica_statistica/teoria_inferenza.md)** † — stima puntuale e per intervalli, test d'ipotesi.
+-->
 
 
 ### Strumenti e curiosità
 
 - **[Geoteo _CSS_](strumenti_curiosita/tema_geoteo.md)** — come ereditare stile, *MathJax* e *Mermaid* da `geoteo.net`.
 - **[GitHub Actions](strumenti_curiosita/azioni_github.md)** — workflow YAML, eventi, DAG di job, matrix, cache e permessi/OIDC.
+
+
+### Fondamenti
+
+- **[Fondamenti _Go_](fondamenti/fondamenti_go.md)** — sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
+- **[Fondamenti _Guile_](fondamenti/fondamenti_guile.md)** — sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
+- **[Fondamenti _R_](fondamenti/fondamenti_r.md)** — elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
 
 
 
@@ -71,6 +74,8 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Knapsack problem](problemi_famosi/problema_knapsack.md)** † — ottimizzazione con vincolo di capacità, PD 0/1 e frazionario.
 - **[Ponti di Königsberg](problemi_famosi/problema_konigsberg.md)** † — teoria dei grafi, cammini e circuiti euleriani.
 - **[Travelling salesman](problemi_famosi/problema_tsp.md)** † — NP-hardness, ricerca esaustiva, PD con bitmask (Held-Karp), euristiche.
+<!--
 - **[Postino cinese](problemi_famosi/problema_postino_cinese.md)** † — matching perfetto minimo, estensione del caso euleriano.
 - **[N-Regine](problemi_famosi/problema_n_regine.md)** † — backtracking, pruning e PD con bitmask.
 - **[Secretary problem](problemi_famosi/problema_secretary.md)** † — arresto ottimale, strategia a soglia e regola $1/e$.
+-->

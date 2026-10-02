@@ -2,10 +2,10 @@
 
 ## 1. Cos'è Guile
 
-**GNU Guile** (*GNU Ubiquitous Intelligent Language for Extensions*) è il linguaggio di
-estensione ufficiale del Progetto GNU. È un'implementazione del linguaggio **Scheme**, a sua
-volta un dialetto minimalista ed elegante della famiglia **Lisp**. La sua prima versione risale
-al 1993; la serie stabile corrente è la **3.0.x** (versione **3.0.11**, dicembre 2025).
+GNU Guile (*GNU Ubiquitous Intelligent Language for Extensions*) è il linguaggio di
+estensione ufficiale del Progetto GNU. È un'implementazione del linguaggio [Scheme](https://en.wikipedia.org/wiki/Scheme_(programming_language)), a sua
+volta un dialetto minimalista ed elegante della famiglia [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)). La sua prima versione risale
+al 1993; la serie stabile corrente è la 3.0.x (versione 3.0.11, dicembre 2025).
 
 Guile nasce con un duplice scopo:
 
@@ -14,13 +14,13 @@ Guile nasce con un duplice scopo:
 2. **Libreria incorporabile** — può essere integrato in programmi C/C++ per fornire un motore
   Scheme completo, usato come linguaggio di scripting, configurazione o estensione.
 
-Conformità agli standard: Guile implementa **R5RS**, gran parte di **R6RS** e **R7RS**, oltre a
-numerosi **SRFI** (*Scheme Requests for Implementation*). Include accesso completo alle chiamate
+Conformità agli standard: Guile implementa R5RS, gran parte di R6RS e R7RS, oltre a
+numerosi SRFI (*Scheme Requests for Implementation*). Include accesso completo alle chiamate
 di sistema POSIX, networking, thread multipli, collegamento dinamico, una FFI (interfaccia verso C)
 e persino client e server HTTP.
 
-Programmi noti che usano Guile come motore di estensione o linguaggio interno: **GNU Guix**
-(gestore di pacchetti), **GnuCash**, **GDB**, **LilyPond**, **GNU TeXmacs**, **Lepton EDA**.
+Programmi noti che usano Guile come motore di estensione o linguaggio interno: *GNU Guix*
+(gestore di pacchetti), *GnuCash*, *GDB*, *LilyPond*, *GNU TeXmacs*, *Lepton EDA*.
 
 
 
@@ -28,7 +28,7 @@ Programmi noti che usano Guile come motore di estensione o linguaggio interno: *
 ## 2. La sintassi: le S-espressioni
 
 Come ogni Lisp, Guile scrive il codice come **S-espressioni** (liste racchiuse tra parentesi) in
-**notazione prefissa**: l'operatore precede sempre gli operandi.
+notazione prefissa: l'operatore precede sempre gli operandi.
 
 ```scheme
 ;; Un commento inizia con ;
@@ -79,7 +79,7 @@ $$\frac{1}{3} + \frac{1}{6} = \frac{2}{6} + \frac{1}{6} = \frac{3}{6} = \frac{1}
 ## 4. Definizioni e funzioni
 
 Si usa `define` per legare un nome a un valore o a una funzione. Le funzioni anonime si creano
-con `lambda`, l'equivalente diretto della notazione del **calcolo lambda** $\lambda x.\, e$.
+con `lambda`, l'equivalente diretto della notazione del lambda calcolo $\lambda x.\, e$.
 
 ```scheme
 (define pi 3.14159)
@@ -109,7 +109,7 @@ L'area di un cerchio, $A = \pi r^2$, si traduce direttamente:
 
 ## 5. Ricorsione
 
-Scheme non ha bisogno di cicli tradizionali: la **ricorsione** è il costrutto naturale.
+Scheme non ha bisogno di cicli tradizionali: la ricorsione è il costrutto naturale.
 
 
 ### Fattoriale
@@ -151,7 +151,7 @@ $$F_0 = 0, \quad F_1 = 1, \quad F_n = F_{n-1} + F_{n-2} \ \ (n \ge 2)$$
 ## 6. Ricorsione di coda e iterazione
 
 La versione ingenua di Fibonacci ha complessità esponenziale $O(\varphi^n)$, dove
-$\varphi = \frac{1 + \sqrt{5}}{2}$ è la sezione aurea. Riscrivendola in **ricorsione di coda**
+$\varphi = \frac{1 + \sqrt{5}}{2}$ è la sezione aurea. Riscrivendola in ricorsione di coda
 (*tail recursion*) si ottiene complessità lineare $O(n)$ e spazio costante, perché Guile
 garantisce l'ottimizzazione delle chiamate in coda (*proper tail calls*).
 
@@ -245,7 +245,7 @@ accidentalmente i nomi di variabili del contesto in cui vengono espanse.
 
 ## 9. Il sistema dei moduli
 
-Guile organizza il codice in **moduli**, che controllano quali definizioni sono visibili
+Guile organizza il codice in moduli, che controllano quali definizioni sono visibili
 all'esterno.
 
 ```scheme
@@ -309,7 +309,7 @@ eccezioni, generatori, backtracking e coroutine.
 
 ## 11. Metodo di Newton (esempio numerico)
 
-Un esempio classico di Scheme è il calcolo della radice quadrata con il **metodo di Newton**.
+Un esempio classico di Scheme è il calcolo della radice quadrata con il metodo di Newton.
 Per approssimare $\sqrt{x}$ si itera:
 
 $$y_{n+1} = \frac{1}{2}\left(y_n + \frac{x}{y_n}\right)$$
@@ -336,7 +336,7 @@ fino a quando $|y_n^2 - x|$ è sufficientemente piccolo.
 
 ## 12. Programmazione a oggetti: GOOPS
 
-Guile include **GOOPS** (*Guile Object-Oriented Programming System*), un sistema a oggetti
+Guile include GOOPS (*Guile Object-Oriented Programming System*), un sistema a oggetti
 ispirato al CLOS di Common Lisp, con classi, ereditarietà multipla e metodi generici.
 
 ```scheme
@@ -388,7 +388,7 @@ Compilazione tipica:
 gcc programma.c -o programma $(pkg-config --cflags --libs guile-3.0)
 ```
 
-Viceversa, tramite la **FFI** Scheme può chiamare funzioni C di librerie condivise senza scrivere
+Viceversa, tramite la FFI Scheme può chiamare funzioni C di librerie condivise senza scrivere
 alcun wrapper in C.
 
 

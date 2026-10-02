@@ -102,6 +102,8 @@ func migliorVertice(candidati []vertice) vertice {
 
 L'LP reale non solo termina sempre: sta in **P** ([teoria_complessita §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
 
+> Dietro il simplesso e i punti interni c'è la stessa struttura: la dualità lagrangiana. Su questo esempio le variabili duali valgono $(3/4,\, 1/2)$, sono i *prezzi ombra* delle due risorse, e le condizioni KKT certificano che $(3,\,1.5)$ è ottimo senza confrontare i vertici: si veda [teoria_lagrange §8.1–§8.3](../matematica_statistica/teoria_lagrange.md#81-il-duale-della-pl-dalla-lagrangiana).
+
 
 
 
@@ -131,7 +133,7 @@ Il vincolo di interezza non "sposta un po'" l'ottimo continuo: lo può spostare 
 
 ### 2.3 Perché resta decidibile
 
-Il poliedro del [§1](#1-programmazione-lineare) è limitato: contiene solo un numero finito di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il punto teorico è che un algoritmo che termina sempre esiste — anche la sola enumerazione bruta, qui, basta:
+Il poliedro del [§1](#1-programmazione-lineare) è limitato: contiene solo un numero finito di punti interi. In linea di principio sono enumerabili; in pratica si usa **branch & bound** (si risolve il rilassamento continuo, si sceglie una variabile frazionaria, si spezza il problema in due sotto-casi con arrotondamento per difetto/eccesso, si ricorre). Il bound che permette di potare un nodo può venire, oltre che dal rilassamento continuo, dal **rilassamento lagrangiano**: su questo esempio vale $21$ contro l'ottimo intero $20$, e la differenza è un *duality gap* che il caso intero, non convesso, in genere non chiude ([teoria_lagrange §8.4](../matematica_statistica/teoria_lagrange.md#84-pli-il-rilassamento-lagrangiano)). Il punto teorico è che un algoritmo che termina sempre esiste — anche la sola enumerazione bruta, qui, basta:
 
 ```go
 // migliorSoluzioneIntera enumera i punti interi del rettangolo [0,xMax]x[0,yMax]:
