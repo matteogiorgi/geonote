@@ -21,9 +21,9 @@ flowchart LR
     T --> K["Disuguaglianze: KKT<br/>(§5)"]
     K --> D["Dualità lagrangiana<br/>(§6)"]
     D --> N["Metodi numerici<br/>(§7)"]
-    D --> LP["PL: variabili duali<br/>(§8.1–8.3)"]
-    D --> ILP["PLI: rilassamento<br/>lagrangiano (§8.4–8.5)"]
-    P --> LP
+    D --> PL["PL: variabili duali<br/>(§8.1–8.3)"]
+    D --> PLI["PLI: rilassamento<br/>lagrangiano (§8.4–8.5)"]
+    P --> PL
 ```
 
 > **Convenzioni.** In tutta la nota si *minimizza*, i vincoli di uguaglianza si scrivono $g(x) = 0$, quelli di disuguaglianza $h(x) \le 0$, e la Lagrangiana è $L = f + \lambda^\top g + \mu^\top h$, con il segno $+$. Un problema di massimo si riscrive come minimo di $-f$; fa eccezione solo il [§8](#8-programmazione-lineare-e-intera), dove la PL resta nella sua forma naturale di massimo. Il segno dei moltiplicatori dipende da queste scelte: cambiarle a metà strada è la fonte di errore più comune ([§10](#10-insidie)).

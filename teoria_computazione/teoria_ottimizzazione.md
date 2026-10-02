@@ -9,20 +9,20 @@ La sorpresa è dove cade il confine: non è la non linearità da sola a romperlo
 
 ## Cosa ci serve
 
-- **Programmazione lineare (LP)** — la base: poliedri, vertici, simplesso; colloca il problema in P ([teoria_complessita §3](teoria_complessita.md#3-classe-p)).
-- **Programmazione lineare intera (ILP)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
+- **Programmazione lineare (PL)** — la base: poliedri, vertici, simplesso; colloca il problema in P ([teoria_complessita §3](teoria_complessita.md#3-classe-p)).
+- **Programmazione lineare intera (PLI)** — si aggiunge il vincolo $x \in \mathbb{Z}^n$: più difficile (NP-completo, si veda [teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) ma ancora decidibile.
 - **Ottimizzazione polinomiale sui reali** — si toglie la linearità: serve Tarski–Seidenberg per restare decidibile.
 - **Ottimizzazione polinomiale sugli interi** — entrambe le generalizzazioni insieme: si sfonda la barriera della decidibilità, per il decimo problema di Hilbert.
 
 ```mermaid
 flowchart LR
-    LP["Lineare<br/>ℝⁿ (§1) — P"] -->|"+ interezza"| ILP["Lineare<br/>ℤⁿ (§2) — NP-completo"]
-    LP -->|"+ non linearità"| NLPR["Polinomiale<br/>ℝⁿ (§3) — decidibile"]
-    ILP -->|"+ non linearità"| NLPZ["Polinomiale<br/>ℤⁿ (§4) — indecidibile"]
+    PL["Lineare<br/>ℝⁿ (§1) — P"] -->|"+ interezza"| PLI["Lineare<br/>ℤⁿ (§2) — NP-completo"]
+    PL -->|"+ non linearità"| NLPR["Polinomiale<br/>ℝⁿ (§3) — decidibile"]
+    PLI -->|"+ non linearità"| NLPZ["Polinomiale<br/>ℤⁿ (§4) — indecidibile"]
     NLPR -->|"+ interezza"| NLPZ
 ```
 
-Le due frecce che escono da LP sono, prese singolarmente, "gratuite": alzano la complessità ma non intaccano la decidibilità. È solo percorrendole entrambe — cioè arrivando in basso a destra — che il problema smette di ammettere un algoritmo che termina sempre.
+Le due frecce che escono dalla PL sono, prese singolarmente, "gratuite": alzano la complessità ma non intaccano la decidibilità. È solo percorrendole entrambe — cioè arrivando in basso a destra — che il problema smette di ammettere un algoritmo che termina sempre.
 
 
 
@@ -31,7 +31,7 @@ Le due frecce che escono da LP sono, prese singolarmente, "gratuite": alzano la 
 
 ### 1.1 Definizione e forma standard
 
-Un **programma lineare** (LP) ottimizza una funzione obiettivo lineare soggetta a vincoli lineari. Nella forma più comune:
+Un **programma lineare** (PL) ottimizza una funzione obiettivo lineare soggetta a vincoli lineari. Nella forma più comune:
 
 $$
 \max_{x \in \mathbb{R}^n} \; c^\top x
@@ -57,7 +57,7 @@ $$
 
 L'insieme dei punti ammissibili è un poligono nel piano, delimitato dalle due rette di vincolo e dagli assi; i suoi 4 vertici sono $(0,0)$, $(4,0)$, $(0,3)$ e $(3,\,1.5)$, con $5x+4y$ che vale rispettivamente $0$, $20$, $12$ e $\mathbf{21}$.
 
-<img class="shot-img" src="../img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di LP, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
+<img class="shot-img" src="../img/ottimizzazione_lp.png" alt="Regione ammissibile dell'esempio di PL, con i suoi 4 vertici e tre curve di livello di 5x+4y" />
 
 $(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le curve di livello di $5x+4y$ toccano il poliedro per l'ultima volta, e dà il massimo.
 
@@ -66,9 +66,9 @@ $(3,\,1.5)$ è l'intersezione di $6x+4y=24$ e $x+2y=6$: è il vertice dove le cu
 
 Ogni vincolo lineare taglia lo spazio con un iperpiano e ne tiene un semispazio; l'intersezione di semispazi è un **poliedro convesso**. L'obiettivo $c^\top x$ è costante su iperpiani paralleli tra loro (le curve di livello): massimizzarlo equivale a traslare uno di questi iperpiani finché tocca il poliedro per l'ultima volta — e quel contatto, per un poliedro, cade sempre su un vertice, uno spigolo o una faccia, mai "in mezzo al niente".
 
-> **Teorema fondamentale della PL.** Se un LP è ammissibile e limitato, esiste un ottimo raggiunto su un vertice del poliedro.
+> **Teorema fondamentale della PL.** Se un programma lineare è ammissibile e limitato, esiste un ottimo raggiunto su un vertice del poliedro.
 
-Questo è ciò che rende l'LP trattabile: al posto di un continuo infinito di punti, basta esaminare un insieme **finito** di vertici.
+Questo è ciò che rende la PL trattabile: al posto di un continuo infinito di punti, basta esaminare un insieme **finito** di vertici.
 
 ```go
 type vertice struct{ x, y float64 }
@@ -98,16 +98,16 @@ func migliorVertice(candidati []vertice) vertice {
 ### 1.4 Complessità: decidibile, e per giunta in P
 
 - Il **simplesso** (Dantzig, 1947) cammina di vertice in vertice migliorando l'obiettivo: rapidissimo in pratica, esponenziale nel caso peggiore.
-- L'**algoritmo dell'ellissoide** (Khachiyan, 1979) e i **metodi a punti interni** (Karmarkar, 1984) risolvono l'LP in tempo polinomiale.
+- L'**algoritmo dell'ellissoide** (Khachiyan, 1979) e i **metodi a punti interni** (Karmarkar, 1984) risolvono la PL in tempo polinomiale.
 
-L'LP reale non solo termina sempre: sta in **P** ([teoria_complessita §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
+La PL reale non solo termina sempre: sta in **P** ([teoria_complessita §3](teoria_complessita.md#3-classe-p)). È la base sicura da cui partono le complicazioni dei prossimi tre casi.
 
 > Dietro il simplesso e i punti interni c'è la stessa struttura: la dualità lagrangiana. Su questo esempio le variabili duali valgono $(3/4,\, 1/2)$, sono i *prezzi ombra* delle due risorse, e le condizioni KKT certificano che $(3,\,1.5)$ è ottimo senza confrontare i vertici: si veda [teoria_lagrange §8.1–§8.3](../matematica_statistica/teoria_lagrange.md#81-il-duale-della-pl-dalla-lagrangiana).
 
 
 
 
-## 2. Caso 1 — Programmazione lineare intera (ILP)
+## 2. Caso 1 — Programmazione lineare intera (PLI)
 
 ### 2.1 Lo stesso problema, un vincolo in più
 
@@ -155,7 +155,7 @@ func migliorSoluzioneIntera(xMax, yMax int) (x, y, val int) {
 
 ### 2.4 Complessità: difficile, non indecidibile
 
-L'ILP è **NP-completo** ([teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [teoria_riduzioni](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma decidibile. Curiosità sul confine: a numero fissato di variabili l'ILP torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
+La PLI è **NP-completa** ([teoria_complessita §5](teoria_complessita.md#5-np-completezza-e-np-difficoltà)) — nella stessa famiglia di SAT, Vertex Cover, Knapsack, collegata tramite le riduzioni di [teoria_riduzioni](teoria_riduzioni.md). È quindi *difficile* (nessun algoritmo polinomiale noto, e nessuno se P ≠ NP), ma decidibile. Curiosità sul confine: a numero fissato di variabili la PLI torna polinomiale (Lenstra, 1983) — la difficoltà vive nella crescita del numero di variabili, non nell'interezza in sé.
 
 > **Morale del Caso 1.** L'interezza, da sola, alza la complessità (da P a NP-completo) ma non tocca la decidibilità.
 
@@ -329,4 +329,4 @@ $$
 - D. Hilbert, «Mathematische Probleme», *Göttinger Nachrichten*, 1900 — il decimo problema, alla base del [§4.2](#42-il-decimo-problema-di-hilbert).
 - Y. Matiyasevich, «Enumerable Sets are Diophantine», *Soviet Mathematics Doklady*, 11 (1970), 354–358 — il passo che chiude il teorema MRDP usato nel [§4.2](#42-il-decimo-problema-di-hilbert).
 - A. Tarski, *A Decision Method for Elementary Algebra and Geometry*, RAND Corp., 1948 — l'eliminazione dei quantificatori del [§3.3](#33-perché-è-decidibile-tarski-seidenberg).
-- L. Khachiyan, «A Polynomial Algorithm in Linear Programming», *Soviet Mathematics Doklady*, 20 (1979), 191–194 — decidibilità in tempo polinomiale dell'LP reale, [§1.4](#14-complessità-decidibile-e-per-giunta-in-p).
+- L. Khachiyan, «A Polynomial Algorithm in Linear Programming», *Soviet Mathematics Doklady*, 20 (1979), 191–194 — decidibilità in tempo polinomiale della PL reale, [§1.4](#14-complessità-decidibile-e-per-giunta-in-p).
