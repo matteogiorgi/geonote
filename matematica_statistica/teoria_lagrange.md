@@ -74,7 +74,7 @@ Geometricamente è una condizione di tangenza: la curva di livello di $f$ che pa
 
 Per l'esempio, le equazioni sono $y + 2\lambda x = 0$, $x + 2\lambda y = 0$, $x^2 + y^2 = 1$. Sottraendo le prime due si ottiene $(y - x)(1 - 2\lambda) = 0$, e sommandole $(x + y)(1 + 2\lambda) = 0$. I fattori $y - x$ e $x + y$ non possono annullarsi entrambi (sarebbe l'origine, che non sta sul vincolo), quindi o $y = x$ e $\lambda = -1/2$, o $y = -x$ e $\lambda = 1/2$. Il vincolo dà i quattro punti stazionari:
 
-| Punto | $f$ | $\lambda$ | Tipo |
+| Punto | $\boldsymbol{f}$ | $\boldsymbol{\lambda}$ | Tipo |
 |---|---|---|---|
 | $(1/\sqrt{2},\, 1/\sqrt{2})$, $(-1/\sqrt{2},\, -1/\sqrt{2})$ | $1/2$ | $-1/2$ | massimo |
 | $(1/\sqrt{2},\, -1/\sqrt{2})$, $(-1/\sqrt{2},\, 1/\sqrt{2})$ | $-1/2$ | $1/2$ | minimo |
@@ -524,7 +524,7 @@ func lagrangianaAumentata(rho float64, passi int) (x, lambda float64) {
 }
 ```
 
-| Penalità, $\rho$ | violazione $g(x_\rho)$ | stima $\rho \, g(x_\rho)$ di $\lambda^\ast$ |
+| Penalità, $\boldsymbol{\rho}$ | violazione $\boldsymbol{g(x_\rho)}$ | stima $\boldsymbol{\rho \, g(x_\rho)}$ di $\boldsymbol{\lambda^\ast}$ |
 |---|---|---|
 | $1$ | $-0.5$ | $-0.5$ |
 | $10$ | $-0.091$ | $-0.909$ |
