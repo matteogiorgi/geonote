@@ -300,10 +300,10 @@ Nei tre casi precedenti ([§1](#1-programmazione-lineare)–[§3](#3-caso-2--ott
 
 ## 5. Il confine, in sintesi
 
-|                 | **Reali** $(\mathbb{R}^n)$            | **Interi** $(\mathbb{Z}^n)$ |
-|-----------------|---------------------------------------|-----------------------------|
-| **Lineare**     | P — Khachiyan / Karmarkar             | NP-completo — decidibile    |
-| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP | Indecidibile — MRDP         |
+|                 | **Reali** $\boldsymbol{(\mathbb{R}^n)}$ | **Interi** $\boldsymbol{(\mathbb{Z}^n)}$ |
+|-----------------|-----------------------------------------|------------------------------------------|
+| **Lineare**     | P — Khachiyan / Karmarkar               | NP-completo — decidibile                 |
+| **Polinomiale** | Decidibile — Tarski–Seidenberg, 2-EXP   | Indecidibile — MRDP                      |
 
 Le tre caselle chiare sono tutte risolubili in linea di principio; solo l'angolo in basso a destra sfonda la barriera (lo stesso percorso del diagramma in apertura, in [Cosa ci serve](#cosa-ci-serve)). Riletto per assi:
 
