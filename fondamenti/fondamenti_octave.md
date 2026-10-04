@@ -341,7 +341,7 @@ Un file `.m` può essere di due tipi:
 - uno **script**, cioè una sequenza di istruzioni eseguite nello spazio di lavoro di chi lo lancia (le variabili che crea restano visibili dopo);
 - un **file di funzione**, che inizia con `function` e definisce una funzione con il proprio spazio di variabili locale. Il nome del file deve coincidere con quello della funzione: `media_pesata.m` per `function m = media_pesata(...)`.
 
-La regola "una funzione pubblica per file" organizza bene i progetti grandi, ma è scomoda per uno script autonomo con qualche funzione di supporto. Octave permette di definire funzioni dentro uno script, a patto che il file **non inizi** con `function`, altrimenti verrebbe letto come file di funzione. L'idioma è aprire lo script con un'istruzione che non fa nulla:
+La regola "una funzione pubblica per file" organizza bene i progetti grandi, ma è scomoda per uno script autonomo con qualche funzione di supporto. Octave permette di definire funzioni dentro uno script, a patto che il file non inizi con `function`, altrimenti verrebbe letto come file di funzione. L'idioma è aprire lo script con un'istruzione che non fa nulla:
 
 ```matlab
 1;  % rende il file uno script
