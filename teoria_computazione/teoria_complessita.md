@@ -293,9 +293,9 @@ Si sa per certo (teorema della gerarchia del tempo) che $\mathrm{P} \subsetneq \
 |---|---|---|
 | **P** | Risolvibile in fretta | Ordinamento, cammino minimo, primalità |
 | **NP** | Verificabile in fretta | SAT, Clique, TSP (decisionale) |
-| **co-NP** | Complemento verificabile in fretta | Tautologia, primalità (storicamente, prima di AKS: un numero composto ha un fattore come certificato facile, quindi la *primalità* è banalmente in co-NP) |
-| **NP-completo** | Il più difficile di NP | SAT, 3-SAT, Vertex Cover, Hamiltonian Cycle |
-| **NP-difficile** | Almeno difficile quanto NP (non necessariamente in NP) | TSP (ottimizzazione), Halting Problem |
+| **co‑NP** | Complemento verificabile in fretta | Tautologia, primalità (storicamente, prima di AKS: un numero composto ha un fattore come certificato facile, quindi la *primalità* è banalmente in co-NP) |
+| **NP‑completo** | Il più difficile di NP | SAT, 3-SAT, Vertex Cover, Hamiltonian Cycle |
+| **NP‑difficile** | Almeno difficile quanto NP (non necessariamente in NP) | TSP (ottimizzazione), Halting Problem |
 | **PSPACE** | Spazio polinomiale | QBF, giochi generalizzati |
 | **EXPTIME** | Tempo esponenziale | Generalizzazioni di giochi con stati esponenziali |
 
