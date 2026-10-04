@@ -225,6 +225,8 @@ $$
 \hat{\boldsymbol{\beta}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}
 $$
 
+In pratica `lm()` non calcola l'inversa di $\mathbf{X}^\top \mathbf{X}$ ma usa la fattorizzazione QR, numericamente più stabile; il perché, e lo stesso calcolo in Octave con l'operatore `\`, è in [fondamenti_octave §3](fondamenti_octave.md#3-sistemi-lineari-e-minimi-quadrati).
+
 ```r
 modello <- lm(mpg ~ wt + hp, data = mtcars)
 summary(modello) # coefficienti, R^2, p-value

@@ -111,6 +111,8 @@ Catturare una variabile libera vuol dire catturare il suo **binding** — ma un 
 
 Questa distinzione — apparentemente un dettaglio — è in realtà l'asse guida di gran parte di questa nota: OCaml, Haskell e Java la rendono esplicita (con `ref`, `IORef` e, rispettivamente, un contenitore come `int[]`), mentre Scheme, R e Go permettono la mutazione diretta del binding. È anche legata alla **durata del binding**: se un costrutto come il `for` crea un binding nuovo per ogni iterazione o riusa lo stesso per tutte è esattamente il problema del *loop-variable capture* discusso nel [box a fine §12](#box--lo-stesso-bug-due-soluzioni-go-vs-javascript).
 
+> **A margine:** esiste anche una terza via, più drastica: catturare una **copia del valore** invece del binding. È quello che fanno le funzioni anonime di Octave, coerentemente con la semantica per valore del linguaggio; ne segue che il contatore del [§7](#7-stato-mutabile-incapsulato) non si può scrivere con una chiusura e richiede un oggetto (vedi [fondamenti_octave §4.4](../fondamenti/fondamenti_octave.md#44-cattura-per-valore-un-confronto)).
+
 
 
 
