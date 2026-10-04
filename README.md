@@ -53,7 +53,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Fondamenti _Go_](fondamenti/fondamenti_go.md)** — sintassi base (variabili e tipi, strutture di controllo, funzioni, concorrenza).
 - **[Fondamenti _Guile_](fondamenti/fondamenti_guile.md)** — sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
 - **[Fondamenti _R_](fondamenti/fondamenti_r.md)** — elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
-- **[Fondamenti _Octave_](fondamenti/fondamenti_octave.md)** — modello a matrici, vettorizzazione, funzioni e chiusure, `classdef`, test integrati.
+- **[_Octave_ in pratica](fondamenti/fondamenti_octave.md)** — modello a matrici, vettorizzazione, funzioni e chiusure, `classdef`, test integrati.
 
 
 
