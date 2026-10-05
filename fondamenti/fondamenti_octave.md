@@ -57,7 +57,7 @@ La conseguenza pratica è che le funzioni e gli operatori sono scritti per ricev
 
 ### 1.2 Indici da 1 e ordine per colonne
 
-Gli indici partono da **1**, come in R e in matematica. In memoria, una matrice è memorizzata per colonne (*column-major*, come in Fortran e in R): prima tutta la prima colonna, poi la seconda, e così via. Questo rende sempre disponibile anche un indice lineare, che tratta la matrice come un unico vettore colonna. Per una matrice $m \times n$, l'elemento in posizione $(i, j)$ ha indice lineare
+Gli indici partono da **1** come in R, Julia o WolframScript. In memoria, una matrice è memorizzata per colonne (*column-major*, come in Fortran e in R): prima tutta la prima colonna, poi la seconda, e così via. Questo rende sempre disponibile anche un indice lineare, che tratta la matrice come un unico vettore colonna. Per una matrice $m \times n$, l'elemento in posizione $(i, j)$ ha indice lineare
 
 $$
 k = i + (j - 1)\, m.
