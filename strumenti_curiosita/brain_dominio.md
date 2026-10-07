@@ -1,10 +1,10 @@
 # Un second brain agnostico al dominio
 
-[`second-brain`](https://geoteo.net/second-brain/) è un archivio di note in testo puro, versionato con *git*, costruito attorno a un solo vincolo: **l'agnosticismo rispetto agli strumenti**, su due assi (l'editor e l'agente AI). Tutto ciò che ha valore sta in un *core* di file di testo; editor e agenti si collegano al core con *adapter* sottili e sostituibili.
+Il progetto [`second-brain`](https://geoteo.net/second-brain/) è un archivio di note in testo puro, versionato con *git*, costruito attorno a un solo vincolo: **l'indipendenza dagli strumenti**, su due assi (l'editor e l'agente AI). Tutto ciò che ha valore sta in un *core* di file di testo; editor e agenti si collegano al core con *adapter* sottili e sostituibili.
 
-Questa nota si chiede se la stessa architettura regga un **terzo asse**, il **dominio**: un brain per la contabilità, per la programmazione, per la scrittura narrativa o per gli articoli, invece che per gli appunti personali. La risposta è sì, a patto di accettare che una parte del core di `second-brain` non sia davvero invariante, ma sia *PKM* (*Personal Knowledge Management*) travestito da core: scelte che hanno senso solo perché l'archivio contiene appunti.
+Questa nota si chiede se la stessa architettura regga un terzo asse, il **dominio**: un brain per la contabilità, per la programmazione, per la scrittura narrativa o per gli articoli, invece che per gli appunti personali. La risposta è sì, a patto di accettare che una parte del core di `second-brain` non sia davvero invariante, ma sia *PKM* (*Personal Knowledge Management*) travestito da core: scelte che hanno senso solo perché l'archivio contiene appunti.
 
-L'idea è semplice da enunciare: dividere il core in un **motore**, identico in ogni brain, e un **profilo di dominio**, che descrive cosa contiene *questo* brain. `second-brain` diventa così un caso particolare, il profilo `pkm` ([§7](#7-caso-duso-second-brain-come-profilo-pkm)).
+L'idea è semplice da enunciare: dividere il core in un motore, identico in ogni brain, e un profilo di dominio, che descrive cosa contiene *questo* brain. `second-brain` diventa così un caso particolare, il profilo `pkm` ([§7](#7-caso-duso-second-brain-come-profilo-pkm)).
 
 
 
@@ -21,7 +21,7 @@ L'idea è semplice da enunciare: dividere il core in un **motore**, identico in 
 
 ## 1. Il punto di partenza: core e adapter
 
-`second-brain` applica l'*architettura esagonale* (*ports and adapters*) alle note. Il core definisce il contratto (formato, istruzioni, procedure) e ogni strumento vi si adegua; tutte le dipendenze puntano **verso** il core, mai il contrario.
+`second-brain` applica l'*architettura esagonale* (*ports and adapters*) alle note. Il core definisce il contratto (formato, istruzioni, procedure) e ogni strumento vi si adegua; tutte le dipendenze puntano verso il core, mai il contrario.
 
 | Core                                    | Adapter                               |
 |-----------------------------------------|---------------------------------------|
@@ -36,18 +36,18 @@ Il criterio per decidere cosa sta nel core è uno solo:
 
 > **La regola del README**: qualcosa appartiene al core se ha ancora senso dopo aver disinstallato ogni editor e ogni agente.
 
-Questo criterio separa bene gli strumenti dal contenuto, ma non dice nulla sul **dominio**. Ed è qui che nasce il problema: tutto ciò che supera il test finisce nel core, anche quando dipende dal fatto che l'archivio contiene *appunti*.
+Questo criterio separa bene gli strumenti dal contenuto, ma non dice nulla sul dominio. Ed è qui che nasce il problema: tutto ciò che supera il test finisce nel core, anche quando dipende dal fatto che l'archivio contiene *appunti*.
 
 
 
 
 ## 2. Il problema: PKM travestito da core
 
-La tentazione è pensare che generalizzare significhi solo **rinominare le cartelle** (`snippets/` al posto di `notes/`, `characters/` al posto di `areas/`). Non basta, perché alcune scelte del core di `second-brain` presuppongono che l'unità di contenuto sia una nota atomica. Lo si vede direttamente nel codice:
+La tentazione è pensare che generalizzare significhi solo rinominare le cartelle (`snippets/` al posto di `notes/`, `characters/` al posto di `areas/`). Non basta, perché alcune scelte del core di `second-brain` presuppongono che l'unità di contenuto sia una nota atomica. Lo si vede direttamente nel codice:
 
 | Elemento                          | Dove                                               | Perché è PKM                                                           |
 |-----------------------------------|----------------------------------------------------|------------------------------------------------------------------------|
-| rilevamento dell'archivio         | `is_archive()` in `bin/capture` e `bin/links`      | richiede `AGENTS.md`, `inbox/` **e** `notes/`                          |
+| rilevamento dell'archivio         | `is_archive()` in `bin/capture` e `bin/links`      | richiede `AGENTS.md`, `inbox/` e `notes/`                          |
 | cartelle di contenuto             | `bin/links`, `workflows/ask.md`                    | `notes projects areas journal` scritto per esteso                      |
 | esenzione dagli orfani            | `bin/links`, `workflows/connect.md`                | `journal/` esente, perché le note giornaliere sono punti d'ingresso    |
 | destinazione di default           | `workflows/triage.md`                              | "Default destination `notes/`"                                         |
@@ -57,7 +57,7 @@ La tentazione è pensare che generalizzare significhi solo **rinominare le carte
 
 L'ultima riga è un difetto anche indipendentemente dalla generalizzazione: il README stesso avverte che un nuovo tipo di fonte va aggiunto in tre posti. Separare il profilo lo risolve gratis, perché le liste finiscono in un solo file ([§6.2](#62-brainconf-i-dati-per-gli-script)).
 
-Il punto più importante però è l'**unità**. In un brain di scrittura narrativa l'unità di lavoro è il capitolo, che non è atomico, non si "trova" con `ask` come un'idea e soprattutto non passa dal *triage*: il manoscritto si scrive, e il brain gli sta a fianco come "bibbia" (personaggi, mondo, cronologia). In un brain di contabilità il contenuto di valore non è prosa ma un formato verificabile, come il *plain-text accounting* (*hledger*, *beancount*), e le note sono solo il contorno. Rinominare le cartelle non cambia nessuna di queste cose.
+Il punto più importante però è l'unità. In un brain di scrittura narrativa l'unità di lavoro è il capitolo, che non è atomico, non si "trova" con `ask` come un'idea e soprattutto non passa dal *triage*: il manoscritto si scrive, e il brain gli sta a fianco come "bibbia" (personaggi, mondo, cronologia). In un brain di contabilità il contenuto di valore non è prosa ma un formato verificabile, come il *plain-text accounting* (*hledger*, *beancount*), e le note sono solo il contorno. Rinominare le cartelle non cambia nessuna di queste cose.
 
 
 
@@ -66,14 +66,21 @@ Il punto più importante però è l'**unità**. In un brain di scrittura narrati
 
 Il criterio del README si estende dividendo il core in due:
 
-- **motore**: ha senso anche se **cambio dominio** ([§4](#4-il-motore));
-- **profilo**: ha senso solo in **questo** dominio, ma resta comunque testo puro, indipendente dagli strumenti ([§5](#5-il-profilo)).
+- **motore**: ha senso anche se cambio dominio ([§4](#4-il-motore));
+- **profilo**: ha senso solo in questo dominio, ma resta comunque testo puro, indipendente dagli strumenti ([§5](#5-il-profilo)).
 
 > **Il test esteso**: dopo aver disinstallato ogni strumento, ciò che resta è il core. Del core, ciò che resta anche cambiando dominio è il motore; il resto è il profilo.
 
-C'è un'asimmetria da tenere presente: **il profilo non è un adapter**. Gli adapter sono sottili, senza stato e sostituibili in pochi minuti; il profilo è sostanzioso, contiene decisioni che costano care da cambiare (come il formato delle note) ed è metà del core. Motore e profilo insieme formano il core; gli adapter restano esattamente quelli di prima.
+C'è un'asimmetria da tenere presente: il profilo non è un adapter. Gli adapter sono sottili, senza stato e sostituibili in pochi minuti; il profilo è sostanzioso, contiene decisioni che costano care da cambiare (come il formato delle note) ed è metà del core. Motore e profilo insieme formano il core; gli adapter restano esattamente quelli di prima.
 
 ```mermaid
+---
+config:
+  flowchart:
+    subGraphTitleMargin:
+      top: 8
+      bottom: 8
+---
 flowchart LR
     subgraph adapters["Adapter (strumenti)"]
         vim["editors/vim/"]
@@ -119,10 +126,10 @@ Il motore è ciò che resta di `second-brain` togliendo ogni riferimento agli ap
 - **Workflow generici**:
   - `ask`: sola lettura, cita i file, separa ciò che dice l'archivio dalla conoscenza generale dell'agente, segnala lacune e contraddizioni;
   - `connect` e `bin/links`: link rotti, file orfani, link mancanti;
-  - `triage`, ma **solo come procedura**: leggi tutte le catture, raggruppa, cerca l'esistente, integra, crea o chiedi, collega, archivia l'originale. *Dove* va ogni cattura lo decide il profilo.
+  - `triage`, ma solo come procedura: leggi tutte le catture, raggruppa, cerca l'esistente, integra, crea o chiedi, collega, archivia l'originale. *Dove* va ogni cattura lo decide il profilo.
 - **Ciclo di revisione** — l'agente non committa mai; si legge `git diff`, si correggono le istruzioni che l'agente ha frainteso, si committa a mano.
 
-`triage` è il caso più istruttivo. In `second-brain` contiene due cose mescolate: un **metodo** (leggere tutto prima di toccare qualcosa, riformulare senza aggiungere, chiedere invece di indovinare) e una **mappa** (default `notes/`, `projects/` o `areas/` solo se ovvio). Il metodo è motore; la mappa è profilo.
+`triage` è il caso più istruttivo. In `second-brain` contiene due cose mescolate: un metodo (leggere tutto prima di toccare qualcosa, riformulare senza aggiungere, chiedere invece di indovinare) e una mappa (default `notes/`, `projects/` o `areas/` solo se ovvio). Il metodo è motore; la mappa è profilo.
 
 
 
@@ -141,7 +148,7 @@ Un profilo è fatto di sette componenti. Messi a confronto su tre domini molto d
 | **Workflow di dominio**  | `distill`                         | `continuity`                                   | `reconcile`                                |
 | **Validatori meccanici** | nessuno oltre a `bin/links`       | controllo della cronologia                     | `hledger check`                            |
 
-Le righe più delicate sono le prime due. L'**unità** determina tutto il resto: cosa significa "integrare" una cattura, cosa conta come orfano, cosa `ask` deve leggere per intero. Il **routing** è la tabella che `triage` consulta: "una cattura di questo tipo va lì". Nel profilo `fiction`, per esempio, il routing contiene una regola che in `pkm` non avrebbe senso: **`chapters/` non è mai una destinazione di triage** ([§8.1](#81-un-domainmd-per-la-narrativa)).
+Le righe più delicate sono le prime due. L'unità determina tutto il resto: cosa significa "integrare" una cattura, cosa conta come orfano, cosa `ask` deve leggere per intero. Il routing è la tabella che `triage` consulta: "una cattura di questo tipo va lì". Nel profilo `fiction`, per esempio, il routing contiene una regola che in `pkm` non avrebbe senso: `chapters/` non è mai una destinazione di triage ([§8.1](#81-un-domainmd-per-la-narrativa)).
 
 Anche il wrapping della colonna `fiction` non è casuale: un manoscritto cambia per frasi, e una frase per riga (*semantic line breaks*) dà diff molto più leggibili durante la revisione. Il README di `second-brain` dice di scegliere il wrapping una volta per archivio, prima di scrivere la prima nota: è una scelta che vale per un archivio intero ma cambia da un dominio all'altro, quindi appartiene al profilo e non al motore.
 
@@ -171,11 +178,11 @@ ENTRY_DIRS="journal"                        # esenti dal controllo orfani
 SOURCE_KINDS="lecture handout book article web exercise exam"
 ```
 
-Rispetto a un `config.json` le differenze sono due: non serve `jq` (né un altro interprete) per leggerlo, coerentemente con la scelta di `second-brain` di avere solo script POSIX; e contiene **solo ciò che serve agli script**, non una descrizione completa del dominio, che resta in `DOMAIN.md`. Proprio perché `.` *esegue* il file, per convenzione `brain.conf` contiene solo assegnazioni, mai comandi; sta nello stesso archivio degli script e passa dalla stessa revisione con `git diff`.
+Rispetto a un `config.json` le differenze sono due: non serve `jq` (né un altro interprete) per leggerlo, coerentemente con la scelta di `second-brain` di avere solo script POSIX; e contiene solo ciò che serve agli script, non una descrizione completa del dominio, che resta in `DOMAIN.md`. Proprio perché `.` *esegue* il file, per convenzione `brain.conf` contiene solo assegnazioni, mai comandi; sta nello stesso archivio degli script e passa dalla stessa revisione con `git diff`.
 
 > **Ogni dato vive in un solo posto**: le liste stanno in `brain.conf`, e `DOMAIN.md` le *richiama* invece di ripeterle ("le cartelle di contenuto sono quelle in `CONTENT_DIRS` di `brain.conf`"). L'agente sa leggere un file di assegnazioni; uno script non sa leggere la prosa.
 
-In `bin/capture` la modifica è piccola, con una sola sottigliezza: l'ordine. Oggi lo script controlla il tipo di fonte **prima** di cercare l'archivio, perché la lista è scritta nello script; con `brain.conf` la lista sta nell'archivio, quindi il controllo va spostato **dopo**:
+In `bin/capture` la modifica è piccola, con una sola sottigliezza: l'ordine. Oggi lo script controlla il tipo di fonte prima di cercare l'archivio, perché la lista è scritta nello script; con `brain.conf` la lista sta nell'archivio, quindi il controllo va spostato dopo:
 
 ```sh
 # un archivio ha AGENTS.md e inbox/ (notes/ non è più richiesto)
@@ -309,12 +316,12 @@ Uno schizzo di cosa conterrebbe, in inglese come l'`AGENTS.md` del template:
 | a change to a written chapter       | ask: never edit `chapters/` |
 ```
 
-Lo schizzo omette lo schema, che non è uno solo: i capitoli hanno per esempio `pov`, `timeline` e `status`, le schede `title`, `tags` e `aliases`. Il profilo definisce uno schema **per tipo di unità**, non uno per tutto l'archivio.
+Lo schizzo omette lo schema, che non è uno solo: i capitoli hanno per esempio `pov`, `timeline` e `status`, le schede `title`, `tags` e `aliases`. Il profilo definisce uno schema per tipo di unità, non uno per tutto l'archivio.
 
 
 ### 8.2 Il test
 
-Il criterio di successo è netto: **se motore e profilo sono separati bene, passare da `pkm` a `fiction` non tocca il motore**.
+Il criterio di successo è netto: se motore e profilo sono separati bene, passare da `pkm` a `fiction` non tocca il motore.
 
 | Parte del motore        | Passa intatta? | Osservazione                                                                                            |
 |-------------------------|----------------|---------------------------------------------------------------------------------------------------------|
@@ -354,12 +361,12 @@ Il ledger è comunque testo puro, leggibile senza strumenti e versionabile con g
 
 ## 9. Prima il secondo brain, poi il framework
 
-La tentazione, a questo punto, è estrarre subito il motore e scrivere `profiles/` per cinque domini. È la strada sbagliata, per lo stesso motivo per cui il README di `second-brain` suggerisce di partire con tre workflow e non con venti: **il sistema migliora con la revisione, non con il design a priori**.
+La tentazione, a questo punto, è estrarre subito il motore e scrivere `profiles/` per cinque domini. È la strada sbagliata, per lo stesso motivo per cui il README di `second-brain` suggerisce di partire con tre workflow e non con venti: il sistema migliora con la revisione, non con il design a priori.
 
 La procedura che segue lo stesso principio ha quattro passi:
 
 1. **Scrivi a mano un secondo brain concreto**, per esempio `fiction`, partendo da una copia di `second-brain` e modificando liberamente tutto ciò che serve.
-2. **Usalo** per qualche settimana, con il solito ciclo cattura → triage → revisione → commit.
+2. **Usalo** per qualche settimana, con il solito ciclo cattura $\to$ triage $\to$ revisione $\to$ commit.
 3. **Confronta** le parti che candidano a motore: istruzioni, procedure e script dei due archivi (il contenuto è diverso per definizione, e confrontarlo sarebbe solo rumore).
 4. **Ciò che è rimasto identico è il motore**; ciò che hai dovuto modificare è profilo. Solo a questo punto ha senso ristrutturare `template/`.
 
