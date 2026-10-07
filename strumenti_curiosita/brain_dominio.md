@@ -30,7 +30,7 @@ L'idea è semplice da enunciare: dividere il core in un motore, identico in ogni
 | `AGENTS.md`, le istruzioni per l'agente | `editors/vim/brain.vim`               |
 | `workflows/`, le procedure in prosa     | impostazioni ed estensioni di VS Code |
 | `bin/`, script in shell POSIX           | cache e indici di qualunque strumento |
-| la storia git                           |                                       |
+| la storia git                           | —                                     |
 
 Il criterio per decidere cosa sta nel core è uno solo:
 
