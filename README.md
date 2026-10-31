@@ -55,6 +55,7 @@ Chiude la raccolta una sezione di problemi tipici da colloquio tecnico e competi
 - **[Fondamenti _Guile_](fondamenti/fondamenti_guile.md)** — sintassi base (S-espressioni, tipi di dato, funzioni, ricorsione e scripting).
 - **[Fondamenti _R_](fondamenti/fondamenti_r.md)** — elementi per il calcolo statistico (tipi di dato, vettori, matrici, strutture dati).
 - **[_Octave_ in pratica](fondamenti/fondamenti_octave.md)** — modello a matrici, vettorizzazione, funzioni e chiusure, `classdef`, test integrati.
+- **[_Julia_ in pratica](fondamenti/fondamenti_julia.md)** — specializzazione per tipi, multiple dispatch, struct e traits, prestazioni, VaR e CVaR.
 
 
 
