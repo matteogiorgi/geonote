@@ -98,7 +98,7 @@ Con il vocabolario di [teoria_tipi](../teoria_linguaggi/teoria_tipi.md), Julia �
 - **nominale**: un tipo è sottotipo di un altro solo se lo si dichiara ([teoria_tipi §10](../teoria_linguaggi/teoria_tipi.md#10-nominale-vs-strutturale)), a differenza delle interfacce strutturali di Go;
 - con **polimorfismo parametrico** (`Vector{T}`) e **ad hoc** (i metodi), combinati dal dispatch.
 
-Il punto che sorprende è il ruolo delle annotazioni di tipo. In un linguaggio statico servono al compilatore; in Julia il compilatore conosce comunque i tipi concreti al momento della chiamata ([§1.2](#12-compilare-per-tipi-la-specializzazione)), quindi le annotazioni sugli argomenti **non rendono il codice più veloce**. Servono a due cose: scegliere quale metodo eseguire ([§6](#6-multiple-dispatch)) e documentare o restringere cosa una funzione accetta. Nei campi delle `struct`, invece, contano anche per le prestazioni ([§5.2](#52-struct-e-costruttori)).
+Il punto che sorprende è il ruolo delle annotazioni di tipo. In un linguaggio statico servono al compilatore; in Julia il compilatore conosce comunque i tipi concreti al momento della chiamata ([§1.2](#12-compilare-per-tipi-la-specializzazione)), quindi le annotazioni sugli argomenti non rendono il codice più veloce. Servono a due cose: scegliere quale metodo eseguire ([§6](#6-multiple-dispatch)) e documentare o restringere cosa una funzione accetta. Nei campi delle `struct`, invece, contano anche per le prestazioni ([§5.2](#52-struct-e-costruttori)).
 
 
 
@@ -115,10 +115,10 @@ Il modo raccomandato di installare Julia è `juliaup`, un gestore di versioni si
 ```sh
 curl -fsSL https://install.julialang.org | sh  # installa juliaup e l'ultima versione stabile
 
-juliaup status        # versioni installate e quella predefinita
-juliaup add lts       # aggiunge la versione long-term support
-juliaup update        # aggiorna tutte le versioni installate
-julia +lts            # avvia una versione specifica
+juliaup status   # versioni installate e quella predefinita
+juliaup add lts  # aggiunge la versione long-term support
+juliaup update   # aggiorna tutte le versioni installate
+julia +lts       # avvia una versione specifica
 ```
 
 
@@ -126,12 +126,12 @@ julia +lts            # avvia una versione specifica
 
 La REPL di Julia ha diverse modalità, a cui si accede con un tasto all'inizio della riga e da cui si esce con il backspace:
 
-| Tasto | Prompt         | Modalità                                         |
-|-------|----------------|--------------------------------------------------|
-| —     | `julia>`       | codice Julia                                     |
-| `]`   | `pkg>`         | gestore dei pacchetti ([§2.3](#23-ambienti-di-progetto)) |
-| `?`   | `help?>`       | documentazione di una funzione o di un tipo      |
-| `;`   | `shell>`       | comandi della shell                              |
+| Tasto | Prompt    | Modalità                                                 |
+|-------|-----------|----------------------------------------------------------|
+| —     | `julia>`  | codice Julia                                             |
+| `]`   | `pkg>`    | gestore dei pacchetti ([§2.3](#23-ambienti-di-progetto)) |
+| `?`   | `help?>`  | documentazione di una funzione o di un tipo              |
+| `;`   | `shell>`  | comandi della shell                                      |
 
 Due comodità da conoscere subito: il tasto Tab completa i nomi e trasforma le sequenze LaTeX in caratteri Unicode (`\alpha` + Tab diventa `α`, `\in` diventa `∈`), e la variabile `ans` contiene l'ultimo risultato.
 
@@ -140,8 +140,8 @@ Due comodità da conoscere subito: il tasto Tab completa i nomi e trasforma le s
 
 Un ambiente è una cartella con due file:
 
-- `Project.toml` elenca le dipendenze **dirette** del progetto, cioè i pacchetti che si usano con `using`;
-- `Manifest.toml` registra la versione **esatta** di ogni pacchetto, dipendenze indirette comprese.
+- `Project.toml` elenca le dipendenze dirette del progetto, cioè i pacchetti che si usano con `using`;
+- `Manifest.toml` registra la versione esatta di ogni pacchetto, dipendenze indirette comprese.
 
 Il primo dice cosa serve, il secondo fotografa una configurazione che funziona: chi riceve il progetto con entrambi i file ottiene esattamente le stesse versioni. È lo stesso ruolo di `go.mod`/`go.sum` in Go o di `renv.lock` in R.
 
@@ -180,9 +180,9 @@ println("ciao $nome")
 
 ```sh
 chmod +x saluta.jl
-./saluta.jl Julia                   # => ciao Julia
-julia -e 'println(sqrt(2))'         # valuta un'espressione al volo
-julia -t auto --project=. main.jl   # tanti thread quanti i core, ambiente locale
+./saluta.jl Julia                  # => ciao Julia
+julia -e 'println(sqrt(2))'        # valuta un'espressione al volo
+julia -t auto --project=. main.jl  # tanti thread quanti i core, ambiente locale
 ```
 
 L'avvio dell'interprete richiede circa 0,2 secondi, ma la prima chiamata di ogni funzione paga la compilazione ([§8.1](#81-la-prima-chiamata)). Per script brevi lanciati spesso, il costo totale può superare quello dello stesso calcolo in Octave o R: è uno dei limiti discussi nel [§13](#13-limiti-quando-non-usarlo).
@@ -200,15 +200,15 @@ Come nel caso di Octave, questa sezione è pensata come riferimento da consultar
 A differenza di Octave, dove ogni numero è un `double`, in Julia `1` è un intero (`Int64` su macchine a 64 bit) e `1.0` un numero in virgola mobile (`Float64`). La libreria standard include razionali esatti, interi e reali a precisione arbitraria, complessi.
 
 ```julia
-typeof(1)       # => Int64
-typeof(1.0)     # => Float64
-1 // 3 + 1 // 6 # => 1//2         — razionale esatto
-big(2)^100      # => 1267650600228229401496703205376 — BigInt
-1 + 2im         # => 1 + 2im      — Complex{Int64}
-7 / 2           # => 3.5          — la divisione restituisce sempre un Float64
-7 ÷ 2           # => 3            — divisione intera (\div + Tab, oppure div(7, 2))
-mod(-7, 2)      # => 1            — sempre con il segno del divisore
-rem(-7, 2)      # => -1           — con il segno del dividendo, come % in C e Go
+typeof(1)        # => Int64
+typeof(1.0)      # => Float64
+1 // 3 + 1 // 6  # => 1//2 — razionale esatto
+big(2)^100       # => 1267650600228229401496703205376 — BigInt
+1 + 2im          # => 1 + 2im — Complex{Int64}
+7 / 2            # => 3.5 — la divisione restituisce sempre un Float64
+7 ÷ 2            # => 3 — divisione intera (\div + Tab, oppure div(7, 2))
+mod(-7, 2)       # => 1 — sempre con il segno del divisore
+rem(-7, 2)       # => -1 — con il segno del dividendo, come % in C e Go
 ```
 
 Un numero davanti a una variabile la moltiplica, come nella notazione matematica: `2x^2` significa `2 * x^2`, e `2π` è $2\pi$. È una piccola cosa, ma rende il codice numerico molto vicino alle formule.
@@ -228,18 +228,18 @@ L'aritmetica intera, invece, non controlla l'overflow: `typemax(Int) + 1` dà si
 Le stringhe si scrivono tra virgolette doppie, i caratteri singoli tra apici (`'a'` è un `Char`, un tipo diverso). La concatenazione si fa con `*` e la ripetizione con `^`, una scelta motivata dal fatto che la concatenazione, come il prodotto matriciale, non è commutativa. L'interpolazione usa `$`.
 
 ```julia
-"ab" * "cd"                   # => "abcd"
-"x"^3                         # => "xxx"
+"ab" * "cd"               # => "abcd"
+"x"^3                     # => "xxx"
 n = 2
-"due più due = $(n + n)"      # => "due più due = 4"
+"due più due = $(n + n)"  # => "due più due = 4"
 ```
 
-Le stringhe sono codificate in UTF-8 e gli indici contano **byte**, non caratteri. Finché il testo è ASCII non si nota niente; con le lettere accentate sì:
+Le stringhe sono codificate in UTF-8 e gli indici contano byte, non caratteri. Finché il testo è ASCII non si nota niente; con le lettere accentate sì:
 
 ```julia
 s = "città"
-length(s)  # => 5   — caratteri
-sizeof(s)  # => 6   — byte: 'à' ne occupa due
+length(s)  # => 5 — caratteri
+sizeof(s)  # => 6 — byte: 'à' ne occupa due
 s[5]       # => 'à'
 s[6]       # StringIndexError: l'indice 6 cade a metà di 'à'
 ```
@@ -249,31 +249,31 @@ Per scorrere i caratteri si usa `for c in s` o `collect(s)`, mai un ciclo su `1:
 
 ### 3.3 Array: costruire e indicizzare
 
-La sintassi è quella di Octave: lo spazio separa le colonne, il punto e virgola le righe. Gli indici partono da **1** e le matrici sono memorizzate **per colonne**, come in Octave, R e Fortran ([fondamenti_octave §1.2](fondamenti_octave.md#12-indici-da-1-e-ordine-per-colonne)).
+La sintassi è quella di Octave: lo spazio separa le colonne, il punto e virgola le righe. Gli indici partono da **1** e le matrici sono memorizzate per colonne, come in Octave, R e Fortran ([fondamenti_octave §1.2](fondamenti_octave.md#12-indici-da-1-e-ordine-per-colonne)).
 
 ```julia
-A = [1 2 3; 4 5 6]    # Matrix{Int64}, 2 × 3
-v = [1, 2, 3]         # Vector{Int64}: con le virgole è un vettore colonna
-r = [1 2 3]           # Matrix{Int64}, 1 × 3: una riga è una matrice
+A = [1 2 3; 4 5 6]       # Matrix{Int64}, 2 × 3
+v = [1, 2, 3]            # Vector{Int64}: con le virgole è un vettore colonna
+r = [1 2 3]              # Matrix{Int64}, 1 × 3: una riga è una matrice
 
-zeros(2, 3)           # matrice di zeri Float64
-zeros(Int, 2, 2)      # stesso, ma di interi
-fill(7, 3)            # => [7, 7, 7]
-rand(2, 2)            # uniforme in [0, 1)
-1:5                   # UnitRange: non alloca, genera i valori al bisogno
+zeros(2, 3)              # matrice di zeri Float64
+zeros(Int, 2, 2)         # stesso, ma di interi
+fill(7, 3)               # => [7, 7, 7]
+rand(2, 2)               # uniforme in [0, 1)
+1:5                      # UnitRange: non alloca, genera i valori al bisogno
 range(0, 1; length = 5)  # => 0.0:0.25:1.0
 ```
 
 Due differenze da Octave contano subito. La prima: in Julia un vettore è un oggetto a una dimensione (`Vector`), distinto da una matrice con una riga o una colonna. La seconda: l'indicizzazione conserva le dimensioni indicizzate con un intervallo e toglie quelle indicizzate con uno scalare.
 
 ```julia
-A[2, 3]         # => 6
-A[6]            # => 6     — indice lineare, ordine per colonne come in Octave
-A[1, :]         # => [1, 2, 3]  — un Vector: la dimensione delle righe sparisce
-A[1:1, :]       # => [1 2 3]    — una Matrix 1 × 3
-A[:, end]       # ultima colonna
-v[v .> 1]       # => [2, 3]     — indicizzazione logica
-push!(v, 4)     # aggiunge in coda (solo ai Vector)
+A[2, 3]      # => 6
+A[6]         # => 6 — indice lineare, ordine per colonne come in Octave
+A[1, :]      # => [1, 2, 3] — un Vector: la dimensione delle righe sparisce
+A[1:1, :]    # => [1 2 3] — una Matrix 1 × 3
+A[:, end]    # ultima colonna
+v[v .> 1]    # => [2, 3] — indicizzazione logica
+push!(v, 4)  # aggiunge in coda (solo ai Vector)
 ```
 
 Gli array sono parametrici nel tipo degli elementi ([§5.3](#53-tipi-parametrici)): `Vector{Float64}` contiene `Float64` memorizzati in modo contiguo, come un array C. Un `Vector{Any}` può contenere valori qualsiasi, ma ogni elemento è un puntatore a un oggetto separato, e il codice che lo usa è lento.
@@ -281,37 +281,37 @@ Gli array sono parametrici nel tipo degli elementi ([§5.3](#53-tipi-parametrici
 
 ### 3.4 Operatori matriciali e broadcasting
 
-Come in Octave, gli operatori nudi hanno il significato dell'algebra lineare e quelli con il punto agiscono elemento per elemento ([fondamenti_octave §2.3](fondamenti_octave.md#23-operatori-elemento-per-elemento-o-matriciali)). La differenza è che in Julia **il punto vale per ogni funzione**, non solo per gli operatori:
+Come in Octave, gli operatori nudi hanno il significato dell'algebra lineare e quelli con il punto agiscono elemento per elemento ([fondamenti_octave §2.3](fondamenti_octave.md#23-operatori-elemento-per-elemento-o-matriciali)). La differenza è che in Julia il punto vale per ogni funzione, non solo per gli operatori:
 
-| Operazione               | Octave        | Julia                   |
-|--------------------------|---------------|-------------------------|
-| Prodotto matriciale      | `A * B`       | `A * B`                 |
-| Prodotto elemento per elemento | `A .* B` | `A .* B`               |
-| Funzione su ogni elemento | `sqrt(A)` (implicito) | `sqrt.(A)` (esplicito) |
-| Trasposta coniugata      | `A'`          | `A'`                    |
-| Trasposta semplice       | `A.'`         | `transpose(A)`          |
-| Sistema lineare $Ax = b$ | `A \ b`       | `A \ b`                 |
+| Operazione                     | Octave                | Julia                  |
+|--------------------------------|-----------------------|------------------------|
+| Prodotto matriciale            | `A * B`               | `A * B`                |
+| Prodotto elemento per elemento | `A .* B`              | `A .* B`               |
+| Funzione su ogni elemento      | `sqrt(A)` (implicito) | `sqrt.(A)` (esplicito) |
+| Trasposta coniugata            | `A'`                  | `A'`                   |
+| Trasposta semplice             | `A.'`                 | `transpose(A)`         |
+| Sistema lineare $Ax = b$       | `A \ b`               | `A \ b`                |
 
-In Octave ogni funzione predefinita accetta matrici e lavora elemento per elemento. In Julia no: `sqrt([4, 9])` è un errore (`MethodError`), perché la radice quadrata di un vettore non ha un significato matematico. Su una matrice quadrata, `sqrt(A)` e `exp(A)` sono invece la radice e l'esponenziale **di matrice**, cioè $\exp(A) = \sum_k A^k / k!$, mentre `exp.(A)` applica l'esponenziale a ogni elemento. Le due cose danno risultati diversi senza alcun errore:
+In Octave ogni funzione predefinita accetta matrici e lavora elemento per elemento. In Julia no: `sqrt([4, 9])` è un errore (`MethodError`), perché la radice quadrata di un vettore non ha un significato matematico. Su una matrice quadrata, `sqrt(A)` e `exp(A)` sono invece la radice e l'esponenziale di matrice, cioè $\exp(A) = \sum_k A^k / k!$, mentre `exp.(A)` applica l'esponenziale a ogni elemento. Le due cose danno risultati diversi senza alcun errore:
 
 ```julia
 A = [0 1; 1 0]
 exp(A)   # => [1.543 1.175; 1.175 1.543] — esponenziale di matrice
-exp.(A)  # => [1.0 2.718; 2.718 1.0]     — elemento per elemento
+exp.(A)  # => [1.0 2.718; 2.718 1.0] — elemento per elemento
 ```
 
 Il punto attiva il **broadcasting**, con le stesse regole di Octave ([fondamenti_octave §2.4](fondamenti_octave.md#24-broadcasting)): le dimensioni di lunghezza 1 vengono espanse.
 
 ```julia
-[1, 2, 3] .+ [10 20]   # colonna 3 × 1 più riga 1 × 2
+[1, 2, 3] .+ [10 20]  # colonna 3 × 1 più riga 1 × 2
 # => [11 21; 12 22; 13 23]
 ```
 
-C'è però un vantaggio che Octave non ha: più operazioni con il punto in una stessa espressione vengono **fuse** in un unico ciclo, senza vettori intermedi. `2 .* x .^ 2 .+ 1` non calcola prima `x .^ 2`, poi il prodotto, poi la somma: percorre `x` una volta sola e calcola $2x_i^2 + 1$ per ogni elemento. La macro `@.` aggiunge il punto a ogni operazione, e `.=` scrive il risultato in un array esistente senza allocarne uno nuovo:
+C'è però un vantaggio che Octave non ha: più operazioni con il punto in una stessa espressione vengono fuse in un unico ciclo, senza vettori intermedi. `2 .* x .^ 2 .+ 1` non calcola prima `x .^ 2`, poi il prodotto, poi la somma: percorre `x` una volta sola e calcola $2x_i^2 + 1$ per ogni elemento. La macro `@.` aggiunge il punto a ogni operazione, e `.=` scrive il risultato in un array esistente senza allocarne uno nuovo:
 
 ```julia
-y = similar(x)       # array non inizializzato, stessa forma e tipo di x
-@. y = 2x^2 + 1      # equivale a y .= 2 .* x .^ 2 .+ 1: nessuna allocazione
+y = similar(x)   # array non inizializzato, stessa forma e tipo di x
+@. y = 2x^2 + 1  # equivale a y .= 2 .* x .^ 2 .+ 1: nessuna allocazione
 ```
 
 Il broadcasting in Julia è una comodità di notazione, non un'ottimizzazione necessaria: un ciclo esplicito che fa la stessa cosa è altrettanto veloce ([§8](#8-il-modello-di-prestazioni)).
@@ -330,11 +330,11 @@ else
     "negativo"
 end
 
-for k in 1:5             # oppure: for k ∈ 1:5
+for k in 1:5            # oppure: for k ∈ 1:5
     println(k^2)
 end
 
-for i in 1:2, j in 1:3   # due cicli annidati in una riga
+for i in 1:2, j in 1:3  # due cicli annidati in una riga
     print((i, j), " ")
 end
 
@@ -342,14 +342,14 @@ while x > 1
     x /= 2
 end
 
-y = x > 0 ? x : -x       # operatore ternario
+y = x > 0 ? x : -x      # operatore ternario
 ```
 
 Gli operatori di cortocircuito `&&` e `||` si usano spesso al posto di un `if` di una riga, soprattutto per i controlli sugli argomenti:
 
 ```julia
-n >= 0 || throw(DomainError(n, "serve n ≥ 0"))  # se la condizione è falsa, solleva l'errore
-verbose && println("iterazione $k")              # stampa solo se verbose è vero
+n >= 0 || throw(DomainError(n, "serve n >= 0"))  # se la condizione è falsa, solleva l'errore
+verbose && println("iterazione $k")             # stampa solo se verbose è vero
 ```
 
 `for` scorre qualunque oggetto iterabile: vettori, intervalli, stringhe, dizionari (coppie `chiave => valore`), e anche tipi definiti dall'utente ([§7.3](#73-interfacce-informali-literazione)). `enumerate(v)` fornisce indice e valore, `zip(a, b)` scorre due collezioni in parallelo, `eachindex(v)` gli indici validi.
@@ -357,20 +357,20 @@ verbose && println("iterazione $k")              # stampa solo se verbose è ver
 
 ### 3.6 Assegnazione e mutazione
 
-Qui Julia si separa nettamente da Octave e R. In quei linguaggi un'assegnazione copia, almeno dal punto di vista del programma ([fondamenti_octave §1.3](fondamenti_octave.md#13-semantica-per-valore)). In Julia un'assegnazione **dà un nome** a un oggetto esistente: dopo `b = a`, `a` e `b` sono due nomi per lo stesso array, e modificarne uno modifica l'altro.
+Qui Julia si separa nettamente da Octave e R. In quei linguaggi un'assegnazione copia, almeno dal punto di vista del programma ([fondamenti_octave §1.3](fondamenti_octave.md#13-semantica-per-valore)). In Julia un'assegnazione dà un nome a un oggetto esistente: dopo `b = a`, `a` e `b` sono due nomi per lo stesso array, e modificarne uno modifica l'altro.
 
 ```julia
 a = [1, 2, 3]
-b = a           # stesso oggetto, non una copia
+b = a        # stesso oggetto, non una copia
 b[1] = 99
-a               # => [99, 2, 3]
+a            # => [99, 2, 3]
 
-c = copy(a)     # copia esplicita
+c = copy(a)  # copia esplicita
 c[1] = 0
-a               # => [99, 2, 3] — invariato
+a            # => [99, 2, 3] — invariato
 ```
 
-Lo stesso vale per il passaggio di argomenti: una funzione riceve l'oggetto, non una copia, e può modificarlo. Il modello si chiama *pass-by-sharing* ed è quello di Guile, Python e Java. Va distinto da una vera semantica per riferimento: una funzione può modificare il **contenuto** di un array ricevuto, ma riassegnare l'argomento a un altro oggetto non ha effetti all'esterno.
+Lo stesso vale per il passaggio di argomenti: una funzione riceve l'oggetto, non una copia, e può modificarlo. Il modello si chiama *pass-by-sharing* ed è quello di Guile, Python e Java. Va distinto da una vera semantica per riferimento: una funzione può modificare il contenuto di un array ricevuto, ma riassegnare l'argomento a un altro oggetto non ha effetti all'esterno.
 
 ```julia
 function azzera_primo!(v)
@@ -387,18 +387,18 @@ end
 
 ### 3.7 Copie e viste
 
-C'è un'eccezione apparente al paragrafo precedente: l'indicizzazione con intervalli **copia**. `A[1, :]` crea un nuovo vettore, e modificarlo non tocca `A`. Per ottenere una finestra sui dati originali, senza copia, si usa una *vista*:
+C'è un'eccezione apparente al paragrafo precedente: l'indicizzazione con intervalli copia. `A[1, :]` crea un nuovo vettore, e modificarlo non tocca `A`. Per ottenere una finestra sui dati originali, senza copia, si usa una *vista*:
 
 ```julia
 A = [1 2 3; 4 5 6]
 
-r = A[1, :]         # copia
+r = A[1, :]        # copia
 r[1] = 100
-A[1, 1]             # => 1   — invariato
+A[1, 1]            # => 1   — invariato
 
-w = @view A[1, :]   # vista: nessuna copia
+w = @view A[1, :]  # vista: nessuna copia
 w[1] = 100
-A[1, 1]             # => 100 — modificato attraverso la vista
+A[1, 1]            # => 100 — modificato attraverso la vista
 ```
 
 La macro `@views` applicata a un'espressione o a un'intera funzione trasforma in viste tutte le indicizzazioni con intervalli. Le viste evitano allocazioni, e quindi tempo, quando si lavora su porzioni di array grandi ([§8.4](#84-memoria-allocazioni-viste-e-ordine-per-colonne)).
@@ -415,28 +415,28 @@ Le funzioni si definiscono in forma estesa con `function ... end` oppure, se il 
 
 ```julia
 function area_cerchio(r)
-    return π * r^2
+    return pi * r^2
 end
 
-area_cerchio(r) = π * r^2   # stessa funzione, forma compatta
+area_cerchio(r) = pi * r^2  # stessa funzione, forma compatta
 ```
 
 Gli argomenti possono avere valori di default (posizionali) o essere *keyword*, separati dagli altri con un punto e virgola. I parametri variabili si raccolgono con `...`, che serve anche a "spacchettare" una collezione in una chiamata.
 
 ```julia
 potenza(x, p = 2) = x^p
-potenza(3)               # => 9
-potenza(3, 3)            # => 27
+potenza(3)     # => 9
+potenza(3, 3)  # => 27
 
-logaritmo(x; base = ℯ) = log(base, x)
+logaritmo(x; base = MathConstants.e) = log(base, x)
 logaritmo(100; base = 10)  # => 2.0
 
 somma_tutti(xs...) = sum(xs)
-somma_tutti(1, 2, 3)     # => 6
+somma_tutti(1, 2, 3)       # => 6
 somma_tutti([1, 2, 3]...)  # => 6 — gli elementi diventano argomenti separati
 ```
 
-Più valori di ritorno si restituiscono come **tupla**, che il chiamante può destrutturare. È la stessa idea dei valori multipli di Octave ([fondamenti_octave §4.2](fondamenti_octave.md#42-argomenti-e-valori-di-ritorno)), ma la tupla è un valore normale, che si può anche tenere intero.
+Più valori di ritorno si restituiscono come tupla, che il chiamante può destrutturare. È la stessa idea dei valori multipli di Octave ([fondamenti_octave §4.2](fondamenti_octave.md#42-argomenti-e-valori-di-ritorno)), ma la tupla è un valore normale, che si può anche tenere intero.
 
 ```julia
 function estremi(v)
@@ -456,9 +456,9 @@ Per convenzione, il nome di una funzione che modifica uno dei suoi argomenti fin
 
 ```julia
 x = [3, 1, 2]
-sort(x)    # => [1, 2, 3], x non cambia
-sort!(x)   # ordina x sul posto
-x          # => [1, 2, 3]
+sort(x)   # => [1, 2, 3], x non cambia
+sort!(x)  # ordina x sul posto
+x         # => [1, 2, 3]
 ```
 
 La libreria standard offre spesso entrambe le versioni (`sort`/`sort!`, `push!`, `fill!`, `mul!` per il prodotto matriciale in un array già allocato). La versione con `!` serve a evitare allocazioni nei cicli critici ([§8.4](#84-memoria-allocazioni-viste-e-ordine-per-colonne)), e per convenzione l'argomento modificato è il primo.
@@ -469,7 +469,7 @@ La libreria standard offre spesso entrambe le versioni (`sort`/`sort!`, `push!`,
 Le funzioni anonime si scrivono con la freccia; a differenza di Octave il corpo può contenere qualunque codice, non solo un'espressione.
 
 ```julia
-map(x -> x^2 + 1, 1:3)        # => [2, 5, 10]
+map(x -> x^2 + 1, 1:3)                # => [2, 5, 10]
 map((x, y) -> x * y, [1, 2], [3, 4])  # => [3, 8]
 ```
 
@@ -479,7 +479,7 @@ Quando la funzione anonima è lunga, passarla come primo argomento diventa scomo
 r = map(1:3) do k
     q = k^2
     q + 1
-end                            # => [2, 5, 10]
+end  # => [2, 5, 10]
 
 open("risultati.txt", "w") do io  # il file viene chiuso anche in caso di errore
     println(io, "fatto")
@@ -491,7 +491,7 @@ Il secondo esempio è l'idioma per gestire risorse: `open` riceve la funzione, a
 
 ### 4.4 Chiusure: si cattura il binding
 
-Una funzione anonima che usa una variabile esterna cattura il **binding**, non il valore: se la variabile cambia dopo la creazione della funzione, la funzione vede il nuovo valore.
+Una funzione anonima che usa una variabile esterna cattura il binding, non il valore: se la variabile cambia dopo la creazione della funzione, la funzione vede il nuovo valore.
 
 ```julia
 a = 2
@@ -510,13 +510,14 @@ end
 
 c1 = contatore()
 c2 = contatore()
-c1(); c1();
+c1();
+c1();
 c1(), c2()  # => (3, 1) — due stati indipendenti
 ```
 
 Nei cicli `for`, ogni iterazione crea un binding nuovo per la variabile di ciclo, quindi il classico problema delle chiusure create in un ciclo ([teoria_chiusure §12](../teoria_linguaggi/teoria_chiusure.md#12-go--loop-capture-e-semantica-che-cambia-nel-tempo)) non si presenta: `[() -> i for i in 1:3]` produce tre funzioni che restituiscono 1, 2 e 3.
 
-C'è un costo nascosto da conoscere. Quando una variabile catturata viene **riassegnata** (come `n` nel contatore), il compilatore la memorizza in una cella generica, `Core.Box`, di cui non conosce il tipo. Il codice funziona, ma l'inferenza fallisce e la chiusura diventa lenta ([§8.2](#82-stabilità-dei-tipi)). Nei cicli critici conviene evitare di riassegnare variabili catturate, oppure usare un oggetto mutabile esplicito ([§7.6](#76-stato-mutabile-oggetto-o-chiusura)).
+C'è un costo nascosto da conoscere. Quando una variabile catturata viene riassegnata (come `n` nel contatore), il compilatore la memorizza in una cella generica, `Core.Box`, di cui non conosce il tipo. Il codice funziona, ma l'inferenza fallisce e la chiusura diventa lenta ([§8.2](#82-stabilità-dei-tipi)). Nei cicli critici conviene evitare di riassegnare variabili catturate, oppure usare un oggetto mutabile esplicito ([§7.6](#76-stato-mutabile-oggetto-o-chiusura)).
 
 
 ### 4.5 Elementi funzionali
@@ -524,13 +525,13 @@ C'è un costo nascosto da conoscere. Quando una variabile catturata viene **rias
 Le funzioni sono valori e la libreria standard ha tutti gli strumenti della programmazione funzionale, con nomi familiari a chi conosce Guile ([fondamenti_guile §7](fondamenti_guile.md#7-funzioni-di-ordine-superiore)):
 
 ```julia
-map(abs, [-1, 2, -3])          # => [1, 2, 3]
-filter(iseven, 1:10)           # => [2, 4, 6, 8, 10]
-reduce(+, 1:4)                 # => 10
-foldl(-, 1:4)                  # => -8 — ((1 - 2) - 3) - 4
-foldr(-, 1:4)                  # => -2 — 1 - (2 - (3 - 4))
-mapreduce(x -> x^2, +, 1:10)   # => 385, senza vettore intermedio
-any(>(5), [1, 7])              # => true — >(5) è la funzione x -> x > 5
+map(abs, [-1, 2, -3])         # => [1, 2, 3]
+filter(iseven, 1:10)          # => [2, 4, 6, 8, 10]
+reduce(+, 1:4)                # => 10
+foldl(-, 1:4)                 # => -8 — ((1 - 2) - 3) - 4
+foldr(-, 1:4)                 # => -2 — 1 - (2 - (3 - 4))
+mapreduce(x -> x^2, +, 1:10)  # => 385, senza vettore intermedio
+any(>(5), [1, 7])             # => true — >(5) è la funzione x -> x > 5
 ```
 
 Le *comprehension* costruiscono array con una notazione vicina a quella degli insiemi, e i *generatori* (la stessa sintassi tra parentesi tonde) producono i valori uno alla volta senza costruire l'array:
@@ -544,9 +545,9 @@ sum(i^2 for i in 1:10)          # => 385 — generatore, nessuna allocazione
 L'operatore `|>` passa un valore a una funzione, e `∘` (`\circ` + Tab) compone due funzioni. Il primo rende leggibili le catene di trasformazioni, il secondo permette di costruire funzioni senza nominare l'argomento:
 
 ```julia
-[1, 4, 9] |> sum |> sqrt   # => 3.7416... — come sqrt(sum([1, 4, 9]))
+[1, 4, 9] |> sum |> sqrt  # => 3.7416... — come sqrt(sum([1, 4, 9]))
 g = sqrt ∘ abs
-g(-16)                     # => 4.0
+g(-16)                    # => 4.0
 ```
 
 A differenza di Octave, dove `arrayfun` è più lento di un ciclo ([fondamenti_octave §4.6](fondamenti_octave.md#46-map-e-reduce-arrayfun-e-cellfun)), in Julia `map`, comprehension e cicli espliciti producono codice di velocità equivalente. La scelta tra le tre forme è solo una questione di leggibilità.
@@ -588,15 +589,15 @@ flowchart TD
 
 </div>
 
-La regola fondamentale è che **un tipo concreto non può avere sottotipi**. Si può derivare solo da un tipo astratto, e un tipo astratto non ha campi. Quindi in Julia non esiste l'ereditarietà di implementazione: un sottotipo non eredita campi da nessuno, eredita solo i **metodi** definiti sui suoi supertipi astratti. Il comportamento comune si scrive una volta sul tipo astratto, i dati si dichiarano in ogni tipo concreto.
+La regola fondamentale è che un tipo concreto non può avere sottotipi. Si può derivare solo da un tipo astratto, e un tipo astratto non ha campi. Quindi in Julia non esiste l'ereditarietà di implementazione: un sottotipo non eredita campi da nessuno, eredita solo i metodi definiti sui suoi supertipi astratti. Il comportamento comune si scrive una volta sul tipo astratto, i dati si dichiarano in ogni tipo concreto.
 
 ```julia
-abstract type Forma end   # nessun campo, nessuna istanza
+abstract type Forma end  # nessun campo, nessuna istanza
 
-Int64 <: Signed            # => true — <: è la relazione di sottotipo
-supertypes(Float64)        # => (Float64, AbstractFloat, Real, Number, Any)
-subtypes(Integer)          # => [Bool, Signed, Unsigned]
-isconcretetype(Real)       # => false
+Int64 <: Signed          # => true — <: è la relazione di sottotipo
+supertypes(Float64)      # => (Float64, AbstractFloat, Real, Number, Any)
+subtypes(Integer)        # => [Bool, Signed, Unsigned]
+isconcretetype(Real)     # => false
 ```
 
 La scelta ha una ragione di prestazioni oltre che di design. Se un tipo concreto non ha sottotipi, sapere che un valore è `Float64` significa sapere *esattamente* com'è fatto in memoria, e il compilatore può generare codice senza alcun controllo. In un linguaggio con ereditarietà, una variabile di tipo `Punto` potrebbe contenere un `Punto3D` con campi in più, e il compilatore deve tenerne conto.
@@ -611,9 +612,9 @@ struct Cerchio <: Forma
     r::Float64
 end
 
-c = Cerchio(2)    # il costruttore di default converte 2 in Float64
-c.r               # => 2.0
-c.r = 3           # errore: setfield!: immutable struct of type Cerchio cannot be changed
+c = Cerchio(2)  # il costruttore di default converte 2 in Float64
+c.r             # => 2.0
+c.r = 3         # errore: setfield!: immutable struct of type Cerchio cannot be changed
 
 mutable struct Conto
     saldo::Float64
@@ -635,8 +636,8 @@ struct Probabilita
     end
 end
 
-Probabilita(0.3)   # => Probabilita(0.3)
-Probabilita(1.5)   # DomainError with 1.5: una probabilità sta in [0, 1]
+Probabilita(0.3)  # => Probabilita(0.3)
+Probabilita(1.5)  # DomainError with 1.5: una probabilità sta in [0, 1]
 ```
 
 È il principio "validare ai margini, fidarsi all'interno" di [fondamenti_guile_oop §9.1](../teoria_linguaggi/fondamenti_guile_oop.md#91-validare-ai-margini-fidarsi-allinterno): se ogni `Probabilita` passa per il costruttore, il resto del codice può dare per scontato che `p` stia in $[0, 1]$. I **costruttori esterni** sono semplici metodi aggiuntivi, definiti fuori dal tipo, che di solito trasformano gli argomenti e chiamano un altro costruttore. Per tipi con molti campi e valori di default, la macro `Base.@kwdef` genera un costruttore a keyword:
@@ -661,16 +662,16 @@ struct Punto2{T<:Real}
     y::T
 end
 
-Punto2(1, 2)       # => Punto2{Int64}(1, 2)
-Punto2(1.0, 2.5)   # => Punto2{Float64}(1.0, 2.5)
-Punto2(1, 2.5)     # errore: T dovrebbe essere sia Int64 sia Float64
+Punto2(1, 2)      # => Punto2{Int64}(1, 2)
+Punto2(1.0, 2.5)  # => Punto2{Float64}(1.0, 2.5)
+Punto2(1, 2.5)    # errore: T dovrebbe essere sia Int64 sia Float64
 ```
 
 Il parametro permette di avere campi con tipo concreto (quindi veloci, [§5.2](#52-struct-e-costruttori)) senza fissare il tipo una volta per tutte. Il terzo caso si risolve con un costruttore esterno che porta i due argomenti allo stesso tipo con `promote` ([§5.5](#55-promozione)):
 
 ```julia
 Punto2(x::Real, y::Real) = Punto2(promote(x, y)...)
-Punto2(1, 2.5)     # => Punto2{Float64}(1.0, 2.5)
+Punto2(1, 2.5)  # => Punto2{Float64}(1.0, 2.5)
 ```
 
 Nei metodi, il parametro si cattura con `where`, e diventa una variabile utilizzabile nel corpo:
@@ -681,33 +682,33 @@ somma_sicura(Int[])         # => 0
 somma_sicura([1//2, 1//3])  # => 5//6
 ```
 
-C'è un punto controintuitivo: i tipi parametrici sono **invarianti**. Anche se `Int64 <: Real`, non vale `Vector{Int64} <: Vector{Real}`. Il motivo è concreto: in un `Vector{Real}` si può inserire un `Float64`, in un `Vector{Int64}` no, quindi il secondo non può essere usato ovunque si usi il primo. Per indicare "un vettore di qualche sottotipo di `Real`" si scrive `Vector{<:Real}`.
+C'è un punto controintuitivo: i tipi parametrici sono invarianti. Anche se `Int64 <: Real`, non vale `Vector{Int64} <: Vector{Real}`. Il motivo è concreto: in un `Vector{Real}` si può inserire un `Float64`, in un `Vector{Int64}` no, quindi il secondo non può essere usato ovunque si usi il primo. Per indicare "un vettore di qualche sottotipo di `Real`" si scrive `Vector{<:Real}`.
 
 ```julia
 Vector{Int64} <: Vector{Real}    # => false
 Vector{Int64} <: Vector{<:Real}  # => true
 ```
 
-La conseguenza pratica: un metodo `f(v::Vector{Real})` **non accetta** `[1, 2, 3]`. La firma giusta è `f(v::AbstractVector{<:Real})`, che accetta anche intervalli, viste e i tipi del [§7.4](#74-interfacce-informali-gli-array).
+La conseguenza pratica: un metodo `f(v::Vector{Real})` non accetta `[1, 2, 3]`. La firma giusta è `f(v::AbstractVector{<:Real})`, che accetta anche intervalli, viste e i tipi del [§7.4](#74-interfacce-informali-gli-array).
 
 
 ### 5.4 Union, nothing e missing
 
 `Union{A, B}` è il tipo dei valori che sono `A` oppure `B`: un tipo somma non etichettato, nei termini di [teoria_tipi §4](../teoria_linguaggi/teoria_tipi.md#4-lalgebra-dei-tipi). Il suo uso più comune è con i due valori speciali che Julia usa per "l'assenza":
 
-- `nothing` (di tipo `Nothing`) significa **non c'è un valore**: è ciò che restituisce una funzione senza risultato utile, o una ricerca che non trova niente. `findfirst(==(7), [1, 2, 3])` restituisce `nothing`.
-- `missing` (di tipo `Missing`) significa **c'è un valore ma non lo conosciamo**, come `NA` in R. Si propaga nei calcoli (`missing + 1` è `missing`) e si scarta esplicitamente con `skipmissing`.
+- `nothing` (di tipo `Nothing`) significa non c'è un valore: è ciò che restituisce una funzione senza risultato utile, o una ricerca che non trova niente. `findfirst(==(7), [1, 2, 3])` restituisce `nothing`.
+- `missing` (di tipo `Missing`) significa c'è un valore ma non lo conosciamo, come `NA` in R. Si propaga nei calcoli (`missing + 1` è `missing`) e si scarta esplicitamente con `skipmissing`.
 
 ```julia
-x = [1, missing, 3]               # Vector{Union{Missing, Int64}}
-sum(x)                            # => missing
-sum(skipmissing(x))               # => 4
+x = [1, missing, 3]  # Vector{Union{Missing, Int64}}
+sum(x)               # => missing
+sum(skipmissing(x))  # => 4
 
-function cerca(v, k)::Union{Int, Nothing}
+function cerca(v, k)::Union{Int,Nothing}
     i = findfirst(==(k), v)
-    return i                      # un indice oppure nothing
+    return i                     # un indice oppure nothing
 end
-cerca([5, 6, 7], 9) === nothing   # => true
+cerca([5, 6, 7], 9) === nothing  # => true
 ```
 
 La distinzione tra i due è la stessa che [teoria_tipi §11](../teoria_linguaggi/teoria_tipi.md#11-il-problema-del-niente-null-option-zero-value) fa tra *option* e dato mancante. A differenza di un tipo `Option` di OCaml o Rust, però, niente obbliga a controllare `nothing` prima di usare il valore: dimenticarsene produce un `MethodError` a runtime. Il [§11.3](#113-perdita-aggregata-var-e-cvar) usa `nothing` come valore di default di un argomento opzionale.
@@ -718,10 +719,10 @@ La distinzione tra i due è la stessa che [teoria_tipi §11](../teoria_linguaggi
 Quando un'operazione aritmetica riceve tipi diversi, Julia li converte a un tipo comune con il meccanismo di **promozione**: `promote_type(Int64, Float64)` è `Float64`, `promote_type(Int64, Rational{Int64})` è `Rational{Int64}`. Non è una regola cablata nel compilatore: `1 + 2.5` chiama il metodo generico `+(x::Number, y::Number)`, che promuove gli argomenti e poi chiama il metodo specifico.
 
 ```julia
-promote(1, 2.5)    # => (1.0, 2.5)
-1 + 1//2           # => 3//2
-1 + 0.5im          # => 1.0 + 0.5im
-true + 1           # => 2 — Bool è un sottotipo di Integer
+promote(1, 2.5)  # => (1.0, 2.5)
+1 + 1//2         # => 3//2
+1 + 0.5im        # => 1.0 + 0.5im
+true + 1         # => 2 — Bool è un sottotipo di Integer
 ```
 
 Le regole di promozione sono definite da metodi di `promote_rule`, quindi si estendono ai tipi nuovi. È il meccanismo che permette alla funzione `rendita` del [§11.2](#112-una-rendita-in-ogni-aritmetica) di funzionare con razionali esatti senza scrivere una riga apposta. Rispetto a Octave, dove le conversioni implicite sono numerose e a volte sorprendenti ([fondamenti_octave §1.4](fondamenti_octave.md#14-dove-si-colloca-tra-i-sistemi-di-tipi)), la promozione di Julia agisce solo tra numeri e produce sempre il tipo che può rappresentare entrambi gli argomenti.
@@ -736,7 +737,7 @@ Le regole di promozione sono definite da metodi di `promote_rule`, quindi si est
 
 ### 6.1 Funzioni generiche e metodi
 
-In Julia una **funzione** è un nome, e ha uno o più **metodi**, cioè implementazioni con firme diverse. Definire `f(x::Int) = ...` e `f(x::String) = ...` non crea due funzioni ma due metodi della stessa funzione. Quando si chiama `f(a, b)`, Julia guarda il tipo di **tutti** gli argomenti e sceglie il metodo più adatto: è il *multiple dispatch*.
+In Julia una funzione è un nome, e ha uno o più metodi, cioè implementazioni con firme diverse. Definire `f(x::Int) = ...` e `f(x::String) = ...` non crea due funzioni ma due metodi della stessa funzione. Quando si chiama `f(a, b)`, Julia guarda il tipo di tutti gli argomenti e sceglie il metodo più adatto: è il *multiple dispatch*.
 
 ```julia
 descrivi(x) = "qualcosa"
@@ -754,20 +755,20 @@ methods(descrivi)  # elenca i 4 metodi
 
 Il confronto con gli altri linguaggi della raccolta mostra uno spettro completo:
 
-| Linguaggio | Meccanismo                                                | Dispatch                           |
-|------------|-----------------------------------------------------------|------------------------------------|
-| Go         | metodi con receiver + interfacce implicite                | singolo, sul receiver              |
-| Octave     | `classdef`                                                | singolo                            |
-| R          | S3 (`UseMethod`) / S4 (`setGeneric`, `setMethod`)         | S3 singolo, S4 multiplo            |
-| Guile      | GOOPS (`define-generic`, `define-method`)                 | multiplo                           |
-| Julia      | funzioni generiche + metodi                               | multiplo, su tutto il linguaggio   |
+| Linguaggio | Meccanismo                                        | Dispatch                         |
+|------------|---------------------------------------------------|----------------------------------|
+| Go         | metodi con receiver + interfacce implicite        | singolo, sul receiver            |
+| Octave     | `classdef`                                        | singolo                          |
+| R          | S3 (`UseMethod`) / S4 (`setGeneric`, `setMethod`) | S3 singolo, S4 multiplo          |
+| Guile      | GOOPS (`define-generic`, `define-method`)         | multiplo                         |
+| Julia      | funzioni generiche + metodi                       | multiplo, su tutto il linguaggio |
 
 GOOPS e S4 hanno lo stesso meccanismo, ma come sistema a parte, da usare quando serve ([fondamenti_guile_oop §8](../teoria_linguaggi/fondamenti_guile_oop.md#8-goops-vs-il-resto-del-linguaggio-quando-usarlo), [fondamenti_r_oop §7](../teoria_linguaggi/fondamenti_r_oop.md#7-quale-sistema-usare-quando)). In Julia non c'è un "resto del linguaggio": anche `+` e `length` sono funzioni generiche, e `methods(+)` ne elenca oltre 150 metodi.
 
 
 ### 6.2 La regola di selezione
 
-Il criterio è "il metodo applicabile più specifico". In modo più preciso: sia $f$ una funzione con metodi $m_1, \dots, m_k$, dove il metodo $m_j$ ha firma $S^{(j)} = (S_1^{(j)}, \dots, S_n^{(j)})$, e sia $(T_1, \dots, T_n)$ la tupla dei tipi concreti degli argomenti. Un metodo è **applicabile** se ogni argomento è sottotipo del tipo dichiarato nella posizione corrispondente:
+Il criterio è "il metodo applicabile più specifico". In modo più preciso: sia $f$ una funzione con metodi $m_1, \dots, m_k$, dove il metodo $m_j$ ha firma $S^{(j)} = (S_1^{(j)}, \dots, S_n^{(j)})$, e sia $(T_1, \dots, T_n)$ la tupla dei tipi concreti degli argomenti. Un metodo è applicabile se ogni argomento è sottotipo del tipo dichiarato nella posizione corrispondente:
 
 $$
 \mathcal{A} = \left\{\, m_j \;:\; T_i <: S_i^{(j)} \text{ per ogni } i = 1, \dots, n \,\right\}.
@@ -783,7 +784,7 @@ Ci sono tre esiti possibili:
 
 1. $\mathcal{A}$ è vuoto: nessun metodo accetta quegli argomenti, ed è un `MethodError: no method matching ...`;
 2. il minimo esiste: viene eseguito $m^*$;
-3. $\mathcal{A}$ non ha un minimo, perché due metodi sono applicabili ma nessuno dei due è più specifico dell'altro: la chiamata è **ambigua** ed è un errore ([§6.4](#64-ambiguità)).
+3. $\mathcal{A}$ non ha un minimo, perché due metodi sono applicabili ma nessuno dei due è più specifico dell'altro: la chiamata è ambigua ed è un errore ([§6.4](#64-ambiguità)).
 
 Nell'esempio del [§6.1](#61-funzioni-generiche-e-metodi), per `descrivi(3)` i metodi applicabili sono quelli per `Any`, `Number` e `Integer`. Poiché $\texttt{Integer} <: \texttt{Number} <: \texttt{Any}$, il minimo è quello per `Integer`.
 
@@ -792,7 +793,7 @@ La differenza con il dispatch singolo sta tutta nella definizione di $\mathcal{A
 
 ### 6.3 Lo scontro tra forme
 
-Il problema che fa da filo conduttore alle note su Go, Guile e R è decidere cosa succede quando due forme si scontrano: il comportamento dipende dal tipo di **entrambe**. In Julia si scrive così:
+Il problema che fa da filo conduttore alle note su Go, Guile e R è decidere cosa succede quando due forme si scontrano: il comportamento dipende dal tipo di entrambe. In Julia si scrive così:
 
 ```julia
 abstract type Forma end
@@ -809,7 +810,7 @@ collide(a::Cerchio, b::Cerchio) = "collisione cerchio-cerchio"
 collide(a::Cerchio, b::Rettangolo) = "collisione cerchio-rettangolo"
 collide(a::Rettangolo, b::Cerchio) = collide(b, a)  # simmetria
 
-collide(Rettangolo(1, 2), Cerchio(1))      # => "collisione cerchio-rettangolo"
+collide(Rettangolo(1, 2), Cerchio(1))        # => "collisione cerchio-rettangolo"
 collide(Rettangolo(1, 1), Rettangolo(2, 2))  # => "collisione generica"
 ```
 
@@ -822,7 +823,7 @@ struct Triangolo <: Forma
     l::Float64
 end
 
-collide(Triangolo(1), Cerchio(1))  # => "collisione generica" — funziona già
+collide(Triangolo(1), Cerchio(1))                                       # => "collisione generica" — funziona già
 collide(a::Triangolo, b::Triangolo) = "collisione triangolo-triangolo"  # caso specifico
 ```
 
@@ -852,11 +853,11 @@ Per `g(1, 1)` entrambi i metodi sono applicabili, ma `(Int, Any)` e `(Any, Int)`
 Le funzioni della libreria standard sono funzioni generiche come tutte le altre, e un tipo nuovo si integra nel linguaggio aggiungendo metodi a quelle funzioni. Per estendere una funzione di un altro modulo bisogna qualificarne il nome: `Base.show`, non `show`, altrimenti si definisce una funzione nuova con lo stesso nome.
 
 ```julia
-Base.:+(a::Cerchio, b::Cerchio) = Cerchio(hypot(a.r, b.r))   # operatore +
+Base.:+(a::Cerchio, b::Cerchio) = Cerchio(hypot(a.r, b.r))  # operatore +
 Base.show(io::IO, c::Cerchio) = print(io, "Cerchio(r = ", c.r, ")")
 
-Cerchio(3) + Cerchio(4)    # => Cerchio(r = 5.0)
-[Cerchio(1), Cerchio(2)]   # => Cerchio[Cerchio(r = 1.0), Cerchio(r = 2.0)]
+Cerchio(3) + Cerchio(4)   # => Cerchio(r = 5.0)
+[Cerchio(1), Cerchio(2)]  # => Cerchio[Cerchio(r = 1.0), Cerchio(r = 2.0)]
 ```
 
 Il metodo di `show` viene usato ovunque Julia stampi un `Cerchio`: nella REPL, dentro un array, in `println`, nell'interpolazione di stringhe. È il ruolo di `disp` nelle classi di Octave o di `print` in S3, con la differenza che qui il meccanismo è lo stesso usato per qualsiasi altra funzione.
@@ -868,7 +869,7 @@ Una regola di buona educazione: si aggiungono metodi a funzioni altrui solo per 
 
 ### 6.6 Perché il dispatch non costa
 
-Scegliere il metodo a ogni chiamata, in base ai tipi di tutti gli argomenti, sembra costoso. In pratica quasi sempre il costo è nullo. Quando il compilatore specializza una funzione per i tipi concreti degli argomenti ([§1.2](#12-compilare-per-tipi-la-specializzazione)), conosce anche i tipi degli argomenti delle chiamate al suo interno, quindi può scegliere il metodo **in compilazione** e spesso copiarne il corpo direttamente nel chiamante (*inlining*). Il dispatch a runtime resta solo dove l'inferenza fallisce, cioè nel codice che il [§8.2](#82-stabilità-dei-tipi) insegna a evitare.
+Scegliere il metodo a ogni chiamata, in base ai tipi di tutti gli argomenti, sembra costoso. In pratica quasi sempre il costo è nullo. Quando il compilatore specializza una funzione per i tipi concreti degli argomenti ([§1.2](#12-compilare-per-tipi-la-specializzazione)), conosce anche i tipi degli argomenti delle chiamate al suo interno, quindi può scegliere il metodo in compilazione e spesso copiarne il corpo direttamente nel chiamante (*inlining*). Il dispatch a runtime resta solo dove l'inferenza fallisce, cioè nel codice che il [§8.2](#82-stabilità-dei-tipi) insegna a evitare.
 
 È anche la ragione per cui il multiple dispatch, in Julia, è il meccanismo usato per tutto e non un'opzione da usare con parsimonia: in GOOPS o S4 ogni chiamata a un generico passa per una ricerca a runtime, in Julia quasi mai.
 
@@ -905,20 +906,20 @@ module Geo
 
 export area
 
-area(r) = π * r^2
-interna() = 1      # non esportata
+area(r) = pi * r^2
+interna() = 1  # non esportata
 
 end
 
-using .Geo         # il punto indica un modulo definito localmente
-area(1)            # => 3.14159...
-interna()          # UndefVarError
-Geo.interna()      # => 1 — il nome qualificato funziona sempre
+using .Geo     # il punto indica un modulo definito localmente
+area(1)        # => 3.14159...
+interna()      # UndefVarError
+Geo.interna()  # => 1 — il nome qualificato funziona sempre
 ```
 
 `using M` rende disponibili i nomi esportati da `M`; `import M` rende disponibile solo il nome `M`, e i suoi contenuti si usano qualificati. `using M: f, g` importa solo i nomi elencati, ed è la forma più leggibile in un progetto grande, perché dice da dove arriva ogni nome.
 
-Un **package** è un modulo con un `Project.toml`, organizzato secondo una struttura fissa. `Pkg.generate("Attuariale")` crea lo scheletro; il resto si aggiunge a mano:
+Un package è un modulo con un `Project.toml`, organizzato secondo una struttura fissa. `Pkg.generate("Attuariale")` crea lo scheletro; il resto si aggiunge a mano:
 
 ```
 Attuariale/
@@ -945,12 +946,12 @@ struct Persona
 end
 
 struct Polizza
-    contraente::Persona   # composizione: una polizza ha un contraente
+    contraente::Persona  # composizione: una polizza ha un contraente
     premio::Float64
 end
 
 nome(p::Persona) = p.nome
-nome(p::Polizza) = nome(p.contraente)   # inoltro esplicito
+nome(p::Polizza) = nome(p.contraente)  # inoltro esplicito
 ```
 
 È lo stesso principio dell'embedding di Go ([fondamenti_go_oop §5](../teoria_linguaggi/fondamenti_go_oop.md#5-ereditarietà-embedding-al-posto-delle-classi)), senza la promozione automatica dei campi: in Julia ogni inoltro va scritto. Quando sono molti, si possono generare con un ciclo su `@eval` ([§7.7](#77-metaprogrammazione-e-macro)). Il comportamento condiviso da più tipi, invece, non passa per la composizione: si definisce una volta sul tipo astratto comune ([§5.1](#51-tipi-astratti-e-concreti)).
@@ -975,11 +976,11 @@ Base.length(f::Fibonacci) = f.n
 Base.eltype(::Type{Fibonacci}) = Int
 
 for x in Fibonacci(5)
-    print(x, " ")                  # 0 1 1 2 3
+    print(x, " ")            # 0 1 1 2 3
 end
-collect(Fibonacci(10))             # => [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-sum(Fibonacci(10))                 # => 88
-[x^2 for x in Fibonacci(6)]        # => [0, 1, 1, 4, 9, 25]
+collect(Fibonacci(10))       # => [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+sum(Fibonacci(10))           # => 88
+[x^2 for x in Fibonacci(6)]  # => [0, 1, 1, 4, 9, 25]
 ```
 
 `length` ed `eltype` sono facoltativi ma utili: senza `eltype`, `collect` non sa che tipo di vettore creare e produce un `Vector{Any}`. Con tre metodi, il tipo `Fibonacci` funziona con `sum`, `maximum`, `collect`, le comprehension, `zip`, `enumerate` e qualunque funzione scritta per collezioni generiche, comprese quelle di package di terzi. È la differenza rispetto a GOOPS o `classdef`: l'integrazione non passa per l'ereditarietà da una classe base, ma per l'implementazione di poche funzioni.
@@ -999,11 +1000,11 @@ Base.size(s::Sconti) = (s.n,)
 Base.getindex(s::Sconti, k::Int) = (1 + s.i)^-(k - 1)
 
 v = Sconti(0.03, 10)
-v[2]          # => 0.970873786407767
-v[end]        # => 0.7664167323436267 — anche end funziona
-sum(v)        # => 8.786108921879105  — la rendita del §11.2
-v[2:4]        # => vettore di 3 elementi (questo sì viene allocato)
-v' * ones(10) # => 8.786108921879105  — prodotto scalare con l'algebra lineare
+v[2]           # => 0.970873786407767
+v[end]         # => 0.7664167323436267 — anche end funziona
+sum(v)         # => 8.786108921879105  — la rendita del §11.2
+v[2:4]         # => vettore di 3 elementi (questo sì viene allocato)
+v' * ones(10)  # => 8.786108921879105  — prodotto scalare con l'algebra lineare
 ```
 
 Due metodi bastano per ottenere indicizzazione con intervalli, `end`, stampa, broadcasting, `sum`, prodotto con matrici, ordinamento in copia. Il tipo occupa 16 byte qualunque sia $n$. Lo stesso schema è usato dalla libreria standard per gli intervalli (`1:10^9` non alloca un miliardo di elementi) e da molti package per matrici strutturate (diagonali, sparse, a blocchi) che si comportano come matrici normali ma con algoritmi specializzati.
@@ -1011,7 +1012,7 @@ Due metodi bastano per ottenere indicizzazione con intervalli, `end`, stampa, br
 
 ### 7.5 Holy traits
 
-Una gerarchia di tipi è un albero: ogni tipo ha un solo supertipo. Ma spesso un comportamento dipende da una **capacità** che taglia trasversalmente la gerarchia. Un'azione e un'obbligazione sono liquide, un immobile no, ma non c'è un supertipo naturale che raccolga "gli attivi liquidi". Il pattern dei *Holy traits* (dal nome di Tim Holy, che lo ha proposto) risolve il problema con una funzione che associa a ogni tipo un **valore-etichetta**, e un dispatch su quell'etichetta:
+Una gerarchia di tipi è un albero: ogni tipo ha un solo supertipo. Ma spesso un comportamento dipende da una capacità che taglia trasversalmente la gerarchia. Un'azione e un'obbligazione sono liquide, un immobile no, ma non c'è un supertipo naturale che raccolga "gli attivi liquidi". Il pattern dei *Holy traits* (dal nome di Tim Holy, che lo ha proposto) risolve il problema con una funzione che associa a ogni tipo un valore-etichetta, e un dispatch su quell'etichetta:
 
 ```julia
 abstract type Liquidita end
@@ -1061,10 +1062,10 @@ end
 incrementa!(c::Contatore) = (c.n += 1)
 
 c = Contatore(0)
-d = c               # stesso oggetto (§3.6)
+d = c             # stesso oggetto (§3.6)
 incrementa!(c)
 incrementa!(d)
-c.n                 # => 2
+c.n               # => 2
 ```
 
 Rispetto alle classi handle di Octave ([fondamenti_octave §5.6](fondamenti_octave.md#56-classdef-classi-handle)) e a R6 ([fondamenti_r_oop §6](../teoria_linguaggi/fondamenti_r_oop.md#6-r6-e-reference-classes-oggetti-mutabili-e-incapsulati)), una `mutable struct` non ha incapsulamento: i campi sono leggibili e modificabili da chiunque. Julia si affida alle convenzioni (si accede ai campi solo attraverso funzioni del modulo che definisce il tipo) invece che a modificatori come `private`. La chiusura incapsula davvero lo stato, ma il tipo della variabile catturata non è noto al compilatore ([§4.4](#44-chiusure-si-cattura-il-binding)) ed espone una sola operazione. In pratica: `mutable struct` per oggetti con più operazioni o nei cicli critici, chiusura per piccoli stati locali.
@@ -1078,11 +1079,11 @@ Come Guile, Julia è omoiconico: il codice è rappresentato da una struttura dat
 
 ```julia
 ex = :(1 + 2 * x)
-typeof(ex)        # => Expr
-ex.head           # => :call
-ex.args           # => [:+, 1, :(2x)] — l'albero della chiamata
+typeof(ex)  # => Expr
+ex.head     # => :call
+ex.args     # => [:+, 1, :(2x)] — l'albero della chiamata
 x = 5
-eval(ex)          # => 11
+eval(ex)    # => 11
 ```
 
 Una **macro** è una funzione che riceve espressioni non valutate e restituisce un'espressione, che prende il posto della chiamata prima della compilazione. Si invoca con `@`, e `@macroexpand` mostra il codice generato. Una macro che misura il tempo di un'espressione:
@@ -1091,13 +1092,13 @@ Una **macro** è una funzione che riceve espressioni non valutate e restituisce 
 macro tempo(ex)
     quote
         t0 = time_ns()
-        val = $(esc(ex))     # inserisce l'espressione dell'utente
+        val = $(esc(ex))  # inserisce l'espressione dell'utente
         println("tempo: ", (time_ns() - t0) / 1e9, " s")
         val
     end
 end
 
-@tempo sum(1:10)   # stampa il tempo e restituisce 55
+@tempo sum(1:10)  # stampa il tempo e restituisce 55
 ```
 
 Il `$` dentro `quote` interpola un valore nell'espressione, come `,` dentro un *quasiquote* di Scheme. `esc` merita una spiegazione, perché riguarda l'**igiene**. Le macro di Julia sono igieniche per default: le variabili che la macro introduce (qui `t0` e `val`) vengono rinominate automaticamente, quindi non entrano in conflitto con variabili omonime del codice che usa la macro. Lo stesso trattamento, però, verrebbe applicato all'espressione dell'utente, i cui nomi verrebbero cercati nel modulo della macro e non nel punto in cui la macro è usata. `esc` dice "questa parte appartiene al chiamante: lasciala com'è".
@@ -1111,7 +1112,7 @@ end
 
 function prova()
     y = 3
-    @senza_esc y + 1   # UndefVarError: `y` not defined — cercata nel modulo, non in prova
+    @senza_esc y + 1  # UndefVarError: `y` not defined — cercata nel modulo, non in prova
 end
 ```
 
@@ -1128,7 +1129,7 @@ Le macro sono uno strumento potente e la libreria le usa ovunque (`@time`, `@vie
 
 <img class="shot-img" src="../img/julia_prestazioni.png" alt="A sinistra i tempi della stima Monte Carlo di pi greco con un milione di punti in cinque linguaggi, in scala logaritmica: il ciclo Julia impiega 2,5 ms, il ciclo Go 7,4, la versione vettorizzata di Julia 7,9, Octave e R vettorizzati 42 e 83, il ciclo Guile 295, i cicli di R e Octave 5.398 e 9.018. A destra, per quattro funzioni Julia, il tempo della prima chiamata confrontato con quello delle chiamate successive, da 12 a oltre 2000 volte maggiore" />
 
-Il pannello di sinistra riassume il punto principale: in Julia il ciclo esplicito è la versione **più veloce** dello stesso calcolo, più della versione vettorizzata di Julia stessa (che deve allocare due vettori) e tre ordini di grandezza più dei cicli di Octave e R. La regola di Octave e R, "evita i cicli", in Julia non vale. Il pannello di destra mostra il prezzo: la prima chiamata di ogni funzione include la compilazione.
+Il pannello di sinistra riassume il punto principale: in Julia il ciclo esplicito è la versione più veloce dello stesso calcolo, più della versione vettorizzata di Julia stessa (che deve allocare due vettori) e tre ordini di grandezza più dei cicli di Octave e R. La regola di Octave e R, "evita i cicli", in Julia non vale. Il pannello di destra mostra il prezzo: la prima chiamata di ogni funzione include la compilazione.
 
 
 ### 8.1 La prima chiamata
@@ -1136,8 +1137,8 @@ Il pannello di sinistra riassume il punto principale: in Julia il ciclo esplicit
 La prima volta che si chiama una funzione con certi tipi, Julia la compila. Questa latenza è chiamata TTFX, *time to first X* (storicamente *time to first plot*, perché i grafici erano il caso più vistoso). Nelle misure del grafico la prima chiamata costa da 12 a oltre 2000 volte una chiamata successiva: per `sort(rand(10^6))` circa 1,8 s contro 0,06 s.
 
 ```julia
-@time stima_pi(10^6)   # prima chiamata: ~0.03 s, compilazione inclusa
-@time stima_pi(10^6)   # successive: ~0.003 s
+@time stima_pi(10^6)  # prima chiamata: ~0.03 s, compilazione inclusa
+@time stima_pi(10^6)  # successive: ~0.003 s
 ```
 
 Per lavoro interattivo il costo si paga una volta per sessione, ed è il motivo per cui si tiene aperta una REPL con `Revise` ([§2.4](#24-revise-e-il-ciclo-di-sviluppo)). I package moderni riducono il problema con la precompilazione: alla prima installazione compilano in anticipo le chiamate più comuni e ne salvano il codice macchina, e da Julia 1.9 il caricamento successivo è molto più rapido. Per strumenti da riga di comando avviati spesso, `PackageCompiler.jl` crea immagini di sistema con il codice già compilato.
@@ -1145,10 +1146,10 @@ Per lavoro interattivo il costo si paga una volta per sessione, ed è il motivo 
 
 ### 8.2 Stabilità dei tipi
 
-Una funzione è **stabile nei tipi** (*type-stable*) se il tipo del risultato dipende solo dai tipi degli argomenti, non dai loro valori. Questa funzione non lo è:
+Una funzione è stabile nei tipi (*type-stable*) se il tipo del risultato dipende solo dai tipi degli argomenti, non dai loro valori. Questa funzione non lo è:
 
 ```julia
-instabile(x) = x > 0 ? x : 0   # con x::Float64 restituisce Float64 oppure Int64
+instabile(x) = x > 0 ? x : 0      # con x::Float64 restituisce Float64 oppure Int64
 stabile(x) = x > 0 ? x : zero(x)  # zero(x) è lo zero dello stesso tipo di x
 ```
 
@@ -1178,13 +1179,13 @@ dati = rand(10^6)
 
 function somma_globale()
     s = 0.0
-    for x in dati      # dati è globale: tipo sconosciuto
+    for x in dati  # dati è globale: tipo sconosciuto
         s += x
     end
     return s
 end
 
-function somma(v)      # stesso codice, ma i dati arrivano come argomento
+function somma(v)  # stesso codice, ma i dati arrivano come argomento
     s = 0.0
     for x in v
         s += x
@@ -1192,11 +1193,11 @@ function somma(v)      # stesso codice, ma i dati arrivano come argomento
     return s
 end
 
-somma_globale()   # ~110 ms, 80 MB allocati
-somma(dati)       # ~1.2 ms, nessuna allocazione
+somma_globale()  # ~110 ms, 80 MB allocati
+somma(dati)      # ~1.2 ms, nessuna allocazione
 ```
 
-La differenza è di quasi due ordini di grandezza per lo stesso ciclo. Le soluzioni, in ordine di preferenza: passare i dati come argomento; dichiarare la globale `const` (il valore non può più cambiare tipo); annotarne il tipo (`dati::Vector{Float64} = rand(10^6)`). La regola generale, che vale anche per gli script, è **mettere il codice dentro funzioni**: il codice al livello globale di uno script non viene mai compilato con le stesse ottimizzazioni.
+La differenza è di quasi due ordini di grandezza per lo stesso ciclo. Le soluzioni, in ordine di preferenza: passare i dati come argomento; dichiarare la globale `const` (il valore non può più cambiare tipo); annotarne il tipo (`dati::Vector{Float64} = rand(10^6)`). La regola generale, che vale anche per gli script, è mettere il codice dentro funzioni: il codice al livello globale di uno script non viene mai compilato con le stesse ottimizzazioni.
 
 
 ### 8.4 Memoria: allocazioni, viste e ordine per colonne
@@ -1204,8 +1205,8 @@ La differenza è di quasi due ordini di grandezza per lo stesso ciclo. Le soluzi
 Una volta stabili i tipi, il secondo fattore è la memoria. Ogni array creato è un'allocazione sullo heap, che costa tempo e, accumulandosi, attiva il garbage collector. Tre esempi dello stesso calcolo, la somma delle differenze successive di un vettore di un milione di elementi:
 
 ```julia
-f1(x) = sum(x[2:end] .- x[1:end-1])           # due copie e un risultato intermedio
-f2(x) = @views sum(x[2:end] .- x[1:end-1])    # viste: solo il risultato intermedio
+f1(x) = sum(x[2:end] .- x[1:(end-1)])            # due copie e un risultato intermedio
+f2(x) = @views sum(x[2:end] .- x[1:(end-1)])     # viste: solo il risultato intermedio
 f3(x) = sum(x[i] - x[i-1] for i in 2:length(x))  # generatore: nessuna allocazione
 ```
 
@@ -1217,12 +1218,12 @@ f3(x) = sum(x[i] - x[i-1] for i in 2:length(x))  # generatore: nessuna allocazio
 
 Le tecniche sono sempre le stesse: viste invece di copie ([§3.7](#37-copie-e-viste)), generatori invece di array temporanei ([§4.5](#45-elementi-funzionali)), array preallocati e funzioni con `!` nei cicli ripetuti (`y .= ...` invece di `y = ...`, [§3.4](#34-operatori-matriciali-e-broadcasting)).
 
-L'ordine di memorizzazione per colonne ([§3.3](#33-array-costruire-e-indicizzare)) decide l'ordine giusto dei cicli annidati: l'indice di **riga** deve variare nel ciclo più interno, così gli elementi vengono letti nell'ordine in cui stanno in memoria.
+L'ordine di memorizzazione per colonne ([§3.3](#33-array-costruire-e-indicizzare)) decide l'ordine giusto dei cicli annidati: l'indice di riga deve variare nel ciclo più interno, così gli elementi vengono letti nell'ordine in cui stanno in memoria.
 
 ```julia
 function per_colonne(A)
     s = 0.0
-    for j in axes(A, 2), i in axes(A, 1)   # i (riga) varia più velocemente
+    for j in axes(A, 2), i in axes(A, 1)  # i (riga) varia più velocemente
         s += A[i, j]
     end
     return s
@@ -1257,7 +1258,7 @@ using Test
 
 @testset "rendita" begin
     @test rendita(1, 0.05) == 1
-    @test rendita(10, 0.03) ≈ rendita_chiusa(10, 0.03)
+    @test isapprox(rendita(10, 0.03), rendita_chiusa(10, 0.03))
     @test rendita(3, 1//10) == 331//121
     @test_throws MethodError rendita("dieci", 0.03)
 end
@@ -1265,7 +1266,7 @@ end
 # rendita       |    4      4
 ```
 
-`@test` verifica una condizione, `@test_throws` che un'espressione sollevi un certo tipo di errore; l'operatore `≈` sostituisce la tolleranza esplicita di `%!assert` di Octave ([fondamenti_octave §6.2](fondamenti_octave.md#62-test-dentro-il-file)). I `@testset` si annidano e riportano un riepilogo per gruppo. Le funzioni del test sono quelle del [§11.2](#112-una-rendita-in-ogni-aritmetica).
+`@test` verifica una condizione, `@test_throws` che un'espressione sollevi un certo tipo di errore; `isapprox` (l'operatore `≈` del [§3.1](#31-numeri-e-letterali)) sostituisce la tolleranza esplicita di `%!assert` di Octave ([fondamenti_octave §6.2](fondamenti_octave.md#62-test-dentro-il-file)). I `@testset` si annidano e riportano un riepilogo per gruppo. Le funzioni del test sono quelle del [§11.2](#112-una-rendita-in-ogni-aritmetica).
 
 
 ### 9.2 Docstring e introspezione
@@ -1283,14 +1284,14 @@ rendita(n, i) = ...
 
 Gli strumenti di introspezione sono un modo rapido per capire codice altrui, inclusa la libreria standard:
 
-| Domanda                                   | Strumento                              |
-|-------------------------------------------|----------------------------------------|
-| Quali metodi ha questa funzione?          | `methods(f)`                           |
-| Quale metodo viene chiamato qui?          | `@which f(x, y)`                       |
-| Dov'è il sorgente?                        | `@edit f(x, y)` (apre l'editor)        |
-| Di che tipo è, e da cosa deriva?          | `typeof(x)`, `supertypes(T)`, `subtypes(T)` |
-| Che campi ha?                             | `fieldnames(T)`                        |
-| Che metodi accettano questo tipo?         | `methodswith(T)`                       |
+| Domanda                           | Strumento                                   |
+|-----------------------------------|---------------------------------------------|
+| Quali metodi ha questa funzione?  | `methods(f)`                                |
+| Quale metodo viene chiamato qui?  | `@which f(x, y)`                            |
+| Dov'è il sorgente?                | `@edit f(x, y)` (apre l'editor)             |
+| Di che tipo è, e da cosa deriva?  | `typeof(x)`, `supertypes(T)`, `subtypes(T)` |
+| Che campi ha?                     | `fieldnames(T)`                             |
+| Che metodi accettano questo tipo? | `methodswith(T)`                            |
 
 `@which 1 + 2.0` risponde `+(x::Number, y::Number) @ Base promotion.jl`, cioè il metodo di promozione del [§5.5](#55-promozione).
 
@@ -1304,16 +1305,16 @@ Per la maggior parte dei problemi bastano `@show espressione` (stampa l'espressi
 
 La libreria standard copre l'algebra lineare (`LinearAlgebra`, con BLAS e LAPACK come Octave), la statistica di base (`Statistics`: `mean`, `std`, `quantile`, `cor`), i numeri casuali (`Random`), le matrici sparse e i test. Il resto viene dai package:
 
-| Ambito                     | Package                               | Equivalente R                |
-|----------------------------|---------------------------------------|------------------------------|
-| Distribuzioni              | `Distributions.jl`                    | `dnorm`, `pnorm`, `qnorm`... |
-| Dati tabellari             | `DataFrames.jl`, `CSV.jl`             | `data.frame`, `readr`        |
-| Modelli lineari            | `GLM.jl`                              | `lm`, `glm`                  |
-| Statistica descrittiva     | `StatsBase.jl`                        | base R                       |
-| Grafici                    | `Plots.jl`, `Makie.jl`                | `plot`, `ggplot2`            |
-| Ottimizzazione matematica  | `JuMP.jl` (con un solver, es. `HiGHS`) | `lpSolve`, `ROI`            |
-| Ottimizzazione non lineare | `Optim.jl`                            | `optim`                      |
-| Chiamare R da Julia        | `RCall.jl`                            | —                            |
+| Ambito                     | Package                                | Equivalente R                |
+|----------------------------|----------------------------------------|------------------------------|
+| Distribuzioni              | `Distributions.jl`                     | `dnorm`, `pnorm`, `qnorm`... |
+| Dati tabellari             | `DataFrames.jl`, `CSV.jl`              | `data.frame`, `readr`        |
+| Modelli lineari            | `GLM.jl`                               | `lm`, `glm`                  |
+| Statistica descrittiva     | `StatsBase.jl`                         | base R                       |
+| Grafici                    | `Plots.jl`, `Makie.jl`                 | `plot`, `ggplot2`            |
+| Ottimizzazione matematica  | `JuMP.jl` (con un solver, es. `HiGHS`) | `lpSolve`, `ROI`             |
+| Ottimizzazione non lineare | `Optim.jl`                             | `optim`                      |
+| Chiamare R da Julia        | `RCall.jl`                             | —                            |
 
 `Distributions.jl` è un esempio da manuale di multiple dispatch. Ogni distribuzione è un tipo (`Normal`, `Poisson`, `Gamma`...), sottotipo di `Distribution`, e le operazioni sono funzioni generiche con un metodo per ogni tipo:
 
@@ -1321,12 +1322,12 @@ La libreria standard copre l'algebra lineare (`LinearAlgebra`, con BLAS e LAPACK
 using Distributions
 
 d = Normal(0, 1)
-pdf(d, 0)                # => 0.3989... — densità
-cdf(d, 1.96)             # => 0.9750...
-quantile(d, 0.975)       # => 1.9599...
-mean(Exponential(2))     # => 2.0
-var(Poisson(10))         # => 10.0
-rand(Gamma(2, 3), 3)     # tre estrazioni
+pdf(d, 0)             # => 0.3989... — densità
+cdf(d, 1.96)          # => 0.9750...
+quantile(d, 0.975)    # => 1.9599...
+mean(Exponential(2))  # => 2.0
+var(Poisson(10))      # => 10.0
+rand(Gamma(2, 3), 3)  # tre estrazioni
 ```
 
 Dove R usa una famiglia di funzioni per ogni distribuzione (`dnorm`, `pnorm`, `qnorm`, `rnorm`, poi `dexp`, `pexp`... come in [fondamenti_r §5](fondamenti_r.md#5-distribuzioni-di-probabilità)), Julia usa quattro funzioni generiche e un tipo per ogni distribuzione. Una funzione scritta per una `Distribution` qualsiasi, per esempio una stima Monte Carlo, funziona con tutte, comprese quelle definite in altri package.
@@ -1432,7 +1433,7 @@ function conta_dentro(n, rng)
 end
 
 function stima_pi_parallela(n; blocchi = Threads.nthreads())
-    m = n ÷ blocchi
+    m = div(n, blocchi)
     compiti = [Threads.@spawn conta_dentro(m, Xoshiro(b)) for b in 1:blocchi]
     return 4 * sum(fetch.(compiti)) / (m * blocchi)
 end
@@ -1454,22 +1455,22 @@ La traduzione in Julia è una riga per la somma e una per la forma chiusa:
 ```julia
 function rendita(n, i)
     v = 1 / (1 + i)
-    return sum(v^k for k in 0:n-1)
+    return sum(v^k for k in 0:(n-1))
 end
 
 rendita_chiusa(n, i) = (v = 1 / (1 + i); (1 - v^n) / (1 - v))
 
-rendita(10, 0.03)        # => 8.786108921879107
-rendita_chiusa(10, 0.03) # => 8.786108921879107
+rendita(10, 0.03)         # => 8.786108921879107
+rendita_chiusa(10, 0.03)  # => 8.786108921879107
 ```
 
 La parte interessante è cosa succede passando altri tipi numerici. La funzione non contiene nessuna annotazione, quindi accetta qualsiasi `i` per cui le operazioni usate (`+`, `/`, `^`, `sum`) abbiano senso, e il compilatore ne genera una versione specializzata per ciascun tipo ([§1.2](#12-compilare-per-tipi-la-specializzazione)):
 
 ```julia
-rendita(3, 1//10)              # => 331//121 — razionale esatto
-rendita(10, 0.03f0)            # Float32: metà della memoria, meno cifre
-rendita(10, big"0.03")         # BigFloat: 8.78610892187910444959212689021409188...
-rendita(30, big(1)//20)        # Rational{BigInt}: esatto anche per n grande
+rendita(3, 1//10)        # => 331//121 — razionale esatto
+rendita(10, 0.03f0)      # Float32: metà della memoria, meno cifre
+rendita(10, big"0.03")   # BigFloat: 8.78610892187910444959212689021409188...
+rendita(30, big(1)//20)  # Rational{BigInt}: esatto anche per n grande
 ```
 
 La prima riga è il risultato che in [fondamenti_octave §8.2](fondamenti_octave.md#82-valore-attuale-di-una-rendita) si otteneva solo con Guile: $1 + \tfrac{10}{11} + \tfrac{100}{121} = \tfrac{331}{121}$. Funziona perché `1 / (1 + 1//10)` dà `10//11` per promozione ([§5.5](#55-promozione)), e da lì ogni operazione resta nei razionali. L'ultima riga mostra un limite istruttivo: con `1//20`, cioè `Rational{Int64}`, il calcolo di 30 rate solleva un `OverflowError`, perché numeratori e denominatori superano $2^{63}$. A differenza degli interi, i razionali controllano l'overflow ([§12](#12-trappole)); la soluzione è passare a `BigInt`.
@@ -1485,7 +1486,7 @@ $$
 S = \sum_{k=1}^{N} X_k, \qquad N \sim \mathrm{Poisson}(\lambda), \qquad \mathbb{E}[S] = \lambda\, \mathbb{E}[X].
 $$
 
-La media dice poco sul rischio. Due misure di coda più informative, a un livello $\alpha$ (per esempio 0,99), sono il **Value at Risk**, cioè il quantile $\mathrm{VaR}_\alpha(S)$, e il **Conditional Value at Risk**, la media della perdita nel peggiore $(1-\alpha)$ dei casi. Rockafellar e Uryasev hanno mostrato che entrambi si ottengono da un unico problema di minimo:
+La media dice poco sul rischio. Due misure di coda più informative, a un livello $\alpha$ (per esempio 0,99), sono il Value at Risk, cioè il quantile $\mathrm{VaR}_\alpha(S)$, e il Conditional Value at Risk, la media della perdita nel peggiore $(1-\alpha)$ dei casi. Rockafellar e Uryasev hanno mostrato che entrambi si ottengono da un unico problema di minimo:
 
 $$
 \mathrm{CVaR}_\alpha(S) = \min_{\zeta \in \mathbb{R}} \; F_\alpha(\zeta), \qquad F_\alpha(\zeta) = \zeta + \frac{1}{1-\alpha}\, \mathbb{E}\big[(S - \zeta)^+\big],
@@ -1496,45 +1497,45 @@ dove $(s)^+ = \max(s, 0)$. La funzione $F_\alpha$ è convessa, e il punto di min
 **I tipi.** Ogni severità è un tipo, sottotipo di un tipo astratto `Severita`, con due metodi: la media e l'estrazione casuale. Aggiungere un metodo a `Base.rand` ([§6.5](#65-estendere-base)) fa sì che `rand(rng, d)` funzioni come per le distribuzioni predefinite.
 
 ```julia
-using Random, Statistics
+using Printf, Random, Statistics
 
 abstract type Severita end
 
 struct Esponenziale <: Severita
-    θ::Float64    # media
+    scala::Float64  # coincide con la media
 end
 
 struct Lognormale <: Severita
-    μ::Float64
-    σ::Float64
+    mu::Float64     # media di log(X)
+    sigma::Float64  # deviazione standard di log(X)
 end
 
 struct Pareto <: Severita
-    α::Float64    # indice di coda
-    xm::Float64   # importo minimo
+    indice_coda::Float64  # più è piccolo, più la coda è pesante
+    xm::Float64           # importo minimo
 end
 
-media(d::Esponenziale) = d.θ
-media(d::Lognormale) = exp(d.μ + d.σ^2 / 2)
-media(d::Pareto) = d.α > 1 ? d.α * d.xm / (d.α - 1) : Inf
+media(d::Esponenziale) = d.scala
+media(d::Lognormale) = exp(d.mu + d.sigma^2 / 2)
+media(d::Pareto) = d.indice_coda > 1 ? d.indice_coda * d.xm / (d.indice_coda - 1) : Inf
 
-Base.rand(rng::AbstractRNG, d::Esponenziale) = -d.θ * log(rand(rng))      # inversione
-Base.rand(rng::AbstractRNG, d::Lognormale) = exp(d.μ + d.σ * randn(rng))
-Base.rand(rng::AbstractRNG, d::Pareto) = d.xm * rand(rng)^(-1 / d.α)      # inversione
+Base.rand(rng::AbstractRNG, d::Esponenziale) = -d.scala * log(rand(rng))        # inversione
+Base.rand(rng::AbstractRNG, d::Lognormale) = exp(d.mu + d.sigma * randn(rng))
+Base.rand(rng::AbstractRNG, d::Pareto) = d.xm * rand(rng)^(-1 / d.indice_coda)  # inversione
 ```
 
 Il portafoglio è un tipo parametrico nella severità: `Portafoglio{Pareto}` e `Portafoglio{Esponenziale}` sono tipi concreti diversi, e per ciascuno il compilatore genera una versione di `perdita` in cui la chiamata a `rand(rng, p.sev)` è risolta in compilazione ([§6.6](#66-perché-il-dispatch-non-costa)).
 
 ```julia
 struct Portafoglio{S<:Severita}
-    λ::Float64    # numero atteso di sinistri
+    frequenza::Float64  # numero atteso di sinistri
     sev::S
 end
 
-media(p::Portafoglio) = p.λ * media(p.sev)
+media(p::Portafoglio) = p.frequenza * media(p.sev)
 
-function rand_poisson(rng::AbstractRNG, λ)   # algoritmo di Knuth, adatto a λ piccoli
-    k, prodotto, soglia = 0, rand(rng), exp(-λ)
+function rand_poisson(rng::AbstractRNG, lambda)  # algoritmo di Knuth, adatto a lambda piccoli
+    k, prodotto, soglia = 0, rand(rng), exp(-lambda)
     while prodotto > soglia
         k += 1
         prodotto *= rand(rng)
@@ -1543,19 +1544,19 @@ function rand_poisson(rng::AbstractRNG, λ)   # algoritmo di Knuth, adatto a λ 
 end
 
 function perdita(rng::AbstractRNG, p::Portafoglio)
-    n = rand_poisson(rng, p.λ)
+    n = rand_poisson(rng, p.frequenza)
     return sum(rand(rng, p.sev) for _ in 1:n; init = 0.0)
 end
 
 simula(p::Portafoglio, nsim; rng = Xoshiro(2026)) = [perdita(rng, p) for _ in 1:nsim]
 ```
 
-**VaR e CVaR.** Su un campione di scenari $s_1, \dots, s_M$ l'attesa diventa una media, e il minimo di $F_\alpha$ si raggiunge nel quantile empirico:
+**VaR e CVaR.** Su un campione di scenari $s_1, \dots, s_M$ l'attesa diventa una media, e il minimo di $F_\alpha$ si raggiunge nel quantile empirico. Nel codice il livello $\alpha$ si chiama `livello` e il punto $\zeta$ si chiama `soglia`:
 
 ```julia
-function var_cvar(L::AbstractVector{<:Real}, α)
-    ζ = quantile(L, α)
-    return ζ, ζ + mean(max.(L .- ζ, 0)) / (1 - α)
+function var_cvar(L::AbstractVector{<:Real}, livello)
+    soglia = quantile(L, livello)
+    return soglia, soglia + mean(max.(L .- soglia, 0)) / (1 - livello)
 end
 ```
 
@@ -1564,19 +1565,18 @@ Tre portafogli con $\lambda = 10$ e severità di media 1 hanno tutti $\mathbb{E}
 ```julia
 portafogli = [
     "Esponenziale" => Portafoglio(10.0, Esponenziale(1.0)),
-    "Lognormale"   => Portafoglio(10.0, Lognormale(-0.5, 1.0)),
-    "Pareto"       => Portafoglio(10.0, Pareto(2.5, 0.6)),
+    "Lognormale" => Portafoglio(10.0, Lognormale(-0.5, 1.0)),
+    "Pareto" => Portafoglio(10.0, Pareto(2.5, 0.6)),
 ]
 
 for (nome, p) in portafogli
     L = simula(p, 10^6)
     v, c = var_cvar(L, 0.99)
-    println(rpad(nome, 13), " media = ", round(mean(L), digits = 2),
-            "  VaR = ", round(v, digits = 2), "  CVaR = ", round(c, digits = 2))
+    @printf("%-13s media = %5.2f  VaR = %5.2f  CVaR = %5.2f\n", nome, mean(L), v, c)
 end
-# Esponenziale  media = 10.01  VaR = 22.49  CVaR = 24.9
-# Lognormale    media = 10.0   VaR = 26.54  CVaR = 31.72
-# Pareto        media = 10.0   VaR = 21.97  CVaR = 27.71
+# Esponenziale  media = 10.01  VaR = 22.49  CVaR = 24.90
+# Lognormale    media = 10.00  VaR = 26.54  CVaR = 31.72
+# Pareto        media = 10.00  VaR = 21.97  CVaR = 27.71
 ```
 
 <img class="shot-img" src="../img/julia_cvar.png" alt="A sinistra la funzione di sopravvivenza empirica della perdita aggregata per le tre severità, in scala logaritmica: le curve coincidono fino a circa 20 e poi si separano, con la coda esponenziale che crolla e quelle lognormale e Pareto molto più pesanti. A destra la funzione di Rockafellar-Uryasev per alpha uguale a 0,99, convessa, con il minimo per ciascuna severità nel punto di coordinate VaR e CVaR" />
@@ -1585,7 +1585,7 @@ Il grafico (generato in R con lo stesso modello, quindi con valori diversi solo 
 
 Il milione di simulazioni di ogni portafoglio richiede circa 0,2 s e 8 MB, cioè solo il vettore dei risultati. In Octave o R la stessa simulazione non si vettorizza facilmente, perché ogni scenario ha un numero diverso di sinistri, e il ciclo interpretato sarebbe centinaia di volte più lento ([fondamenti_octave §9](fondamenti_octave.md#9-limiti-quando-non-usarlo)).
 
-**Ottimizzare il CVaR di un portafoglio.** La formula di Rockafellar e Uryasev ha un secondo uso, più importante: rende **lineare** l'ottimizzazione del CVaR. Se la perdita dipende da pesi $w$ da scegliere, per esempio $L_s = -r_s^\top w$ per il rendimento $r_s$ di un portafoglio di titoli nello scenario $s$, introducendo una variabile ausiliaria $u_s \ge (L_s - \zeta)^+$ per ogni scenario si ottiene il programma lineare
+**Ottimizzare il CVaR di un portafoglio.** La formula di Rockafellar e Uryasev ha un secondo uso, più importante: rende lineare l'ottimizzazione del CVaR. Se la perdita dipende da pesi $w$ da scegliere, per esempio $L_s = -r_s^\top w$ per il rendimento $r_s$ di un portafoglio di titoli nello scenario $s$, introducendo una variabile ausiliaria $u_s \ge (L_s - \zeta)^+$ per ogni scenario si ottiene il programma lineare
 
 $$
 \begin{aligned}
@@ -1600,21 +1600,21 @@ risolvibile con il simplesso ([teoria_ottimizzazione §1](../teoria_computazione
 ```julia
 using JuMP, HiGHS
 
-function cvar_ottimo(R::AbstractMatrix, α; rendimento_min = nothing)
-    M, m = size(R)                       # M scenari, m titoli
+function cvar_ottimo(R::AbstractMatrix, livello; rendimento_min = nothing)
+    M, m = size(R)                   # M scenari, m titoli
     modello = Model(HiGHS.Optimizer)
     set_silent(modello)
-    @variable(modello, w[1:m] >= 0)      # pesi, senza vendite allo scoperto
-    @variable(modello, ζ)
+    @variable(modello, w[1:m] >= 0)  # pesi, senza vendite allo scoperto
+    @variable(modello, soglia)
     @variable(modello, u[1:M] >= 0)
     @constraint(modello, sum(w) == 1)
-    @constraint(modello, [s in 1:M], u[s] >= -R[s, :]' * w - ζ)
-    if rendimento_min !== nothing        # vincolo facoltativo (§5.4)
+    @constraint(modello, [s in 1:M], u[s] >= -R[s, :]' * w - soglia)
+    if rendimento_min !== nothing    # vincolo facoltativo (§5.4)
         @constraint(modello, vec(mean(R; dims = 1))' * w >= rendimento_min)
     end
-    @objective(modello, Min, ζ + sum(u) / ((1 - α) * M))
+    @objective(modello, Min, soglia + sum(u) / ((1 - livello) * M))
     optimize!(modello)
-    return value.(w), value(ζ), objective_value(modello)
+    return value.(w), value(soglia), objective_value(modello)
 end
 ```
 
@@ -1624,7 +1624,7 @@ Con 5000 scenari normali per tre titoli di rendimento atteso 4%, 7% e 10% e vola
 rng = Xoshiro(1)
 R = [0.04 0.07 0.10] .+ [0.05 0.15 0.25] .* randn(rng, 5000, 3)
 
-w, ζ, cvar = cvar_ottimo(R, 0.95)
+w, soglia, cvar = cvar_ottimo(R, 0.95)
 # w ≈ [0.823, 0.120, 0.057], VaR ≈ 0.0301, CVaR ≈ 0.0484
 var_cvar(-R * w, 0.95)
 # => (0.0301, 0.0484) — il CVaR empirico del portafoglio ottimo coincide
@@ -1633,7 +1633,7 @@ cvar_ottimo(R, 0.95; rendimento_min = 0.07)[1]
 # ≈ [0.311, 0.406, 0.283] — più rischio per più rendimento atteso
 ```
 
-Il controllo con `var_cvar` conferma che il valore ottimo del programma lineare è il CVaR del portafoglio trovato, e che lo $\zeta$ ottimo ne è il VaR. Senza vincoli il portafoglio a CVaR minimo si concentra sul titolo meno volatile; imponendo un rendimento atteso del 7% si sposta verso gli altri due, e il CVaR sale da circa 4,8% a 12,3%. Per la teoria dietro il passaggio da un problema con $\max$ a uno lineare, e per la dualità che ne dà l'interpretazione economica, si vedano [teoria_ottimizzazione](../teoria_computazione/teoria_ottimizzazione.md) e [teoria_lagrange](../matematica_statistica/teoria_lagrange.md).
+Il controllo con `var_cvar` conferma che il valore ottimo del programma lineare è il CVaR del portafoglio trovato, e che la `soglia` ottima ($\zeta$) ne è il VaR. Senza vincoli il portafoglio a CVaR minimo si concentra sul titolo meno volatile; imponendo un rendimento atteso del 7% si sposta verso gli altri due, e il CVaR sale da circa 4,8% a 12,3%. Per la teoria dietro il passaggio da un problema con $\max$ a uno lineare, e per la dualità che ne dà l'interpretazione economica, si vedano [teoria_ottimizzazione](../teoria_computazione/teoria_ottimizzazione.md) e [teoria_lagrange](../matematica_statistica/teoria_lagrange.md).
 
 
 
@@ -1654,7 +1654,7 @@ Le cose che, prima o poi, sorprendono chiunque scriva Julia.
   ```julia
   s = 0
   for i in 1:3
-      s += i      # UndefVarError: `s` not defined in local scope
+      s += i  # UndefVarError: `s` not defined in local scope
   end
   ```
 
@@ -1681,22 +1681,22 @@ Julia è eccellente per il calcolo numerico che va oltre le funzioni già pronte
 
 ## 14. Riferimenti rapidi
 
-| Operazione                           | Comando                                  |
-|--------------------------------------|------------------------------------------|
-| Aiuto su una funzione                | `?nome` nella REPL                       |
-| Tipo di un valore, gerarchia         | `typeof(x)`, `supertypes(T)`, `subtypes(T)` |
-| Dimensioni, numero di elementi       | `size(A)`, `length(A)`, `ndims(A)`       |
-| Metodi di una funzione               | `methods(f)`, `@which f(x)`              |
-| Copia, vista                         | `copy(a)`, `@view A[1, :]`               |
-| Applicare elemento per elemento      | `f.(x)`, `@. espressione`                |
-| Risolvere $Ax = b$                   | `A \ b`                                  |
-| Autovalori e autovettori             | `eigen(A)` (con `using LinearAlgebra`)   |
-| Media, quantile                      | `mean(x)`, `quantile(x, p)` (con `using Statistics`) |
-| Generatore con seme                  | `rng = Xoshiro(42)`, `rand(rng, n)`      |
-| Tempo e allocazioni                  | `@time f(x)`, `@allocated f(x)`          |
-| Stabilità dei tipi                   | `@code_warntype f(x)`                    |
-| Attivare un ambiente, aggiungere un pacchetto | `] activate .`, `] add Nome`    |
-| Eseguire i test di un package        | `] test`                                 |
+| Operazione                                    | Comando                                              |
+|-----------------------------------------------|------------------------------------------------------|
+| Aiuto su una funzione                         | `?nome` nella REPL                                   |
+| Tipo di un valore, gerarchia                  | `typeof(x)`, `supertypes(T)`, `subtypes(T)`          |
+| Dimensioni, numero di elementi                | `size(A)`, `length(A)`, `ndims(A)`                   |
+| Metodi di una funzione                        | `methods(f)`, `@which f(x)`                          |
+| Copia, vista                                  | `copy(a)`, `@view A[1, :]`                           |
+| Applicare elemento per elemento               | `f.(x)`, `@. espressione`                            |
+| Risolvere $Ax = b$                            | `A \ b`                                              |
+| Autovalori e autovettori                      | `eigen(A)` (con `using LinearAlgebra`)               |
+| Media, quantile                               | `mean(x)`, `quantile(x, p)` (con `using Statistics`) |
+| Generatore con seme                           | `rng = Xoshiro(42)`, `rand(rng, n)`                  |
+| Tempo e allocazioni                           | `@time f(x)`, `@allocated f(x)`                      |
+| Stabilità dei tipi                            | `@code_warntype f(x)`                                |
+| Attivare un ambiente, aggiungere un pacchetto | `] activate .`, `] add Nome`                         |
+| Eseguire i test di un package                 | `] test`                                             |
 
 
 
